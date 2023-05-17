@@ -1,0 +1,87 @@
+Notatka:
+ - id
+ - nazwa
+ - id_autora
+ - id_kategorii
+ - id_podkategorii
+ - adres dostepu do pdf'a z notatka
+ - opis
+ - data udostepnienia
+ - data ostatniej edycji
+ - opublikowana/prywatna
+ - ilosc ocen pozytywnych
+ - ilosc ocen negatywnych
+ 
+Users:
+ - id
+ - tablica z id ulubionych notatek
+ - link do obrazku avatara
+ - nazwa
+ - rola (admin, user etc)
+ - login (mail) 
+ - haslo (szyfrowane)
+ - aktywny (boolean)
+ - data utworzenia 
+ - niezaufany autor (boolean)
+ - tablica z id followowanych uzytkownikow
+ - tablica z id zablokowanych uzytkownikow
+ - tablica z powiadomieniami (obiektami, tworzonymi na podstawie rekordu z tabeli Powiadomienia, ktora jest nizej - nie z tymi rekordami z tej tabeli, bo maja zmienne rzeczy w tresci) 
+// - idk co byloby potrzebne do logowania kontem facebook/google. jakies klucze? dodatkowe dane?
+ 
+Grupa_ludzi_do_wspolnej_nauki:
+ - id
+ - tablica z id uzytkownikow, ktorzy sa w tej grupie
+ - typ - grupa dla dwoch osob/wiecej osob/potencjalnie jakieś inne kiedyś
+
+Kategorie:
+ - id
+ - nazwa
+
+Podkategorie:
+ - id
+ - id_kategorii
+ - nazwa
+
+Porady dnia:
+ - id
+ - tresc
+
+meta_Fiszki:
+ - id
+ - id_notatki
+ - id_autora_fiszek
+ - id_fiszki
+ - publiczne (boolean)
+ - data utworzenia fiszek
+ - data ostatniej edycji
+
+Fiszki:
+ - id
+ - pytania (skompresowane w json?)
+ - odpowiedzi (skompresowane w json?)
+
+Powiadomienia:
+ - id
+ - tresc
+
+Logi:
+- id
+- typ
+- data
+- tresc
+
+======================= potencjalnie potem i wątpliwości =======================
+
+nie wiem czy sposób zapisywania fiszek w json ma sens, ale chyba jakby zachowywac kolejnosc to byloby git? 
+nie wiem tez czy smiesznie dlugie jsony nie bylyby problemem
+ewentualnie kazde pytanie osobny rekord? i wtedy dodac cos w stylu id_fiszki (zeby moc razem grupowac te, co sa z jednego zestawu)
+
+nie wiem jak z chatem, czy on bedzie jakkolwiek uwzgledniany w bazie?
+
+Notatki_usuniete (np, zeby mozna było przywrócić notatki usunięte, taki po prostu "kosz"?):
+ - id_del (glówne id, bo to nizej to jest id notatki z tabeli wyzej)
+ - data usunięcia
+ - to samo co w notatka (wyzej)
+ - usunieta ze wzgledu na zle oceny (czy to powinno isc do kosza? czy po prostu wywalic w kosmos i zapomniec?) (boolean)
+
+ meta powiadomienia?
