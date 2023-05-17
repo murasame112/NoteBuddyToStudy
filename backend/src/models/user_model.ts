@@ -20,28 +20,26 @@ export class User{
         login: string,
         password: string,
         active: boolean,
-        created: Date,
         role?: string,
         untrusted?: boolean,
         saved_notes?: Array<number>,
         followed_users?: Array<number>,
         blocked_users?: Array<number>,
-        notifications?: Array<Notification>,) {
-        
-        
+        notifications?: Array<Notification>) {
+
             this.id = id;
             this.name = name;
             this.avatar_url = avatar_url;
             this.login = login;
             this.password = password;
             this.active = active;
-            this.created = created;
+            this.created = new Date();
             this.role = role ? role : 'user'; // TODO: enum
-            this.untrusted = untrusted ? untrusted : false;
-            this.saved_notes = saved_notes ? saved_notes : [];
-            this.followed_users = followed_users ? followed_users : [];
-            this.blocked_users = blocked_users ? blocked_users : [];
-            this.notifications = notifications ? notifications : [];
+            this.untrusted = false;
+            this.saved_notes = [];
+            this.followed_users = [];
+            this.blocked_users = [];
+            this.notifications = [];
     }
 
 }
