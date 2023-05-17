@@ -14,15 +14,15 @@ Notatka:
  
 Users:
  - id
- - tablica z id ulubionych notatek
- - link do obrazku avatara
  - nazwa
+ - link do obrazku avatara
  - rola (admin, user etc)
  - login (mail) 
  - haslo (szyfrowane)
  - aktywny (boolean)
  - data utworzenia 
  - niezaufany autor (boolean)
+ - tablica z id ulubionych notatek
  - tablica z id followowanych uzytkownikow
  - tablica z id zablokowanych uzytkownikow
  - tablica z powiadomieniami (obiektami, tworzonymi na podstawie rekordu z tabeli Powiadomienia, ktora jest nizej - nie z tymi rekordami z tej tabeli, bo maja zmienne rzeczy w tresci) 
