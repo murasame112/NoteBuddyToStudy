@@ -14,15 +14,15 @@ Notatka:
  
 Users:
  - id
- - tablica z id ulubionych notatek
- - link do obrazku avatara
  - nazwa
+ - link do obrazku avatara
  - rola (admin, user etc)
  - login (mail) 
  - haslo (szyfrowane)
  - aktywny (boolean)
  - data utworzenia 
  - niezaufany autor (boolean)
+ - tablica z id ulubionych notatek
  - tablica z id followowanych uzytkownikow
  - tablica z id zablokowanych uzytkownikow
  - tablica z powiadomieniami (obiektami, tworzonymi na podstawie rekordu z tabeli Powiadomienia, ktora jest nizej - nie z tymi rekordami z tej tabeli, bo maja zmienne rzeczy w tresci) 
@@ -30,8 +30,8 @@ Users:
  
 Grupa_ludzi_do_wspolnej_nauki:
  - id
- - tablica z id uzytkownikow, ktorzy sa w tej grupie
  - typ - grupa dla dwoch osob/wiecej osob/potencjalnie jakieś inne kiedyś
+ - tablica z id uzytkownikow, ktorzy sa w tej grupie
 
 Kategorie:
  - id
