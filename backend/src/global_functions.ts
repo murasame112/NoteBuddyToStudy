@@ -137,8 +137,29 @@ export async function updateItemsByField(query: Object, table_name: string, upda
   }
 }
 
+// function replaces one item with another, finds by id
+// params: id of the item, name of the table, new item
+// returns promise of result object (acknowledged: true/false, modifiedCount, upsertedId (if item is upserted): null, upsertedCount: 0, matchedCount: 1)
+export async function replaceItemById(id: string, table_name: string, newItem: Object) {
+  const client = new MongoClient(uri);
+  const database = client.db(db_name);
+  try {
+    const table: any = database.collection(table_name);
+    
+    const res = await table.replaceOne(
+      {_id: new ObjectId(id)},
+      newItem
+    );
 
-// replace, steal? (find one and delete)
+    return res;
+  } finally {
+    await client.close();
+  }
+}
+
+
+
+// steal? (find one and delete)
 
 
 

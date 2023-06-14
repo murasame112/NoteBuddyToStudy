@@ -1,7 +1,8 @@
 import express from 'express';
 import { Console } from 'console';
 import { Request, Response } from 'express';
-import { getItemById, getItemsByField, insertItem, deleteItemById, deleteItemsByField, updateItemById, updateItemsByField } from './global_functions';
+import { ObjectId } from 'bson';
+import { getItemById, getItemsByField, insertItem, deleteItemById, deleteItemsByField, updateItemById, updateItemsByField, replaceItemById } from './global_functions';
 //import * as global from './global_functions';
 
 const app = express() 
@@ -35,9 +36,17 @@ app.get('/', function (req, res) {
 
    // updateItemsByField({_name: "Pozytywizm"}, 'subcategories', {_name: "Antyk"});
     
+    // let replacement = {
+    // _id: new ObjectId('6489dd484e5441e722db9aac'),
+    //     '_category_id':2,
+    //     '_name':'Pozytywizm'
+    // }
+    //replaceItemById('6489dd484e5441e722db9aac', 'subcategories', replacement);
+
+    
     res.send('hello world');
     
-     
-}) ;
+
+});
 
 app.listen(3000);
