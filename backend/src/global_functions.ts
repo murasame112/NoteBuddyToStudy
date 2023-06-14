@@ -129,7 +129,6 @@ export async function updateItemsByField(query: Object, table_name: string, upda
          updateQuery
       }
     );
-    console.log(res);
 
     return res;
   } finally {
@@ -158,9 +157,18 @@ export async function replaceItemById(id: string, table_name: string, newItem: O
 }
 
 
-
-// steal? (find one and delete)
-
-
-
-
+// function gets one item by id, then deletes it from database
+// params: id of the item, name of the table
+// returns promise of result object (res.value, but it also has few other informations)
+export async function stealItemById(id: string, table_name: string) {
+  const client = new MongoClient(uri);
+  const database = client.db(db_name);
+  try {
+    const table: any = database.collection(table_name);
+    
+    const res = await table.findOneAndDelete({_id: new ObjectId(id)});
+    return res;
+  } finally {
+    await client.close();
+  }
+}
