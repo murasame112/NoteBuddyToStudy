@@ -1,7 +1,7 @@
 import express from 'express';
 import { Console } from 'console';
 import { Request, Response } from 'express';
- import { getItemById, insertItem } from './global_functions';
+ import { getItemById, insertItem, deleteItemById } from './global_functions';
 
 const app = express() 
 app.use(express.json())
@@ -19,10 +19,12 @@ app.get('/', function (req, res) {
     //   "_category_id":2,
     //   "_name":"Pozytywizm"
     // }
-      // let y = insertItem(x, 'subcategories');
+    //   let y = insertItem(x, 'subcategories');
     // y.then((value) => {
     //   console.log(value);
     // });
+
+    // deleteItemById('6489cd7a10bbfd842e98a8c1', 'subcategories');
     
     res.send('hello world');
     
