@@ -109,7 +109,7 @@ export async function updateItemById(id: string, table_name: string, updateQuery
       }
     );
 
-    console.log(res);
+    return res;
   } finally {
     await client.close();
   }
