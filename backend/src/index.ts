@@ -1,7 +1,7 @@
 import express from 'express';
 import { Console } from 'console';
 import { Request, Response } from 'express';
-import { getItemById, insertItem, deleteItemById, deleteItemsByField } from './global_functions';
+import { getItemById, getItemsByField, insertItem, deleteItemById, deleteItemsByField } from './global_functions';
 //import * as global from './global_functions';
 
 const app = express() 
@@ -28,6 +28,9 @@ app.get('/', function (req, res) {
     // deleteItemById('6489cd7a10bbfd842e98a8c1', 'subcategories');
 
     //deleteItemsByField({_name: "Pozytywizm"}, 'subcategories');
+
+    //getItemsByField({_name: "Pozytywizm"}, 'subcategories');
+
     
     res.send('hello world');
     

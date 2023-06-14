@@ -20,6 +20,30 @@ export async function getItemById(id: string, table_name: string) {
   }
 }
 
+// function returns multiple items by field and value, sorted by id
+// params: object {field: "value"}, name of the table
+// returns promise of array of objects
+export async function getItemsByField(query: Object, table_name: string) {
+  const client = new MongoClient(uri);
+  const database = client.db(db_name);
+  try {
+    const table: any = database.collection(table_name);
+    
+    const cursor = table.find(
+      query,
+      {
+        sort: { _id: 1 }
+      }
+    );
+
+    const res = await cursor.toArray();
+    return res;
+   
+  } finally {
+    await client.close();
+  }
+}
+
 // function inserts item to database
 // params: item, name of the table
 // returns promise of result object (acknowledged: true/false and insertedId: id of inserted item)
@@ -69,7 +93,7 @@ export async function deleteItemsByField(query: Object, table_name: string) {
 }
 
 
-// delete multiple, get multiple items by field, update, update multiple, replace, steal? (find one and delete)
+// update, update multiple, replace, steal? (find one and delete)
 
 
 
