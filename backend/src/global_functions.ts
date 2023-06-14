@@ -52,6 +52,21 @@ export async function deleteItemById(id: string, table_name: string) {
   }
 }
 
+// function deletes multiple items by field and value
+// params: object {field: "value"}, name of the table
+// returns promise of result object (acknowledged: true/false and deletedCount)
+export async function deleteItemsByField(query: Object, table_name: string) {
+  const client = new MongoClient(uri);
+  const database = client.db(db_name);
+  try {
+    const table: any = database.collection(table_name);
+    
+    const res = await table.deleteMany(query);
+    return res;
+  } finally {
+    await client.close();
+  }
+}
 
 
 // delete multiple, get multiple items by field, update, update multiple, replace, steal? (find one and delete)
