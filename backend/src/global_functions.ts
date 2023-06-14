@@ -92,8 +92,31 @@ export async function deleteItemsByField(query: Object, table_name: string) {
   }
 }
 
+// function updates item by id
+// params: id of the item, name of the table, query with values to update
+// returns promise of result object (acknowledged: true/false, modifiedCount, upsertedId (if item is upserted): null, upsertedCount: 0, matchedCount: 1)
+  
+export async function updateItemById(id: string, table_name: string, updateQuery: Object) {
+  const client = new MongoClient(uri);
+  const database = client.db(db_name);
+  try {
+    const table: any = database.collection(table_name);
+    
+    const res = await table.updateOne(
+      {_id: new ObjectId(id)},
+      { $set:
+         updateQuery
+      }
+    );
 
-// update, update multiple, replace, steal? (find one and delete)
+    console.log(res);
+  } finally {
+    await client.close();
+  }
+}
+
+
+// update multiple, replace, steal? (find one and delete)
 
 
 
