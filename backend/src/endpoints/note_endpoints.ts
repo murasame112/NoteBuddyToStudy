@@ -6,32 +6,56 @@ import * as global from '../global_functions';
 
 const table_name = 'notes';
 
-export function helloWorld(req: Request, res: Response) {
-    res.send('howdy, world');
-}
-
 export function getNoteById(req: Request, res: Response) {
     const id = req.params.id;
     const noteProm = global.getItemById(id, table_name);
     let note: Note; 
     noteProm.then((value) => {
         note = new Note(
-            value._name, 
-            value._author_id, 
-            value._category_id, 
-            value._subcategory_id, 
-            value._adress, 
-            value._description, 
-            value._shared_date, 
-            value._last_edit_date, 
-            value._published, 
-            value._positive_reviews, 
-            value._negative_reviews
+            value.name, 
+            value.author_id, 
+            value.category_id, 
+            value.subcategory_id, 
+            value.adress, 
+            value.description, 
+            value.shared_date, 
+            value.last_edit_date, 
+            value.published, 
+            value.positive_reviews, 
+            value.negative_reviews
         );
         res.send(note);   
-      });
+    });
 }
 
+export function getNotesByQuery(req: Request, res: Response) {
+    const field = req.params.field;
+    const value = req.params.value;
+    let query = {[field]: JSON.parse(value)};
+    const noteArrayProm = global.getItemsByField(query, table_name);
+    const noteArray: Note[] = []; 
+    let note: Note;
+    noteArrayProm.then((value) => {
+        value.forEach((element: Note) => {
+            
+            note = new Note(
+                element.name, 
+                element.author_id, 
+                element.category_id, 
+                element.subcategory_id, 
+                element.adress, 
+                element.description, 
+                element.shared_date, 
+                element.last_edit_date, 
+                element.published, 
+                element.positive_reviews, 
+                element.negative_reviews
+            );
+            noteArray.push(note);
 
-// get multiple (spelniajace warunek, tu bedzie pewnie pare warunkow)
+        });
+        res.send(noteArray);   
+    });
+}
+
 // ogolnie pewnie wszystkie z funkcji co sa w bazie, co

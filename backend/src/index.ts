@@ -13,8 +13,9 @@ app.use(express.json())
 //app.delete('/user/:id', NoteEndpoints.deleteUser)
 //app.put('/user/:id', NoteEndpoints.editUser) 
 
-app.get('/noteHello', noteEndpoints.helloWorld);
 app.get('/note/:id', noteEndpoints.getNoteById);
+app.get('/notes/:field&:value', noteEndpoints.getNotesByQuery);
+
 
 
     // =============== ponizej notatki, do usuniecia potem ==============
