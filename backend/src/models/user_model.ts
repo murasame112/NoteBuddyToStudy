@@ -1,5 +1,6 @@
+import { ObjectId } from 'bson';
 export class User{
-    id: number
+    id: ObjectId
     name: string
     avatar_url: string
     login: string // mail
@@ -14,7 +15,7 @@ export class User{
     notifications: Array<Notification>
     
 
-    constructor(id: number, 
+    constructor(id: ObjectId, 
         name: string,
         avatar_url: string,
         login: string,

@@ -1,10 +1,11 @@
+import { ObjectId } from 'bson';
 export class Card{
-    id: number
+    id: ObjectId
     questions: string
     answers: string
       
 
-    constructor(id: number, 
+    constructor(id: ObjectId, 
         questions: string,
         answers: string) {
         

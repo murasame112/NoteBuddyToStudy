@@ -1,5 +1,4 @@
 export class Note{
-    id: number
     name: string
     author_id: number
     category_id: number
@@ -12,7 +11,7 @@ export class Note{
     positive_reviews: number
     negative_reviews: number
 
-    constructor(id: number, 
+    constructor( 
         name: string,
         author_id: number,
         category_id: number,
@@ -24,7 +23,6 @@ export class Note{
         positive_reviews: number,
         negative_reviews: number) {
         
-            this.id = id;
             this.name = name;
             this.author_id = author_id;
             this.category_id = category_id;

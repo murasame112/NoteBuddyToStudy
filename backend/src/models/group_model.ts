@@ -1,10 +1,11 @@
+import { ObjectId } from 'bson';
 export class Group{
-    id: number
+    id: ObjectId
     type: string // TODO: enum  
     users: Array<number>
       
 
-    constructor(id: number, 
+    constructor(id: ObjectId, 
         type: string,
         users?: Array<number>) {
         

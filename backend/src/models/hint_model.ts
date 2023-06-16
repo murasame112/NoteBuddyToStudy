@@ -1,9 +1,10 @@
+import { ObjectId } from 'bson';
 export class Hint{
-    id: number
+    id: ObjectId
     content: string
       
 
-    constructor(id: number, 
+    constructor(id: ObjectId, 
         content: string) {
         
             this.id = id;

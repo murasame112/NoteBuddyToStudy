@@ -2,13 +2,29 @@ import express from 'express';
 import { Console } from 'console';
 import { Request, Response } from 'express';
 import { ObjectId } from 'bson';
-import * as global from './global_functions';
+// import * as global from './global_functions';
+import * as NoteEndpoints from "./endpoints/note_endpoints"
 
 const app = express() 
 app.use(express.json())
-app.get('/', function (req, res) { 
+
+// ============== NOTE ENDPOINTS ==============
+//app.post('/login', NoteEndpoints.login)
+//app.delete('/user/:id', NoteEndpoints.deleteUser)
+//app.put('/user/:id', NoteEndpoints.editUser) 
+
+app.get('/note', NoteEndpoints.helloWorld);
+
+
+    // =============== ponizej notatki, do usuniecia potem ==============
+//app.get('/', function (req, res) { 
     
     
+
+
+
+
+
     // const note = global.getItemById(2, 'notes');
     // note.then((value) => {
     //     console.log(value);
@@ -44,9 +60,9 @@ app.get('/', function (req, res) {
 
     //global.stealItemById('648a3968510e8ee61572e748', 'subcategories');
 
-    res.send('hello world');
+   // res.send('hello world');
     
 
-});
+//});
 
 app.listen(3000);

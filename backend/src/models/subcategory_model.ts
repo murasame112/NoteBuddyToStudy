@@ -1,10 +1,11 @@
+import { ObjectId } from 'bson';
 export class Subcategory{
-    id: number
+    id: ObjectId
     category_id: number
     name: string
       
 
-    constructor(id: number, 
+    constructor(id: ObjectId, 
         category_id: number,
         name: string) {
         
