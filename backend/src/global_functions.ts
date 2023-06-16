@@ -13,7 +13,7 @@ export async function getItemById(id: string, table_name: string) {
   try {
     const table: any = database.collection(table_name);
     
-    const item = await table.findOne({_id: id});
+    const item = await table.findOne({_id: new ObjectId(id)});
     return item;
   } finally {
     await client.close();

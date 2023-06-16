@@ -3,7 +3,7 @@ import { Console } from 'console';
 import { Request, Response } from 'express';
 import { ObjectId } from 'bson';
 // import * as global from './global_functions';
-import * as NoteEndpoints from "./endpoints/note_endpoints"
+import * as noteEndpoints from "./endpoints/note_endpoints"
 
 const app = express() 
 app.use(express.json())
@@ -13,7 +13,8 @@ app.use(express.json())
 //app.delete('/user/:id', NoteEndpoints.deleteUser)
 //app.put('/user/:id', NoteEndpoints.editUser) 
 
-app.get('/note', NoteEndpoints.helloWorld);
+app.get('/noteHello', noteEndpoints.helloWorld);
+app.get('/note/:id', noteEndpoints.getNoteById);
 
 
     // =============== ponizej notatki, do usuniecia potem ==============

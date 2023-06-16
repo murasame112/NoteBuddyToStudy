@@ -1,13 +1,14 @@
+// TODO: zmienić wszędzie te id na string
 export class Note{
     name: string
     author_id: number
     category_id: number
     subcategory_id: number
-    pdf_adress: string
+    adress: string
     description: string
-    created: Date
-    last_update: Date
-    is_public: boolean
+    shared_date: Date
+    last_edit_date: Date
+    published: boolean
     positive_reviews: number
     negative_reviews: number
 
@@ -16,10 +17,11 @@ export class Note{
         author_id: number,
         category_id: number,
         subcategory_id: number,
-        pdf_adress: string,
+        adress: string,
         description: string,
-        last_update: Date,
-        is_public: boolean,
+        shared_date: Date,
+        last_edit_date: Date,
+        published: boolean,
         positive_reviews: number,
         negative_reviews: number) {
         
@@ -27,13 +29,13 @@ export class Note{
             this.author_id = author_id;
             this.category_id = category_id;
             this.subcategory_id = subcategory_id;
-            this.pdf_adress = pdf_adress;
+            this.adress = adress;
             this.description = description;
-            this.created = new Date();
-            this.last_update = last_update;
-            this.is_public = is_public;
-            this.positive_reviews = 0;
-            this.negative_reviews = 0;
+            this.shared_date = shared_date;
+            this.last_edit_date = last_edit_date;
+            this.published = published;
+            this.positive_reviews = positive_reviews;
+            this.negative_reviews = negative_reviews;
     }
 
 }
