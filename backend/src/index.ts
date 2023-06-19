@@ -2,21 +2,17 @@ import express from 'express';
 import { Console } from 'console';
 import { Request, Response } from 'express';
 import { ObjectId } from 'bson';
-// import * as global from './global_functions';
-import * as noteEndpoints from "./endpoints/note_endpoints"
+import * as noteEndpoints from "./endpoints/note_endpoints";
 
-const app = express() 
-app.use(express.json())
+const app = express() ;
+app.use(express.json());
 
 // ============== NOTE ENDPOINTS ==============
-//app.post('/login', NoteEndpoints.login)
-//app.delete('/user/:id', NoteEndpoints.deleteUser)
-//app.put('/user/:id', NoteEndpoints.editUser) 
 
 app.get('/note/:id', noteEndpoints.getNoteById);
 app.get('/notes/:field&:value', noteEndpoints.getNotesByQuery);
-app.post('/note', noteEndpoints.insertNote)
- app.delete('/note/:id', noteEndpoints.deleteNote)
+app.post('/note', noteEndpoints.insertNote);
+app.delete('/note/:id', noteEndpoints.deleteNote);
 // app.get('/group', GroupEndpoints.getGroup)
 // app.put('/group/:id', GroupEndpoints.editGroup) 
 
