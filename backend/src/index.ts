@@ -15,6 +15,10 @@ app.use(express.json())
 
 app.get('/note/:id', noteEndpoints.getNoteById);
 app.get('/notes/:field&:value', noteEndpoints.getNotesByQuery);
+app.post('/note', noteEndpoints.insertNote)
+// app.delete('/group/:id', GroupEndpoints.deleteGroup)
+// app.get('/group', GroupEndpoints.getGroup)
+// app.put('/group/:id', GroupEndpoints.editGroup) 
 
 
 

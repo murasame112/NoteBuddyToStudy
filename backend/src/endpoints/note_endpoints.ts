@@ -58,4 +58,25 @@ export function getNotesByQuery(req: Request, res: Response) {
     });
 }
 
+export function insertNote(req: Request, res: Response) {
+    const note: Note = new Note(req.body.name,
+        req.body.author_id,
+        req.body.category_id,
+        req.body.subcategory_id,
+        req.body.adress,
+        req.body.description,
+        req.body.shared_date,
+        req.body.last_edit_date,
+        req.body.published,
+        req.body.positive_reviews,
+        req.body.negative_reviews
+    );
+    const result = global.insertItem(note, table_name);
+    result.then((value) => {
+        (value.acknowledged ? res.status(201).send(value.insertedId) : res.status(400).send('Error'));
+    });
+
+}
+
+
 // ogolnie pewnie wszystkie z funkcji co sa w bazie, co
