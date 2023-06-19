@@ -8,9 +8,9 @@ const table_name = 'notes';
 
 export function getNoteById(req: Request, res: Response) {
     const id = req.params.id;
-    const noteProm = global.getItemById(id, table_name);
+    const result = global.getItemById(id, table_name);
     let note: Note; 
-    noteProm.then((value) => {
+    result.then((value) => {
         note = new Note(
             value.name, 
             value.author_id, 
@@ -32,10 +32,10 @@ export function getNotesByQuery(req: Request, res: Response) {
     const field = req.params.field;
     const value = req.params.value;
     let query = {[field]: JSON.parse(value)};
-    const noteArrayProm = global.getItemsByField(query, table_name);
+    const result = global.getItemsByField(query, table_name);
     const noteArray: Note[] = []; 
     let note: Note;
-    noteArrayProm.then((value) => {
+    result.then((value) => {
         value.forEach((element: Note) => {
             
             note = new Note(
@@ -73,10 +73,19 @@ export function insertNote(req: Request, res: Response) {
     );
     const result = global.insertItem(note, table_name);
     result.then((value) => {
-        (value.acknowledged ? res.status(201).send(value.insertedId) : res.status(400).send('Error'));
+        (value.acknowledged ? res.status(201).send('id: ' + value.insertedId) : res.status(400).send('Error'));
     });
-
 }
+
+export function deleteNote(req: Request, res: Response) {
+    const id = req.params.id;
+    const result = global.deleteItemById(id, table_name);
+    result.then((value) => {
+        (value.acknowledged ? res.status(204) : res.status(400).send('Error'));
+    });
+}
+
+
 
 
 // ogolnie pewnie wszystkie z funkcji co sa w bazie, co
