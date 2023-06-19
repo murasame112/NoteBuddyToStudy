@@ -67,7 +67,7 @@ export function getNotesByQuery(req: Request, res: Response) {
 }
 
 // inserts note to database
-// http://localhost:3000/note
+// /note
 // headers:
 //  Content-Type: application/json
 // example:
@@ -107,11 +107,37 @@ export function deleteNote(req: Request, res: Response) {
     const id = req.params.id;
     const result = global.deleteItemById(id, table_name);
     result.then((value) => {
-        (value.acknowledged ? res.status(204) : res.status(400).send('Error'));
+        (value.acknowledged ? res.status(204).send() : res.status(400).send('Error'));
     });
 }
 
-
+// deletes multiple notes by array of ids
+// /notes
+// headers:
+//  Content-Type: application/json
+// example:
+//  http://localhost:3000/note
+// example body:
+//  ["6490d9efdfd298aad1e8f134",
+//  "6490d9f9dfd298aad1e8f135",
+//  "6490d9fddfd298aad1e8f136"]
+export function deleteMultipleNotes(req: Request, res: Response) {
+    const ids = req.body;
+    let counter = 0;
+    ids.forEach((element: string) => {
+            
+        const result = global.deleteItemById(element, table_name);
+        result.then((value) => {
+            counter += value.deletedCount;
+            if(value.acknowledged == false){
+                res.status(400).send('Error');
+            }
+            if(counter == ids.length){
+                res.status(204).send();
+            }
+        });
+    });
+}
 
 
 // ogolnie pewnie wszystkie z funkcji co sa w bazie, co

@@ -13,6 +13,7 @@ app.get('/note/:id', noteEndpoints.getNoteById);
 app.get('/notes/:field&:value', noteEndpoints.getNotesByQuery);
 app.post('/note', noteEndpoints.insertNote);
 app.delete('/note/:id', noteEndpoints.deleteNote);
+app.delete('/notes', noteEndpoints.deleteMultipleNotes);
 // app.get('/group', GroupEndpoints.getGroup)
 // app.put('/group/:id', GroupEndpoints.editGroup) 
 
