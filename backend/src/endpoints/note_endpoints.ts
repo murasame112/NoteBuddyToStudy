@@ -6,6 +6,10 @@ import * as global from '../global_functions';
 
 const table_name = 'notes';
 
+// finds note by id
+// /note/{id}
+// example:
+//  http://localhost:3000/note/648c6400e388683aeb23d331
 export function getNoteById(req: Request, res: Response) {
     const id = req.params.id;
     const result = global.getItemById(id, table_name);
@@ -28,6 +32,10 @@ export function getNoteById(req: Request, res: Response) {
     });
 }
 
+// finds note multiple notes by field and value
+// /note/{field}&{value}
+// example:
+//  http://localhost:3000/note/published&true
 export function getNotesByQuery(req: Request, res: Response) {
     const field = req.params.field;
     const value = req.params.value;
@@ -58,6 +66,20 @@ export function getNotesByQuery(req: Request, res: Response) {
     });
 }
 
+// inserts note to database
+// http://localhost:3000/note
+// headers:
+//  Content-Type: application/json
+// example:
+//  http://localhost:3000/note
+// example body:
+//   {
+//      "name":"custom name",
+//      "adress":"custom adress",
+//      "author_id":"some id",
+//      "category_id":"some id",
+//      "description":"custom description"
+// }
 export function insertNote(req: Request, res: Response) {
     const note: Note = new Note(req.body.name,
         req.body.author_id,
@@ -77,6 +99,10 @@ export function insertNote(req: Request, res: Response) {
     });
 }
 
+// deletes note by id
+// /note/{id}
+// example:
+//  http://localhost:3000/note/6490d3e5982efd2fe9136154
 export function deleteNote(req: Request, res: Response) {
     const id = req.params.id;
     const result = global.deleteItemById(id, table_name);
