@@ -218,6 +218,32 @@ export function updateNote(req: Request, res: Response) {
     });
 }
 
+// TODO: przetestowac
+// replaces note by id with new note passed in request body
+// /note/{id}
+// headers:
+//  Content-Type: application/json
+// example:
+//  http://localhost:3000/note/6490d3e5982efd2fe9136154
+// example body:
+//   {
+//      "name":"custom name",
+//      "adress":"custom adress",
+//      "author_id":"some id",
+//      "category_id":"some id",
+//      "description":"custom description"
+// }
+export function replaceNote(req: Request, res: Response) {
+    const id = req.params.id;
+    const query = req.body;
+    const result = global.replaceItemById(id, table_name, query);
+    result.then((value) => {
+        (value.acknowledged ? res.status(201).send() : res.status(400).send('Error'));
+    });
+}
+
+
+// TODO: przetestowac
 // steals (returns a note, but then deletes it from database) note by id
 // /stealnote/{id}
 // example:
@@ -229,9 +255,3 @@ export function stealNote(req: Request, res: Response) {
         res.status(201).send(value.value);
     });
 }
-
-
-
-// update by query, replace
-// ogolnie pewnie wszystkie z funkcji co sa w bazie, co
-// replace to put
