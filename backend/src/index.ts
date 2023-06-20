@@ -10,6 +10,7 @@ app.use(express.json());
 // ============== NOTE ENDPOINTS ==============
 
 app.get('/note/:id', noteEndpoints.getNoteById);
+app.get('/stealnote/:id', noteEndpoints.stealNote);
 app.get('/notes', noteEndpoints.getMultipleNotes);
 app.get('/notes/:field&:value', noteEndpoints.getNotesByQuery);
 app.post('/note', noteEndpoints.insertNote);

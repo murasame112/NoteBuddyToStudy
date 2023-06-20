@@ -218,5 +218,20 @@ export function updateNote(req: Request, res: Response) {
     });
 }
 
+// steals (returns a note, but then deletes it from database) note by id
+// /stealnote/{id}
+// example:
+//  http://localhost:3000/stealnote/6490d3e5982efd2fe9136154
+export function stealNote(req: Request, res: Response) {
+    const id = req.params.id;
+    const result = global.stealItemById(id, table_name);
+    result.then((value) => {
+        res.status(201).send(value.value);
+    });
+}
+
+
+
+// update by query, replace
 // ogolnie pewnie wszystkie z funkcji co sa w bazie, co
 // replace to put
