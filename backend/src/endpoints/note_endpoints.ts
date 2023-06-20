@@ -121,6 +121,7 @@ export function deleteNote(req: Request, res: Response) {
 //  ["6490d9efdfd298aad1e8f134",
 //  "6490d9f9dfd298aad1e8f135",
 //  "6490d9fddfd298aad1e8f136"]
+
 export function deleteMultipleNotes(req: Request, res: Response) {
     const ids = req.body;
     let counter = 0;
@@ -139,5 +140,41 @@ export function deleteMultipleNotes(req: Request, res: Response) {
     });
 }
 
+// TODO: przetestowac
+// finds note multiple notes by field and value
+// /note/{field}&{value}
+// example:
+//  http://localhost:3000/note/published&true
+export function deleteNotesByQuery(req: Request, res: Response) {
+    const field = req.params.field;
+    const value = req.params.value;
+    let query = {[field]: JSON.parse(value)};
+    const result = global.deleteItemsByField(query, table_name);
+    result.then((value) => {
+        (value.acknowledged ? res.status(201).send() : res.status(400).send('Error'));
+    }); 
+}
+
+// TODO: przetestowac
+// updates note by id with values passed in request body
+// /note/{id}
+// headers:
+//  Content-Type: application/json
+// example:
+//  http://localhost:3000/note/6490d3e5982efd2fe9136154
+// example body:
+//   {
+//      "name":"custom name",
+//      "description":"custom description"
+// }
+export function updateNote(req: Request, res: Response) {
+    const id = req.params.id;
+    const query = req.body;
+    const result = global.updateItemById(id, table_name, query);
+    result.then((value) => {
+        (value.acknowledged ? res.status(204).send() : res.status(400).send('Error'));
+    });
+}
 
 // ogolnie pewnie wszystkie z funkcji co sa w bazie, co
+// replace to put
