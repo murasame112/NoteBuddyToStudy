@@ -141,6 +141,60 @@ export function insertNote(req: Request, res: Response) {
     });
 }
 
+// TODO: przetestowac
+// inserts multiple notes to database
+// /notes
+// headers:
+//  Content-Type: application/json
+// example:
+//  http://localhost:3000/notes
+// example body:
+// [
+//     {
+//        "name":"custom name",
+//        "adress":"custom adress",
+//        "author_id":"some id",
+//        "category_id":"some id",
+//        "description":"custom description"
+//     },
+//     {
+//        "name":"custom name2",
+//        "adress":"custom adress2",
+//        "author_id":"some id2",
+//        "category_id":"some id2",
+//        "description":"custom description2"
+//     }
+//  ]
+export function insertMultipleNotes(req: Request, res: Response) {
+    const notes = req.body;
+    let counter = 0;
+    notes.forEach((element: Note) => {
+        const note: Note = new Note(element.name,
+            element.author_id,
+            element.category_id,
+            element.subcategory_id,
+            element.adress,
+            element.description,
+            element.shared_date,
+            element.last_edit_date,
+            element.published,
+            element.positive_reviews,
+            element.negative_reviews
+        );
+            
+        const result = global.insertItem(note, table_name);
+        result.then((value) => {
+            counter ++;
+            if(value.acknowledged == false){
+                res.status(400).send('Error');
+            }
+            if(counter == notes.length){
+                res.status(204).send();
+            }
+        });
+    });
+}
+
 // deletes note by id
 // /note/{id}
 // example:
