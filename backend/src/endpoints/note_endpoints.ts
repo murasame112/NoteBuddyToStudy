@@ -32,8 +32,50 @@ export function getNoteById(req: Request, res: Response) {
     });
 }
 
+// TODO: przetestowac
+// finds multiple notes by ids
+// /notes
+// headers:
+//  Content-Type: application/json
+// example:
+//  http://localhost:3000/notes
+// example body:
+//  ["6490d9efdfd298aad1e8f134",
+//  "6490d9f9dfd298aad1e8f135",
+//  "6490d9fddfd298aad1e8f136"]
+export function getMultipleNotes(req: Request, res: Response) {
+    const ids = req.body;
+    let counter = 0;
+    const noteArray: Note[] = [];
+    ids.forEach((element: string) => {
+            
+        const result = global.getItemById(element, table_name);
+        result.then((value) => {
+            counter ++;
+            let note = new Note(
+                value.name, 
+                value.author_id, 
+                value.category_id, 
+                value.subcategory_id, 
+                value.adress, 
+                value.description, 
+                value.shared_date, 
+                value.last_edit_date, 
+                value.published, 
+                value.positive_reviews, 
+                value.negative_reviews
+            );
+            noteArray.push(note);
+            if(counter == ids.length){
+                res.status(201).send(noteArray);
+            }
+        });
+    });
+}
+
+
 // finds note multiple notes by field and value
-// /note/{field}&{value}
+// /notes/{field}&{value}
 // example:
 //  http://localhost:3000/note/published&true
 export function getNotesByQuery(req: Request, res: Response) {
@@ -129,7 +171,7 @@ export function deleteMultipleNotes(req: Request, res: Response) {
             
         const result = global.deleteItemById(element, table_name);
         result.then((value) => {
-            counter += value.deletedCount;
+            counter ++;
             if(value.acknowledged == false){
                 res.status(400).send('Error');
             }
