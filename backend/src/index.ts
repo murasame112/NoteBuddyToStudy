@@ -18,6 +18,8 @@ app.delete('/note/:id', noteEndpoints.deleteNote);
 app.delete('/notes', noteEndpoints.deleteMultipleNotes);
 app.delete('/notes/:field&:value', noteEndpoints.deleteNotesByQuery);
 app.patch('/note/:id',  noteEndpoints.updateNote);
+app.patch('/notes/:field&:value',  noteEndpoints.updateNotesByQuery);
+app.patch('/notes',  noteEndpoints.updateMultipleNotes);
 app.put('/note/:id',  noteEndpoints.updateNote);
 // app.get('/group', GroupEndpoints.getGroup)
 // app.put('/group/:id', GroupEndpoints.editGroup) 

@@ -183,10 +183,10 @@ export function deleteMultipleNotes(req: Request, res: Response) {
 }
 
 // TODO: przetestowac
-// finds note multiple notes by field and value
-// /note/{field}&{value}
+// deletes multiple notes by field and value
+// /notes/{field}&{value}
 // example:
-//  http://localhost:3000/note/published&true
+//  http://localhost:3000/notes/published&true
 export function deleteNotesByQuery(req: Request, res: Response) {
     const field = req.params.field;
     const value = req.params.value;
@@ -217,6 +217,68 @@ export function updateNote(req: Request, res: Response) {
         (value.acknowledged ? res.status(204).send() : res.status(400).send('Error'));
     });
 }
+
+// TODO: przetestowac
+// updates multiple notes by array of ids
+// /notes
+// headers:
+//  Content-Type: application/json
+// example:
+//  http://localhost:3000/note
+// example body:
+// {
+//     "ids":[
+//        "6490d9efdfd298aad1e8f134",
+//        "6490d9f9dfd298aad1e8f135",
+//        "6490d9fddfd298aad1e8f136"
+//     ],
+//     "query":{
+//        "name":"custom name",
+//        "description":"custom description"
+//     }
+//  }
+export function updateMultipleNotes(req: Request, res: Response) {
+    const ids = req.body.ids;
+    const updateQuery = req.body.query;
+    let counter = 0;
+    ids.forEach((element: string) => {
+            
+        const result = global.updateItemById(element, table_name, updateQuery);
+        result.then((value) => {
+            counter ++;
+            if(value.acknowledged == false){
+                res.status(400).send('Error');
+            }
+            if(counter == ids.length){
+                res.status(204).send();
+            }
+        });
+    });
+}
+
+// TODO: przetestowac
+// updates multiple notes by field and value
+// /notes/{field}&{value}
+// headers:
+//  Content-Type: application/json
+// example:
+//  http://localhost:3000/notes/published&true
+// example body:
+//   {
+//      "name":"custom name",
+//      "description":"custom description"
+// }
+export function updateNotesByQuery(req: Request, res: Response) {
+    const field = req.params.field;
+    const value = req.params.value;
+    const updateQuery = req.body;
+    let query = {[field]: JSON.parse(value)};
+    const result = global.updateItemsByField(query, table_name, updateQuery);
+    result.then((value) => {
+        (value.acknowledged ? res.status(204).send() : res.status(400).send('Error'));
+    }); 
+}
+
 
 // TODO: przetestowac
 // replaces note by id with new note passed in request body
@@ -255,3 +317,4 @@ export function stealNote(req: Request, res: Response) {
         res.status(201).send(value.value);
     });
 }
+
