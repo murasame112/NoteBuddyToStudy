@@ -9,9 +9,9 @@ export class User{
     created: Date
     role: string // TODO: enum
     untrusted: boolean
-    saved_notes: Array<number>
-    followed_users: Array<number>
-    blocked_users: Array<number>
+    saved_notes: Array<ObjectId>
+    followed_users: Array<ObjectId>
+    blocked_users: Array<ObjectId>
     notifications: Array<Notification>
     
 
@@ -23,9 +23,9 @@ export class User{
         active: boolean,
         role?: string,
         untrusted?: boolean,
-        saved_notes?: Array<number>,
-        followed_users?: Array<number>,
-        blocked_users?: Array<number>,
+        saved_notes?: Array<ObjectId>,
+        followed_users?: Array<ObjectId>,
+        blocked_users?: Array<ObjectId>,
         notifications?: Array<Notification>) {
 
             this.id = id;

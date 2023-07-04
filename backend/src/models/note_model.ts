@@ -1,9 +1,9 @@
-// TODO: zmienić wszędzie te id na string
+import { ObjectId } from 'bson';
 export class Note{
     name: string
-    author_id: number
-    category_id: number
-    subcategory_id: number
+    author_id: ObjectId
+    category_id: ObjectId
+    subcategory_id: ObjectId
     adress: string
     description?: string
     shared_date?: Date
@@ -14,9 +14,9 @@ export class Note{
 
     constructor( 
         name: string,
-        author_id: number,
-        category_id: number,
-        subcategory_id: number,
+        author_id: ObjectId,
+        category_id: ObjectId,
+        subcategory_id: ObjectId,
         adress: string,
         description?: string,
         shared_date?: Date,

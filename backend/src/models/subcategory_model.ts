@@ -1,12 +1,12 @@
 import { ObjectId } from 'bson';
 export class Subcategory{
     id: ObjectId
-    category_id: number
+    category_id: ObjectId
     name: string
       
 
     constructor(id: ObjectId, 
-        category_id: number,
+        category_id: ObjectId,
         name: string) {
         
             this.id = id;
