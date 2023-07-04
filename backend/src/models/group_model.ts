@@ -1,12 +1,13 @@
+import { ObjectId } from 'bson';
 export class Group{
-    id: number
+    id: ObjectId
     type: string // TODO: enum  
-    users: Array<number>
+    users: Array<ObjectId>
       
 
-    constructor(id: number, 
+    constructor(id: ObjectId, 
         type: string,
-        users?: Array<number>) {
+        users?: Array<ObjectId>) {
         
             this.id = id;
             this.type = type;

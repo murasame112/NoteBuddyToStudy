@@ -13,7 +13,7 @@ export async function getItemById(id: string, table_name: string) {
   try {
     const table: any = database.collection(table_name);
     
-    const item = await table.findOne({_id: id});
+    const item = await table.findOne({_id: new ObjectId(id)});
     return item;
   } finally {
     await client.close();
@@ -94,7 +94,7 @@ export async function deleteItemsByField(query: Object, table_name: string) {
 
 // function updates item by id
 // params: id of the item, name of the table, query with values to update
-// returns promise of result object (acknowledged: true/false, modifiedCount, upsertedId (if item is upserted): null, upsertedCount: 0, matchedCount: 1)
+// returns promise of result object (acknowledged: true/false, modifiedCount, upsertedId (if item is upserted), upsertedCount, matchedCount)
 export async function updateItemById(id: string, table_name: string, updateQuery: Object) {
   const client = new MongoClient(uri);
   const database = client.db(db_name);
@@ -116,7 +116,7 @@ export async function updateItemById(id: string, table_name: string, updateQuery
 
 // function updates multiple items by field
 // params: object {field: "value"}, name of the table, query with values to update
-// returns promise of result object (acknowledged: true/false, modifiedCount, upsertedId (if item is upserted): null, upsertedCount: 0, matchedCount: 1)
+// returns promise of result object (acknowledged: true/false, modifiedCount, upsertedId (if item is upserted), upsertedCoun, matchedCount)
 export async function updateItemsByField(query: Object, table_name: string, updateQuery: Object) {
   const client = new MongoClient(uri);
   const database = client.db(db_name);
@@ -138,7 +138,7 @@ export async function updateItemsByField(query: Object, table_name: string, upda
 
 // function replaces one item with another, finds by id
 // params: id of the item, name of the table, new item
-// returns promise of result object (acknowledged: true/false, modifiedCount, upsertedId (if item is upserted): null, upsertedCount: 0, matchedCount: 1)
+// returns promise of result object (acknowledged: true/false, modifiedCount, upsertedId (if item is upserted), upsertedCount, matchedCount)
 export async function replaceItemById(id: string, table_name: string, newItem: Object) {
   const client = new MongoClient(uri);
   const database = client.db(db_name);
