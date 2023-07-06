@@ -1,0 +1,249 @@
+*{
+  margin: 0;
+  padding: 0;
+
+}
+
+body
+{
+
+  margin: 0;
+  padding: 0;
+
+}
+
+//!HERO
+#hero
+{
+// width: 100vw;
+font-size: 20px;
+
+}
+
+
+#logo
+{
+width: 180px;
+height: 69px;
+position: absolute;
+top: 10px;
+left: 100px;
+
+
+color: #2B2525;
+font-family: 'Outfit', sans-serif;
+font-size: 32px;
+font-style: normal;
+font-weight: 700;
+line-height: normal;
+
+}
+
+
+#logo2
+{
+color: purple;
+
+}
+
+#hero_section
+{
+width:450px ;
+height: 350px;
+margin-top: 100px;
+position: relative;
+top: 130px;
+left: 440px;
+
+
+}
+
+#hero_header
+{
+display: flex;
+width: 435px;
+height: 187px;
+flex-direction: column;
+justify-content: center;
+
+color: #000;
+font-family: 'Poppins',sans-serif;
+font-size: 48px;
+font-style: normal;
+font-weight: 700;
+line-height: 112%;
+
+}
+
+#hero_text
+{
+display: flex;
+width: 435px;
+flex-direction: column;
+justify-content: center;
+color: #000;
+font-family: 'Poppins', sans-serif;
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+
+
+}
+
+#hero_btns
+{
+display: flex;
+gap: 5px;
+
+}
+
+#more_details
+{
+width: 255px;
+height: 45px;
+border-radius: 40px;
+background: #51218F;
+display: flex;
+justify-content: center;
+align-items: center;
+
+}
+
+#more_details span
+{
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+
+
+}
+
+#courses_btn
+{
+display: flex;
+width: 164px;
+height: 41px;
+flex-direction: column;
+justify-content: center;
+
+
+text-align: center;
+
+
+
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+border: 3px solid #51218F;
+border-radius: 40px;
+}
+
+#courses_btn span
+{
+font-family: 'Poppins', sans-serif;
+font-weight: 600;
+font-size: 16px;
+color: #000;
+
+}
+
+#navigation
+{
+position: absolute;
+display: flex;
+top: 20px;
+right: 100px;
+z-index: 1;
+gap: 30px;
+
+
+}
+
+#login_btn
+{
+display: flex;
+align-items: center;
+justify-content: center;
+color: white;
+width: 100px;
+height: 30px;
+font-family: 'Poppins', sans-serif;
+font-weight: 400;
+font-size: 18px;
+
+
+}
+
+#register_btn
+{
+display: flex;
+align-items: center;
+justify-content: center;
+width: 180px;
+height: 30px;
+color: white;
+border: 3px solid white;
+border-radius: 40px;
+
+font-family: 'Poppins', sans-serif;
+font-weight: 400;
+font-size: 18px;
+
+
+}
+
+#wave-background
+{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  margin: 0;
+  padding: 0;
+
+}
+
+#hero-img
+{
+position: absolute;
+top: 140px;
+right: 225px;
+
+}
+
+
+//!MAIN
+main
+{
+
+  border: 1px solid orange;
+  width: 100vw;
+  height: 100vh;
+}
+
+
+
+#motivate-text
+{
+  position: absolute;
+  text-align: center;
+font-family: 'Poppins', sans-serif;
+font-weight: 700 ;
+font-size: 48px;
+top: 1180px;
+left: 35vw;
+z-index: 1;
+}
+
+
+#wavy-article-img
+{
+margin: 0;
+margin-top: 510px;
+padding: 0;
+width: 1880px;
+position: absolute;
+left: 0;
+width: 100%;
+}
