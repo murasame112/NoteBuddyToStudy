@@ -1,13 +1,13 @@
 import { ObjectId } from 'bson';
 export class Card{
     id: ObjectId
-    questions: string
-    answers: string
+    questions: Array<string>
+    answers: Array<string>
       
 
     constructor(id: ObjectId, 
-        questions: string,
-        answers: string) {
+        questions: Array<string>,
+        answers: Array<string>) {
         
             this.id = id;
             this.questions = questions;
