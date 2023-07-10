@@ -28,8 +28,10 @@ flex-direction: column;
 
 .img
 {
-  width: 450px;
-  height: 360px;
+  // width: 450px;
+  width: 28.125rem;
+  // height: 360px;
+  height: 22.5rem;
   background-color: orange;
   border-radius: 5%;
   box-shadow: 0.8rem 0.6rem 1.7rem 0.1rem rgba(0, 0, 0, 0.473);
@@ -39,7 +41,7 @@ flex-direction: column;
 {
   font-family: 'poppins',sans-serif;
   font-weight: 600;
-  font-size: 32px;
+  font-size: 2rem;
   width: 26rem;
   height: 9rem;
   color: white;
@@ -51,7 +53,7 @@ flex-direction: column;
 
   width: 26rem;
   font-family: 'poppins',sans-serif;
-  font-size: 14px;
+  font-size: 0.875rem;
   color: white;
 
 
