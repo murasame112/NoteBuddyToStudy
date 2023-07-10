@@ -66,3 +66,34 @@ flex-direction: column;
 
 
 }
+
+@media (max-width: 1700px)
+{
+
+#container
+{
+  gap: 12rem;
+}
+}
+
+@media (max-width: 1628px)
+{
+
+.img{
+  width: 21.875rem;
+  height: 16.25rem;
+}
+
+}
+
+
+@media (max-width: 1315px)
+{
+
+  #container
+{
+  gap: 8rem;
+}
+
+
+}
