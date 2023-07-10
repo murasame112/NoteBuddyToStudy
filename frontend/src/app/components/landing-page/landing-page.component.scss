@@ -119,7 +119,7 @@ justify-content: center;
 align-items: center;
 }
 
-#more_details span
+#more_details .anchor
 {
   color: white;
   font-family: 'Poppins', sans-serif;
@@ -127,6 +127,8 @@ align-items: center;
   // font-size: 18px;
   font-size: 1.125rem;
   // background-color: red;
+  text-decoration: none;
+
 
 }
 
@@ -155,13 +157,14 @@ border-radius: 40px;
 
 }
 
-#courses_btn span
+#courses_btn .anchor
 {
 font-family: 'Poppins', sans-serif;
 font-weight: 600;
 // font-size: 16px;
 font-size: 1rem;
 color: #000;
+text-decoration: none;
 
 }
 
@@ -227,7 +230,6 @@ font-size: 1.125rem;
   margin: 0;
   padding: 0;
   z-index: 0;
-
 }
 
 #wave-background-img
@@ -268,7 +270,7 @@ z-index: 1;
 #features
 {
   position: relative;
-  top: 85rem;
+  top: 75rem;
   height: 265rem;
   margin-top: 35rem;
   padding: 0;
@@ -302,11 +304,12 @@ top: 54rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 2rem;
+  gap: 5rem;
   align-items: center;
   position: relative;
-  top: 90rem;
+  top: 85rem;
   height: 50rem;
+
 }
 
 #av-courses-span
@@ -322,11 +325,14 @@ z-index: 1;
 #available-courses
 {
   position: relative;
-width: 70rem;
-height: 25rem;
+width: 45rem;
+height: 15rem;
 background-color: #3b136E;
 border-radius: 1rem;
 z-index: 1;
+display: flex;
+justify-content: center;
+align-items: center;
 }
 
 
