@@ -63,8 +63,6 @@ flex-direction: column;
 {
   margin-top: -2rem;
 
-
-
 }
 
 @media (max-width: 1700px)
@@ -95,5 +93,146 @@ flex-direction: column;
   gap: 8rem;
 }
 
+
+}
+
+
+@media (max-width:1186px)
+{
+
+  .feature
+  {
+
+    gap: 4rem;
+    max-width: 120rem;
+
+  }
+
+  .article-header
+{
+
+  font-weight: 600;
+  font-size: 1.5rem;
+  width: 19rem;
+  height: 6rem;
+
+}
+
+.article-p
+{
+
+  width: 19rem;
+  font-size: 0.875rem;
+
+}
+
+.article-gap-fix
+{
+  margin-top: -1rem;
+
+}
+
+}
+
+
+@media (max-width:1140px)
+{
+
+  .feature
+  {
+
+    gap: 4rem;
+    max-width: 120rem;
+
+  }
+
+  .article-header
+{
+
+  font-size: 1.25rem;
+  width: 20rem;
+  height: 6rem;
+
+}
+
+.article-p
+{
+
+  width: 19rem;
+  font-size: 0.875rem;
+
+}
+
+.article-gap-fix
+{
+  margin-top: -2rem;
+
+}
+
+}
+
+
+@media (max-width: 1124px)
+{
+
+  #container
+{
+  gap: 4rem;
+}
+
+.img
+{
+  width: 18rem;
+  height: 14rem;
+
+}
+
+
+.feature
+{
+
+  gap: 4rem;
+  max-width: 120rem;
+
+}
+
+.article-header
+{
+
+font-size: 1.25rem;
+width: 20rem;
+height: 4rem;
+
+}
+
+
+
+.article-gap-fix
+{
+margin-top: -1rem;
+
+}
+
+
+}
+
+@media (max-width: 776px)
+{
+  .feature
+  {
+    flex-direction: column;
+    gap: 4rem;
+    max-width: 120rem;
+
+  }
+
+  .feature .article-div
+  {
+    order: 1;
+  }
+
+  .feature img{
+  order: 0;
+  }
 
 }
