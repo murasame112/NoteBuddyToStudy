@@ -7,6 +7,8 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
 import { PageErrorComponent } from './components/page-error/page-error.component';
 import { FeaturesComponent } from './components/landing-page/features/features.component';
 import { CoursesComponent } from './components/landing-page/courses/courses.component';
+import { LoginPageComponent } from './components/login-page/login-page.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -14,11 +16,13 @@ import { CoursesComponent } from './components/landing-page/courses/courses.comp
     LandingPageComponent,
     PageErrorComponent,
     FeaturesComponent,
-    CoursesComponent
+    CoursesComponent,
+    LoginPageComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

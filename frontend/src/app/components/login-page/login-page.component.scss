@@ -1,0 +1,65 @@
+main{
+  display: grid;
+  grid-template-columns: 1fr  1fr;
+  grid-template-rows: 1fr 1fr 3fr repeat(5,1fr);
+  grid-template-areas:
+  'one empty1'
+  'one page-name'
+  'one form'
+  'one login-btn'
+  'one or-btn'
+  'one loginByPlatformG'
+  'one loginByPlatformF'
+  'one empty2';
+  gap: 2rem;
+
+}
+
+#background-img
+{
+  grid-area: one;
+}
+
+#logo{
+  grid-area: one;
+  border: 1px solid palegoldenrod;
+  grid-row: 1/6;
+
+}
+
+#background-img, #logo
+{
+  grid-row: 1 / -1;
+}
+
+#login-img
+{
+  width: 100%;
+}
+
+#page-name
+{
+  grid-area: page-name;
+}
+
+#login-form
+{
+  grid-area: form;
+}
+
+#orDiv
+{
+  grid-area: or-btn;
+}
+
+#loginByPlatformG
+{
+  grid-area: loginByPlatformG;
+}
+
+#loginByPlatformF
+{
+  grid-area: loginByPlatformF;
+}
+
+
