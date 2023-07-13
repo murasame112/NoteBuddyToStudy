@@ -6,39 +6,81 @@ main{
   'one empty1'
   'one page-name'
   'one form'
-  'one login-btn'
+  'one forgot-Password'
   'one or-btn'
   'one loginByPlatformG'
   'one loginByPlatformF'
   'one empty2';
   gap: 2rem;
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  row-gap: 0;
+  place-items: center;
+  overflow: hidden;
+}
+
+#leftSide:nth-child(1)
+{
+grid-row: 1/9;
+width: 100%;
+height: 100%;
+display: grid;
+grid-template-columns: 1fr 2fr 1fr;
+grid-template-rows: 1fr;
+
 
 }
 
-#background-img
+
+
+
+
+
+#login-img
 {
   grid-area: one;
+  grid-column:1/3;
+  grid-row: 1;
+  height: 100%;
+  width: 100%;
+
+
 }
 
 #logo{
   grid-area: one;
-  border: 1px solid palegoldenrod;
-  grid-row: 1/6;
+  border: 2px solid green;
+  grid-column: 1/4;
+  grid-column: span 1/2;
+  grid-row: 1;
+  width: 12rem;
+  height: 6rem;
+  font-size: 1rem;
+  color: white;
+  font-family: 'poppins', sans-serif;
+  font-weight: 600;
+  font-size: 2rem;
+  align-self: start;
+  justify-self: end;
+
 
 }
 
-#background-img, #logo
+#logo2
 {
-  grid-row: 1 / -1;
+  color: #F89E30;
+
 }
 
-#login-img
-{
-  width: 100%;
-}
+
+
 
 #page-name
 {
+  font-family: 'poppins', sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
   grid-area: page-name;
 }
 
@@ -47,19 +89,91 @@ main{
   grid-area: form;
 }
 
+.form-inputs
+{
+  width: 25rem;
+  height: 3rem;
+  border-radius: 1.2rem;
+  background-color: #CBC5C5;
+  border: 1px solid #E3E3E3;
+  // color: #878585;
+  font-family: 'poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+
+}
+
+
+.form-labels
+{
+  font-family: 'poppins', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+
+#login-btn
+{
+  font-family: 'poppins', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  width: 25rem;
+  height: 3rem;
+  border-radius: 1.2rem;
+  background-color: #621EBB;
+  color: white;
+}
+
+#forgot-password
+{
+  grid-area: forgot-Password;
+  font-family: 'poppins', sans-serif;
+  font-size: .7rem;
+  font-weight: 400;
+  color: #310C62;
+}
+
 #orDiv
 {
   grid-area: or-btn;
+
+  font-family: 'poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+
+
+.LoginWithPlatformBtn
+{
+  font-family: 'poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  width: 25rem;
+  height: 3rem;
+  display: flex;
+  justify-content:space-around;
+  align-items: center;
+  border: 1px dashed blue;
+  border-radius: 1.2rem;
+
+
 }
 
 #loginByPlatformG
 {
   grid-area: loginByPlatformG;
+  border: 2px solid #E3E3E3;
 }
 
 #loginByPlatformF
 {
   grid-area: loginByPlatformF;
+  color: white;
+  border: 2px solid #223A90;
+  background-color: #253D94;
 }
+
+
 
 

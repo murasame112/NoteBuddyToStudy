@@ -1,37 +1,42 @@
 <main>
 <div id="leftSide">
+  <img src="../../../assets/login_ellipse.png" alt="" id="login-img">
   <span id="logo">NoteBuddy<br><span id="logo2">To</span>Study</span>
-  <!-- <div id="background-img"><img src="../../../assets/login_ellipse.png" alt="" id="login-img"></div> -->
 </div>
 
 
 <div id="page-name">Logowanie</div>
 <div id="login-form">
   <form [formGroup]="loginForm">
-    <label>Login</label><br>
-
-    <label>Hasło</label><br>
-
-    <input type="submit" value="Zaloguj się">
+    <label class="form-labels">Login</label><br>
+    <input type="text" placeholder="wpisz login" class="form-inputs"><br><br>
+    <label class="form-labels">Hasło</label><br>
+    <input type="text" placeholder="wpisz swoje hasło" class="form-inputs"><br><br>
+    <input type="submit" value="Zaloguj się" id="login-btn">
   </form>
 
 </div>
 
+<span id="forgot-password">zapomniałem hasło</span>
+
+
 <div id="orDiv">
   <span class="orLine-line"></span>
-  <span id="orSpan">lub</span>
+  <span id="orSpan" class="form-labels">lub</span>
   <span class="orLine-line"></span>
 </div>
 
 <div class="LoginWithPlatformBtn" id="loginByPlatformG">
-  <img src="" alt="" class="img-platform">
+  <img src="../../../assets/login_google_logo.png" alt="" class="img-platform">
   <span class="LoginWithPlatformSpan">Zaloguj się przez google</span>
 </div>
 
 <div class="LoginWithPlatformBtn" id="loginByPlatformF">
-  <img src="" alt="" class="img-platform">
+  <img src="../../../assets/login_facebook_logo.png" alt="" class="img-platform">
   <span class="LoginWithPlatformSpan">Zaloguj się przez facebook</span>
 </div>
+
+
 
 
 </main>
