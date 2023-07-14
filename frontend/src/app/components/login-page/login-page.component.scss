@@ -50,19 +50,18 @@ grid-template-rows: 1fr;
 
 #logo{
   grid-area: one;
-  border: 2px solid green;
   grid-column: 1/4;
   grid-column: span 1/2;
   grid-row: 1;
-  width: 12rem;
-  height: 6rem;
-  font-size: 1rem;
+  width: 9rem;
+  height: 5rem;
+  font-size: 1.5rem;
   color: white;
   font-family: 'poppins', sans-serif;
   font-weight: 600;
-  font-size: 2rem;
   align-self: start;
-  justify-self: end;
+  justify-self: start;
+  margin: 1rem;
 
 
 }
@@ -94,26 +93,40 @@ grid-template-rows: 1fr;
   width: 25rem;
   height: 3rem;
   border-radius: 1.2rem;
-  background-color: #CBC5C5;
-  border: 1px solid #E3E3E3;
+  // background-color: #cbc5c5;
+  background-color: rgba(203, 197, 197, 0.70);
+  border: 0.0625rem solid #E3E3E3;
   // color: #878585;
   font-family: 'poppins', sans-serif;
   font-size: 1rem;
   font-weight: 400;
+  text-indent: 0.5rem;
+  caret-color: #621EBB;
+  margin-top: 0.5rem;
 
+}
+
+.form-inputs:focus
+{
+  outline: none;
+  background-color: rgba(203, 197, 197);
+  border-color: #460699;
+  box-shadow: 0 0 0.3rem #460699;
 }
 
 
 .form-labels
 {
   font-family: 'poppins', sans-serif;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 400;
+
 }
 
 
 #login-btn
 {
+  border: none;
   font-family: 'poppins', sans-serif;
   font-size: 1.5rem;
   font-weight: 400;
@@ -124,13 +137,35 @@ grid-template-rows: 1fr;
   color: white;
 }
 
-#forgot-password
+#login-btn:hover
+{
+  cursor: pointer;
+}
+
+#forgot-password-div
 {
   grid-area: forgot-Password;
+  width: 25rem;
+  height: 2rem;
+  display: grid;
+  align-self: start;
+
+}
+
+#forgot-password
+{
   font-family: 'poppins', sans-serif;
   font-size: .7rem;
   font-weight: 400;
   color: #310C62;
+  align-self: center;
+  justify-self: end;
+  margin-right: 2rem;
+}
+
+#forgot-password:hover
+{
+  cursor: pointer;
 }
 
 #orDiv
@@ -140,8 +175,24 @@ grid-template-rows: 1fr;
   font-family: 'poppins', sans-serif;
   font-size: 1rem;
   font-weight: 400;
+  width: 25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+.orLine-line
+{
+width: 11.5rem;
+height: 0.0625rem;
+border-radius: 0.5rem;
+background-color: black;
+}
+
+#orSpan
+{
+  margin-inline: 0.5rem;
+}
 
 
 .LoginWithPlatformBtn
@@ -152,12 +203,27 @@ grid-template-rows: 1fr;
   width: 25rem;
   height: 3rem;
   display: flex;
-  justify-content:space-around;
+  justify-content:flex-start;
   align-items: center;
   border: 1px dashed blue;
   border-radius: 1.2rem;
 
 
+}
+
+.LoginWithPlatformBtn:hover
+{
+  cursor: pointer;
+}
+
+.img-platform
+{
+margin-left: 1rem;
+}
+
+.LoginWithPlatformSpan
+{
+  margin-left: 1rem;
 }
 
 #loginByPlatformG
