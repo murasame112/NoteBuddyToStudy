@@ -1,11 +1,12 @@
+import { ObjectId } from 'bson';
 export class Logi{
-    id: number
+    id: ObjectId
     type: string // TODO: enum
     date: Date
     content: string
       
 
-    constructor(id: number, 
+    constructor(id: ObjectId, 
         type: string,
         content: string) {
         

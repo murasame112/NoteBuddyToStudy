@@ -2,13 +2,38 @@ import express from 'express';
 import { Console } from 'console';
 import { Request, Response } from 'express';
 import { ObjectId } from 'bson';
-import * as global from './global_functions';
+import * as noteEndpoints from "./endpoints/note_endpoints";
 
-const app = express() 
-app.use(express.json())
-app.get('/', function (req, res) { 
+const app = express() ;
+app.use(express.json());
+
+// ============== NOTE ENDPOINTS ==============
+
+app.get('/note/:id', noteEndpoints.getNoteById);
+app.get('/stealnote/:id', noteEndpoints.stealNote);
+//app.get('/notes', noteEndpoints.getMultipleNotes); //TODO: poprawić, jeśli będzie potrzebny
+app.get('/notes/:field&:value', noteEndpoints.getNotesByQuery);
+app.post('/note', noteEndpoints.insertNote);
+app.post('/notes', noteEndpoints.insertMultipleNotes);
+app.delete('/note/:id', noteEndpoints.deleteNote);
+app.delete('/notes', noteEndpoints.deleteMultipleNotes);
+app.delete('/notes/:field&:value', noteEndpoints.deleteNotesByQuery);
+app.patch('/note/:id',  noteEndpoints.updateNote);
+app.patch('/notes/:field&:value',  noteEndpoints.updateNotesByQuery);
+app.patch('/notes',  noteEndpoints.updateMultipleNotes);
+app.put('/note/:id',  noteEndpoints.replaceNote);
+
+
+
+    // =============== ponizej notatki, do usuniecia potem ==============
+//app.get('/', function (req, res) { 
     
     
+
+
+
+
+
     // const note = global.getItemById(2, 'notes');
     // note.then((value) => {
     //     console.log(value);
@@ -44,9 +69,9 @@ app.get('/', function (req, res) {
 
     //global.stealItemById('648a3968510e8ee61572e748', 'subcategories');
 
-    res.send('hello world');
+   // res.send('hello world');
     
 
-});
+//});
 
 app.listen(3000);
