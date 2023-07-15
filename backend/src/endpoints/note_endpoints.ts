@@ -32,6 +32,8 @@ export function getNoteById(req: Request, res: Response) {
     });
 }
 
+// TODO: getAllNotes
+
 // TODO: Ogarnąć tak, żeby działało bez req.body (wysyłać array w linku?). Aczkolwiek zająć się tym dopiero, jak będzie potrzebne
 // finds multiple notes by ids
 // /notes
@@ -363,6 +365,7 @@ export function replaceNote(req: Request, res: Response) {
 // /stealnote/{id}
 // example:
 //  http://localhost:3000/stealnote/6490d3e5982efd2fe9136154
+// TODO: poprawić zeby zwracalo obiekt typu note
 export function stealNote(req: Request, res: Response) {
     const id = req.params.id;
     const result = global.stealItemById(id, table_name);
