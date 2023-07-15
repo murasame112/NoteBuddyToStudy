@@ -32,7 +32,9 @@ export function getNoteById(req: Request, res: Response) {
     });
 }
 
-// TODO: przetestowac
+// TODO: getAllNotes
+
+// TODO: Ogarnąć tak, żeby działało bez req.body (wysyłać array w linku?). Aczkolwiek zająć się tym dopiero, jak będzie potrzebne
 // finds multiple notes by ids
 // /notes
 // headers:
@@ -45,6 +47,7 @@ export function getNoteById(req: Request, res: Response) {
 //  "6490d9fddfd298aad1e8f136"]
 export function getMultipleNotes(req: Request, res: Response) {
     const ids = req.body;
+    console.log(ids);
     let counter = 0;
     const noteArray: Note[] = [];
     ids.forEach((element: string) => {
@@ -141,7 +144,7 @@ export function insertNote(req: Request, res: Response) {
     });
 }
 
-// TODO: przetestowac
+
 // inserts multiple notes to database
 // /notes
 // headers:
@@ -153,17 +156,19 @@ export function insertNote(req: Request, res: Response) {
 //     {
 //        "name":"custom name",
 //        "adress":"custom adress",
-//        "author_id":"some id",
-//        "category_id":"some id",
+//        "author_id":{"$oid":"64a49ff9a1caf26fbfaa2dbb"},
+//        "category_id":{"$oid":"64a4a1d1a1caf26fbfaa2dc1"},
+//        "sucategory_id":{"$oid":"64a4a367a1caf26fbfaa2dcc"},
 //        "description":"custom description"
 //     },
-//     {
-//        "name":"custom name2",
-//        "adress":"custom adress2",
-//        "author_id":"some id2",
-//        "category_id":"some id2",
-//        "description":"custom description2"
-//     }
+    // {
+    //    "name":"custom name2",
+    //    "adress":"custom adress2",
+    //    "author_id":{"$oid":"64a49ff9a1caf26fbfaa2dbb"},
+    //    "category_id":{"$oid":"64a4a1d1a1caf26fbfaa2dc1"},
+    //    "sucategory_id":{"$oid":"64a4a367a1caf26fbfaa2dcc"},
+    //    "description":"custom description2"
+    // }
 //  ]
 export function insertMultipleNotes(req: Request, res: Response) {
     const notes = req.body;
@@ -236,7 +241,7 @@ export function deleteMultipleNotes(req: Request, res: Response) {
     });
 }
 
-// TODO: przetestowac
+
 // deletes multiple notes by field and value
 // /notes/{field}&{value}
 // example:
@@ -251,7 +256,6 @@ export function deleteNotesByQuery(req: Request, res: Response) {
     }); 
 }
 
-// TODO: przetestowac
 // updates note by id with values passed in request body
 // /note/{id}
 // headers:
@@ -272,7 +276,6 @@ export function updateNote(req: Request, res: Response) {
     });
 }
 
-// TODO: przetestowac
 // updates multiple notes by array of ids
 // /notes
 // headers:
@@ -282,9 +285,9 @@ export function updateNote(req: Request, res: Response) {
 // example body:
 // {
 //     "ids":[
-//        "6490d9efdfd298aad1e8f134",
-//        "6490d9f9dfd298aad1e8f135",
-//        "6490d9fddfd298aad1e8f136"
+//      ["6490d9efdfd298aad1e8f134",
+//      "6490d9f9dfd298aad1e8f135",
+//      "6490d9fddfd298aad1e8f136"]
 //     ],
 //     "query":{
 //        "name":"custom name",
@@ -310,7 +313,6 @@ export function updateMultipleNotes(req: Request, res: Response) {
     });
 }
 
-// TODO: przetestowac
 // updates multiple notes by field and value
 // /notes/{field}&{value}
 // headers:
@@ -334,7 +336,7 @@ export function updateNotesByQuery(req: Request, res: Response) {
 }
 
 
-// TODO: przetestowac
+// TODO: zrobić tak, żeby tworzyło nowy obiekt Note przed zastąpieniem
 // replaces note by id with new note passed in request body
 // /note/{id}
 // headers:
@@ -359,11 +361,11 @@ export function replaceNote(req: Request, res: Response) {
 }
 
 
-// TODO: przetestowac
 // steals (returns a note, but then deletes it from database) note by id
 // /stealnote/{id}
 // example:
 //  http://localhost:3000/stealnote/6490d3e5982efd2fe9136154
+// TODO: poprawić zeby zwracalo obiekt typu note
 export function stealNote(req: Request, res: Response) {
     const id = req.params.id;
     const result = global.stealItemById(id, table_name);
