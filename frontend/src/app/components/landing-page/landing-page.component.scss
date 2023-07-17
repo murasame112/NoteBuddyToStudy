@@ -200,6 +200,11 @@ font-size: 1.125rem;
 
 }
 
+#login_btn:hover
+{
+  cursor: pointer;
+}
+
 #register_btn
 {
 display: flex;
@@ -221,6 +226,11 @@ font-weight: 400;
 font-size: 1.125rem;
 
 
+}
+
+#register_btn:hover
+{
+  cursor: pointer;
 }
 
 #wave-background
