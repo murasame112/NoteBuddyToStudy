@@ -9,6 +9,7 @@ import { FeaturesComponent } from './components/landing-page/features/features.c
 import { CoursesComponent } from './components/landing-page/courses/courses.component';
 import { LoginPageComponent } from './components/login-page/login-page.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RegisterPageComponent } from './components/register-page/register-page.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     PageErrorComponent,
     FeaturesComponent,
     CoursesComponent,
-    LoginPageComponent
+    LoginPageComponent,
+    RegisterPageComponent
   ],
   imports: [
     BrowserModule,
