@@ -10,6 +10,9 @@ import { CoursesComponent } from './components/landing-page/courses/courses.comp
 import { LoginPageComponent } from './components/login-page/login-page.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RegisterPageComponent } from './components/register-page/register-page.component';
+import { MainMenuComponent } from './components/main-menu/main-menu.component';
+import { NavbarComponent } from './components/main-menu/navbar/navbar.component';
+import { FooterComponent } from './components/main-menu/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +22,10 @@ import { RegisterPageComponent } from './components/register-page/register-page.
     FeaturesComponent,
     CoursesComponent,
     LoginPageComponent,
-    RegisterPageComponent
+    RegisterPageComponent,
+    MainMenuComponent,
+    NavbarComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
