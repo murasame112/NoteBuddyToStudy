@@ -13,6 +13,8 @@ import { RegisterPageComponent } from './components/register-page/register-page.
 import { MainMenuComponent } from './components/main-menu/main-menu.component';
 import { NavbarComponent } from './components/main-menu/navbar/navbar.component';
 import { FooterComponent } from './components/main-menu/footer/footer.component';
+import { NotesComponent } from './components/main-menu/functions/notes/notes.component';
+
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { FooterComponent } from './components/main-menu/footer/footer.component'
     RegisterPageComponent,
     MainMenuComponent,
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
+    NotesComponent,
+
   ],
   imports: [
     BrowserModule,
