@@ -11,7 +11,7 @@ app.use(express.json());
 
 app.get('/note/:id', noteEndpoints.getNoteById);
 app.get('/stealnote/:id', noteEndpoints.stealNote);
-//app.get('/notes', noteEndpoints.getMultipleNotes); //TODO: poprawić, jeśli będzie potrzebny
+// app.get('/notes', noteEndpoints.getMultipleNotes); //TODO: poprawić, jeśli będzie potrzebny
 app.get('/notes/:field&:value', noteEndpoints.getNotesByQuery);
 app.post('/note', noteEndpoints.insertNote);
 app.post('/notes', noteEndpoints.insertMultipleNotes);

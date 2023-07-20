@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import {HttpClientModule} from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
@@ -14,6 +14,8 @@ import { MainMenuComponent } from './components/main-menu/main-menu.component';
 import { NavbarComponent } from './components/main-menu/navbar/navbar.component';
 import { FooterComponent } from './components/main-menu/footer/footer.component';
 import { NotesComponent } from './components/main-menu/functions/notes/notes.component';
+
+
 
 
 @NgModule({
@@ -30,11 +32,13 @@ import { NotesComponent } from './components/main-menu/functions/notes/notes.com
     FooterComponent,
     NotesComponent,
 
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
