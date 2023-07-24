@@ -6,6 +6,7 @@ import { LoginPageComponent } from './components/login-page/login-page.component
 import { RegisterPageComponent } from './components/register-page/register-page.component';
 import { MainMenuComponent } from './components/main-menu/main-menu.component';
 import { NotesComponent } from './components/main-menu/functions/notes/notes.component';
+import { NoteAddComponent } from './components/main-menu/functions/note-add/note-add.component';
 
 const routes: Routes = [
   {path:'', redirectTo:"landing", pathMatch:"full"},
@@ -14,6 +15,7 @@ const routes: Routes = [
   {path:'register', component:RegisterPageComponent},
   {path:'main', component:MainMenuComponent},
   {path:'notes', component:NotesComponent},
+  {path:'note-add', component:NoteAddComponent},
   {path:'**', component:PageErrorComponent}
 ];
 

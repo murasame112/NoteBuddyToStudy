@@ -1,0 +1,58 @@
+<div id="container">
+<nav>
+  <app-navbar></app-navbar>
+</nav>
+
+<main>
+  <form [formGroup]="addNoteForm" (ngSubmit)="addNote(addNoteForm)" id="addForm1">
+    <div id="titleBox" class="displayClass">
+      <label >Tytuł: </label>
+      <input type="text" placeholder="tutuł notatki" formControlName="noteName" class="form-control">
+    </div>
+
+    <div id="descBox" class="displayClass">
+    <label>Treść: </label>
+    <textarea  placeholder="opis notatki"  cols="30" rows="10" formControlName="noteDesc" class="form-control"></textarea>
+    </div>
+
+    <div id="optionBox" class="displayClass">
+
+      <div class="displayClass">
+      <label>Kierunek:</label>
+        <select formControlName="courseName" class="form-select">
+          <option value="" selected disabled hidden >Wybierz kierunek</option>
+          <option value="Zarządzanie">Zarządzanie</option>
+          <option value="Informatyka stosowana">Informatyka Stosowana</option>
+        </select>
+      </div>
+
+      <div class="displayClass">
+      <label>Temat:</label>
+      <select formControlName="subjectName" class="form-select ">
+        <option value="" selected disabled hidden>Wybierz temat</option>
+        <option  value="Przedsiębiorstwo" >Przedsiębiorstwo</option>
+        <option value="Biznes">Biznes</option>
+      </select>
+    </div>
+
+    <div class="displayClass">
+
+      <label>Typ:</label>
+      <select formControlName="typeName" class="form-select">
+        <option value="" selected disabled hidden>Wybierz typ</option>
+        <option value="Treść">Treść</option>
+        <option value="Zdjęcie">Zdjęcie</option>
+      </select>
+      </div>
+
+    </div>
+
+    <button type="submit" id="addNoteBtn">Dodaj notatke</button>
+
+  </form>
+</main>
+
+<footer>
+  <app-footer></app-footer>
+</footer>
+</div>

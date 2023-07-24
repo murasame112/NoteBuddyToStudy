@@ -14,6 +14,7 @@ import { MainMenuComponent } from './components/main-menu/main-menu.component';
 import { NavbarComponent } from './components/main-menu/navbar/navbar.component';
 import { FooterComponent } from './components/main-menu/footer/footer.component';
 import { NotesComponent } from './components/main-menu/functions/notes/notes.component';
+import { NoteAddComponent } from './components/main-menu/functions/note-add/note-add.component';
 
 
 
@@ -31,6 +32,7 @@ import { NotesComponent } from './components/main-menu/functions/notes/notes.com
     NavbarComponent,
     FooterComponent,
     NotesComponent,
+    NoteAddComponent,
 
 
   ],
