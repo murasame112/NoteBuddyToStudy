@@ -155,3 +155,96 @@ footer
   cursor: pointer;
 }
 
+
+
+
+@media(max-width:960px)
+{
+  #addForm1
+{
+  width: 50rem;
+  height: 38rem;
+  gap: 1rem;
+
+}
+
+.displayClass
+{
+  gap: 1rem;
+
+}
+
+#titleBox input
+{
+  width: 35rem;
+}
+
+#descBox textarea
+{
+  width: 35rem;
+  height: 20rem;
+}
+
+#optionBox
+{
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+
+#optionBox select
+{
+width: 12rem;
+}
+
+.optLabel
+{
+text-align: center;
+  width: 5rem;
+}
+
+#addNoteBtn
+{
+  width: 10rem;
+  height: 2rem;
+}
+
+}
+
+@media(max-width:810px)
+{
+  #addForm1
+{
+  width: 40rem;
+}
+
+#titleBox input
+{
+  width: 25rem;
+}
+
+#descBox textarea
+{
+  width: 25rem;
+  height: 20rem;
+}
+
+}
+
+@media(max-width:660px)
+{
+  #addForm1
+{
+  width: 30rem;
+}
+
+#titleBox input
+{
+  width: 20rem;
+}
+
+#descBox textarea
+{
+  width: 20rem;
+}
+}

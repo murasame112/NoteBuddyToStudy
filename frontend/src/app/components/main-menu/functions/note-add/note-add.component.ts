@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import { Category } from 'src/app/enums/category';
+import { Subcategory } from 'src/app/enums/subcategory';
 
 @Component({
   selector: 'app-note-add',
@@ -10,8 +12,13 @@ export class NoteAddComponent implements OnInit{
 
 constructor() {
 
-
 }
+
+    // category:Array<Category> = [];
+       category = Object.values(Category);
+       subcategory = Object.values(Subcategory);
+
+
   ngOnInit(): void {
     this.addNoteForm = new FormGroup(
       {

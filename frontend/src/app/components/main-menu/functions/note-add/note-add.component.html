@@ -18,26 +18,33 @@
     <div id="optionBox" class="displayClass">
 
       <div class="displayClass">
-      <label>Kierunek:</label>
-        <select formControlName="courseName" class="form-select">
+      <label class="optLabel">Kierunek:</label>
+        <select formControlName="courseName" class="form-select" >
           <option value="" selected disabled hidden >Wybierz kierunek</option>
-          <option value="Zarządzanie">Zarządzanie</option>
-          <option value="Informatyka stosowana">Informatyka Stosowana</option>
+
+            <ng-container  *ngFor="let cat of category; let i = index">
+             <option  [value]="cat">{{cat}}</option>
+            </ng-container>
+
         </select>
       </div>
 
       <div class="displayClass">
-      <label>Temat:</label>
+      <label class="optLabel">Temat:</label>
       <select formControlName="subjectName" class="form-select ">
         <option value="" selected disabled hidden>Wybierz temat</option>
-        <option  value="Przedsiębiorstwo" >Przedsiębiorstwo</option>
-        <option value="Biznes">Biznes</option>
+
+        <ng-container *ngFor="let sub of subcategory">
+          <option [value]="sub">{{sub}}</option>
+        </ng-container>
+
+
       </select>
     </div>
 
     <div class="displayClass">
 
-      <label>Typ:</label>
+      <label class="optLabel">Typ:</label>
       <select formControlName="typeName" class="form-select">
         <option value="" selected disabled hidden>Wybierz typ</option>
         <option value="Treść">Treść</option>
