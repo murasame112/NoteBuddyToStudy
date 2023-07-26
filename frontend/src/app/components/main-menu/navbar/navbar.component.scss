@@ -63,9 +63,14 @@ grid-area: notes;
   font-weight: 400;
 }
 
+#hamburgerBar
+{
+  display: none;
+}
+
 #avatar-and-menu
 {
-  background-color: red;
+  // background-color: red;
   width: 100%;
   height: 100%;
   grid-area: user-menu;
@@ -150,4 +155,42 @@ color: white;
   height: 1.2rem;
   font-size: 0.8rem;
 }
+}
+
+
+@media (max-width:650px)
+{
+  #containerNav
+{
+  grid-template-columns: 1fr 2fr 0.5fr;
+  grid-template-rows: 1fr;
+  grid-template-areas:
+   'logo empty user-menu';
+  background-color: #310B61;
+  align-items: center;
+  justify-items: center;
+  text-align: center;
+}
+
+.nav-btn
+{
+  display: none;
+}
+
+#hamburgerBar
+{
+  display: block;
+  background-color: rgba(255, 0, 0, 0.336);
+  // background-color: #310B61;
+  height: 25rem;
+  width: 12rem;
+  position: absolute;
+  right: 0;
+}
+
+#avatar
+{
+  display: none
+  ;}
+
 }

@@ -15,6 +15,7 @@ import { NavbarComponent } from './components/main-menu/navbar/navbar.component'
 import { FooterComponent } from './components/main-menu/footer/footer.component';
 import { NotesComponent } from './components/main-menu/functions/notes/notes.component';
 import { NoteAddComponent } from './components/main-menu/functions/note-add/note-add.component';
+import { CardAddComponent } from './components/main-menu/functions/card-add/card-add.component';
 
 
 
@@ -33,6 +34,7 @@ import { NoteAddComponent } from './components/main-menu/functions/note-add/note
     FooterComponent,
     NotesComponent,
     NoteAddComponent,
+    CardAddComponent,
 
 
   ],
