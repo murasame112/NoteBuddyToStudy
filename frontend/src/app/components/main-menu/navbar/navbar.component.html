@@ -1,11 +1,16 @@
-<div id="containerNav">
+<div id="containerNav" >
 <span id="logo">NoteBuddy<br><span id="logo2">To</span>Study</span>
 
-    <span id="notes-btn" class="nav-btn">Notatki</span>
-    <span id="advices-btn" class="nav-btn">Porady do wspólnej nauki</span>
-    <span id="learnTogether-btn" class="nav-btn">Wyszukiwarka do wspólnej nauki</span>
-    <span id="chat-btn" class="nav-btn">Czat</span>
-    <span id="followers-btn" class="nav-btn">Obserwowani</span>
+
+    <a id="notes-btn" class="nav-btn">Notatki</a>
+    <a id="advices-btn" class="nav-btn">Porady do wspólnej nauki</a>
+    <a id="learnTogether-btn" class="nav-btn">Wyszukiwarka do wspólnej nauki</a>
+    <a id="chat-btn" class="nav-btn">Czat</a>
+    <a id="followers-btn" class="nav-btn">Obserwowani</a>
+
+    <a href="" id="profile-btn" class="menu-btn">Profil</a>
+    <a href="" id="settings-btn" class="menu-btn">Ustawienia</a>
+    <i class="fa fa-sharp fa-solid fa-xmark fa-xl" id="hamburgerIcon-close" (click)="menuBarClose()"></i>
 
 
     <div id="avatar-and-menu">
@@ -14,8 +19,8 @@
       <span id="avatar-login-name">kowalski</span>
     </div>
 
-    <div id="menu-btn">
-     <i class="fa fa-solid fa-bars fa-lg" id="hamburgerIcon"></i>
+    <div id="hamburger-btn">
+     <i class="fa fa-solid fa-bars fa-lg" id="hamburgerIcon" (click)="menuBarOpen()"></i>
     </div>
   </div>
 </div>

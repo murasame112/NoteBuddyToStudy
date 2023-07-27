@@ -61,11 +61,78 @@ grid-area: notes;
   font-size: 1rem;
   color: white;
   font-weight: 400;
+  text-decoration: none;
+  transition: color 0.5s ease-out;
 }
+
+.nav-btn:hover
+{
+  color:#F89E30 ;
+  cursor: pointer;
+}
+
+.menu-btn
+{
+  display: none;
+  color: white;
+  font-family: 'poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  text-decoration: none;
+  transition: color 0.5s ease-out;
+}
+
+.menu-btn:hover
+{
+  color:#F89E30 ;
+  cursor: pointer;
+
+}
+
+#profile-btn
+{
+  position: absolute;
+  z-index: 10;
+  top: 15rem;
+  right: 11.7rem;
+}
+
+#settings-btn
+{
+  position: absolute;
+  z-index: 10;
+  top: 17rem;
+  right: 9rem;
+}
+
+
+#hamburgerIcon-close
+{
+  color: white;
+  position: absolute;
+  z-index: 10;
+  right: 1rem;
+  top: 1.5rem;
+  display: none;
+}
+
+#hamburgerIcon-close:hover
+{
+  cursor: pointer;
+}
+
 
 #hamburgerBar
 {
   display: none;
+  background-color: #320b61ea;
+  height: 25rem;
+  width: 15rem;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 8;
+  border-radius: 0rem 0rem 0rem .5rem;
 }
 
 #avatar-and-menu
@@ -115,6 +182,12 @@ grid-area: notes;
 color: white;
 }
 
+#hamburgerIcon:hover
+{
+  cursor: pointer;
+}
+
+
 
 @media (max-width:1280px)
 {
@@ -126,7 +199,13 @@ color: white;
 
 .nav-btn
 {
+  display: block;
   font-size: 0.8rem;
+}
+
+.menu-btn
+{
+  font-size: 0.9rem;
 }
 
 
@@ -166,10 +245,12 @@ color: white;
   grid-template-rows: 1fr;
   grid-template-areas:
    'logo empty user-menu';
-  background-color: #310B61;
+  background-color: #320b61;
   align-items: center;
   justify-items: center;
   text-align: center;
+
+
 }
 
 .nav-btn
@@ -177,20 +258,77 @@ color: white;
   display: none;
 }
 
-#hamburgerBar
+
+#notes-btn
 {
-  display: block;
-  background-color: rgba(255, 0, 0, 0.336);
-  // background-color: #310B61;
-  height: 25rem;
-  width: 12rem;
+
   position: absolute;
-  right: 0;
+  z-index: 10;
+  right: 11.2rem;
+  top: 5rem;
 }
+
+#advices-btn
+{
+  position: absolute;
+  z-index: 10;
+  right: 3.8rem;
+  top: 7rem;
+}
+
+#learnTogether-btn
+{
+  position: absolute;
+  z-index: 10;
+  right: 1rem;
+  top: 9rem;
+}
+
+#chat-btn
+{
+  position: absolute;
+  z-index: 10;
+  right: 12.15rem;
+  top: 11rem;
+}
+
+#followers-btn
+{
+  position: absolute;
+  z-index: 10;
+  right: 8.5rem;
+  top: 13rem;
+}
+
+.menu-btn
+{
+  display: none;
+}
+
+
+
+
+
 
 #avatar
 {
-  display: none
-  ;}
+  display: none;
+}
+
+
+
+#hamburgerBar
+{
+  display: none;
+  background-color: #320b61ea;
+  // background-color: #310B61;
+  height: 25rem;
+  width: 15rem;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 8;
+  border-radius: 0rem 0rem 0rem .5rem;
+}
 
 }

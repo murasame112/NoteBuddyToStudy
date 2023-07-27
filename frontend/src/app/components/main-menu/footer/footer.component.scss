@@ -58,3 +58,35 @@
   font-size: 0.8rem;
 }
 }
+
+@media(max-width:500px)
+{
+
+  #footer-line
+{
+  width: 25rem;
+  height: 0.010rem;
+
+}
+
+}
+
+@media(max-width:500px)
+{
+  #footer-btns span{
+
+    font-size: 0.7rem;
+  }
+
+  #footer-line
+{
+  width: 16rem;
+  height: 0.010rem;
+
+}
+
+  #copyright
+{
+  font-size: 0.7rem;
+}
+}
