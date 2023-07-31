@@ -8,6 +8,7 @@ import { MainMenuComponent } from './components/main-menu/main-menu.component';
 import { NotesComponent } from './components/main-menu/functions/notes/notes.component';
 import { NoteAddComponent } from './components/main-menu/functions/note-add/note-add.component';
 import { CardAddComponent } from './components/main-menu/functions/card-add/card-add.component';
+import { SearchForBuddyComponent } from './components/main-menu/functions/search-for-buddy/search-for-buddy.component';
 
 const routes: Routes = [
   {path:'', redirectTo:"landing", pathMatch:"full"},
@@ -18,6 +19,7 @@ const routes: Routes = [
   {path:'notes', component:NotesComponent},
   {path:'note-add', component:NoteAddComponent},
   {path:'card-add', component:CardAddComponent},
+  {path:'search-for-buddy', component:SearchForBuddyComponent},
   {path:'**', component:PageErrorComponent}
 ];
 

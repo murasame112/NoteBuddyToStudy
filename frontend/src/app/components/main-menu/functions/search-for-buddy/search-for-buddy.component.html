@@ -1,0 +1,38 @@
+<div id="container">
+  <nav>
+    <app-navbar></app-navbar>
+  </nav>
+
+<main>
+  <span id="pageDesc">W tym miejscu mozesz znaleźć partnerów z którymi będziesz mógł wymieniać
+    <br>się swoją wiedzą z określonych kierunków studiów.
+  </span>
+  <form [formGroup]="searchBuddyForm" (ngSubmit)="searchBuddy(searchBuddyForm.value)" id="searchForm">
+
+    <div id="chooseType" class="displayClass">
+      <label  class="btn btn-secondary" for="searchOne">Partner/ka</label>
+      <input type="radio"  formControlName="searchOne" class="btn-check" name="options" id="searchOne" autocomplete="off">
+
+      <label class="btn btn-secondary" for="searchGroup" >Grupa</label>
+      <input type="radio" formControlName="searchGroup" class="btn-check" name="options" id="searchGroup" autocomplete="off">
+    </div>
+
+        <select formControlName="courseName" class="form-select" >
+          <option value="" selected disabled hidden >Wybierz kierunek</option>
+
+            <ng-container  *ngFor="let cat of category; let i = index">
+             <option  [value]="cat">{{cat}}</option>
+            </ng-container>
+
+
+        </select>
+
+        <button type="submit" id="searchBuddyBtn">Wyszukaj</button>
+
+  </form>
+</main>
+
+<footer>
+  <app-footer></app-footer>
+</footer>
+</div>

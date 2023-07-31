@@ -1,8 +1,8 @@
 export class Note{
   name!: string;
-  author_id!: number;
-  category_id!: number;
-  subcategory_id!: number;
+  author_id!: Object;
+  category_id!: Object;
+  subcategory_id!: Object;
   adress!: string;
   description?: string;
   shared_date?: Date;

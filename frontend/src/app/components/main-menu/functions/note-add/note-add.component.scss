@@ -248,3 +248,86 @@ text-align: center;
   width: 20rem;
 }
 }
+
+
+@media(max-width:530px)
+{
+  #addForm1
+{
+  width: 25rem;
+}
+
+#titleBox input
+{
+  width: 15rem;
+}
+
+#descBox textarea
+{
+  width: 15rem;
+}
+
+}
+
+
+@media(max-width:430px)
+{
+  main
+  {
+    height: 45rem;
+  }
+  #addForm1
+  {
+    width: 20rem;
+    height: 42rem;
+  }
+
+  #titleBox
+  {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  #descBox
+  {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0.5rem;
+
+  }
+}
+
+@media(max-width:340px)
+{
+
+  main
+  {
+    height: 50rem;
+  }
+
+  #addForm1
+  {
+    width: 18rem;
+    height: 48rem;
+  }
+
+
+  .displayClass
+  {
+    flex-direction: column;
+    align-items: start;
+    gap: 0.4rem;
+  }
+
+.optLabel
+{
+  // background-color: pink;
+  width: auto;
+}
+}
+

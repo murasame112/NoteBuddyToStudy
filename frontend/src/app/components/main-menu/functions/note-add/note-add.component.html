@@ -4,7 +4,7 @@
 </nav>
 
 <main>
-  <form [formGroup]="addNoteForm" (ngSubmit)="addNote(addNoteForm)" id="addForm1">
+  <form [formGroup]="addNoteForm" (ngSubmit)="addNote(addNoteForm.value)" id="addForm1">
     <div id="titleBox" class="displayClass">
       <label >Tytuł: </label>
       <input type="text" placeholder="tytuł notatki" formControlName="noteName" class="form-control">

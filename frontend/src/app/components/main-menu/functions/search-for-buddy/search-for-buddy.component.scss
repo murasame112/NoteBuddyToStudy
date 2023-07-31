@@ -1,0 +1,85 @@
+#container
+{
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 0.5fr 3fr 0.4fr;
+  grid-template-areas:
+  'nav'
+  'main'
+  'footer';
+  gap: 5rem;
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  row-gap: 0;
+  font-family: 'poppins', sans-serif;
+  font-size: 1rem;
+}
+
+nav
+{
+  grid-area: nav;
+  width: 100%;
+  height: 100%;
+
+}
+
+main
+{
+  grid-area: main;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+}
+
+
+footer
+{
+  grid-area: footer;
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: #222;
+  padding: 0;
+  margin: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#searchForm
+{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+#chooseType
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+#searchBuddyBtn
+{
+  width: 10rem;
+  height: 2rem;
+  background-color: #621EBB;
+  border: 1px solid #4D0E9E;
+  color: white;
+  border-radius: 1rem;
+  border: none;
+}
+
+#addSearchBuddyBtn:hover
+{
+  cursor: pointer;
+}

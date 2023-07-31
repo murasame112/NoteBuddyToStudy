@@ -1,10 +1,10 @@
 #containerNav
 {
   display: grid;
-  grid-template-columns: 0.5fr 0.5fr 1fr 1fr 0.5fr 0.5fr  0.5fr;
+  grid-template-columns: 0.5fr 0.5fr 1fr 1fr 0.5fr 0.5fr  0.5fr 0.1fr;
   grid-template-rows: 1fr;
   grid-template-areas:
-   'logo notes advices learnTogether chat followers  user-menu';
+   'logo notes advices learnTogether chat followers  user-menu .';
   background-color: #310B61;
   align-items: center;
   justify-items: center;
@@ -122,19 +122,6 @@ grid-area: notes;
 }
 
 
-#hamburgerBar
-{
-  display: none;
-  background-color: #320b61ea;
-  height: 25rem;
-  width: 15rem;
-  position: absolute;
-  right: 0;
-  top: 0;
-  z-index: 8;
-  border-radius: 0rem 0rem 0rem .5rem;
-}
-
 #avatar-and-menu
 {
   // background-color: red;
@@ -142,7 +129,7 @@ grid-area: notes;
   height: 100%;
   grid-area: user-menu;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   gap: 1rem;
 
@@ -151,9 +138,9 @@ grid-area: notes;
 #avatar
 {
 
-  width: 6rem;
+  width: 5rem;
   height: 4rem;
-  background-color: blue;
+  // background-color: blue;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -185,6 +172,19 @@ color: white;
 #hamburgerIcon:hover
 {
   cursor: pointer;
+}
+
+#hamburgerBar
+{
+  display: none;
+  background-color: #320b61ea;
+  height: 25rem;
+  width: 15rem;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 8;
+  border-radius: 0rem 0rem 0rem .5rem;
 }
 
 
@@ -241,6 +241,18 @@ color: white;
 }
 }
 
+@media(max-width:1000px)
+{
+  #logo
+  {
+    font-size: .8rem;
+  }
+
+  // #hamburgerIcon
+  // {
+  //  padding-right: 1rem;
+  // }
+}
 
 @media (max-width:650px)
 {
@@ -311,7 +323,10 @@ color: white;
 }
 
 
-
+#avatar-and-menu
+{
+  justify-content: center;
+}
 
 
 
