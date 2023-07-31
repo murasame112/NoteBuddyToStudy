@@ -102,7 +102,7 @@ grid-area: notes;
   position: absolute;
   z-index: 10;
   top: 17rem;
-  right: 9rem;
+  right: 8.7rem;
 }
 
 
@@ -208,6 +208,11 @@ color: white;
   font-size: 0.9rem;
 }
 
+#settings-btn
+{
+
+  right: 9rem;
+}
 
 #avatar-and-menu
 {

@@ -178,3 +178,27 @@ footer
 }
 
 }
+
+
+@media (max-width:450px)
+{
+  #addCard
+  {
+    width: 18rem;
+    height: 35rem;
+    gap: 2rem;
+
+  }
+
+  .form-control
+  {
+    width: 14rem;
+    height: 12rem;
+  }
+
+  .card_label
+  {
+    width: 12rem;
+  }
+}
+

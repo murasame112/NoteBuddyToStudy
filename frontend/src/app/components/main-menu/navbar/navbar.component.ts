@@ -12,12 +12,22 @@ export class NavbarComponent implements OnInit{
   ngOnInit(): void {
     const navContainer:any = document.querySelector('#containerNav');
     let navBtn:any = document.querySelectorAll('.nav-btn');
+    let profileBtn:any = document.querySelector('#profile-btn');
+    let settingsBtn:any = document.querySelector('#settings-btn');
+    let hamburgerBar:any =document.querySelector('#hamburgerBar');
     const observer:any = new ResizeObserver((entires)=>{
       if(entires[0].borderBoxSize[0].inlineSize>650)
       {
         navBtn.forEach((e:any)=> {
           e.style.display="block";
         });
+
+
+        profileBtn.style.top = `${6}rem`;
+        settingsBtn.style.top = `${8}rem`;
+        hamburgerBar.style.height =`${12}rem`;
+
+
         console.log('done');
       }else
       {
@@ -26,12 +36,25 @@ export class NavbarComponent implements OnInit{
           navBtn.forEach((e:any)=> {
             e.style.display="none";
           });
+
         }
 
       }
     });
 
+    const observer2:any = new ResizeObserver((entires)=>{
+      if(entires[0].borderBoxSize[0].inlineSize<650)
+      {
+
+        profileBtn.style.top = `${15}rem`;
+        settingsBtn.style.top = `${17}rem`;
+        hamburgerBar.style.height =`${25}rem`;
+
+      }
+    })
+
     observer.observe(navContainer);
+    observer2.observe(navContainer);
   }
 
 
@@ -52,7 +75,6 @@ export class NavbarComponent implements OnInit{
 
     menuBtn.forEach((e:any)=> {
       e.style.display="block";
-      e.style.color = "red";
     });
 
 
