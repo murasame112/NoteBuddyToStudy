@@ -6,6 +6,8 @@ import * as noteEndpoints from "./endpoints/note_endpoints";
 
 const app = express() ;
 app.use(express.json());
+const cors= require('cors');
+
 
 // ============== NOTE ENDPOINTS ==============
 
@@ -22,6 +24,19 @@ app.patch('/note/:id',  noteEndpoints.updateNote);
 app.patch('/notes/:field&:value',  noteEndpoints.updateNotesByQuery);
 app.patch('/notes',  noteEndpoints.updateMultipleNotes);
 app.put('/note/:id',  noteEndpoints.replaceNote);
+
+
+
+
+
+//===============================CORS===============================
+
+app.use(
+  cors({
+    origin:"http://localhost:4200",
+
+  }) 
+)
 
 
 

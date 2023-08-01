@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NotesService } from '../../../../services/notes.service';
 import {Note} from '../../../../models/note.model';
 import { first } from 'rxjs';
@@ -8,9 +8,12 @@ import { first } from 'rxjs';
   templateUrl: './notes.component.html',
   styleUrls: ['./notes.component.scss']
 })
-export class NotesComponent {
+export class NotesComponent implements OnInit{
 
   constructor(private notesService: NotesService) {}
+  ngOnInit(): void {
+    this.getNotes();
+  }
 
   addNote() {
 
@@ -32,6 +35,13 @@ export class NotesComponent {
     //     console.error(error);
     //   }
     // );
+  }
+
+  getNotes()
+  {
+    this.notesService.getNotes().subscribe(
+      (res)=>{ console.log(res);}
+      )
   }
 
 }
