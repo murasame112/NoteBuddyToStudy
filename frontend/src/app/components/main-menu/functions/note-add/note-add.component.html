@@ -1,0 +1,65 @@
+<div id="container">
+<nav>
+  <app-navbar></app-navbar>
+</nav>
+
+<main>
+  <form [formGroup]="addNoteForm" (ngSubmit)="addNote(addNoteForm.value)" id="addForm1">
+    <div id="titleBox" class="displayClass">
+      <label >Tytuł: </label>
+      <input type="text" placeholder="tytuł notatki" formControlName="noteName" class="form-control">
+    </div>
+
+    <div id="descBox" class="displayClass">
+    <label>Treść: </label>
+    <textarea  placeholder="opis notatki"  cols="30" rows="10" formControlName="noteDesc" class="form-control"></textarea>
+    </div>
+
+    <div id="optionBox" class="displayClass">
+
+      <div class="displayClass">
+      <label class="optLabel">Kierunek:</label>
+        <select formControlName="courseName" class="form-select" >
+          <option value="" selected disabled hidden >Wybierz kierunek</option>
+
+            <ng-container  *ngFor="let cat of category; let i = index">
+             <option  [value]="cat">{{cat}}</option>
+            </ng-container>
+
+        </select>
+      </div>
+
+      <div class="displayClass">
+      <label class="optLabel">Temat:</label>
+      <select formControlName="subjectName" class="form-select ">
+        <option value="" selected disabled hidden>Wybierz temat</option>
+
+        <ng-container *ngFor="let sub of subcategory">
+          <option [value]="sub">{{sub}}</option>
+        </ng-container>
+
+
+      </select>
+    </div>
+
+    <div class="displayClass">
+
+      <label class="optLabel">Typ:</label>
+      <select formControlName="typeName" class="form-select">
+        <option value="" selected disabled hidden>Wybierz typ</option>
+        <option value="Treść">Treść</option>
+        <option value="Zdjęcie">Zdjęcie</option>
+      </select>
+      </div>
+
+    </div>
+
+    <button type="submit" id="addNoteBtn">Dodaj notatke</button>
+
+  </form>
+</main>
+
+<footer>
+  <app-footer></app-footer>
+</footer>
+</div>
