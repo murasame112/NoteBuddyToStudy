@@ -1,3 +1,4 @@
+
 #container
 {
   display: grid;
@@ -31,7 +32,7 @@ main
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-
+  gap: 2rem;
 }
 
 
@@ -51,6 +52,13 @@ footer
   align-items: center;
 }
 
+#pageDesc
+{
+text-align: center;
+font-family: 'poppins', sans-serif;
+font-weight: 400;
+}
+
 #searchForm
 {
   display: flex;
@@ -58,6 +66,8 @@ footer
   justify-content: center;
   align-items: center;
   gap: 1rem;
+  width: 16rem;
+  height: 11rem;
 }
 
 #chooseType
@@ -68,9 +78,16 @@ footer
   gap: 1rem;
 }
 
+
+#chooseCourse
+{
+  width: 12.7rem;
+
+}
+
 #searchBuddyBtn
 {
-  width: 10rem;
+  width: 15rem;
   height: 2rem;
   background-color: #621EBB;
   border: 1px solid #4D0E9E;

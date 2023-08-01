@@ -17,6 +17,7 @@ import { NotesComponent } from './components/main-menu/functions/notes/notes.com
 import { NoteAddComponent } from './components/main-menu/functions/note-add/note-add.component';
 import { CardAddComponent } from './components/main-menu/functions/card-add/card-add.component';
 import { SearchForBuddyComponent } from './components/main-menu/functions/search-for-buddy/search-for-buddy.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -44,7 +45,8 @@ import { SearchForBuddyComponent } from './components/main-menu/functions/search
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

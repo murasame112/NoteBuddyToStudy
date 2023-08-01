@@ -19,16 +19,15 @@ export class SearchForBuddyComponent implements OnInit{
   ngOnInit(): void {
     this.searchBuddyForm = new FormGroup(
       {
-        noteName: new FormControl('' ,Validators.required)  ,
-        noteDesc: new FormControl('' ,Validators.required),
-        courseName: new FormControl('' ,Validators.required),
+       searchValue: new FormControl('' ,Validators.required),
+       courseName: new FormControl('' ,Validators.required),
+
       });
   }
 
-  searchBuddyForm = new FormGroup(
+    searchBuddyForm = new FormGroup(
     {
-      noteName: new FormControl('' ,Validators.required)  ,
-      noteDesc: new FormControl('' ,Validators.required),
+      searchValue: new FormControl('' ,Validators.required),
       courseName: new FormControl('' ,Validators.required),
 
     });
@@ -36,7 +35,7 @@ export class SearchForBuddyComponent implements OnInit{
 
     searchBuddy(data:any)
     {
-
+      console.log(data)
     }
 
 

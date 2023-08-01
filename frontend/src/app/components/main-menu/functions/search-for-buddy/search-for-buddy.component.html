@@ -8,15 +8,35 @@
     <br>się swoją wiedzą z określonych kierunków studiów.
   </span>
   <form [formGroup]="searchBuddyForm" (ngSubmit)="searchBuddy(searchBuddyForm.value)" id="searchForm">
+<!--
+    <div id="chooseType" class="displayClass form-check">
 
-    <div id="chooseType" class="displayClass">
-      <label  class="btn btn-secondary" for="searchOne">Partner/ka</label>
       <input type="radio"  formControlName="searchOne" class="btn-check" name="options" id="searchOne" autocomplete="off">
+      <label  class="btn btn-primary" for="searchOne">Partner/ka</label>
 
-      <label class="btn btn-secondary" for="searchGroup" >Grupa</label>
-      <input type="radio" formControlName="searchGroup" class="btn-check" name="options" id="searchGroup" autocomplete="off">
+
+
     </div>
 
+
+    <div id="chooseType" class="displayClass form-check">
+
+      <input type="radio"  formControlName="searchOne" class="btn-check" name="options" id="searchGroup" autocomplete="off">
+      <label  class="btn btn-primary" for="searchGroup">Grupa</label>
+
+
+    </div> -->
+
+<div id="chooseType">
+  <input type="radio" class="btn-check" name="searchValue" id="searchOne" autocomplete="off"  formControlName="searchValue" value="0">
+  <label class="btn btn-secondary" for="searchOne">Partner/ka</label>
+
+
+  <input type="radio" class="btn-check" name="searchValue" id="searchGroup" autocomplete="off" formControlName="searchValue" value="1">
+  <label class="btn btn-secondary" for="searchGroup">Grupa</label>
+</div>
+
+    <div id="chooseCourse">
         <select formControlName="courseName" class="form-select" >
           <option value="" selected disabled hidden >Wybierz kierunek</option>
 
@@ -26,10 +46,14 @@
 
 
         </select>
+      </div>
 
         <button type="submit" id="searchBuddyBtn">Wyszukaj</button>
 
   </form>
+
+
+
 </main>
 
 <footer>
