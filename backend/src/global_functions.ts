@@ -7,6 +7,25 @@ import {uri, db_name} from './mongodb/connection';
 // function gets item from database by item's id
 // params: id of the item, name of the table (collection) we are searching in
 // returns promise of object from database
+export async function getAllItems(table_name: string) {
+  const client = new MongoClient(uri);
+  const database = client.db(db_name);
+  try {
+    const table: any = database.collection(table_name);
+    const cursor = await table.find();
+    const items: any[] = [];
+    for await(const doc of cursor){
+      items.push(doc);
+    }
+    return items;
+  } finally {
+    await client.close();
+  }
+}
+
+// function gets item from database by item's id
+// params: id of the item, name of the table (collection) we are searching in
+// returns promise of object from database
 export async function getItemById(id: string, table_name: string) {
   const client = new MongoClient(uri);
   const database = client.db(db_name);
