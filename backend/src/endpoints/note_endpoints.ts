@@ -7,6 +7,17 @@ import * as global from '../global_functions';
 const table_name = 'notes';
 
 // finds note by id
+// /notes
+// example:
+//  http://localhost:3000/notes
+export function getAllNotes(req: Request, res: Response) {
+    const result = global.getAllItems(table_name);
+    result.then((value)=> {
+        res.send(value);
+    });
+}
+
+// finds note by id
 // /note/{id}
 // example:
 //  http://localhost:3000/note/648c6400e388683aeb23d331
@@ -31,8 +42,6 @@ export function getNoteById(req: Request, res: Response) {
         res.send(note);   
     });
 }
-
-// TODO: getAllNotes
 
 // TODO: Ogarnąć tak, żeby działało bez req.body (wysyłać array w linku?). Aczkolwiek zająć się tym dopiero, jak będzie potrzebne
 // finds multiple notes by ids
