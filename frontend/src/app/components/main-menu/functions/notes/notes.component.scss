@@ -27,6 +27,21 @@ nav
 main
 {
   grid-area: main;
+
+}
+
+#addNote
+{
+
+}
+
+#noteContent
+{
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 footer

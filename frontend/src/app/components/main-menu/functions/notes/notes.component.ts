@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NotesService } from '../../../../services/notes.service';
 import {Note} from '../../../../models/note.model';
 import { first } from 'rxjs';
+import {map} from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-notes',
@@ -14,6 +16,9 @@ export class NotesComponent implements OnInit{
   ngOnInit(): void {
     this.getNotes();
   }
+
+  allNotes:Note[] = [];
+
 
   addNote() {
 
@@ -39,9 +44,28 @@ export class NotesComponent implements OnInit{
 
   getNotes()
   {
-    this.notesService.getNotes().subscribe(
-      (res)=>{ console.log(res);}
-      )
+    this.notesService.getNotes()
+    .pipe(map((response:any)=>
+    {
+      const notes = [];
+      for(const key in response)
+      {
+
+        if(response.hasOwnProperty(key))
+        {
+          notes.push({...response[key], id: key})
+        }
+
+      }
+      return notes;
+    }
+    ))
+    .subscribe(
+      (res)=>{
+        console.log(res);
+        this.allNotes = res;
+      }
+      );
   }
 
 }
