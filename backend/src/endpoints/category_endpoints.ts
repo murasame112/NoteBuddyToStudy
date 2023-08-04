@@ -23,7 +23,16 @@ export function getCategoryById(req: Request, res: Response) {
     });
 }
 
-// TODO: getAllCategories
+// finds category by id
+// /categories
+// example:
+//  http://localhost:3000/categories
+export function getAllCategories(req: Request, res: Response) {
+    const result = global.getAllItems(table_name);
+    result.then((value)=> {
+        res.send(value);
+    });
+}
 
 
 // finds all categories
