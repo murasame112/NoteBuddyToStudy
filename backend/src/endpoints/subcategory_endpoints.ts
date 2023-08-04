@@ -10,7 +10,7 @@ const table_name = 'subcategories';
 // /subcategories
 // example:
 //  http://localhost:3000/subcategories
-export function getAllNotes(req: Request, res: Response) {
+export function getAllSubcategories(req: Request, res: Response) {
     const result = global.getAllItems(table_name);
     result.then((value)=> {
         res.send(value);
@@ -21,7 +21,7 @@ export function getAllNotes(req: Request, res: Response) {
 // /subcategory/{id}
 // example:
 //  http://localhost:3000/subcategory/648c6400e388683aeb23d331
-export function getNoteById(req: Request, res: Response) {
+export function getSubcategoryById(req: Request, res: Response) {
     const id = req.params.id;
     const result = global.getItemById(id, table_name);
     let subcategory: Subcategory; 
@@ -34,45 +34,12 @@ export function getNoteById(req: Request, res: Response) {
     });
 }
 
-// TODO: Ogarnąć tak, żeby działało bez req.body (wysyłać array w linku?). Aczkolwiek zająć się tym dopiero, jak będzie potrzebne
-// finds multiple subcategories by ids
-// /subcategories
-// headers:
-//  Content-Type: application/json
-// example:
-//  http://localhost:3000/subcategories
-// example body:
-//  ["6490d9efdfd298aad1e8f134",
-//  "6490d9f9dfd298aad1e8f135",
-//  "6490d9fddfd298aad1e8f136"]
-export function getMultipleNotes(req: Request, res: Response) {
-    const ids = req.body;
-    console.log(ids);
-    let counter = 0;
-    const subcategoryArray: Subcategory[] = [];
-    ids.forEach((element: string) => {
-            
-        const result = global.getItemById(element, table_name);
-        result.then((value) => {
-            counter ++;
-            let subcategory = new Subcategory(
-                value.name, 
-                value.category_id
-            );
-            subcategoryArray.push(subcategory);
-            if(counter == ids.length){
-                res.status(201).send(subcategoryArray);
-            }
-        });
-    });
-}
-
 
 // finds subcategory multiple subcategories by field and value
 // /subcategories/{field}&{value}
 // example:
 //  http://localhost:3000/subcategory/published&true
-export function getNotesByQuery(req: Request, res: Response) {
+export function getSubcategoriesByQuery(req: Request, res: Response) {
     const field = req.params.field;
     const value = req.params.value;
     let query = {[field]: JSON.parse(value)};
@@ -102,12 +69,9 @@ export function getNotesByQuery(req: Request, res: Response) {
 // example body:
 //   {
 //      "name":"custom name",
-//      "adress":"custom adress",
-//      "author_id":"some id",
-//      "category_id":"some id",
-//      "description":"custom description"
+//      "category_id":"some id"
 // }
-export function insertNote(req: Request, res: Response) {
+export function insertSubcategory(req: Request, res: Response) {
     const subcategory: Subcategory = new Subcategory(
         req.body.category_id,
         req.body.name
@@ -129,22 +93,14 @@ export function insertNote(req: Request, res: Response) {
 // [
 //     {
 //        "name":"custom name",
-//        "adress":"custom adress",
-//        "author_id":{"$oid":"64a49ff9a1caf26fbfaa2dbb"},
-//        "category_id":{"$oid":"64a4a1d1a1caf26fbfaa2dc1"},
-//        "sucategory_id":{"$oid":"64a4a367a1caf26fbfaa2dcc"},
-//        "description":"custom description"
+//        "category_id":{"$oid":"64a4a1d1a1caf26fbfaa2dc1"}
 //     },
     // {
-    //    "name":"custom name2",
-    //    "adress":"custom adress2",
-    //    "author_id":{"$oid":"64a49ff9a1caf26fbfaa2dbb"},
-    //    "category_id":{"$oid":"64a4a1d1a1caf26fbfaa2dc1"},
-    //    "sucategory_id":{"$oid":"64a4a367a1caf26fbfaa2dcc"},
-    //    "description":"custom description2"
+    //    "name":"custom name2"
+    //    "category_id":{"$oid":"64a4a1d1a1caf26fbfaa2dc1"}
     // }
 //  ]
-export function insertMultipleNotes(req: Request, res: Response) {
+export function insertMultipleSubcategories(req: Request, res: Response) {
     const subcategories = req.body;
     let counter = 0;
     subcategories.forEach((element: Subcategory) => {
@@ -170,7 +126,7 @@ export function insertMultipleNotes(req: Request, res: Response) {
 // /subcategory/{id}
 // example:
 //  http://localhost:3000/subcategory/6490d3e5982efd2fe9136154
-export function deleteNote(req: Request, res: Response) {
+export function deleteSubcategory(req: Request, res: Response) {
     const id = req.params.id;
     const result = global.deleteItemById(id, table_name);
     result.then((value) => {
@@ -189,7 +145,7 @@ export function deleteNote(req: Request, res: Response) {
 //  "6490d9f9dfd298aad1e8f135",
 //  "6490d9fddfd298aad1e8f136"]
 
-export function deleteMultipleNotes(req: Request, res: Response) {
+export function deleteMultipleSubcategories(req: Request, res: Response) {
     const ids = req.body;
     let counter = 0;
     ids.forEach((element: string) => {
@@ -212,7 +168,7 @@ export function deleteMultipleNotes(req: Request, res: Response) {
 // /subcategories/{field}&{value}
 // example:
 //  http://localhost:3000/subcategories/published&true
-export function deleteNotesByQuery(req: Request, res: Response) {
+export function deleteSubcategoriesByQuery(req: Request, res: Response) {
     const field = req.params.field;
     const value = req.params.value;
     let query = {[field]: JSON.parse(value)};
@@ -230,10 +186,9 @@ export function deleteNotesByQuery(req: Request, res: Response) {
 //  http://localhost:3000/subcategory/6490d3e5982efd2fe9136154
 // example body:
 //   {
-//      "name":"custom name",
-//      "description":"custom description"
+//      "name":"custom name"
 // }
-export function updateNote(req: Request, res: Response) {
+export function updateSubcategory(req: Request, res: Response) {
     const id = req.params.id;
     const query = req.body;
     const result = global.updateItemById(id, table_name, query);
@@ -256,11 +211,10 @@ export function updateNote(req: Request, res: Response) {
 //      "6490d9fddfd298aad1e8f136"]
 //     ],
 //     "query":{
-//        "name":"custom name",
-//        "description":"custom description"
+//        "name":"custom name"
 //     }
 //  }
-export function updateMultipleNotes(req: Request, res: Response) {
+export function updateMultipleSubcategories(req: Request, res: Response) {
     const ids = req.body.ids;
     const updateQuery = req.body.query;
     let counter = 0;
@@ -290,7 +244,7 @@ export function updateMultipleNotes(req: Request, res: Response) {
 //      "name":"custom name",
 //      "description":"custom description"
 // }
-export function updateNotesByQuery(req: Request, res: Response) {
+export function updateSubcategoriesByQuery(req: Request, res: Response) {
     const field = req.params.field;
     const value = req.params.value;
     const updateQuery = req.body;
@@ -311,12 +265,9 @@ export function updateNotesByQuery(req: Request, res: Response) {
 // example body:
 //   {
 //      "name":"custom name",
-//      "adress":"custom adress",
-//      "author_id":"some id",
-//      "category_id":"some id",
-//      "description":"custom description"
+//      "category_id":"some id"
 // }
-export function replaceNote(req: Request, res: Response) {
+export function replaceSubcategory(req: Request, res: Response) {
     const id = req.params.id;
     const query = req.body;
     let subcategory: Subcategory;
@@ -335,7 +286,7 @@ export function replaceNote(req: Request, res: Response) {
 // /stealsubcategory/{id}
 // example:
 //  http://localhost:3000/stealsubcategory/6490d3e5982efd2fe9136154
-export function stealNote(req: Request, res: Response) {
+export function stealSubcategory(req: Request, res: Response) {
     const id = req.params.id;
     const result = global.stealItemById(id, table_name);
     result.then((value) => {

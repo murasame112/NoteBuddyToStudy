@@ -1,6 +1,5 @@
 import { ObjectId } from 'bson';
 export class User{
-    id: ObjectId
     name: string
     avatar_url: string
     login: string // mail
@@ -15,7 +14,7 @@ export class User{
     notifications: Array<Notification>
     
 
-    constructor(id: ObjectId, 
+    constructor(
         name: string,
         avatar_url: string,
         login: string,
@@ -28,7 +27,6 @@ export class User{
         blocked_users?: Array<ObjectId>,
         notifications?: Array<Notification>) {
 
-            this.id = id;
             this.name = name;
             this.avatar_url = avatar_url;
             this.login = login;
