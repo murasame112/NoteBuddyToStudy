@@ -345,7 +345,6 @@ export function updateNotesByQuery(req: Request, res: Response) {
 }
 
 
-// TODO: zrobić tak, żeby tworzyło nowy obiekt Note przed zastąpieniem
 // replaces note by id with new note passed in request body
 // /note/{id}
 // headers:
@@ -363,7 +362,21 @@ export function updateNotesByQuery(req: Request, res: Response) {
 export function replaceNote(req: Request, res: Response) {
     const id = req.params.id;
     const query = req.body;
-    const result = global.replaceItemById(id, table_name, query);
+    let note: Note;
+    note = new Note(
+        query.name, 
+        query.author_id, 
+        query.category_id, 
+        query.subcategory_id, 
+        query.adress, 
+        query.description, 
+        query.shared_date, 
+        query.last_edit_date, 
+        query.published, 
+        query.positive_reviews, 
+        query.negative_reviews
+    );
+    const result = global.replaceItemById(id, table_name, note);
     result.then((value) => {
         (value.acknowledged ? res.status(201).send() : res.status(400).send('Error'));
     });
@@ -374,12 +387,24 @@ export function replaceNote(req: Request, res: Response) {
 // /stealnote/{id}
 // example:
 //  http://localhost:3000/stealnote/6490d3e5982efd2fe9136154
-// TODO: poprawić zeby zwracalo obiekt typu note
 export function stealNote(req: Request, res: Response) {
     const id = req.params.id;
     const result = global.stealItemById(id, table_name);
     result.then((value) => {
-        res.status(201).send(value.value);
+        let note: Note;
+        note = new Note(
+            value.value.name, 
+            value.value.author_id, 
+            value.value.category_id, 
+            value.value.subcategory_id, 
+            value.value.adress, 
+            value.value.description, 
+            value.value.shared_date, 
+            value.value.last_edit_date, 
+            value.value.published, 
+            value.value.positive_reviews, 
+            value.value.negative_reviews
+        );
+        res.status(201).send(note);
     });
 }
-
