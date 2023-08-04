@@ -34,17 +34,6 @@ export function getAllCategories(req: Request, res: Response) {
     });
 }
 
-
-// finds all categories
-// /categories
-// headers:
-//  Content-Type: application/json
-// example:
-//  http://localhost:3000/categories
-export function getAllCategories(req: Request, res: Response) {
-}
-
-
 // finds category multiple categories by field and value
 // /categories/{field}&{value}
 // example:
