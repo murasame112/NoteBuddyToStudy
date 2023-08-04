@@ -1,0 +1,45 @@
+#container
+{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 5rem;
+
+}
+
+.column
+{
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+gap: 1.2rem;
+}
+
+.courses-span
+{
+  color: white;
+  font-family: 'poppins',sans-serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+
+}
+
+@media(max-width:776px)
+{
+  #container
+  {
+    gap: 1rem;
+    flex-direction: column;
+  }
+}
+
+@media (max-width:480px)
+{
+  .courses-span
+{
+  font-size: 1rem;
+}
+
+}
