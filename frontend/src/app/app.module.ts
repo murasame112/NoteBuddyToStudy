@@ -1,12 +1,26 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import {HttpClientModule} from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { PageErrorComponent } from './components/page-error/page-error.component';
 import { FeaturesComponent } from './components/landing-page/features/features.component';
 import { CoursesComponent } from './components/landing-page/courses/courses.component';
+import { LoginPageComponent } from './components/login-page/login-page.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RegisterPageComponent } from './components/register-page/register-page.component';
+import { MainMenuComponent } from './components/main-menu/main-menu.component';
+import { NavbarComponent } from './components/main-menu/navbar/navbar.component';
+import { FooterComponent } from './components/main-menu/footer/footer.component';
+import { NotesComponent } from './components/main-menu/functions/notes/notes.component';
+import { NoteAddComponent } from './components/main-menu/functions/note-add/note-add.component';
+import { CardAddComponent } from './components/main-menu/functions/card-add/card-add.component';
+import { SearchForBuddyComponent } from './components/main-menu/functions/search-for-buddy/search-for-buddy.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+
+
 
 @NgModule({
   declarations: [
@@ -14,11 +28,25 @@ import { CoursesComponent } from './components/landing-page/courses/courses.comp
     LandingPageComponent,
     PageErrorComponent,
     FeaturesComponent,
-    CoursesComponent
+    CoursesComponent,
+    LoginPageComponent,
+    RegisterPageComponent,
+    MainMenuComponent,
+    NavbarComponent,
+    FooterComponent,
+    NotesComponent,
+    NoteAddComponent,
+    CardAddComponent,
+    SearchForBuddyComponent,
+
+
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

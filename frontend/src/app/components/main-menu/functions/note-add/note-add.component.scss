@@ -1,0 +1,333 @@
+#container
+{
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 0.5fr 3fr 0.4fr;
+  grid-template-areas:
+  'nav'
+  'main'
+  'footer';
+  gap: 5rem;
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  row-gap: 0;
+  font-family: 'poppins', sans-serif;
+  font-size: 1rem;
+}
+
+nav
+{
+  grid-area: nav;
+  width: 100%;
+  height: 100%;
+
+}
+
+main
+{
+  grid-area: main;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}
+
+footer
+{
+  grid-area: footer;
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: #222;
+  padding: 0;
+  margin: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.displayClass
+{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+
+}
+
+#addForm1
+{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 60rem;
+  height: 35rem;
+  background-color: #F7F7F7;
+  border-radius: 1rem;
+  gap: 2rem;
+
+}
+
+#titleBox
+{
+
+}
+#titleBox input
+{
+  width: 35rem;
+  background-color: #F7F7F7;
+
+}
+
+#titleBox input:focus
+{
+  border-color: #861486;
+  box-shadow: 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.075)
+  inset, 0rem 0px 0.2rem rgb(97, 6, 116);
+
+}
+
+.form-select:focus{
+  border-color: #861486;
+  box-shadow: 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.075)
+  inset, 0rem 0px 0.2rem rgb(97, 6, 116);
+}
+
+
+#descBox
+{
+
+}
+
+#descBox textarea
+{
+  width: 35rem;
+  height: 20rem;
+  resize: none;
+  border: 1px solid #d8d7d7;
+  background-color: #F7F7F7;
+  overflow: auto;
+  outline: none;
+  box-shadow: none;
+
+
+}
+
+#optionBox
+{
+  // width: 40rem;
+  // height: 2rem;
+  gap: 2rem;
+  // background-color: pink;
+}
+
+// select
+// {
+//   border: none;
+//   outline: none;
+//   box-shadow: none;
+//   background-color: #eceaea;
+//   // border: 1px solid #d8d7d7;
+//   width: 10rem;
+//   height: 2rem;
+
+// }
+
+
+#addNoteBtn
+{
+  width: 10rem;
+  height: 2rem;
+  background-color: #87CA52;
+  color: white;
+  border-radius: 1rem;
+  border: none;
+}
+
+#addNoteBtn:hover
+{
+  cursor: pointer;
+}
+
+
+
+
+@media(max-width:960px)
+{
+  #addForm1
+{
+  width: 50rem;
+  height: 38rem;
+  gap: 1rem;
+
+}
+
+.displayClass
+{
+  gap: 1rem;
+
+}
+
+#titleBox input
+{
+  width: 35rem;
+}
+
+#descBox textarea
+{
+  width: 35rem;
+  height: 20rem;
+}
+
+#optionBox
+{
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+
+#optionBox select
+{
+width: 12rem;
+}
+
+.optLabel
+{
+text-align: center;
+  width: 5rem;
+}
+
+#addNoteBtn
+{
+  width: 10rem;
+  height: 2rem;
+}
+
+}
+
+@media(max-width:810px)
+{
+  #addForm1
+{
+  width: 40rem;
+}
+
+#titleBox input
+{
+  width: 25rem;
+}
+
+#descBox textarea
+{
+  width: 25rem;
+  height: 20rem;
+}
+
+}
+
+@media(max-width:660px)
+{
+  #addForm1
+{
+  width: 30rem;
+}
+
+#titleBox input
+{
+  width: 20rem;
+}
+
+#descBox textarea
+{
+  width: 20rem;
+}
+}
+
+
+@media(max-width:530px)
+{
+  #addForm1
+{
+  width: 25rem;
+}
+
+#titleBox input
+{
+  width: 15rem;
+}
+
+#descBox textarea
+{
+  width: 15rem;
+}
+
+}
+
+
+@media(max-width:430px)
+{
+  main
+  {
+    height: 45rem;
+  }
+  #addForm1
+  {
+    width: 20rem;
+    height: 42rem;
+  }
+
+  #titleBox
+  {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  #descBox
+  {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0.5rem;
+
+  }
+}
+
+@media(max-width:340px)
+{
+
+  main
+  {
+    height: 50rem;
+  }
+
+  #addForm1
+  {
+    width: 18rem;
+    height: 48rem;
+  }
+
+
+  .displayClass
+  {
+    flex-direction: column;
+    align-items: start;
+    gap: 0.4rem;
+  }
+
+.optLabel
+{
+  // background-color: pink;
+  width: auto;
+}
+}
+

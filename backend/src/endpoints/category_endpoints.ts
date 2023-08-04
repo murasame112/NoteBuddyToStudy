@@ -248,8 +248,27 @@ export function updateCategoriesByQuery(req: Request, res: Response) {
 }
 
 
-// TODO: poprawić w notatkach najpierw
+// replaces category by id with new category passed in request body
+// /category/{id}
+// headers:
+//  Content-Type: application/json
+// example:
+//  http://localhost:3000/category/6490d3e5982efd2fe9136154
+// example body:
+//   {
+//      "name":"custom name"
+// }
 export function replaceCategory(req: Request, res: Response) {
+    const id = req.params.id;
+    const query = req.body;
+    let category: Category;
+    category = new Category(
+        query.name
+    );
+    const result = global.replaceItemById(id, table_name, category);
+    result.then((value) => {
+        (value.acknowledged ? res.status(201).send() : res.status(400).send('Error'));
+    });
 }
 
 
@@ -257,11 +276,14 @@ export function replaceCategory(req: Request, res: Response) {
 // /stealcategory/{id}
 // example:
 //  http://localhost:3000/stealcategory/6490d3e5982efd2fe9136154
-// TODO: poprawić, żeby zwracało obiekt typu Category
 export function stealCategory(req: Request, res: Response) {
     const id = req.params.id;
     const result = global.stealItemById(id, table_name);
     result.then((value) => {
-        res.status(201).send(value.value);
+        let category: Category;
+        category = new Category(
+            value.value.name
+        );
+        res.status(201).send(category);
     });
 }

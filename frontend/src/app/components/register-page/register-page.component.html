@@ -1,0 +1,48 @@
+<main>
+  <div id="leftSide">
+    <img src="../../../assets/login_ellipse.png" alt="" id="login-img">
+    <img src="../../../assets/login_Ellipse_small.png" alt="" id="login-img-small">
+    <img src="../../../assets/login_Ellipse_mobile.png" alt="" id="login-img-mobile">
+    <span id="logo">NoteBuddy<br><span id="logo2">To</span>Study</span>
+  </div>
+
+
+  <div id="page-name">Rejestracja</div>
+  <div id="register-form">
+    <form [formGroup]="registerForm">
+      <label class="form-labels">Login</label><br>
+      <input type="text" placeholder="wpisz login" class="form-inputs"><br><br>
+      <label class="form-labels">Adres e-mail</label><br>
+      <input type="text" placeholder="wpisz e-mail" class="form-inputs"><br><br>
+      <label class="form-labels">Hasło</label><br>
+      <input type="password" placeholder="minimum 7 znaków" class="form-inputs"><br><br>
+      <input type="submit" value="Zarejestruj się" id="register-btn">
+    </form>
+
+  </div>
+
+  <div id="login-to-account-div">
+    <span id="login-to-account">masz już konto? <span id="login-to-account-link" routerLink="/login">zaloguj się</span></span>
+  </div>
+
+
+  <div id="orDiv">
+    <div class="orLine-line"></div>
+    <span id="orSpan" class="form-labels">lub</span>
+    <div class="orLine-line"></div>
+  </div>
+
+  <div class="LoginWithPlatformBtn" id="loginByPlatformG">
+    <img src="../../../assets/login_google_logo.png" alt="" class="img-platform">
+    <span class="LoginWithPlatformSpan">Zaloguj się przez google</span>
+  </div>
+
+  <div class="LoginWithPlatformBtn" id="loginByPlatformF">
+    <img src="../../../assets/login_facebook_logo.png" alt="" class="img-platform">
+    <span class="LoginWithPlatformSpan">Zaloguj się przez facebook</span>
+  </div>
+
+
+
+
+  </main>

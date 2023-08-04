@@ -1,0 +1,354 @@
+#containerNav
+{
+  display: grid;
+  grid-template-columns: 0.5fr 0.5fr 1fr 1fr 0.5fr 0.5fr  0.5fr 0.1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas:
+   'logo notes advices learnTogether chat followers  user-menu .';
+  background-color: #310B61;
+  align-items: center;
+  justify-items: center;
+  text-align: center;
+}
+
+#logo
+{
+  grid-area: logo;
+  font-family: 'poppins', sans-serif;
+  font-size: 1.2rem;
+  color: white;
+  font-weight: 600;
+  justify-self: flex-start;
+  margin-left: 0.5rem;
+}
+
+#logo2
+{
+  color: #F89E30;
+
+}
+
+#notes-btn
+{
+grid-area: notes;
+
+}
+
+#advices-btn
+{
+  grid-area: advices;
+}
+
+#learnTogether-btn
+{
+  grid-area: learnTogether;
+}
+
+#chat-btn
+{
+  grid-area: chat;
+}
+
+#followers-btn
+{
+  grid-area: followers;
+
+}
+
+.nav-btn
+{
+  font-family: 'poppins', sans-serif;
+  font-size: 1rem;
+  color: white;
+  font-weight: 400;
+  text-decoration: none;
+  transition: color 0.5s ease-out;
+}
+
+.nav-btn:hover
+{
+  color:#F89E30 ;
+  cursor: pointer;
+}
+
+.menu-btn
+{
+  display: none;
+  color: white;
+  font-family: 'poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  text-decoration: none;
+  transition: color 0.5s ease-out;
+}
+
+.menu-btn:hover
+{
+  color:#F89E30 ;
+  cursor: pointer;
+
+}
+
+#profile-btn
+{
+  position: absolute;
+  z-index: 10;
+  top: 15rem;
+  right: 11.7rem;
+}
+
+#settings-btn
+{
+  position: absolute;
+  z-index: 10;
+  top: 17rem;
+  right: 8.7rem;
+}
+
+
+#hamburgerIcon-close
+{
+  color: white;
+  position: absolute;
+  z-index: 10;
+  right: 1rem;
+  top: 1.5rem;
+  display: none;
+}
+
+#hamburgerIcon-close:hover
+{
+  cursor: pointer;
+}
+
+
+#avatar-and-menu
+{
+  // background-color: red;
+  width: 100%;
+  height: 100%;
+  grid-area: user-menu;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+
+}
+
+#avatar
+{
+
+  width: 5rem;
+  height: 4rem;
+  // background-color: blue;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#avatar-img
+{
+  height: 3rem;
+  width: 3rem;
+  background-color: #F89E30;
+}
+
+#avatar-login-name
+{
+  width: 5rem;
+  height: 1.2rem;
+  font-family: 'poppins', sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  background-color: paleturquoise;
+}
+
+#hamburgerIcon
+{
+color: white;
+}
+
+#hamburgerIcon:hover
+{
+  cursor: pointer;
+}
+
+#hamburgerBar
+{
+  display: none;
+  background-color: #320b61ea;
+  height: 25rem;
+  width: 15rem;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 8;
+  border-radius: 0rem 0rem 0rem .5rem;
+}
+
+
+
+@media (max-width:1280px)
+{
+  #logo
+{
+  font-size: 1rem;
+  margin-left: 0.5rem;
+}
+
+.nav-btn
+{
+  display: block;
+  font-size: 0.8rem;
+}
+
+.menu-btn
+{
+  font-size: 0.9rem;
+}
+
+#settings-btn
+{
+
+  right: 9rem;
+}
+
+#avatar-and-menu
+{
+  gap: 0.2rem;
+
+}
+
+#avatar
+{
+
+  width: 5rem;
+  height: 4rem;
+}
+
+#avatar-img
+{
+  height: 2.5rem;
+  width: 2.5rem;
+}
+
+#avatar-login-name
+{
+  width: 4rem;
+  height: 1.2rem;
+  font-size: 0.8rem;
+}
+}
+
+@media(max-width:1000px)
+{
+  #logo
+  {
+    font-size: .8rem;
+  }
+
+  // #hamburgerIcon
+  // {
+  //  padding-right: 1rem;
+  // }
+}
+
+@media (max-width:650px)
+{
+  #containerNav
+{
+  grid-template-columns: 1fr 2fr 0.5fr;
+  grid-template-rows: 1fr;
+  grid-template-areas:
+   'logo empty user-menu';
+  background-color: #320b61;
+  align-items: center;
+  justify-items: center;
+  text-align: center;
+
+
+}
+
+.nav-btn
+{
+  display: none;
+}
+
+
+#notes-btn
+{
+
+  position: absolute;
+  z-index: 10;
+  right: 11.2rem;
+  top: 5rem;
+}
+
+#advices-btn
+{
+  position: absolute;
+  z-index: 10;
+  right: 3.8rem;
+  top: 7rem;
+}
+
+#learnTogether-btn
+{
+  position: absolute;
+  z-index: 10;
+  right: 1rem;
+  top: 9rem;
+}
+
+#chat-btn
+{
+  position: absolute;
+  z-index: 10;
+  right: 12.15rem;
+  top: 11rem;
+}
+
+#followers-btn
+{
+  position: absolute;
+  z-index: 10;
+  right: 8.5rem;
+  top: 13rem;
+}
+
+.menu-btn
+{
+  display: none;
+}
+
+
+#avatar-and-menu
+{
+  justify-content: center;
+}
+
+
+
+#avatar
+{
+  display: none;
+}
+
+
+
+#hamburgerBar
+{
+  display: none;
+  background-color: #320b61ea;
+  // background-color: #310B61;
+  height: 25rem;
+  width: 15rem;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 8;
+  border-radius: 0rem 0rem 0rem .5rem;
+}
+
+}
