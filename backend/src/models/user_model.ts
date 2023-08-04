@@ -1,4 +1,5 @@
 import { ObjectId } from 'bson';
+import { Notification } from './notification_model';
 export class User{
     name: string
     avatar_url: string

@@ -1,6 +1,5 @@
 import { ObjectId } from 'bson';
 export class Subcategory{
-    id: ObjectId
     category_id: ObjectId
     name: string
       

@@ -3,6 +3,9 @@ import { Console } from 'console';
 import { Request, Response } from 'express';
 import { ObjectId } from 'bson';
 import * as noteEndpoints from "./endpoints/note_endpoints";
+import * as userEndpoints from "./endpoints/user_endpoints";
+import * as categoryEndpoints from "./endpoints/category_endpoints";
+import * as subcategoryEndpoints from "./endpoints/subcategory_endpoints";
 
 const app = express() ;
 app.use(express.json());
@@ -23,7 +26,53 @@ app.patch('/notes/:field&:value',  noteEndpoints.updateNotesByQuery);
 app.patch('/notes',  noteEndpoints.updateMultipleNotes);
 app.put('/note/:id',  noteEndpoints.replaceNote);
 
+// ============== USER ENDPOINTS ==============
 
+app.get('/user/:id', userEndpoints.getUserById);
+app.get('/stealuser/:id', userEndpoints.stealUser);
+app.get('/users', userEndpoints.getAllUsers);
+app.get('/users/:field&:value', userEndpoints.getUsersByQuery);
+app.post('/user', userEndpoints.insertUser);
+app.post('/users', userEndpoints.insertMultipleUsers);
+app.delete('/user/:id', userEndpoints.deleteUser);
+app.delete('/users', userEndpoints.deleteMultipleUsers);
+app.delete('/users/:field&:value', userEndpoints.deleteUsersByQuery);
+app.patch('/user/:id',  userEndpoints.updateUser);
+app.patch('/users/:field&:value',  userEndpoints.updateUsersByQuery);
+app.patch('/users',  userEndpoints.updateMultipleUsers);
+app.put('/user/:id',  userEndpoints.replaceUser);
+
+// ============== CATEGORY ENDPOINTS ==============
+
+app.get('/category/:id', categoryEndpoints.getCategoryById);
+app.get('/stealcategory/:id', categoryEndpoints.stealCategory);
+app.get('/categories', categoryEndpoints.getAllCategories);
+app.get('/categories/:field&:value', categoryEndpoints.getCategoriesByQuery);
+app.post('/category', categoryEndpoints.insertCategory);
+app.post('/categories', categoryEndpoints.insertMultipleCategories);
+app.delete('/category/:id', categoryEndpoints.deleteCategory);
+app.delete('/categories', categoryEndpoints.deleteMultipleCategories);
+app.delete('/categories/:field&:value', categoryEndpoints.deleteCategoriesByQuery);
+app.patch('/category/:id',  categoryEndpoints.updateCategory);
+app.patch('/categories/:field&:value',  categoryEndpoints.updateCategoriesByQuery);
+app.patch('/categories',  categoryEndpoints.updateMultipleCategories);
+app.put('/category/:id',  categoryEndpoints.replaceCategory);
+
+// ============== SUBCATEGORY ENDPOINTS ==============
+
+app.get('/subcategory/:id', subcategoryEndpoints.getSubcategoryById);
+app.get('/stealsubcategory/:id', subcategoryEndpoints.stealSubcategory);
+app.get('/subcategories', subcategoryEndpoints.getAllSubcategories);
+app.get('/subcategories/:field&:value', subcategoryEndpoints.getSubcategoriesByQuery);
+app.post('/subcategory', subcategoryEndpoints.insertSubcategory);
+app.post('/subcategories', subcategoryEndpoints.insertMultipleSubcategories);
+app.delete('/subcategory/:id', subcategoryEndpoints.deleteSubcategory);
+app.delete('/subcategories', subcategoryEndpoints.deleteMultipleSubcategories);
+app.delete('/subcategories/:field&:value', subcategoryEndpoints.deleteSubcategoriesByQuery);
+app.patch('/subcategory/:id',  subcategoryEndpoints.updateSubcategory);
+app.patch('/subcategories/:field&:value',  subcategoryEndpoints.updateSubcategoriesByQuery);
+app.patch('/subcategories',  subcategoryEndpoints.updateMultipleSubcategories);
+app.put('/subcategory/:id',  subcategoryEndpoints.replaceSubcategory);
 
     // =============== ponizej notatki, do usuniecia potem ==============
 //app.get('/', function (req, res) { 
