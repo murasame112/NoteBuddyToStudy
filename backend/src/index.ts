@@ -6,6 +6,7 @@ import * as noteEndpoints from "./endpoints/note_endpoints";
 import * as userEndpoints from "./endpoints/user_endpoints";
 import * as categoryEndpoints from "./endpoints/category_endpoints";
 import * as subcategoryEndpoints from "./endpoints/subcategory_endpoints";
+import * as notificationEndpoints from "./endpoints/notification_endpoints";
 
 const app = express() ;
 app.use(express.json());
@@ -73,6 +74,22 @@ app.patch('/subcategory/:id',  subcategoryEndpoints.updateSubcategory);
 app.patch('/subcategories/:field&:value',  subcategoryEndpoints.updateSubcategoriesByQuery);
 app.patch('/subcategories',  subcategoryEndpoints.updateMultipleSubcategories);
 app.put('/subcategory/:id',  subcategoryEndpoints.replaceSubcategory);
+
+// ============== NOTIFICATION ENDPOINTS ==============
+
+app.get('/notification/:id', notificationEndpoints.getNotificationById);
+app.get('/stealnotification/:id', notificationEndpoints.stealNotification);
+app.get('/notifications', notificationEndpoints.getAllNotifications);
+app.get('/notifications/:field&:value', notificationEndpoints.getNotificationsByQuery);
+app.post('/notification', notificationEndpoints.insertNotification);
+app.post('/notifications', notificationEndpoints.insertMultipleNotifications);
+app.delete('/notification/:id', notificationEndpoints.deleteNotification);
+app.delete('/notifications', notificationEndpoints.deleteMultipleNotifications);
+app.delete('/notifications/:field&:value', notificationEndpoints.deleteNotificationsByQuery);
+app.patch('/notification/:id',  notificationEndpoints.updateNotification);
+app.patch('/notifications/:field&:value',  notificationEndpoints.updateNotificationsByQuery);
+app.patch('/notifications',  notificationEndpoints.updateMultipleNotifications);
+app.put('/notification/:id',  notificationEndpoints.replaceNotification);
 
     // =============== ponizej notatki, do usuniecia potem ==============
 //app.get('/', function (req, res) { 
