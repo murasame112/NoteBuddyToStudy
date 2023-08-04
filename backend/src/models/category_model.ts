@@ -4,10 +4,7 @@ export class Category{
     name: string
       
 
-    constructor(id: ObjectId, 
-        name: string) {
-        
-            this.id = id;
+    constructor(name: string) {
             this.name = name;
     }
 
