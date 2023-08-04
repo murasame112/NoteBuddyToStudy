@@ -387,12 +387,24 @@ export function replaceNote(req: Request, res: Response) {
 // /stealnote/{id}
 // example:
 //  http://localhost:3000/stealnote/6490d3e5982efd2fe9136154
-// TODO: poprawić zeby zwracalo obiekt typu note
 export function stealNote(req: Request, res: Response) {
     const id = req.params.id;
     const result = global.stealItemById(id, table_name);
     result.then((value) => {
-        res.status(201).send(value.value);
+        let note: Note;
+        note = new Note(
+            value.value.name, 
+            value.value.author_id, 
+            value.value.category_id, 
+            value.value.subcategory_id, 
+            value.value.adress, 
+            value.value.description, 
+            value.value.shared_date, 
+            value.value.last_edit_date, 
+            value.value.published, 
+            value.value.positive_reviews, 
+            value.value.negative_reviews
+        );
+        res.status(201).send(note);
     });
 }
-
