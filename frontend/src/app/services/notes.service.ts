@@ -16,7 +16,13 @@ export class NotesService {
   addNote(note:Note):Observable<any>
   {
 
-    const url = `${this.apiUrl}/note-add`;
+    const url = `${this.apiUrl}/note`;
     return this.http.post(url,note);
+  }
+
+  getNotes()
+  {
+    const url = `${this.apiUrl}/notes`;
+    return this.http.get(url);
   }
 }

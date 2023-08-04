@@ -1,16 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NotesService } from '../../../../services/notes.service';
 import {Note} from '../../../../models/note.model';
 import { first } from 'rxjs';
+import {map} from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-notes',
   templateUrl: './notes.component.html',
   styleUrls: ['./notes.component.scss']
 })
-export class NotesComponent {
+export class NotesComponent implements OnInit{
 
   constructor(private notesService: NotesService) {}
+  ngOnInit(): void {
+    this.getNotes();
+  }
+
+  allNotes:Note[] = [];
+
 
   addNote() {
 
@@ -32,6 +40,32 @@ export class NotesComponent {
     //     console.error(error);
     //   }
     // );
+  }
+
+  getNotes()
+  {
+    this.notesService.getNotes()
+    .pipe(map((response:any)=>
+    {
+      const notes = [];
+      for(const key in response)
+      {
+
+        if(response.hasOwnProperty(key))
+        {
+          notes.push({...response[key], id: key})
+        }
+
+      }
+      return notes;
+    }
+    ))
+    .subscribe(
+      (res)=>{
+        console.log(res);
+        this.allNotes = res;
+      }
+      );
   }
 
 }

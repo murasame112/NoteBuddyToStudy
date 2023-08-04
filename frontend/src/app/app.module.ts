@@ -18,6 +18,7 @@ import { NoteAddComponent } from './components/main-menu/functions/note-add/note
 import { CardAddComponent } from './components/main-menu/functions/card-add/card-add.component';
 import { SearchForBuddyComponent } from './components/main-menu/functions/search-for-buddy/search-for-buddy.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NotesContainerComponent } from './components/main-menu/functions/notes/notes-container/notes-container.component';
 
 
 
@@ -38,6 +39,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     NoteAddComponent,
     CardAddComponent,
     SearchForBuddyComponent,
+    NotesContainerComponent,
 
 
   ],

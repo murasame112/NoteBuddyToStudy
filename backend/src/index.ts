@@ -11,6 +11,21 @@ import * as notificationEndpoints from "./endpoints/notification_endpoints";
 const app = express() ;
 app.use(express.json());
 
+//===============================CORS===============================
+
+const cors= require('cors');
+app.use(cors())
+
+// app.use(
+//   cors({
+//     origin:"http://localhost:4200",
+
+//   }) 
+// )
+
+
+
+
 // ============== NOTE ENDPOINTS ==============
 
 app.get('/note/:id', noteEndpoints.getNoteById);
@@ -90,6 +105,13 @@ app.patch('/notification/:id',  notificationEndpoints.updateNotification);
 app.patch('/notifications/:field&:value',  notificationEndpoints.updateNotificationsByQuery);
 app.patch('/notifications',  notificationEndpoints.updateMultipleNotifications);
 app.put('/notification/:id',  notificationEndpoints.replaceNotification);
+
+
+
+
+
+
+
 
     // =============== ponizej notatki, do usuniecia potem ==============
 //app.get('/', function (req, res) { 
