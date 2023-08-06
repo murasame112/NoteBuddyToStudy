@@ -12,9 +12,17 @@ export class NotesContainerComponent implements OnInit{
 
 @Input() data:any
 
+
+
   constructor(private notesService: NotesService) {}
 
   ngOnInit(): void {
-
   }
+
+ getCategory(id:string)
+ {
+  // console.log(id);
+  // this.notesService.getCategoryById(id);
+
+ }
 }

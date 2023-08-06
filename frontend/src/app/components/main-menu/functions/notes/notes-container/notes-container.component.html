@@ -3,7 +3,7 @@
 <span class="spans" id="desc">{{data.description}}</span>
 
 <div id="categories">
-  <span class="categoriesC" id="course">kierunek</span>
+  <span class="categoriesC" id="course">kierunek {{getCategory(data.category_id)}}</span>
   <span class="categoriesC" id="subcategory">temat</span>
 </div>
 
@@ -12,12 +12,12 @@
 
   <div id="rates">
     <button class="ratesBtns">
-      <span  id="likeNumber">{{data.positive_rates}}</span>
+      <span  id="likeNumber">{{data.positive_reviews}}</span>
       <i class="fa fa-solid fa-thumbs-up fa-lg"></i>
     </button>
 
     <button class="ratesBtns">
-      <span  id="dislikeNumber">{{data.negative_rates}}</span>
+      <span  id="dislikeNumber">{{data.negative_reviews}}</span>
       <i class="fa-solid fa-thumbs-down fa-lg"></i>
     </button>
   </div>

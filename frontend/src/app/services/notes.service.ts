@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
 import { Note } from '../models/note.model';
 import {HttpClient} from '@angular/common/http';
+import {map} from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +25,62 @@ export class NotesService {
   getNotes()
   {
     const url = `${this.apiUrl}/notes`;
-    return this.http.get(url);
+    return this.http.get(url)
+    .pipe(map((response:any)=>
+    {
+      const notes = [];
+      for(const key in response)
+      {
+
+        if(response.hasOwnProperty(key))
+        {
+          notes.push({...response[key], id: key})
+        }
+
+      }
+      return notes;
+    }
+    ));
+
+  }
+
+  getCategories()
+  {
+    const url = `${this.apiUrl}/categories`;
+    return this.http.get(url)
+    .pipe(map((response:any)=>
+    {
+      const categories = [];
+      for(const key in response)
+      {
+
+        if(response.hasOwnProperty(key))
+        {
+          categories.push({...response[key], id: key})
+        }
+
+      }
+      return categories;
+    }
+    ));
+  }
+
+  getCategoryById(id:string)
+  {
+    const url =`${this.apiUrl}/category/${id}`
+    return this.http.get(url)
+    .pipe(
+      map((response:any)=>{
+
+        return response;
+      })
+
+    )
+    .subscribe((res)=>{
+      console.log(res.name);
+      // return res.name;
+    })
+
+
   }
 }

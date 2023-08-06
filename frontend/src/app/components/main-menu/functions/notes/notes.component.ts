@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NotesService } from '../../../../services/notes.service';
 import {Note} from '../../../../models/note.model';
 import { first } from 'rxjs';
-import {map} from 'rxjs/operators';
+import {concatAll, map} from 'rxjs/operators';
 
 
 @Component({
@@ -15,9 +15,12 @@ export class NotesComponent implements OnInit{
   constructor(private notesService: NotesService) {}
   ngOnInit(): void {
     this.getNotes();
+    // this.getCategories();
+
   }
 
   allNotes:Note[] = [];
+  allCategories:any[] = [];
 
 
   addNote() {
@@ -40,32 +43,59 @@ export class NotesComponent implements OnInit{
     //     console.error(error);
     //   }
     // );
+  this.getCategoryById("64a4a1d1a1caf26fbfaa2dc1");
+
   }
 
   getNotes()
   {
     this.notesService.getNotes()
-    .pipe(map((response:any)=>
-    {
-      const notes = [];
-      for(const key in response)
-      {
-
-        if(response.hasOwnProperty(key))
-        {
-          notes.push({...response[key], id: key})
-        }
-
-      }
-      return notes;
-    }
-    ))
     .subscribe(
       (res)=>{
         console.log(res);
         this.allNotes = res;
       }
+    );
+  }
+
+  getCategories()
+  {
+    this.notesService.getCategories()
+
+    .subscribe(
+      (res)=>{
+        console.log(res);
+        this.allCategories = res;
+      }
       );
+  }
+
+  getCategoryById(id:string)
+  {
+    // this.notesService.getCategoryById(id)
+    // .pipe(
+    //   map((response:any)=>{
+    //     const name = response;
+    //     return name;
+    //   })
+
+    // )
+
+    // .subscribe(
+    //   (res)=>{
+    //     console.log(res.name)
+    //   }
+    // );
+
+
+
+    // this.notesService.getCategoryById(id)
+    // .subscribe((res)=>{
+    //   console.log(res.name);
+    //   // return res.name;
+    // })
+
+    this.notesService.getCategoryById(id);
   }
 
 }
