@@ -23,6 +23,7 @@ constructor(private notesService: NotesService) {}
        categoryName:Category[] = [];
        category:Category[] =[];
        subcategoryName:Subcategory[] = [];
+       subcategory:Subcategory[] = [];
 
 
 
@@ -54,28 +55,30 @@ constructor(private notesService: NotesService) {}
     addNote(data:any)
     {
 
-console.log(data);
-// console.log(data.courseName.name);
-      console.log(data.noteName)
+      console.log(data);
+      // console.log(data.courseName.name);
+      // console.log(data.noteName)
       //  let newNote:Note = {
       //   name: data[0].value
       //  }
 
-      let newNote: Note =
-      {
-        name:data.noteName,
-        author_id: '64a49ff9a1caf26fbfaa2dbb',
-        category_id:'64a4a1d1a1caf26fbfaa2dc1',
-        subcategory_id:'64a4a367a1caf26fbfaa2dcc',
-        adress:'adres',
-        description: data.noteDesc
-      };
+      // let newNote: Note =
+      // {
+      //   name:data.noteName,
+      //   author_id: '64a49ff9a1caf26fbfaa2dbb',
+      //   category_id:'64a4a1d1a1caf26fbfaa2dc1',
+      //   subcategory_id:'64a4a367a1caf26fbfaa2dcc',
+      //   adress:'adres',
+      //   description: data.noteDesc
+      // };
 
-      this.notesService.addNote(newNote).subscribe(
-        (response)=>{console.log(response)},
+      // this.notesService.addNote(newNote).subscribe(
+      //   (response)=>{console.log(response)},
 
 
-      )
+      // )
+
+     this.categoryArrayList();
 
 
     }
@@ -83,18 +86,22 @@ console.log(data);
     getCategories()
     {
       this.notesService.getCategories().subscribe((res)=>{
-        console.log(res)
+        // console.log(res)
         res.forEach(element => {
           this.categoryName.push(element.name);
 
-          this.category.push(element.id);
-          this.category.push(element.name);
-          this.category.push(element._id);
+          // this.category.push(element.id);
+          // this.category.push(element.name);
+          // this.category.push(element._id);
         });
-      })
 
+        for(let i=0;i<res.length;i++)
+        {
+          this.category.push(res[i])
+          // console.log(this.category)
+        }
 
-    this.getCategoryTest();
+      });
 
     }
 
@@ -103,14 +110,44 @@ console.log(data);
       this.notesService.getSubcategories().subscribe((res)=>{
         res.forEach(e =>{
           this.subcategoryName.push(e.name);
-        })
-      })
+        });
+
+        for(let i=0;i<res.length;i++)
+        {
+          // for(let j=0;j<this.category.length;j++)
+          // {
+          //   if(res[i].category_id ===this.category[j]._id)
+          //   {
+          //     console.log(res[i].category_id);
+          //     console.log(this.category[j]._id);
+
+          //   }
+
+          // }
+
+          this.subcategory.push(res[i])
+          // console.log(this.subcategory)
+        }
+
+      });
     }
 
-    getCategoryTest()
+    categoryArrayList()
     {
-      console.log(this.category);
+      for(let i =0;i<this.category.length;i++)
+      {
+        console.log(this.category[i]);
+      }
+
+      console.warn("================")
+
+      for(let i =0;i<this.subcategory.length;i++)
+      {
+        console.log(this.subcategory[i]);
+      }
     }
+
+
 }
 
 
