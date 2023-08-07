@@ -44,7 +44,6 @@ export class NotesComponent implements OnInit{
     //     console.error(error);
     //   }
     // );
-  this.getCategoryById("64a4a1d1a1caf26fbfaa2dc1");
 
   }
 

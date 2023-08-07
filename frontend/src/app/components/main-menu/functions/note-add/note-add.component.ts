@@ -1,10 +1,12 @@
 
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import { Category } from 'src/app/enums/category';
-import { Subcategory } from 'src/app/enums/subcategory';
+// import { Category } from 'src/app/enums/category';
+// import { Subcategory } from 'src/app/enums/subcategory';
 import { Note } from 'src/app/models/note.model';
 import { NotesService } from 'src/app/services/notes.service';
+import {Category} from '../../../../models/category.model';
+import { Subcategory } from 'src/app/enums/subcategory';
 
 @Component({
   selector: 'app-note-add',
@@ -15,12 +17,19 @@ export class NoteAddComponent implements OnInit{
 
 constructor(private notesService: NotesService) {}
 
-    // category:Array<Category> = [];
-       category = Object.values(Category);
-       subcategory = Object.values(Subcategory);
+
+      //  category = Object.values(Category);
+      //  subcategory = Object.values(Subcategory);
+       categoryName:Category[] = [];
+       category:Category[] =[];
+       subcategoryName:Subcategory[] = [];
+
 
 
   ngOnInit(): void {
+    this.getCategories();
+    this.getSubcategories();
+
     this.addNoteForm = new FormGroup(
       {
         noteName: new FormControl('' ,Validators.required)  ,
@@ -55,9 +64,9 @@ console.log(data);
       let newNote: Note =
       {
         name:data.noteName,
-        author_id: {"$oid":'64a49ff9a1caf26fbfaa2dbb'},
-        category_id: {"$oid":'64a4a1d1a1caf26fbfaa2dc1'},
-        subcategory_id:{"$oid":'64a4a367a1caf26fbfaa2dcc'},
+        author_id: '64a49ff9a1caf26fbfaa2dbb',
+        category_id:'64a4a1d1a1caf26fbfaa2dc1',
+        subcategory_id:'64a4a367a1caf26fbfaa2dcc',
         adress:'adres',
         description: data.noteDesc
       };
@@ -70,4 +79,38 @@ console.log(data);
 
 
     }
+
+    getCategories()
+    {
+      this.notesService.getCategories().subscribe((res)=>{
+        console.log(res)
+        res.forEach(element => {
+          this.categoryName.push(element.name);
+
+          this.category.push(element.id);
+          this.category.push(element.name);
+          this.category.push(element._id);
+        });
+      })
+
+
+    this.getCategoryTest();
+
+    }
+
+    getSubcategories()
+    {
+      this.notesService.getSubcategories().subscribe((res)=>{
+        res.forEach(e =>{
+          this.subcategoryName.push(e.name);
+        })
+      })
+    }
+
+    getCategoryTest()
+    {
+      console.log(this.category);
+    }
 }
+
+

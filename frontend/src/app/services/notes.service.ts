@@ -88,6 +88,28 @@ export class NotesService {
   }
 
 
+  getSubcategories()
+  {
+    const url = `${this.apiUrl}/subcategories`;
+    return this.http.get(url)
+    .pipe(map((response:any)=>
+    {
+      const subcategories = [];
+      for(const key in response)
+      {
+
+        if(response.hasOwnProperty(key))
+        {
+          subcategories.push({...response[key], id: key})
+        }
+
+      }
+      return subcategories;
+    }
+    ));
+  }
+
+
   getSubCategoryById(id:string)
   {
     const url =`${this.apiUrl}/subcategory/${id}`

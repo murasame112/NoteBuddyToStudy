@@ -7,7 +7,26 @@
 
   <main>
 
-    <button (click)="addNote()" id="addNote">dodaj</button>
+    <div id="filters">
+      <div id="categoryAndSubcategory"></div>
+      <div id="authorAndNoteName"></div>
+    </div>
+
+
+
+    <div id="addAndSortBtns">
+      <div [routerLink]="['/note-add']" id="addNote">
+        <i class="fa-solid fa-plus fa-lg" id="addNoteIcon"></i>
+        <span id="addNoteLabel">dodaj notatkę</span>
+      </div>
+
+      <div id="SortBy">
+        <span id="SortByLabel">sortuj po:</span>
+
+      </div>
+
+    </div>
+
 
     <div id="noteContent" >
       <ng-container *ngFor="let note of allNotes">

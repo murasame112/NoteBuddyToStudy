@@ -14,6 +14,8 @@
   row-gap: 0;
   // place-items: center;
   // overflow: hidden;
+  font-family: "poppins", sans-serif;
+
 }
 
 nav
@@ -27,12 +29,39 @@ nav
 main
 {
   grid-area: main;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
 }
 
 #addNote
 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+text-decoration: none;
+color:white;
+background-color: #87CA52;
+width: 10rem;
+height: 2rem;
+border-radius: 2rem;
+}
 
+#addNote:hover
+{
+  cursor: pointer;
+}
+
+#addNoteIcon
+{
+margin-right: .3rem;
+}
+
+#addNoteLabel
+{
+ font-weight: 400;
 }
 
 #noteContent
@@ -42,6 +71,8 @@ main
   gap: 1rem;
   flex-wrap: wrap;
   justify-content: center;
+  padding-top: 1rem;
+  padding-bottom: 1rem ;
 }
 
 footer

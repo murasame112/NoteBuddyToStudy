@@ -22,7 +22,7 @@
         <select formControlName="courseName" class="form-select" >
           <option value="" selected disabled hidden >Wybierz kierunek</option>
 
-            <ng-container  *ngFor="let cat of category; let i = index">
+            <ng-container  *ngFor="let cat of categoryName; let i = index">
              <option  [value]="cat">{{cat}}</option>
             </ng-container>
 
@@ -34,7 +34,7 @@
       <select formControlName="subjectName" class="form-select ">
         <option value="" selected disabled hidden>Wybierz temat</option>
 
-        <ng-container *ngFor="let sub of subcategory">
+        <ng-container *ngFor="let sub of subcategoryName">
           <option [value]="sub">{{sub}}</option>
         </ng-container>
 
