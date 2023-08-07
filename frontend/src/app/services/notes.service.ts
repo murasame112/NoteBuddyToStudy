@@ -67,8 +67,9 @@ export class NotesService {
 
   getCategoryById(id:string)
   {
+
     const url =`${this.apiUrl}/category/${id}`
-    return this.http.get(url)
+    return this.http.get<string>(url)
     .pipe(
       map((response:any)=>{
 
@@ -76,11 +77,41 @@ export class NotesService {
       })
 
     )
-    .subscribe((res)=>{
-      console.log(res.name);
-      // return res.name;
-    })
 
+    // .subscribe(
+    //   (res)=>{
+    //   console.log(res.name);
+    //  return res.name??"";
+    // })
 
+    // return "123";
   }
+
+
+  getSubCategoryById(id:string)
+  {
+    const url =`${this.apiUrl}/subcategory/${id}`
+    return this.http.get<string>(url)
+    .pipe(
+      map((response:any)=>{
+
+        return response;
+      })
+
+    )
+  }
+
+  getUserById(id:string)
+  {
+    const url =`${this.apiUrl}/user/${id}`
+    return this.http.get<string>(url)
+    .pipe(
+      map((response:any)=>{
+
+        return response;
+      })
+
+    )
+  }
+
 }

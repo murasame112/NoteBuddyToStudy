@@ -17,6 +17,7 @@ export class NotesComponent implements OnInit{
     this.getNotes();
     // this.getCategories();
 
+
   }
 
   allNotes:Note[] = [];
@@ -97,5 +98,6 @@ export class NotesComponent implements OnInit{
 
     this.notesService.getCategoryById(id);
   }
+
 
 }

@@ -9,10 +9,11 @@
 
     <button (click)="addNote()" id="addNote">dodaj</button>
 
-    <div id="noteContent">
-      <ng-container *ngFor="let note of allNotes; let category of allCategories">
+    <div id="noteContent" >
+      <ng-container *ngFor="let note of allNotes">
 
         <app-notes-container [data]="note"></app-notes-container>
+
 
       </ng-container>
     </div>
