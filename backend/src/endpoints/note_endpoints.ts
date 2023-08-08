@@ -1,5 +1,5 @@
-import { ObjectId } from 'bson';
 import { Console } from 'console'
+import { ObjectId } from 'bson';
 import express from 'express'
 import e, { Request, Response } from 'express'
 import {Note} from '../models/note_model';
@@ -122,7 +122,7 @@ export function getNotesByQuery(req: Request, res: Response) {
     });
 }
 
-// finds note multiple notes by id_field and value of objectId
+// finds multiple notes by id_field and value of objectId
 // /notesid/{field}&{value}
 // example:
 //  http://localhost:3000/notesid/category_id&6490d9efdfd298aad1e8f134

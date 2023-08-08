@@ -1,4 +1,5 @@
 import { Console } from 'console'
+import { ObjectId } from 'bson';
 import express from 'express'
 import e, { Request, Response } from 'express'
 import {User} from '../models/user_model';
@@ -47,6 +48,37 @@ export function getUsersByQuery(req: Request, res: Response) {
     const field = req.params.field;
     const value = req.params.value;
     let query = {[field]: JSON.parse(value)};
+    const result = global.getItemsByField(query, table_name);
+    const userArray: User[] = []; 
+    let user: User;
+    result.then((value) => {
+        value.forEach((element: User) => {
+            
+            user = new User(
+                element.name, 
+                element.avatar_url, 
+                element.login, 
+                element.password, 
+                element.active, 
+                element.role
+            );
+            userArray.push(user);
+
+        });
+        res.send(userArray);   
+    });
+}
+
+// finds multiple users by id_field and value of objectId
+// /usersid/{field}&{value}
+// example:
+//  http://localhost:3000/usersid/note&6490d9efdfd298aad1e8f134
+export function getUsersByQueriedId(req: Request, res: Response) {
+    const field = req.params.field;
+    const value = req.params.value;
+    const objValue = new ObjectId(value);
+    
+    let query = {[field]: (objValue)};
     const result = global.getItemsByField(query, table_name);
     const userArray: User[] = []; 
     let user: User;

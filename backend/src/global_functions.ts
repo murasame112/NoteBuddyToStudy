@@ -45,7 +45,6 @@ export async function getItemById(id: string, table_name: string) {
 export async function getItemsByField(query: Object, table_name: string) {
   const client = new MongoClient(uri);
   const database = client.db(db_name);
-  console.log(query);
   try {
     const table: any = database.collection(table_name);
     
@@ -57,7 +56,6 @@ export async function getItemsByField(query: Object, table_name: string) {
     );
 
     const res = await cursor.toArray();
-    console.log(res);
     return res;
     
    
