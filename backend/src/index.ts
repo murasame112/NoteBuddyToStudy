@@ -17,6 +17,7 @@ app.get('/note/:id', noteEndpoints.getNoteById);
 app.get('/stealnote/:id', noteEndpoints.stealNote);
 app.get('/notes', noteEndpoints.getAllNotes);
 app.get('/notes/:field&:value', noteEndpoints.getNotesByQuery);
+app.get('/notesid/:field&:value', noteEndpoints.getNotesByQueriedId);
 app.post('/note', noteEndpoints.insertNote);
 app.post('/notes', noteEndpoints.insertMultipleNotes);
 app.delete('/note/:id', noteEndpoints.deleteNote);

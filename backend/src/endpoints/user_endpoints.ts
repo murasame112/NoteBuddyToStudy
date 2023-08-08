@@ -42,7 +42,7 @@ export function getUserById(req: Request, res: Response) {
 // finds user multiple users by field and value
 // /users/{field}&{value}
 // example:
-//  http://localhost:3000/user/published&true
+//  http://localhost:3000/users/published&true
 export function getUsersByQuery(req: Request, res: Response) {
     const field = req.params.field;
     const value = req.params.value;
