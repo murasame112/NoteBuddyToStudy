@@ -38,7 +38,7 @@ export function getSubcategoryById(req: Request, res: Response) {
 // finds subcategory multiple subcategories by field and value
 // /subcategories/{field}&{value}
 // example:
-//  http://localhost:3000/subcategory/published&true
+//  http://localhost:3000/subcategories/published&true
 export function getSubcategoriesByQuery(req: Request, res: Response) {
     const field = req.params.field;
     const value = req.params.value;
