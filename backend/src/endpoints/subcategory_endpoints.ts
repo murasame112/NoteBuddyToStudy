@@ -77,13 +77,9 @@ export function getSubcategoriesByQueriedId(req: Request, res: Response) {
     result.then((value) => {
         value.forEach((element: Subcategory) => {
             
-            subcategory = new Subcategory(
-                element.name, 
-                element.avatar_url, 
-                element.login, 
-                element.password, 
-                element.active, 
-                element.role
+            subcategory = new Subcategory(  
+                element.category_id,
+                element.name
             );
             subcategoryArray.push(subcategory);
 
