@@ -33,8 +33,105 @@ main
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  gap: 1rem;
 
 }
+
+#filters
+{
+  width: 65rem;
+  height: 16rem;
+  // background-color: lightblue;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.searchFilters
+{
+  width: 65rem;
+  height: 6rem;
+  background-color: rgba(177, 177, 177, 0.25);
+  border-radius: 1rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
+
+
+.category
+{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 30rem;
+  height: 3rem;
+  // background-color: aquamarine;
+}
+
+.categoryAndsubcatList
+{
+
+}
+
+.categorySelect
+{
+  width: 20rem;
+  height: 3rem;
+  text-decoration: none;
+  background-color: rgba(177, 177, 177, 0.25);
+  border-radius: .5rem;
+  border: 1px solid rgba(177, 177, 177, 0.25);
+}
+
+.form-select:focus{
+  border-color: #861486;
+  box-shadow: 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.075)
+  inset, 0rem 0px 0.2rem rgb(97, 6, 116);
+}
+
+.categorySelect:focus
+{
+  border-color: #861486;
+  box-shadow: 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.075)
+  inset, 0rem 0px 0.2rem rgb(97, 6, 116);
+}
+
+
+#addAndSortBtns
+{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 58rem;
+  height: 2rem;
+}
+
+#sortBy
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: .5rem;
+}
+
+#sortSelect
+{
+  width: 12rem;
+  height: 2.5rem;
+  text-decoration: none;
+  background-color: rgba(177, 177, 177, 0.25);
+  border-radius: .5rem;
+  border: 1px solid rgba(177, 177, 177, 0.25);
+}
+
 
 #addNote
 {
@@ -45,7 +142,7 @@ text-decoration: none;
 color:white;
 background-color: #87CA52;
 width: 10rem;
-height: 2rem;
+height: 2.5rem;
 border-radius: 2rem;
 }
 
@@ -72,7 +169,7 @@ margin-right: .3rem;
   flex-wrap: wrap;
   justify-content: center;
   padding-top: 1rem;
-  padding-bottom: 1rem ;
+  // padding-bottom: 1rem ;
 }
 
 footer

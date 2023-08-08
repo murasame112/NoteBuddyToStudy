@@ -22,7 +22,8 @@ userName:string = "";
   ngOnInit(): void {
     if(this.data != null)
     {
-      console.log(this.data.category_id);
+      //TODO async all methods to load at the same time
+      // console.log(this.data.category_id);
       this.getCategory(this.data.category_id);
       this.getSubCategory(this.data.subcategory_id);
       this.getUser(this.data.author_id);

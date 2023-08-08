@@ -6,7 +6,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import { Note } from 'src/app/models/note.model';
 import { NotesService } from 'src/app/services/notes.service';
 import {Category} from '../../../../models/category.model';
-import { Subcategory } from 'src/app/enums/subcategory';
+import { Subcategory } from '../../../../models/subcategory.model';
 
 @Component({
   selector: 'app-note-add',
@@ -24,6 +24,8 @@ constructor(private notesService: NotesService) {}
        category:Category[] =[];
        subcategoryName:Subcategory[] = [];
        subcategory:Subcategory[] = [];
+
+       selectedCategory:string ="";
 
 
 
@@ -78,7 +80,7 @@ constructor(private notesService: NotesService) {}
 
       // )
 
-     this.categoryArrayList();
+    //  this.categoryArrayList();
 
 
     }
@@ -147,6 +149,39 @@ constructor(private notesService: NotesService) {}
       }
     }
 
+    filterSubcategory(categoryName:string)
+    {
+
+
+      let selectedCategoryId:string ="";
+      // console.log(categoryName)
+
+      for(let i=0;i<this.category.length;i++)
+      {
+
+        if(this.category[i].name === categoryName)
+        {
+          selectedCategoryId = this.category[i]._id;
+
+          // for(let j=0;j<this.subcategory.length;j++)
+          // {
+          //   if(this.subcategory[j].category_id ===  selectedCategoryId)
+          //   {
+          //     for(let x=0;x<this.subcategory.length;x++)
+          //     {
+          //       console.log(this.subcategory[x].name);
+          //     }
+          //   }
+          // }
+
+
+        }
+      }
+
+      console.log(`name:${categoryName} id:${selectedCategoryId}`)
+
+
+    }
 
 }
 

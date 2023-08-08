@@ -15,13 +15,15 @@ export class NotesComponent implements OnInit{
   constructor(private notesService: NotesService) {}
   ngOnInit(): void {
     this.getNotes();
-    // this.getCategories();
+    this.getCategories();
+    this.getSubcategories();
 
 
   }
 
   allNotes:Note[] = [];
   allCategories:any[] = [];
+  allSubcategories:any[] =[];
 
 
   addNote() {
@@ -95,7 +97,16 @@ export class NotesComponent implements OnInit{
     //   // return res.name;
     // })
 
-    this.notesService.getCategoryById(id);
+    // this.notesService.getCategoryById(id);
+  }
+
+  getSubcategories()
+  {
+    this.notesService.getSubcategories().subscribe(
+      (res)=>{
+        console.log(res)
+        this.allSubcategories =res;
+      })
   }
 
 

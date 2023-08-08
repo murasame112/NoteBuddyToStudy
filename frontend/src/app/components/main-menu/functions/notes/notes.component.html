@@ -8,8 +8,46 @@
   <main>
 
     <div id="filters">
-      <div id="categoryAndSubcategory"></div>
-      <div id="authorAndNoteName"></div>
+      <div id="categoryAndSubcategory" class="searchFilters">
+
+        <div class="category">
+          <span>Kierunek:</span>
+          <div class="categoryAndsubcatList">
+            <select class="categorySelect form-select" id="">
+              <option value="" selected disabled hidden>Wybierz kierunek</option>
+
+               <ng-container *ngFor="let cat of allCategories">
+                <option [value]="cat">{{cat.name}}</option>
+                </ng-container>
+            </select>
+          </div>
+        </div>
+
+        <div class="category">
+          <span>Temat:</span>
+          <div class="categoryAndsubcatList">
+            <select class="categorySelect form-select" id="">
+              <option value="" selected disabled hidden>Wybierz temat</option>
+
+               <ng-container *ngFor="let sub of allSubcategories">
+                <option [value]="sub">{{sub.name}}</option>
+                </ng-container>
+            </select>
+          </div>
+        </div>
+
+      </div>
+
+      <div id="authorAndNoteName" class="searchFilters">
+        <div class="category">
+          <span>Autor:</span>
+          <input type="text" placeholder="-" class="categorySelect form-control">
+        </div>
+        <div class="category">
+          <span>Tytuł notatki:</span>
+          <input type="text" placeholder="-" class="categorySelect form-control">
+        </div>
+      </div>
     </div>
 
 
@@ -20,9 +58,17 @@
         <span id="addNoteLabel">dodaj notatkę</span>
       </div>
 
-      <div id="SortBy">
-        <span id="SortByLabel">sortuj po:</span>
+      <div id="sortBy">
+        <span id="sortByLabel">sortuj po:</span>
+        <div id="sortByDiv">
+          <select  id="sortSelect" class="form-select">
+            <option value="">najnowsze</option>
+            <option value="">najstarsze</option>
+            <option value="">najlepiej oceniane</option>
+            <option value="">najgorzej oceniane</option>
 
+          </select>
+        </div>
       </div>
 
     </div>
