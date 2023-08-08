@@ -1,4 +1,5 @@
 import { Console } from 'console'
+import { ObjectId } from 'bson';
 import express from 'express'
 import e, { Request, Response } from 'express'
 import {Subcategory} from '../models/subcategory_model';
@@ -38,11 +39,38 @@ export function getSubcategoryById(req: Request, res: Response) {
 // finds subcategory multiple subcategories by field and value
 // /subcategories/{field}&{value}
 // example:
-//  http://localhost:3000/subcategory/published&true
+//  http://localhost:3000/subcategories/published&true
 export function getSubcategoriesByQuery(req: Request, res: Response) {
     const field = req.params.field;
     const value = req.params.value;
     let query = {[field]: JSON.parse(value)};
+    const result = global.getItemsByField(query, table_name);
+    const subcategoryArray: Subcategory[] = []; 
+    let subcategory: Subcategory;
+    result.then((value) => {
+        value.forEach((element: Subcategory) => {
+            
+            subcategory = new Subcategory(  
+                element.category_id,
+                element.name
+            );
+            subcategoryArray.push(subcategory);
+
+        });
+        res.send(subcategoryArray);   
+    });
+}
+
+// finds multiple subcategories by id_field and value of objectId
+// /subcategoriesid/{field}&{value}
+// example:
+//  http://localhost:3000/subcategoriesid/note&6490d9efdfd298aad1e8f134
+export function getSubcategoriesByQueriedId(req: Request, res: Response) {
+    const field = req.params.field;
+    const value = req.params.value;
+    const objValue = new ObjectId(value);
+    
+    let query = {[field]: (objValue)};
     const result = global.getItemsByField(query, table_name);
     const subcategoryArray: Subcategory[] = []; 
     let subcategory: Subcategory;

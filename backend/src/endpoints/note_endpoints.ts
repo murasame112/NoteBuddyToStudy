@@ -1,4 +1,5 @@
 import { Console } from 'console'
+import { ObjectId } from 'bson';
 import express from 'express'
 import e, { Request, Response } from 'express'
 import {Note} from '../models/note_model';
@@ -89,11 +90,48 @@ export function getMultipleNotes(req: Request, res: Response) {
 // finds note multiple notes by field and value
 // /notes/{field}&{value}
 // example:
-//  http://localhost:3000/note/published&true
+//  http://localhost:3000/notes/published&true
+// TODO: poprawić, przemyśleć itp, bo teraz np. stringi wymagają "" w linku
 export function getNotesByQuery(req: Request, res: Response) {
     const field = req.params.field;
     const value = req.params.value;
     let query = {[field]: JSON.parse(value)};
+    const result = global.getItemsByField(query, table_name);
+    const noteArray: Note[] = []; 
+    let note: Note;
+    result.then((value) => {
+        value.forEach((element: Note) => {
+            
+            note = new Note(
+                element.name, 
+                element.author_id, 
+                element.category_id, 
+                element.subcategory_id, 
+                element.adress, 
+                element.description, 
+                element.shared_date, 
+                element.last_edit_date, 
+                element.published, 
+                element.positive_reviews, 
+                element.negative_reviews
+            );
+            noteArray.push(note);
+
+        });
+        res.send(noteArray);   
+    });
+}
+
+// finds multiple notes by id_field and value of objectId
+// /notesid/{field}&{value}
+// example:
+//  http://localhost:3000/notesid/category_id&6490d9efdfd298aad1e8f134
+export function getNotesByQueriedId(req: Request, res: Response) {
+    const field = req.params.field;
+    const value = req.params.value;
+    const objValue = new ObjectId(value);
+    
+    let query = {[field]: (objValue)};
     const result = global.getItemsByField(query, table_name);
     const noteArray: Note[] = []; 
     let note: Note;

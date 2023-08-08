@@ -57,6 +57,7 @@ export async function getItemsByField(query: Object, table_name: string) {
 
     const res = await cursor.toArray();
     return res;
+    
    
   } finally {
     await client.close();

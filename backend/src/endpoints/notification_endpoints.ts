@@ -36,7 +36,7 @@ export function getNotificationById(req: Request, res: Response) {
 // finds notification multiple notifications by field and value
 // /notifications/{field}&{value}
 // example:
-//  http://localhost:3000/notification/published&true
+//  http://localhost:3000/notifications/published&true
 export function getNotificationsByQuery(req: Request, res: Response) {
     const field = req.params.field;
     const value = req.params.value;
