@@ -28,8 +28,10 @@ export function getSubcategoryById(req: Request, res: Response) {
     let subcategory: Subcategory; 
     result.then((value) => {
         subcategory = new Subcategory(
-            value.name, 
-            value.category_id
+            // value.name, 
+            // value.category_id
+            value.category_id,
+            value.name
         );
         res.send(subcategory);   
     });

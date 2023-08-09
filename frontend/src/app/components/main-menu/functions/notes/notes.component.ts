@@ -1,16 +1,30 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NotesService } from '../../../../services/notes.service';
 import {Note} from '../../../../models/note.model';
 import { first } from 'rxjs';
+import {concatAll, map} from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-notes',
   templateUrl: './notes.component.html',
   styleUrls: ['./notes.component.scss']
 })
-export class NotesComponent {
+export class NotesComponent implements OnInit{
 
   constructor(private notesService: NotesService) {}
+  ngOnInit(): void {
+    this.getNotes();
+    this.getCategories();
+    this.getSubcategories();
+
+
+  }
+
+  allNotes:Note[] = [];
+  allCategories:any[] = [];
+  allSubcategories:any[] =[];
+
 
   addNote() {
 
@@ -32,6 +46,68 @@ export class NotesComponent {
     //     console.error(error);
     //   }
     // );
+
   }
+
+  getNotes()
+  {
+    this.notesService.getNotes()
+    .subscribe(
+      (res)=>{
+        console.log(res);
+        this.allNotes = res;
+      }
+    );
+  }
+
+  getCategories()
+  {
+    this.notesService.getCategories()
+
+    .subscribe(
+      (res)=>{
+        console.log(res);
+        this.allCategories = res;
+      }
+      );
+  }
+
+  getCategoryById(id:string)
+  {
+    // this.notesService.getCategoryById(id)
+    // .pipe(
+    //   map((response:any)=>{
+    //     const name = response;
+    //     return name;
+    //   })
+
+    // )
+
+    // .subscribe(
+    //   (res)=>{
+    //     console.log(res.name)
+    //   }
+    // );
+
+
+
+    // this.notesService.getCategoryById(id)
+    // .subscribe((res)=>{
+    //   console.log(res.name);
+    //   // return res.name;
+    // })
+
+    // this.notesService.getCategoryById(id);
+  }
+
+  getSubcategories()
+  {
+    this.notesService.getSubcategories().subscribe(
+      (res)=>{
+        console.log(res)
+        this.allSubcategories =res;
+      })
+  }
+
 
 }
