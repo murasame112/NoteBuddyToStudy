@@ -3,6 +3,8 @@ import { NotesService } from '../../../../services/notes.service';
 import {Note} from '../../../../models/note.model';
 import { first } from 'rxjs';
 import {concatAll, map} from 'rxjs/operators';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Category } from 'src/app/models/category.model';
 
 
 @Component({
@@ -18,13 +20,86 @@ export class NotesComponent implements OnInit{
     this.getCategories();
     this.getSubcategories();
 
+    this.FilterForm = new FormGroup(
+      {
+        categoryName:new FormControl(''),
+        subcategoryName: new FormControl(''),
+        author: new FormControl(''),
+        noteTitle: new FormControl(''),
+      }
+    )
 
   }
 
   allNotes:Note[] = [];
+  notesArray:Note[] =[];
+  filteredNotes:Note[]= [];
+
   allCategories:any[] = [];
   allSubcategories:any[] =[];
 
+  selectedCategory:string = ""
+
+
+
+
+  FilterForm = new FormGroup(
+    {
+      categoryName: new FormControl(''),
+      subcategoryName: new FormControl({value: '', disabled: true}),
+      author: new FormControl(''),
+      noteTitle: new FormControl(''),
+    }
+  )
+
+    applyFilters()
+    {
+      console.log(this.selectedCategory);
+      let subcategoryName = this.FilterForm.get('subcategoryName')?.value;
+      // console.log(`FormControlSubcategory:${subcategoryName}`)
+
+      this.filteredNotes = this.allNotes;
+
+
+      //CategoryFilter
+      if(this.selectedCategory != null && this.selectedCategory !="")
+      {
+
+        this.filteredNotes = this.filteredNotes.filter(element=>{
+          return element.category_id === this.selectedCategory;
+
+        });
+
+        //SubcategoryFilter
+      if(subcategoryName != null && subcategoryName !="")
+      {
+        this.filteredNotes = this.filteredNotes.filter(element=>{
+          return element.subcategory_id === subcategoryName
+        })
+      }
+
+      }
+
+      // for(let i=0;i<this.filteredNotes.length;i++)
+      // {
+      //   console.log(this.filteredNotes[i]);
+      // }
+
+      // console.warn("POSORTOWANE!")
+      this.notesArray = this.filteredNotes;
+
+    }
+
+    get onCategoryChange()
+    {
+      let test
+      //  test= this.FilterForm.get('categoryName')?.value != null &&
+      // this.FilterForm.get('categoryName')?.value !='';
+      // console.log(test,this.FilterForm.get('categoryName')?.value);
+
+      return test
+
+    }
 
   addNote() {
 
@@ -56,6 +131,7 @@ export class NotesComponent implements OnInit{
       (res)=>{
         console.log(res);
         this.allNotes = res;
+        this.notesArray = this.allNotes;
       }
     );
   }
