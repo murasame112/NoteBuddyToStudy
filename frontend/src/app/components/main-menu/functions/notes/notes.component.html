@@ -27,10 +27,10 @@
         <div class="category">
           <span>Temat:</span>
           <div class="categoryAndsubcatList">
-            <select class="categorySelect  form-select" id="" formControlName="subcategoryName" (change)="applyFilters()">
+            <select class="categorySelect  form-select" id="subcategorySelect" formControlName="subcategoryName" (change)="applyFilters()">
               <option value="" selected disabled hidden>Wybierz temat</option>
 
-               <ng-container *ngFor="let sub of allSubcategories">
+               <ng-container *ngFor="let sub of subcategoriesArray">
                 <option [value]="sub._id">{{sub.name}}</option>
                 </ng-container>
             </select>
@@ -42,11 +42,11 @@
       <div id="authorAndNoteName" class="searchFilters">
         <div class="category">
           <span>Autor:</span>
-          <input type="text" placeholder="-" class="categorySelect form-control" formControlName="author">
+          <input type="text" placeholder="-" class="categorySelect form-control" formControlName="author" (input)="applyFilters()">
         </div>
         <div class="category">
           <span>Tytuł notatki:</span>
-          <input type="text" placeholder="-" class="categorySelect form-control" formControlName="noteTitle">
+          <input type="text" placeholder="-" class="categorySelect form-control" formControlName="noteTitle" (input)="applyFilters()">
         </div>
       </div>
     </div>
