@@ -21,9 +21,14 @@ constructor(private notesService: NotesService) {}
       //  category = Object.values(Category);
       //  subcategory = Object.values(Subcategory);
        categoryName:Category[] = [];
+       categoryArray:Category[] = [];
        category:Category[] =[];
+
        subcategoryName:Subcategory[] = [];
+       subcategoriesArray:Subcategory[] = [];
+       subcategoryFilteredArray:Subcategory[] = [];
        subcategory:Subcategory[] = [];
+
 
        selectedCategory:string ="";
 
@@ -89,6 +94,7 @@ constructor(private notesService: NotesService) {}
     {
       this.notesService.getCategories().subscribe((res)=>{
         // console.log(res)
+        this.categoryArray = res;
         res.forEach(element => {
           this.categoryName.push(element.name);
 
@@ -112,6 +118,7 @@ constructor(private notesService: NotesService) {}
       this.notesService.getSubcategories().subscribe((res)=>{
         res.forEach(e =>{
           this.subcategoryName.push(e.name);
+          this.subcategoriesArray.push(e);
         });
 
         for(let i=0;i<res.length;i++)
@@ -179,6 +186,29 @@ constructor(private notesService: NotesService) {}
       }
 
       console.log(`name:${categoryName} id:${selectedCategoryId}`)
+
+
+    }
+
+    filterSubcategories()
+    {
+      let courseId = this.addNoteForm.get('courseName')?.value;
+      let subjectName = this.addNoteForm.get('subjectName')?.value;
+
+      this.subcategoryFilteredArray = this.subcategory;
+
+      console.log(this.subcategoryFilteredArray)
+
+      if(courseId !=null && courseId !="")
+      {
+        this.subcategoryFilteredArray = this.subcategoryFilteredArray.filter(e=>{
+          return e.category_id === courseId
+
+
+        })
+        this.subcategoriesArray = this.subcategoryFilteredArray;
+
+      }
 
 
     }
