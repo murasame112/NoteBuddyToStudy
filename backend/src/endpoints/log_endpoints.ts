@@ -1,0 +1,380 @@
+import { Console } from 'console'
+import { ObjectId } from 'bson';
+import express from 'express'
+import e, { Request, Response } from 'express'
+import {Log} from '../models/log_model';
+import * as global from '../global_functions';
+
+const table_name = 'logs';
+
+// finds log by id
+// /logs
+// example:
+//  http://localhost:3000/logs
+export function getAllLogs(req: Request, res: Response) {
+    const result = global.getAllItems(table_name);
+    result.then((value)=> {
+        res.send(value);
+    });
+}
+
+// finds log by id
+// /log/{id}
+// example:
+//  http://localhost:3000/log/648c6400e388683aeb23d331
+export function getLogById(req: Request, res: Response) {
+    const id = req.params.id;
+    const result = global.getItemById(id, table_name);
+    let log: Log; 
+    result.then((value) => {
+        log = new Log(
+            value.type, 
+            value.content,
+            value.date
+        );
+        res.send(log);   
+    });
+}
+
+// TODO: Ogarnąć tak, żeby działało bez req.body (wysyłać array w linku?). Aczkolwiek zająć się tym dopiero, jak będzie potrzebne
+// finds multiple logs by ids
+// /logs
+// headers:
+//  Content-Type: application/json
+// example:
+//  http://localhost:3000/logs
+// example body:
+//  ["6490d9efdfd298aad1e8f134",
+//  "6490d9f9dfd298aad1e8f135",
+//  "6490d9fddfd298aad1e8f136"]
+export function getMultipleLogs(req: Request, res: Response) {
+    const ids = req.body;
+    console.log(ids);
+    let counter = 0;
+    const logArray: Log[] = [];
+    ids.forEach((element: string) => {
+            
+        const result = global.getItemById(element, table_name);
+        result.then((value) => {
+            counter ++;
+            let log = new Log(
+                value.type, 
+                value.content,
+                value.date
+            );
+            logArray.push(log);
+            if(counter == ids.length){
+                res.status(201).send(logArray);
+            }
+        });
+    });
+}
+
+
+// finds log multiple logs by field and value
+// /logs/{field}&{value}
+// example:
+//  http://localhost:3000/logs/published&true
+// TODO: poprawić, przemyśleć itp, bo teraz np. stringi wymagają "" w linku
+export function getLogsByQuery(req: Request, res: Response) {
+    const field = req.params.field;
+    const value = req.params.value;
+    let query = {[field]: JSON.parse(value)};
+    const result = global.getItemsByField(query, table_name);
+    const logArray: Log[] = []; 
+    let log: Log;
+    result.then((value) => {
+        value.forEach((element: Log) => {
+            
+            log = new Log(
+                element.type, 
+                element.content,
+                element.date
+            );
+            logArray.push(log);
+
+        });
+        res.send(logArray);   
+    });
+}
+
+// finds multiple logs by id_field and value of objectId
+// /logsid/{field}&{value}
+// example:
+//  http://localhost:3000/logsid/category_id&6490d9efdfd298aad1e8f134
+export function getLogsByQueriedId(req: Request, res: Response) {
+    const field = req.params.field;
+    const value = req.params.value;
+    const objValue = new ObjectId(value);
+    
+    let query = {[field]: (objValue)};
+    const result = global.getItemsByField(query, table_name);
+    const logArray: Log[] = []; 
+    let log: Log;
+    result.then((value) => {
+        value.forEach((element: Log) => {
+            
+            log = new Log(
+                element.type, 
+                element.content,
+                element.date
+            );
+            logArray.push(log);
+
+        });
+        res.send(logArray);   
+    });
+}
+
+// inserts log to database
+// /log
+// headers:
+//  Content-Type: application/json
+// example:
+//  http://localhost:3000/log
+// example body:
+//   {
+//      "type":"ERROR",
+//      "content":"Serce przestało działać",
+//      "date":"25-06-2023"
+// }
+export function insertLog(req: Request, res: Response) {
+    const log: Log = new Log(
+        req.body.type, 
+        req.body.content,
+        req.body.date
+
+    );
+    const result = global.insertItem(log, table_name);
+    result.then((value) => {
+        (value.acknowledged ? res.status(201).send('id: ' + value.insertedId) : res.status(400).send('Error'));
+    });
+}
+
+
+// inserts multiple logs to database
+// /logs
+// headers:
+//  Content-Type: application/json
+// example:
+//  http://localhost:3000/logs
+// example body:
+// [
+//     {
+//      "type":"ERROR",
+//      "content":"Serce zaczęło działać",
+//      "date":"09-11-2000"
+//     },
+    // {
+//      "type":"ERROR",
+//      "content":"Serce przestało działać",
+//      "date":"25-06-2023"
+    // }
+//  ]
+export function insertMultipleLogs(req: Request, res: Response) {
+    const logs = req.body;
+    let counter = 0;
+    logs.forEach((element: Log) => {
+        const log: Log = new Log(            
+            element.type, 
+            element.content,
+            element.date
+        );
+            
+        const result = global.insertItem(log, table_name);
+        result.then((value) => {
+            counter ++;
+            if(value.acknowledged == false){
+                res.status(400).send('Error');
+            }
+            if(counter == logs.length){
+                res.status(204).send();
+            }
+        });
+    });
+}
+
+// deletes log by id
+// /log/{id}
+// example:
+//  http://localhost:3000/log/6490d3e5982efd2fe9136154
+export function deleteLog(req: Request, res: Response) {
+    const id = req.params.id;
+    const result = global.deleteItemById(id, table_name);
+    result.then((value) => {
+        (value.acknowledged ? res.status(204).send() : res.status(400).send('Error'));
+    });
+}
+
+// deletes multiple logs by array of ids
+// /logs
+// headers:
+//  Content-Type: application/json
+// example:
+//  http://localhost:3000/log
+// example body:
+//  ["6490d9efdfd298aad1e8f134",
+//  "6490d9f9dfd298aad1e8f135",
+//  "6490d9fddfd298aad1e8f136"]
+
+export function deleteMultipleLogs(req: Request, res: Response) {
+    const ids = req.body;
+    let counter = 0;
+    ids.forEach((element: string) => {
+            
+        const result = global.deleteItemById(element, table_name);
+        result.then((value) => {
+            counter ++;
+            if(value.acknowledged == false){
+                res.status(400).send('Error');
+            }
+            if(counter == ids.length){
+                res.status(204).send();
+            }
+        });
+    });
+}
+
+
+// deletes multiple logs by field and value
+// /logs/{field}&{value}
+// example:
+//  http://localhost:3000/logs/published&true
+export function deleteLogsByQuery(req: Request, res: Response) {
+    const field = req.params.field;
+    const value = req.params.value;
+    let query = {[field]: JSON.parse(value)};
+    const result = global.deleteItemsByField(query, table_name);
+    result.then((value) => {
+        (value.acknowledged ? res.status(201).send() : res.status(400).send('Error'));
+    }); 
+}
+
+// updates log by id with values passed in request body
+// /log/{id}
+// headers:
+//  Content-Type: application/json
+// example:
+//  http://localhost:3000/log/6490d3e5982efd2fe9136154
+// example body:
+//   {
+//      "type":"ERROR",
+//      "content":"Serce przestało działać",
+//      "date":"25-06-2023"
+// }
+export function updateLog(req: Request, res: Response) {
+    const id = req.params.id;
+    const query = req.body;
+    const result = global.updateItemById(id, table_name, query);
+    result.then((value) => {
+        (value.acknowledged ? res.status(204).send() : res.status(400).send('Error'));
+    });
+}
+
+// updates multiple logs by array of ids
+// /logs
+// headers:
+//  Content-Type: application/json
+// example:
+//  http://localhost:3000/log
+// example body:
+// {
+//     "ids":[
+    //      ["6490d9efdfd298aad1e8f134",
+    //      "6490d9f9dfd298aad1e8f135",
+    //      "6490d9fddfd298aad1e8f136"]
+//     ],
+//     "query":{
+    //      "type":"ERROR",
+    //      "content":"Serce przestało działać",
+    //      "date":"25-06-2023"
+//     }
+//  }
+export function updateMultipleLogs(req: Request, res: Response) {
+    const ids = req.body.ids;
+    const updateQuery = req.body.query;
+    let counter = 0;
+    ids.forEach((element: string) => {
+            
+        const result = global.updateItemById(element, table_name, updateQuery);
+        result.then((value) => {
+            counter ++;
+            if(value.acknowledged == false){
+                res.status(400).send('Error');
+            }
+            if(counter == ids.length){
+                res.status(204).send();
+            }
+        });
+    });
+}
+
+// updates multiple logs by field and value
+// /logs/{field}&{value}
+// headers:
+//  Content-Type: application/json
+// example:
+//  http://localhost:3000/logs/published&true
+// example body:
+//   {
+//      "type":"ERROR",
+//      "content":"Serce przestało działać",
+//      "date":"25-06-2023"
+// }
+export function updateLogsByQuery(req: Request, res: Response) {
+    const field = req.params.field;
+    const value = req.params.value;
+    const updateQuery = req.body;
+    let query = {[field]: JSON.parse(value)};
+    const result = global.updateItemsByField(query, table_name, updateQuery);
+    result.then((value) => {
+        (value.acknowledged ? res.status(204).send() : res.status(400).send('Error'));
+    }); 
+}
+
+
+// replaces log by id with new log passed in request body
+// /log/{id}
+// headers:
+//  Content-Type: application/json
+// example:
+//  http://localhost:3000/log/6490d3e5982efd2fe9136154
+// example body:
+//   {
+//      "type":"ERROR",
+//      "content":"Serce przestało działać",
+//      "date":"25-06-2023"
+// }
+export function replaceLog(req: Request, res: Response) {
+    const id = req.params.id;
+    const query = req.body;
+    let log: Log;
+    log = new Log(
+        query.type, 
+        query.content,
+        query.date
+    );
+    const result = global.replaceItemById(id, table_name, log);
+    result.then((value) => {
+        (value.acknowledged ? res.status(201).send() : res.status(400).send('Error'));
+    });
+}
+
+
+// steals (returns a log, but then deletes it from database) log by id
+// /steallog/{id}
+// example:
+//  http://localhost:3000/steallog/6490d3e5982efd2fe9136154
+export function stealLog(req: Request, res: Response) {
+    const id = req.params.id;
+    const result = global.stealItemById(id, table_name);
+    result.then((value) => {
+        let log: Log;
+        log = new Log(
+            value.value.type, 
+            value.value.content,
+            value.value.date
+        );
+        res.status(201).send(log);
+    });
+}

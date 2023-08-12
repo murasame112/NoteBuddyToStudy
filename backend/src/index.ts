@@ -10,6 +10,7 @@ import * as notificationEndpoints from "./endpoints/notification_endpoints";
 import * as cardEndpoints from "./endpoints/card_endpoints";
 import * as groupEndpoints from "./endpoints/group_endpoints";
 import * as hintEndpoints from "./endpoints/hint_endpoints";
+import * as logEndpoints from "./endpoints/log_endpoints";
 
 
 const app = express() ;
@@ -164,6 +165,24 @@ app.patch('/hint/:id',  hintEndpoints.updateHint);
 app.patch('/hints/:field&:value',  hintEndpoints.updateHintsByQuery);
 app.patch('/hints',  hintEndpoints.updateMultipleHints);
 app.put('/hint/:id',  hintEndpoints.replaceHint);
+
+// ============== LOG ENDPOINTS ==============
+
+app.get('/log/:id', logEndpoints.getLogById);
+app.get('/steallog/:id', logEndpoints.stealLog);
+app.get('/logs', logEndpoints.getAllLogs);
+app.get('/logs/:field&:value', logEndpoints.getLogsByQuery);
+app.get('/logsid/:field&:value', logEndpoints.getLogsByQueriedId);
+app.post('/log', logEndpoints.insertLog);
+app.post('/logs', logEndpoints.insertMultipleLogs);
+app.delete('/log/:id', logEndpoints.deleteLog);
+app.delete('/logs', logEndpoints.deleteMultipleLogs);
+app.delete('/logs/:field&:value', logEndpoints.deleteLogsByQuery);
+app.patch('/log/:id',  logEndpoints.updateLog);
+app.patch('/logs/:field&:value',  logEndpoints.updateLogsByQuery);
+app.patch('/logs',  logEndpoints.updateMultipleLogs);
+app.put('/log/:id',  logEndpoints.replaceLog);
+
 
     // =============== ponizej notatki, do usuniecia potem ==============
 //app.get('/', function (req, res) { 
