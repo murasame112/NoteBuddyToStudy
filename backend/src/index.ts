@@ -7,6 +7,7 @@ import * as userEndpoints from "./endpoints/user_endpoints";
 import * as categoryEndpoints from "./endpoints/category_endpoints";
 import * as subcategoryEndpoints from "./endpoints/subcategory_endpoints";
 import * as notificationEndpoints from "./endpoints/notification_endpoints";
+import * as cardEndpoints from "./endpoints/card_endpoints";
 
 const app = express() ;
 app.use(express.json());
@@ -109,8 +110,22 @@ app.patch('/notifications/:field&:value',  notificationEndpoints.updateNotificat
 app.patch('/notifications',  notificationEndpoints.updateMultipleNotifications);
 app.put('/notification/:id',  notificationEndpoints.replaceNotification);
 
+// ============== CARD ENDPOINTS ==============
 
-
+app.get('/card/:id', cardEndpoints.getCardById);
+app.get('/stealcard/:id', cardEndpoints.stealCard);
+app.get('/cards', cardEndpoints.getAllCards);
+app.get('/cards/:field&:value', cardEndpoints.getCardsByQuery);
+app.get('/cardsid/:field&:value', cardEndpoints.getCardsByQueriedId);
+app.post('/card', cardEndpoints.insertCard);
+app.post('/cards', cardEndpoints.insertMultipleCards);
+app.delete('/card/:id', cardEndpoints.deleteCard);
+app.delete('/cards', cardEndpoints.deleteMultipleCards);
+app.delete('/cards/:field&:value', cardEndpoints.deleteCardsByQuery);
+app.patch('/card/:id',  cardEndpoints.updateCard);
+app.patch('/cards/:field&:value',  cardEndpoints.updateCardsByQuery);
+app.patch('/cards',  cardEndpoints.updateMultipleCards);
+app.put('/card/:id',  cardEndpoints.replaceCard);
 
 
 
