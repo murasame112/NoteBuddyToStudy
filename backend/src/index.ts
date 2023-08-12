@@ -8,6 +8,7 @@ import * as categoryEndpoints from "./endpoints/category_endpoints";
 import * as subcategoryEndpoints from "./endpoints/subcategory_endpoints";
 import * as notificationEndpoints from "./endpoints/notification_endpoints";
 import * as cardEndpoints from "./endpoints/card_endpoints";
+import * as groupEndpoints from "./endpoints/group_endpoints";
 
 const app = express() ;
 app.use(express.json());
@@ -128,6 +129,22 @@ app.patch('/cards',  cardEndpoints.updateMultipleCards);
 app.put('/card/:id',  cardEndpoints.replaceCard);
 
 
+// ============== GROUP ENDPOINTS ==============
+
+app.get('/group/:id', groupEndpoints.getGroupById);
+app.get('/stealgroup/:id', groupEndpoints.stealGroup);
+app.get('/groups', groupEndpoints.getAllGroups);
+app.get('/groups/:field&:value', groupEndpoints.getGroupsByQuery);
+app.get('/groupsid/:field&:value', groupEndpoints.getGroupsByQueriedId);
+app.post('/group', groupEndpoints.insertGroup);
+app.post('/groups', groupEndpoints.insertMultipleGroups);
+app.delete('/group/:id', groupEndpoints.deleteGroup);
+app.delete('/groups', groupEndpoints.deleteMultipleGroups);
+app.delete('/groups/:field&:value', groupEndpoints.deleteGroupsByQuery);
+app.patch('/group/:id',  groupEndpoints.updateGroup);
+app.patch('/groups/:field&:value',  groupEndpoints.updateGroupsByQuery);
+app.patch('/groups',  groupEndpoints.updateMultipleGroups);
+app.put('/group/:id',  groupEndpoints.replaceGroup);
 
 
 
