@@ -9,6 +9,8 @@ import * as subcategoryEndpoints from "./endpoints/subcategory_endpoints";
 import * as notificationEndpoints from "./endpoints/notification_endpoints";
 import * as cardEndpoints from "./endpoints/card_endpoints";
 import * as groupEndpoints from "./endpoints/group_endpoints";
+import * as hintEndpoints from "./endpoints/hint_endpoints";
+
 
 const app = express() ;
 app.use(express.json());
@@ -146,7 +148,22 @@ app.patch('/groups/:field&:value',  groupEndpoints.updateGroupsByQuery);
 app.patch('/groups',  groupEndpoints.updateMultipleGroups);
 app.put('/group/:id',  groupEndpoints.replaceGroup);
 
+// ============== HINT ENDPOINTS ==============
 
+app.get('/hint/:id', hintEndpoints.getHintById);
+app.get('/stealhint/:id', hintEndpoints.stealHint);
+app.get('/hints', hintEndpoints.getAllHints);
+app.get('/hints/:field&:value', hintEndpoints.getHintsByQuery);
+app.get('/hintsid/:field&:value', hintEndpoints.getHintsByQueriedId);
+app.post('/hint', hintEndpoints.insertHint);
+app.post('/hints', hintEndpoints.insertMultipleHints);
+app.delete('/hint/:id', hintEndpoints.deleteHint);
+app.delete('/hints', hintEndpoints.deleteMultipleHints);
+app.delete('/hints/:field&:value', hintEndpoints.deleteHintsByQuery);
+app.patch('/hint/:id',  hintEndpoints.updateHint);
+app.patch('/hints/:field&:value',  hintEndpoints.updateHintsByQuery);
+app.patch('/hints',  hintEndpoints.updateMultipleHints);
+app.put('/hint/:id',  hintEndpoints.replaceHint);
 
     // =============== ponizej notatki, do usuniecia potem ==============
 //app.get('/', function (req, res) { 
