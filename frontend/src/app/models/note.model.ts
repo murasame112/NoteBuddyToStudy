@@ -1,4 +1,5 @@
 export class Note{
+  _id?:Object;
   name!: string;
   author_id!: Object;
   category_id!: Object;

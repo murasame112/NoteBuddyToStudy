@@ -43,7 +43,7 @@ constructor(private notesService: NotesService) {}
         noteName: new FormControl('' ,Validators.required)  ,
         noteDesc: new FormControl('' ,Validators.required),
         courseName: new FormControl('' ,Validators.required),
-        subjectName: new FormControl('' ,Validators.required),
+        subjectName: new FormControl({value: '', disabled: true}),
         typeName: new FormControl('' ,Validators.required),
       });
   }
@@ -69,21 +69,32 @@ constructor(private notesService: NotesService) {}
       //   name: data[0].value
       //  }
 
-      // let newNote: Note =
-      // {
-      //   name:data.noteName,
-      //   author_id: '64a49ff9a1caf26fbfaa2dbb',
-      //   category_id:'64a4a1d1a1caf26fbfaa2dc1',
-      //   subcategory_id:'64a4a367a1caf26fbfaa2dcc',
-      //   adress:'adres',
-      //   description: data.noteDesc
-      // };
+//       let newNote: Note =
+//       {
+//         name:data.noteName,
+//         // author_id: '64a49ff9a1caf26fbfaa2dbb',
+//         author_id: {$oid:'64a49ff9a1caf26fbfaa2dbb'},
+//         category_id: {$oid:data.courseName},
+//         subcategory_id: {$oid:data.subjectName},
+//         adress:'note_url_link',
+//         description: data.noteDesc
+//       };
 
-      // this.notesService.addNote(newNote).subscribe(
-      //   (response)=>{console.log(response)},
-
-
-      // )
+//       this.notesService.addNote(newNote).subscribe(
+//         (response)=>{
+//           if(response.status === 201)
+//           {
+//             let insertedId:string = response.body;
+//             console.log(`Dodano notatkę o id:${insertedId}`);
+//           }else if(response.status === 400)
+//           {
+//             console.log("Error status 400:",response)
+//           }else
+//           {
+//             console.log(response,"problem");
+//           }},
+//         (error)=>{console.log("Bład:",error)}
+//  )
 
     //  this.categoryArrayList();
 
@@ -212,6 +223,24 @@ constructor(private notesService: NotesService) {}
 
 
     }
+
+
+    get onCategoryChange()
+    {
+      let categoryName = this.addNoteForm.get('courseName')?.value;
+      this.addNoteForm.get('subjectName')?.disable();
+
+      if(categoryName !=null && categoryName !='')
+      {
+        this.addNoteForm.get('subjectName')?.enable();
+
+      }
+
+
+      return true
+
+    }
+
 
 }
 

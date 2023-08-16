@@ -32,7 +32,7 @@
 
       <div class="displayClass">
       <label class="optLabel">Temat:</label>
-      <select formControlName="subjectName" class="form-select " >
+      <select formControlName="subjectName" class="form-select " [disabled]="!onCategoryChange" id="subjectName">
         <option value="" selected disabled hidden>Wybierz temat</option>
 
         <ng-container *ngFor="let sub of subcategoriesArray">

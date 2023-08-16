@@ -60,6 +60,14 @@ footer
 
 }
 
+#subjectName:disabled
+{
+  background-color: rgb(211, 211, 211);
+  border: 1px solid rgba(224, 224, 224, 0.25);
+  color: rgb(124, 124, 124);
+  transition: 0.5s ease;
+}
+
 #addForm1
 {
   display: flex;
