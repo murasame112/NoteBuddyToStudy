@@ -7,6 +7,7 @@ import { Note } from 'src/app/models/note.model';
 import { NotesService } from 'src/app/services/notes.service';
 import {Category} from '../../../../models/category.model';
 import { Subcategory } from '../../../../models/subcategory.model';
+import { ObjectId } from 'bson';
 
 @Component({
   selector: 'app-note-add',
@@ -33,10 +34,14 @@ constructor(private notesService: NotesService) {}
        selectedCategory:string ="";
 
 
+       noteArray:Note[]=[];
+
+
 
   ngOnInit(): void {
     this.getCategories();
     this.getSubcategories();
+    this.getValue();
 
     this.addNoteForm = new FormGroup(
       {
@@ -58,43 +63,61 @@ constructor(private notesService: NotesService) {}
     });
 
 
+    getValue()
+    {
+    this.notesService.getNotes().subscribe
+    ((res)=>{
+     this.noteArray = res;
+     console.log(this.noteArray);
+    })
+
+    }
+
 
     addNote(data:any)
     {
 
       console.log(data);
-      // console.log(data.courseName.name);
-      // console.log(data.noteName)
-      //  let newNote:Note = {
-      //   name: data[0].value
-      //  }
 
-//       let newNote: Note =
-//       {
-//         name:data.noteName,
-//         // author_id: '64a49ff9a1caf26fbfaa2dbb',
-//         author_id: {$oid:'64a49ff9a1caf26fbfaa2dbb'},
-//         category_id: {$oid:data.courseName},
-//         subcategory_id: {$oid:data.subjectName},
-//         adress:'note_url_link',
-//         description: data.noteDesc
-//       };
+      let name:string = data.noteName;
+      let author_id:string = "64a49ff9a1caf26fbfaa2dbb";
+      let category_id:string = data.courseName;
+      let subcategory_id:string = data.subjectName;
+      let adress:string ="note_url_link";
+      let description:string = data.noteDesc;
 
-//       this.notesService.addNote(newNote).subscribe(
-//         (response)=>{
-//           if(response.status === 201)
-//           {
-//             let insertedId:string = response.body;
-//             console.log(`Dodano notatkę o id:${insertedId}`);
-//           }else if(response.status === 400)
-//           {
-//             console.log("Error status 400:",response)
-//           }else
-//           {
-//             console.log(response,"problem");
-//           }},
-//         (error)=>{console.log("Bład:",error)}
-//  )
+
+
+      let newNote: Note =
+      {
+        name:name,
+        author_id: author_id,
+        category_id: category_id,
+        subcategory_id: subcategory_id,
+        adress: adress,
+        description: description
+
+
+      };
+
+      this.notesService.addNote(newNote).subscribe(
+        (response)=>{
+          if(response.status === 201)
+          {
+            let insertedId:string = response.body;
+            console.log(`Dodano notatkę o id:${insertedId}`);
+          }else if(response.status === 400)
+          {
+            console.log("Error status 400:",response)
+          }else if(response.status ===200)
+          {
+            console.log(response,"status 200");
+          }else
+          console.log(response,"problem");
+
+        },
+        (error)=>{console.log("Bład:",error)}
+ )
 
     //  this.categoryArrayList();
 

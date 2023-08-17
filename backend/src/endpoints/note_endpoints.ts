@@ -173,10 +173,11 @@ export function getNotesByQueriedId(req: Request, res: Response) {
 //      "description":"custom description"
 // }
 export function insertNote(req: Request, res: Response) {
-    const note: Note = new Note(req.body.name,
-        req.body.author_id,
-        req.body.category_id,
-        req.body.subcategory_id,
+    const note: Note = new Note(
+        req.body.name,
+        new ObjectId( req.body.author_id),
+        new ObjectId( req.body.category_id),
+        new ObjectId( req.body.subcategory_id),
         req.body.adress,
         req.body.description,
         req.body.shared_date,
