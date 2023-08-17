@@ -7,6 +7,7 @@ import { Note } from 'src/app/models/note.model';
 import { NotesService } from 'src/app/services/notes.service';
 import {Category} from '../../../../models/category.model';
 import { Subcategory } from '../../../../models/subcategory.model';
+import { ObjectId } from 'bson';
 
 @Component({
   selector: 'app-note-add',
@@ -21,24 +22,33 @@ constructor(private notesService: NotesService) {}
       //  category = Object.values(Category);
       //  subcategory = Object.values(Subcategory);
        categoryName:Category[] = [];
+       categoryArray:Category[] = [];
        category:Category[] =[];
+
        subcategoryName:Subcategory[] = [];
+       subcategoriesArray:Subcategory[] = [];
+       subcategoryFilteredArray:Subcategory[] = [];
        subcategory:Subcategory[] = [];
 
+
        selectedCategory:string ="";
+
+
+       noteArray:Note[]=[];
 
 
 
   ngOnInit(): void {
     this.getCategories();
     this.getSubcategories();
+    this.getValue();
 
     this.addNoteForm = new FormGroup(
       {
         noteName: new FormControl('' ,Validators.required)  ,
         noteDesc: new FormControl('' ,Validators.required),
         courseName: new FormControl('' ,Validators.required),
-        subjectName: new FormControl('' ,Validators.required),
+        subjectName: new FormControl({value: '', disabled: true}),
         typeName: new FormControl('' ,Validators.required),
       });
   }
@@ -53,32 +63,61 @@ constructor(private notesService: NotesService) {}
     });
 
 
+    getValue()
+    {
+    this.notesService.getNotes().subscribe
+    ((res)=>{
+     this.noteArray = res;
+     console.log(this.noteArray);
+    })
+
+    }
+
 
     addNote(data:any)
     {
 
       console.log(data);
-      // console.log(data.courseName.name);
-      // console.log(data.noteName)
-      //  let newNote:Note = {
-      //   name: data[0].value
-      //  }
 
-      // let newNote: Note =
-      // {
-      //   name:data.noteName,
-      //   author_id: '64a49ff9a1caf26fbfaa2dbb',
-      //   category_id:'64a4a1d1a1caf26fbfaa2dc1',
-      //   subcategory_id:'64a4a367a1caf26fbfaa2dcc',
-      //   adress:'adres',
-      //   description: data.noteDesc
-      // };
-
-      // this.notesService.addNote(newNote).subscribe(
-      //   (response)=>{console.log(response)},
+      let name:string = data.noteName;
+      let author_id:string = "64a49ff9a1caf26fbfaa2dbb";
+      let category_id:string = data.courseName;
+      let subcategory_id:string = data.subjectName;
+      let adress:string ="note_url_link";
+      let description:string = data.noteDesc;
 
 
-      // )
+
+      let newNote: Note =
+      {
+        name:name,
+        author_id: author_id,
+        category_id: category_id,
+        subcategory_id: subcategory_id,
+        adress: adress,
+        description: description
+
+
+      };
+
+      this.notesService.addNote(newNote).subscribe(
+        (response)=>{
+          if(response.status === 201)
+          {
+            let insertedId:string = response.body;
+            console.log(`Dodano notatkę o id:${insertedId}`);
+          }else if(response.status === 400)
+          {
+            console.log("Error status 400:",response)
+          }else if(response.status ===200)
+          {
+            console.log(response,"status 200");
+          }else
+          console.log(response,"problem");
+
+        },
+        (error)=>{console.log("Bład:",error)}
+ )
 
     //  this.categoryArrayList();
 
@@ -89,6 +128,7 @@ constructor(private notesService: NotesService) {}
     {
       this.notesService.getCategories().subscribe((res)=>{
         // console.log(res)
+        this.categoryArray = res;
         res.forEach(element => {
           this.categoryName.push(element.name);
 
@@ -112,6 +152,7 @@ constructor(private notesService: NotesService) {}
       this.notesService.getSubcategories().subscribe((res)=>{
         res.forEach(e =>{
           this.subcategoryName.push(e.name);
+          this.subcategoriesArray.push(e);
         });
 
         for(let i=0;i<res.length;i++)
@@ -182,6 +223,47 @@ constructor(private notesService: NotesService) {}
 
 
     }
+
+    filterSubcategories()
+    {
+      let courseId = this.addNoteForm.get('courseName')?.value;
+      let subjectName = this.addNoteForm.get('subjectName')?.value;
+
+      this.subcategoryFilteredArray = this.subcategory;
+
+      console.log(this.subcategoryFilteredArray)
+
+      if(courseId !=null && courseId !="")
+      {
+        this.subcategoryFilteredArray = this.subcategoryFilteredArray.filter(e=>{
+          return e.category_id === courseId
+
+
+        })
+        this.subcategoriesArray = this.subcategoryFilteredArray;
+
+      }
+
+
+    }
+
+
+    get onCategoryChange()
+    {
+      let categoryName = this.addNoteForm.get('courseName')?.value;
+      this.addNoteForm.get('subjectName')?.disable();
+
+      if(categoryName !=null && categoryName !='')
+      {
+        this.addNoteForm.get('subjectName')?.enable();
+
+      }
+
+
+      return true
+
+    }
+
 
 }
 

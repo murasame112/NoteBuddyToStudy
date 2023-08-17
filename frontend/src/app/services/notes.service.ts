@@ -123,6 +123,20 @@ export class NotesService {
     )
   }
 
+
+  getUsers()
+  {
+    const url =`${this.apiUrl}/users/`
+    return this.http.get<string>(url)
+    .pipe(
+      map((response:any)=>{
+
+        return response;
+      })
+
+    )
+  }
+
   getUserById(id:string)
   {
     const url =`${this.apiUrl}/user/${id}`

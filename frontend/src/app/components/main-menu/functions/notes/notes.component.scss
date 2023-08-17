@@ -34,7 +34,7 @@ main
   justify-content: center;
   align-items: center;
   padding-top: 1rem;
-  padding-bottom: 1rem;
+  padding-bottom: 4rem;
   gap: 1rem;
 
 }
@@ -91,17 +91,33 @@ main
   border: 1px solid rgba(177, 177, 177, 0.25);
 }
 
-.form-select:focus{
-  border-color: #861486;
-  box-shadow: 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.075)
-  inset, 0rem 0px 0.2rem rgb(97, 6, 116);
-}
 
 .categorySelect:focus
 {
   border-color: #861486;
   box-shadow: 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.075)
   inset, 0rem 0px 0.2rem rgb(97, 6, 116);
+}
+
+
+.form-select:focus{
+  border-color: #861486;
+  box-shadow: 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.075)
+  inset, 0rem 0px 0.2rem rgb(97, 6, 116);
+}
+
+
+#subcategorySelect
+{
+  transition: 0.5s ease;
+}
+
+#subcategorySelect:disabled
+{
+  background-color: rgb(211, 211, 211);
+  border: 1px solid rgba(224, 224, 224, 0.25);
+  color: rgb(124, 124, 124);
+  transition: 0.5s ease;
 }
 
 
