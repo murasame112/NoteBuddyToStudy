@@ -4,6 +4,7 @@ import express from 'express'
 import e, { Request, Response } from 'express'
 import {Log} from '../models/log_model';
 import * as global from '../global_functions';
+import { Type } from '../enums/log_type_enum';
 
 const table_name = 'logs';
 
