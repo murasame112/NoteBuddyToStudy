@@ -1,10 +1,11 @@
 import { ObjectId } from 'bson';
+import { Type } from '../enums/group_type_enum';
 export class Group{
-    type: string // TODO: enum  
+    type: Type
     users: Array<ObjectId>
 
     constructor(
-        type: string,
+        type: Type,
         users?: Array<ObjectId>) {
         
             this.type = type;

@@ -1,6 +1,6 @@
-export const type = {
-	0:'error', 
-	1:'info', 
-	2:'warning',
-	3:'success'
+export enum Type {
+	error = 'error', 
+	info = 'info', 
+	warning = 'warning',
+	success = 'success'
 }

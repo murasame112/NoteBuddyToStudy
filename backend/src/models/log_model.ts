@@ -1,13 +1,13 @@
-
+import { Type } from '../enums/log_type_enum';
 export class Log{
 
-    type: string // TODO: enum
+    type: Type
     date: Date
     content: string
       
 
     constructor(
-        type: string,
+        type: Type,
         content: string,
         date?: Date) {
 

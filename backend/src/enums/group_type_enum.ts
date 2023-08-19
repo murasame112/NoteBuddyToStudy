@@ -1,4 +1,4 @@
-export const type = {
-	0:'two', 
-	1:'multiple'
+export enum Type  {
+	two = 'two', 
+	multiple = 'multiple'
 }

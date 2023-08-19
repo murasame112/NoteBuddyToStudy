@@ -1,5 +1,6 @@
 import { ObjectId } from 'bson';
 import { Notification } from './notification_model';
+import { Role } from '../enums/role_enum';
 export class User{
     name: string
     avatar_url: string
@@ -7,7 +8,7 @@ export class User{
     password: string
     active: boolean // false means banned
     created: Date
-    role: string // TODO: enum
+    role: Role
     untrusted: boolean
     saved_notes: Array<ObjectId>
     followed_users: Array<ObjectId>
@@ -21,7 +22,7 @@ export class User{
         login: string,
         password: string,
         active: boolean,
-        role?: string,
+        role?: Role,
         untrusted?: boolean,
         saved_notes?: Array<ObjectId>,
         followed_users?: Array<ObjectId>,
@@ -34,7 +35,7 @@ export class User{
             this.password = password;
             this.active = active;
             this.created = new Date();
-            this.role = role ? role : 'user'; // TODO: enum
+            this.role = role ? role : Role.user;
             this.untrusted = false;
             this.saved_notes = [];
             this.followed_users = [];
