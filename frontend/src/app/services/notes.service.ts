@@ -44,6 +44,20 @@ export class NotesService {
 
   }
 
+  getNoteById(id:string)
+  {
+    const url =`${this.apiUrl}/note/${id}`
+    return this.http.get<string>(url)
+    .pipe(
+      map((response:any)=>{
+
+        return response;
+      })
+
+    )
+  }
+
+
   getCategories()
   {
     const url = `${this.apiUrl}/categories`;

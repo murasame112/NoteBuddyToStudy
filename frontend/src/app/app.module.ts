@@ -19,6 +19,7 @@ import { CardAddComponent } from './components/main-menu/functions/card-add/card
 import { SearchForBuddyComponent } from './components/main-menu/functions/search-for-buddy/search-for-buddy.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NotesContainerComponent } from './components/main-menu/functions/notes/notes-container/notes-container.component';
+import { ShowNoteComponent } from './components/main-menu/functions/notes/show-note/show-note.component';
 
 
 
@@ -40,6 +41,7 @@ import { NotesContainerComponent } from './components/main-menu/functions/notes/
     CardAddComponent,
     SearchForBuddyComponent,
     NotesContainerComponent,
+    ShowNoteComponent,
 
 
   ],

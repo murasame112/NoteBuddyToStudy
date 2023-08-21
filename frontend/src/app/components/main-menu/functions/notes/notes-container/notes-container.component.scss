@@ -32,7 +32,8 @@
   justify-content: space-between;
   align-items: center;
   width: 22rem;
-  padding: 0.7rem 1rem;
+  // padding: 0.3rem 1rem;
+  padding: 0.7rem 1rem 0.3rem;
 }
 
 #trustedAuthor
@@ -48,6 +49,19 @@
   align-items: center;
   gap: 0.6rem;
 }
+
+.icons
+{
+  // visibility: hidden;
+  transition: transform 0.3s ease;
+}
+
+.icons:hover
+{
+  cursor: pointer;
+}
+
+
 
 .spans
 {
@@ -65,7 +79,7 @@
 
 #desc
 {
-  background-color: burlywood;
+  // background-color: burlywood;
   height: 20rem;
   width: 21rem;
 }
@@ -75,7 +89,6 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-
   width: 100%;
   height: 2rem;
   gap: 0.5rem;
@@ -84,12 +97,12 @@
 
 .categoriesC
 {
-  background-color: rgba(217, 217, 217, 0.20);
+  background-color: rgba(168, 168, 168, 0.2);
   color: #3F107A;
   font-size: 0.8rem;
   text-align: center;
   border-radius: 1rem;
-  border: 1px solid  rgba(217, 217, 217, 0.50);
+  border: 1px solid  rgba(201, 200, 200, 0.774);
 }
 
 #course
@@ -99,7 +112,7 @@
 
 #subcategory
 {
-  min-width:6rem;
+  min-width:9rem;
 }
 
 
