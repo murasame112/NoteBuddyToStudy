@@ -42,11 +42,16 @@ export function getLogById(req: Request, res: Response) {
 // /logs/{field}&{value}
 // example:
 //  http://localhost:3000/logs/published&true
-// TODO: poprawić, przemyśleć itp, bo teraz np. stringi wymagają "" w linku
 export function getLogsByQuery(req: Request, res: Response) {
     const field = req.params.field;
-    const value = req.params.value;
-    let query = {[field]: JSON.parse(value)};
+    let value = req.params.value;
+		try {
+			value = JSON.parse(value);
+		} catch (e: any){
+			value = '"'+value+'"';
+			value = JSON.parse(value);
+		} 
+    let query = {[field]: value};
     const result = global.getItemsByField(query, table_name);
     const logArray: Log[] = []; 
     let log: Log;
