@@ -6,6 +6,7 @@
   </nav>
 
   <main>
+    <i class="fa-solid fa-spinner fa-spin-pulse fa-2xl" style="color: #ffbb00;" *ngIf="isLoading" id="spinner"></i>
     <form [formGroup]="FilterForm"  id="filterForm">
     <div id="filters">
       <div id="categoryAndSubcategory" class="searchFilters">

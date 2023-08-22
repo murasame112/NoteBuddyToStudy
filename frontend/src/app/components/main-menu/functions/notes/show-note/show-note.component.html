@@ -4,6 +4,7 @@
    </nav>
 
    <main>
+    <i class="fa-solid fa-spinner fa-spin-pulse fa-2xl" id="spinner" style="color: #ffbb00;" *ngIf="isLoading"></i>
     <div id="topSection">
       <div id="nav"><span id="title">{{note.name}}</span></div>
       <button id="backBtn" routerLink="/notes">powrót</button>
