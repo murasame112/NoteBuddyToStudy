@@ -56,8 +56,8 @@ export function getCardsByQuery(req: Request, res: Response) {
         value.forEach((element: Card) => {
             
             card = new Card(
-                value.questions,
-                value.answers
+                element.questions,
+                element.answers
             );
             cardArray.push(card);
 
