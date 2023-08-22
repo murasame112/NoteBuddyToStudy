@@ -7,7 +7,7 @@ import * as global from '../global_functions';
 
 const table_name = 'notes';
 
-// finds note by id
+// finds all notes
 // /notes
 // example:
 //  http://localhost:3000/notes
@@ -46,11 +46,11 @@ export function getNoteById(req: Request, res: Response) {
 
 // TODO: Ogarnąć tak, żeby działało bez req.body (wysyłać array w linku?). Aczkolwiek zająć się tym dopiero, jak będzie potrzebne
 // finds multiple notes by ids
-// /notes
+// /notes TODO: to zmienic
 // headers:
 //  Content-Type: application/json
 // example:
-//  http://localhost:3000/notes
+//  http://localhost:3000/notes TODO: to zmienic
 // example body:
 //  ["6490d9efdfd298aad1e8f134",
 //  "6490d9f9dfd298aad1e8f135",
@@ -87,7 +87,7 @@ export function getMultipleNotes(req: Request, res: Response) {
 }
 
 
-// finds note multiple notes by field and value
+// finds multiple notes by field and value
 // /notes/{field}&{value}
 // example:
 //  http://localhost:3000/notes/published&true

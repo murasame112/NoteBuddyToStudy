@@ -7,7 +7,7 @@ import * as global from '../global_functions';
 
 const table_name = 'subcategories';
 
-// finds subcategory by id
+// finds all subcategories
 // /subcategories
 // example:
 //  http://localhost:3000/subcategories
@@ -38,7 +38,7 @@ export function getSubcategoryById(req: Request, res: Response) {
 }
 
 
-// finds subcategory multiple subcategories by field and value
+// finds multiple subcategories by field and value
 // /subcategories/{field}&{value}
 // example:
 //  http://localhost:3000/subcategories/published&true

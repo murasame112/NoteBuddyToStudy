@@ -8,7 +8,7 @@ import { Type } from '../enums/group_type_enum';
 
 const table_name = 'groups';
 
-// finds group by id
+// finds all groups
 // /groups
 // example:
 //  http://localhost:3000/groups
@@ -36,41 +36,7 @@ export function getGroupById(req: Request, res: Response) {
     });
 }
 
-// TODO: Ogarnąć tak, żeby działało bez req.body (wysyłać array w linku?). Aczkolwiek zająć się tym dopiero, jak będzie potrzebne
-// finds multiple groups by ids
-// /groups
-// headers:
-//  Content-Type: application/json
-// example:
-//  http://localhost:3000/groups
-// example body:
-//  ["6490d9efdfd298aad1e8f134",
-//  "6490d9f9dfd298aad1e8f135",
-//  "6490d9fddfd298aad1e8f136"]
-export function getMultipleGroups(req: Request, res: Response) {
-    const ids = req.body;
-    console.log(ids);
-    let counter = 0;
-    const groupArray: Group[] = [];
-    ids.forEach((element: string) => {
-            
-        const result = global.getItemById(element, table_name);
-        result.then((value) => {
-            counter ++;
-            let group = new Group(
-                value.type, 
-                value.users
-            );
-            groupArray.push(group);
-            if(counter == ids.length){
-                res.status(201).send(groupArray);
-            }
-        });
-    });
-}
-
-
-// finds group multiple groups by field and value
+// finds multiple groups by field and value
 // /groups/{field}&{value}
 // example:
 //  http://localhost:3000/groups/published&true

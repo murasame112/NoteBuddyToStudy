@@ -23,7 +23,7 @@ export function getCategoryById(req: Request, res: Response) {
     });
 }
 
-// finds category by id
+// finds all categories
 // /categories
 // example:
 //  http://localhost:3000/categories
@@ -34,7 +34,7 @@ export function getAllCategories(req: Request, res: Response) {
     });
 }
 
-// finds category multiple categories by field and value
+// finds multiple categories by field and value
 // /categories/{field}&{value}
 // example:
 //  http://localhost:3000/categories/name&custom_name

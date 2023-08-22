@@ -6,7 +6,7 @@ import * as global from '../global_functions';
 
 const table_name = 'notifications';
 
-// finds notification by id
+// finds all notifications
 // /notifications
 // example:
 //  http://localhost:3000/notifications
@@ -34,7 +34,7 @@ export function getNotificationById(req: Request, res: Response) {
     });
 }
 
-// finds notification multiple notifications by field and value
+// finds multiple notifications by field and value
 // /notifications/{field}&{value}
 // example:
 //  http://localhost:3000/notifications/published&true

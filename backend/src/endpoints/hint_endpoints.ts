@@ -7,7 +7,7 @@ import * as global from '../global_functions';
 
 const table_name = 'hints';
 
-// finds hint by id
+// finds all hints
 // /hints
 // example:
 //  http://localhost:3000/hints
@@ -34,40 +34,7 @@ export function getHintById(req: Request, res: Response) {
     });
 }
 
-// TODO: Ogarnąć tak, żeby działało bez req.body (wysyłać array w linku?). Aczkolwiek zająć się tym dopiero, jak będzie potrzebne
-// finds multiple hints by ids
-// /hints
-// headers:
-//  Content-Type: application/json
-// example:
-//  http://localhost:3000/hints
-// example body:
-//  ["6490d9efdfd298aad1e8f134",
-//  "6490d9f9dfd298aad1e8f135",
-//  "6490d9fddfd298aad1e8f136"]
-export function getMultipleHints(req: Request, res: Response) {
-    const ids = req.body;
-    console.log(ids);
-    let counter = 0;
-    const hintArray: Hint[] = [];
-    ids.forEach((element: string) => {
-            
-        const result = global.getItemById(element, table_name);
-        result.then((value) => {
-            counter ++;
-            let hint = new Hint(
-                value.content
-            );
-            hintArray.push(hint);
-            if(counter == ids.length){
-                res.status(201).send(hintArray);
-            }
-        });
-    });
-}
-
-
-// finds hint multiple hints by field and value
+// finds multiple hints by field and value
 // /hints/{field}&{value}
 // example:
 //  http://localhost:3000/hints/published&true

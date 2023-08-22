@@ -8,7 +8,7 @@ import { Role } from '../enums/role_enum';
 
 const table_name = 'users';
 
-// finds user by id
+// finds all users
 // /users
 // example:
 //  http://localhost:3000/users
@@ -41,7 +41,7 @@ export function getUserById(req: Request, res: Response) {
 }
 
 
-// finds user multiple users by field and value
+// finds multiple users by field and value
 // /users/{field}&{value}
 // example:
 //  http://localhost:3000/users/published&true

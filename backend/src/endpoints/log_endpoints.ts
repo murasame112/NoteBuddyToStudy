@@ -8,7 +8,7 @@ import { Type } from '../enums/log_type_enum';
 
 const table_name = 'logs';
 
-// finds log by id
+// finds all logs
 // /logs
 // example:
 //  http://localhost:3000/logs
@@ -37,42 +37,8 @@ export function getLogById(req: Request, res: Response) {
     });
 }
 
-// TODO: Ogarnąć tak, żeby działało bez req.body (wysyłać array w linku?). Aczkolwiek zająć się tym dopiero, jak będzie potrzebne
-// finds multiple logs by ids
-// /logs
-// headers:
-//  Content-Type: application/json
-// example:
-//  http://localhost:3000/logs
-// example body:
-//  ["6490d9efdfd298aad1e8f134",
-//  "6490d9f9dfd298aad1e8f135",
-//  "6490d9fddfd298aad1e8f136"]
-export function getMultipleLogs(req: Request, res: Response) {
-    const ids = req.body;
-    console.log(ids);
-    let counter = 0;
-    const logArray: Log[] = [];
-    ids.forEach((element: string) => {
-            
-        const result = global.getItemById(element, table_name);
-        result.then((value) => {
-            counter ++;
-            let log = new Log(
-                value.type, 
-                value.content,
-                value.date
-            );
-            logArray.push(log);
-            if(counter == ids.length){
-                res.status(201).send(logArray);
-            }
-        });
-    });
-}
 
-
-// finds log multiple logs by field and value
+// finds multiple logs by field and value
 // /logs/{field}&{value}
 // example:
 //  http://localhost:3000/logs/published&true
