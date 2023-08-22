@@ -91,11 +91,17 @@ export function getMultipleNotes(req: Request, res: Response) {
 // /notes/{field}&{value}
 // example:
 //  http://localhost:3000/notes/published&true
-// TODO: poprawić, przemyśleć itp, bo teraz np. stringi wymagają "" w linku
 export function getNotesByQuery(req: Request, res: Response) {
     const field = req.params.field;
-    const value = req.params.value;
-    let query = {[field]: JSON.parse(value)};
+    let value = req.params.value;
+		try {
+				value = JSON.parse(value);
+		} catch (e: any){
+				value = '"'+value+'"';
+				value = JSON.parse(value);
+		} 
+
+    let query = {[field]: value};
     const result = global.getItemsByField(query, table_name);
     const noteArray: Note[] = []; 
     let note: Note;
