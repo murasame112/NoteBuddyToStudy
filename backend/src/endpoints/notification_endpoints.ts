@@ -27,7 +27,8 @@ export function getNotificationById(req: Request, res: Response) {
     let notification: Notification; 
     result.then((value) => {
         notification = new Notification(
-            value.content
+            value.content,
+						value.created_date
         );
         res.send(notification);   
     });
@@ -48,7 +49,8 @@ export function getNotificationsByQuery(req: Request, res: Response) {
         value.forEach((element: Notification) => {
             
             notification = new Notification(
-                element.content
+                element.content,
+								element.created_date
             );
             notificationArray.push(notification);
 
@@ -69,7 +71,8 @@ export function getNotificationsByQuery(req: Request, res: Response) {
 // }
 export function insertNotification(req: Request, res: Response) {
     const notification: Notification = new Notification(
-        req.body.content
+        req.body.content,
+				req.body.created_date
     );
     const result = global.insertItem(notification, table_name);
     result.then((value) => {
@@ -103,7 +106,8 @@ export function insertMultipleNotifications(req: Request, res: Response) {
     let counter = 0;
     notifications.forEach((element: Notification) => {
         const notification: Notification = new Notification(
-            element.content
+            element.content,
+						element.created_date
         );
             
         const result = global.insertItem(notification, table_name);
@@ -270,7 +274,8 @@ export function replaceNotification(req: Request, res: Response) {
     const query = req.body;
     let notification: Notification;
     notification = new Notification(
-        query.content
+        query.content,
+				query.created_date
     );
     const result = global.replaceItemById(id, table_name, notification);
     result.then((value) => {
@@ -289,7 +294,8 @@ export function stealNotification(req: Request, res: Response) {
     result.then((value) => {
         let notification: Notification;
         notification = new Notification(
-            value.value.content
+            value.value.content,
+						value.value.created_date
         );
         res.status(201).send(notification);
     });
