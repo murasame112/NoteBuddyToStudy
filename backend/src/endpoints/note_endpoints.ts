@@ -342,7 +342,17 @@ export function deleteNotesByQuery(req: Request, res: Response) {
 // }
 export function updateNote(req: Request, res: Response) {
     const id = req.params.id;
-    const query = req.body;
+    let query = req.body;
+		if( typeof query.category_id !== 'undefined'){
+			query.category_id = new ObjectId(query.category_id);
+		}
+		if( typeof query.subcategory_id !== 'undefined'){
+			query.subcategory_id = new ObjectId(query.subcategory_id);
+		}
+		if( typeof query.author_id !== 'undefined'){
+			query.author_id = new ObjectId(query.author_id);
+		}
+
     const result = global.updateItemById(id, table_name, query);
     result.then((value) => {
         (value.acknowledged ? res.status(204).send() : res.status(400).send('Error'));
