@@ -179,10 +179,15 @@ export function getNotesByQueriedId(req: Request, res: Response) {
 //      "description":"custom description"
 // }
 export function insertNote(req: Request, res: Response) {
-    const note: Note = new Note(req.body.name,
-        req.body.author_id,
-        req.body.category_id,
-        req.body.subcategory_id,
+		const category_id = new ObjectId(req.body.category_id);
+		const subcategory_id = new ObjectId(req.body.subcategory_id);
+		const author_id = new ObjectId(req.body.author_id);
+
+    const note: Note = new Note(
+				req.body.name,
+        author_id,
+        category_id,
+        subcategory_id,
         req.body.adress,
         req.body.description,
         req.body.shared_date,
@@ -226,11 +231,18 @@ export function insertNote(req: Request, res: Response) {
 export function insertMultipleNotes(req: Request, res: Response) {
     const notes = req.body;
     let counter = 0;
+		let category_id = new ObjectId(req.body.category_id);
+		let subcategory_id = new ObjectId(req.body.subcategory_id);
+		let author_id = new ObjectId(req.body.author_id);
     notes.forEach((element: Note) => {
-        const note: Note = new Note(element.name,
-            element.author_id,
-            element.category_id,
-            element.subcategory_id,
+			category_id = new ObjectId(element.category_id);
+			subcategory_id = new ObjectId(element.subcategory_id);
+			author_id = new ObjectId(element.author_id);
+        const note: Note = new Note(
+						element.name,
+            author_id,
+            category_id,
+            subcategory_id,
             element.adress,
             element.description,
             element.shared_date,
