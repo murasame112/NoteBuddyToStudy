@@ -54,7 +54,20 @@
 {
   // visibility: hidden;
   transition: transform 0.5s ease;
+
 }
+
+#svg-icon
+{
+  fill: blue;
+}
+
+#svg-icon:hover
+{
+  fill: red;
+}
+
+
 
 .icons:hover
 {
@@ -64,7 +77,11 @@
   color: #320b61;
 }
 
-
+#cardIcon
+{
+  width: 1.2rem;
+  height: 1.2rem;
+}
 
 .spans
 {

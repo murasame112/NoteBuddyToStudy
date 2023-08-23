@@ -4,8 +4,12 @@
       <i class="fa-solid fa-check fa-lg" style="color: #0ebe2c;"></i>
       <span>zaufany autor</span></div>
     <div  #container *ngIf="isVisible" id="hoverMenu">
+      <i class="fa-solid fa-trash fa-xl icons" (click)="deleteNote(data?._id)"></i>
       <i class="fa-solid fa-download fa-xl icons"></i>
-      <i class="fa-solid fa-pen fa-xl icons"></i>
+      <!-- <i class="fa-solid fa-pen fa-xl icons"></i> -->
+
+      <img src="../../../../../../assets/cards2.svg" class="icons" id="svg-icon" alt="">
+
       <i class="fa-regular fa-star fa-xl icons"></i>
       <i class="fa-solid fa-up-right-and-down-left-from-center fa-xl icons" routerLink="/note/{{data?._id}}"></i>
     </div>

@@ -34,6 +34,22 @@ main
 
 }
 
+#backBtn
+{
+  position: absolute;
+  right: 1rem;
+  top: 5rem;
+text-decoration: none;
+background-color: rgba(218, 70, 96, 1);
+color: white;
+border: 0.1rem solid rgba(218, 70, 96, 1) ;
+border-radius: 2rem;
+width: 8rem;
+height: 2.5rem;
+align-self: flex-start;
+
+}
+
 
 footer
 {

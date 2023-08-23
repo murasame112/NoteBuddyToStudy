@@ -58,6 +58,22 @@ export class NotesService {
   }
 
 
+  deleteNote(id:string)
+{
+
+  const url =`${this.apiUrl}/note/${id}`
+  return this.http.delete<string>(url)
+  .pipe(
+    map((response:any)=>{
+
+      return response;
+    })
+
+  )
+
+}
+
+
   getCategories()
   {
     const url = `${this.apiUrl}/categories`;

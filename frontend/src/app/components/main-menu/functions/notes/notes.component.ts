@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,EventEmitter } from '@angular/core';
 import { NotesService } from '../../../../services/notes.service';
 import {Note} from '../../../../models/note.model';
 import { Observable, first,forkJoin } from 'rxjs';
@@ -275,6 +275,14 @@ export class NotesComponent implements OnInit{
 
       }
     )
+
+  }
+
+
+  refreshNoteData()
+  {
+    console.log("wykonane")
+    this.getNotes()
 
   }
 

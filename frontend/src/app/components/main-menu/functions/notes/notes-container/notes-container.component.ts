@@ -1,4 +1,4 @@
-import { Component, OnInit,Input, ViewChild } from '@angular/core';
+import { Component, OnInit,Input, ViewChild, EventEmitter,Output } from '@angular/core';
 import { NotesService } from '../../../../../services/notes.service';
 import { Note } from 'src/app/models/note.model';
 
@@ -19,6 +19,7 @@ categoryName:string ="";
 subCategoryName:string = "";
 userName:string = "";
 
+ @Output()  public deleteNoteEvent: EventEmitter<boolean> = new EventEmitter();
 
   constructor(private notesService: NotesService ) {
 
@@ -77,6 +78,17 @@ userName:string = "";
  {
   let icons:any = document.querySelectorAll('.icons');
   this.isVisible= false;
+
+ }
+
+
+ deleteNote(_id:any)
+ {
+  this.notesService.deleteNote(_id.toString()).subscribe((res)=>{
+    this.deleteNoteEvent.emit();
+
+  })
+
 
  }
 
