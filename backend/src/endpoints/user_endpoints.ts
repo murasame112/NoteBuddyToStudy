@@ -236,8 +236,14 @@ export function deleteMultipleUsers(req: Request, res: Response) {
 //  http://localhost:3000/users/published&true
 export function deleteUsersByQuery(req: Request, res: Response) {
     const field = req.params.field;
-    const value = req.params.value;
-    let query = {[field]: JSON.parse(value)};
+    let value = req.params.value;
+		try {
+				value = JSON.parse(value);
+		} catch (e: any){
+				value = '"'+value+'"';
+				value = JSON.parse(value);
+		} 
+    let query = {[field]: value};
     const result = global.deleteItemsByField(query, table_name);
     result.then((value) => {
         (value.acknowledged ? res.status(201).send() : res.status(400).send('Error'));
