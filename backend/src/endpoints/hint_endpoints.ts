@@ -164,7 +164,7 @@ export function deleteHint(req: Request, res: Response) {
 // headers:
 //  Content-Type: application/json
 // example:
-//  http://localhost:3000/hint
+//  http://localhost:3000/hints
 // example body:
 //  ["6490d9efdfd298aad1e8f134",
 //  "6490d9f9dfd298aad1e8f135",

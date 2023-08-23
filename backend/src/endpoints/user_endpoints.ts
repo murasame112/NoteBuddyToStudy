@@ -205,7 +205,7 @@ export function deleteUser(req: Request, res: Response) {
 // headers:
 //  Content-Type: application/json
 // example:
-//  http://localhost:3000/user
+//  http://localhost:3000/users
 // example body:
 //  ["6490d9efdfd298aad1e8f134",
 //  "6490d9f9dfd298aad1e8f135",
