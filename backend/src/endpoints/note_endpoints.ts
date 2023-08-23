@@ -231,9 +231,9 @@ export function insertNote(req: Request, res: Response) {
 export function insertMultipleNotes(req: Request, res: Response) {
     const notes = req.body;
     let counter = 0;
-		let category_id = new ObjectId(req.body.category_id);
-		let subcategory_id = new ObjectId(req.body.subcategory_id);
-		let author_id = new ObjectId(req.body.author_id);
+		let category_id = new ObjectId();
+		let subcategory_id = new ObjectId();
+		let author_id = new ObjectId();
     notes.forEach((element: Note) => {
 			category_id = new ObjectId(element.category_id);
 			subcategory_id = new ObjectId(element.subcategory_id);

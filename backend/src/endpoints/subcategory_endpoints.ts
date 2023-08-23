@@ -108,8 +108,9 @@ export function getSubcategoriesByQueriedId(req: Request, res: Response) {
 //      "category_id":"some id"
 // }
 export function insertSubcategory(req: Request, res: Response) {
+		const category_id = new ObjectId(req.body.category_id);
     const subcategory: Subcategory = new Subcategory(
-        req.body.category_id,
+        category_id,
         req.body.name
     );
     const result = global.insertItem(subcategory, table_name);
@@ -139,9 +140,11 @@ export function insertSubcategory(req: Request, res: Response) {
 export function insertMultipleSubcategories(req: Request, res: Response) {
     const subcategories = req.body;
     let counter = 0;
+		let category_id = new ObjectId();
     subcategories.forEach((element: Subcategory) => {
+				category_id = new ObjectId(element.category_id);
         const subcategory: Subcategory = new Subcategory(
-            element.category_id,
+            category_id,
             element.name
         );
             

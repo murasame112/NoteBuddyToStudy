@@ -110,9 +110,15 @@ export function getGroupsByQueriedId(req: Request, res: Response) {
     // ]
 // }
 export function insertGroup(req: Request, res: Response) {
+
+		let users: ObjectId[] = [];
+		req.body.users.forEach((element: string) => {
+			let user_id = new ObjectId(element);
+			users.push(user_id);
+		});
     const group: Group = new Group(
         req.body.type, 
-        req.body.users
+        users
     );
     const result = global.insertItem(group, table_name);
     result.then((value) => {
@@ -149,10 +155,15 @@ export function insertGroup(req: Request, res: Response) {
 export function insertMultipleGroups(req: Request, res: Response) {
     const groups = req.body;
     let counter = 0;
-    groups.forEach((element: Group) => {
+    groups.forEach((element: any) => { // TODO: przemyśleć, czy tu powinno byc any?
+			let usersIds: ObjectId[] = [];
+			element.users.forEach((elem: string) => {
+				let user_id = new ObjectId(elem);
+				usersIds.push(user_id);
+			});
         const group: Group = new Group(
             element.type, 
-            element.users
+            usersIds
         );
             
         const result = global.insertItem(group, table_name);
