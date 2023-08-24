@@ -9,13 +9,13 @@
 
   <div id="page-name">Rejestracja</div>
   <div id="register-form">
-    <form [formGroup]="registerForm">
+    <form [formGroup]="registerForm" (ngSubmit)="addUser(registerForm.value)">
       <label class="form-labels">Login</label><br>
-      <input type="text" placeholder="wpisz login" class="form-inputs"><br><br>
+      <input type="text" placeholder="wpisz login" class="form-inputs" formControlName="login"><br><br>
       <label class="form-labels">Adres e-mail</label><br>
-      <input type="text" placeholder="wpisz e-mail" class="form-inputs"><br><br>
+      <input type="text" placeholder="wpisz e-mail" class="form-inputs" formControlName="mail"><br><br>
       <label class="form-labels">Hasło</label><br>
-      <input type="password" placeholder="minimum 7 znaków" class="form-inputs"><br><br>
+      <input type="password" placeholder="minimum 7 znaków" class="form-inputs" formControlName="password"><br><br>
       <input type="submit" value="Zarejestruj się" id="register-btn">
     </form>
 
