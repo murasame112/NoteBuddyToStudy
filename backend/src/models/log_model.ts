@@ -1,19 +1,19 @@
-import { ObjectId } from 'bson';
-export class Logi{
-    id: ObjectId
-    type: string // TODO: enum
+import { Type } from '../enums/log_type_enum';
+export class Log{
+
+    type: Type
     date: Date
     content: string
       
 
-    constructor(id: ObjectId, 
-        type: string,
-        content: string) {
-        
-            this.id = id;
+    constructor(
+        type: Type,
+        content: string,
+        date?: Date) {
+
             this.type = type;
-            this.date = new Date();
             this.content = content;
+            this.date = (date ? date : new Date());
     }
 
 }

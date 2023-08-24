@@ -4,6 +4,7 @@ import express from 'express'
 import e, { Request, Response } from 'express'
 import {User} from '../models/user_model';
 import * as global from '../global_functions';
+import { Role } from '../enums/role_enum';
 
 const table_name = 'users';
 

@@ -7,6 +7,11 @@ import * as userEndpoints from "./endpoints/user_endpoints";
 import * as categoryEndpoints from "./endpoints/category_endpoints";
 import * as subcategoryEndpoints from "./endpoints/subcategory_endpoints";
 import * as notificationEndpoints from "./endpoints/notification_endpoints";
+import * as cardEndpoints from "./endpoints/card_endpoints";
+import * as groupEndpoints from "./endpoints/group_endpoints";
+import * as hintEndpoints from "./endpoints/hint_endpoints";
+import * as logEndpoints from "./endpoints/log_endpoints";
+
 
 const app = express() ;
 app.use(express.json());
@@ -109,11 +114,74 @@ app.patch('/notifications/:field&:value',  notificationEndpoints.updateNotificat
 app.patch('/notifications',  notificationEndpoints.updateMultipleNotifications);
 app.put('/notification/:id',  notificationEndpoints.replaceNotification);
 
+// ============== CARD ENDPOINTS ==============
+
+app.get('/card/:id', cardEndpoints.getCardById);
+app.get('/stealcard/:id', cardEndpoints.stealCard);
+app.get('/cards', cardEndpoints.getAllCards);
+app.get('/cards/:field&:value', cardEndpoints.getCardsByQuery);
+app.get('/cardsid/:field&:value', cardEndpoints.getCardsByQueriedId);
+app.post('/card', cardEndpoints.insertCard);
+app.post('/cards', cardEndpoints.insertMultipleCards);
+app.delete('/card/:id', cardEndpoints.deleteCard);
+app.delete('/cards', cardEndpoints.deleteMultipleCards);
+app.delete('/cards/:field&:value', cardEndpoints.deleteCardsByQuery);
+app.patch('/card/:id',  cardEndpoints.updateCard);
+app.patch('/cards/:field&:value',  cardEndpoints.updateCardsByQuery);
+app.patch('/cards',  cardEndpoints.updateMultipleCards);
+app.put('/card/:id',  cardEndpoints.replaceCard);
 
 
+// ============== GROUP ENDPOINTS ==============
 
+app.get('/group/:id', groupEndpoints.getGroupById);
+app.get('/stealgroup/:id', groupEndpoints.stealGroup);
+app.get('/groups', groupEndpoints.getAllGroups);
+app.get('/groups/:field&:value', groupEndpoints.getGroupsByQuery);
+app.get('/groupsid/:field&:value', groupEndpoints.getGroupsByQueriedId);
+app.post('/group', groupEndpoints.insertGroup);
+app.post('/groups', groupEndpoints.insertMultipleGroups);
+app.delete('/group/:id', groupEndpoints.deleteGroup);
+app.delete('/groups', groupEndpoints.deleteMultipleGroups);
+app.delete('/groups/:field&:value', groupEndpoints.deleteGroupsByQuery);
+app.patch('/group/:id',  groupEndpoints.updateGroup);
+app.patch('/groups/:field&:value',  groupEndpoints.updateGroupsByQuery);
+app.patch('/groups',  groupEndpoints.updateMultipleGroups);
+app.put('/group/:id',  groupEndpoints.replaceGroup);
 
+// ============== HINT ENDPOINTS ==============
 
+app.get('/hint/:id', hintEndpoints.getHintById);
+app.get('/stealhint/:id', hintEndpoints.stealHint);
+app.get('/hints', hintEndpoints.getAllHints);
+app.get('/hints/:field&:value', hintEndpoints.getHintsByQuery);
+app.get('/hintsid/:field&:value', hintEndpoints.getHintsByQueriedId);
+app.post('/hint', hintEndpoints.insertHint);
+app.post('/hints', hintEndpoints.insertMultipleHints);
+app.delete('/hint/:id', hintEndpoints.deleteHint);
+app.delete('/hints', hintEndpoints.deleteMultipleHints);
+app.delete('/hints/:field&:value', hintEndpoints.deleteHintsByQuery);
+app.patch('/hint/:id',  hintEndpoints.updateHint);
+app.patch('/hints/:field&:value',  hintEndpoints.updateHintsByQuery);
+app.patch('/hints',  hintEndpoints.updateMultipleHints);
+app.put('/hint/:id',  hintEndpoints.replaceHint);
+
+// ============== LOG ENDPOINTS ==============
+
+app.get('/log/:id', logEndpoints.getLogById);
+app.get('/steallog/:id', logEndpoints.stealLog);
+app.get('/logs', logEndpoints.getAllLogs);
+app.get('/logs/:field&:value', logEndpoints.getLogsByQuery);
+app.get('/logsid/:field&:value', logEndpoints.getLogsByQueriedId);
+app.post('/log', logEndpoints.insertLog);
+app.post('/logs', logEndpoints.insertMultipleLogs);
+app.delete('/log/:id', logEndpoints.deleteLog);
+app.delete('/logs', logEndpoints.deleteMultipleLogs);
+app.delete('/logs/:field&:value', logEndpoints.deleteLogsByQuery);
+app.patch('/log/:id',  logEndpoints.updateLog);
+app.patch('/logs/:field&:value',  logEndpoints.updateLogsByQuery);
+app.patch('/logs',  logEndpoints.updateMultipleLogs);
+app.put('/log/:id',  logEndpoints.replaceLog);
 
 
     // =============== ponizej notatki, do usuniecia potem ==============
