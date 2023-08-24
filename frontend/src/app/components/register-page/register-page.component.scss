@@ -130,6 +130,14 @@ grid-template-rows: 1fr;
 }
 
 
+input.ng-invalid.ng-touched
+{
+  border:0.1rem solid rgb(224, 15, 15);
+  box-shadow: 0 0 0.3rem rgb(223, 0, 0);
+
+}
+
+
 .form-labels
 {
   font-family: 'poppins', sans-serif;
