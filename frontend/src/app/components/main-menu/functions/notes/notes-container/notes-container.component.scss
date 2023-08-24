@@ -57,17 +57,6 @@
 
 }
 
-#svg-icon
-{
-  fill: blue;
-}
-
-#svg-icon:hover
-{
-  fill: red;
-}
-
-
 
 .icons:hover
 {
@@ -81,6 +70,40 @@
 {
   width: 1.2rem;
   height: 1.2rem;
+
+
+}
+
+#cardIcon:hover path
+{
+  fill: #320b61;
+}
+
+#cardIcon:hover rect
+{
+  stroke:#320b61;
+}
+
+
+
+// .cardIcon1:hover
+// {
+// fill: #320b61;
+// }
+
+// .cardIcon2:hover
+// {
+//   stroke: #320b61;
+// }
+
+#svg-icon
+{
+  fill: blue;
+}
+
+#svg-icon:hover
+{
+  fill: red;
 }
 
 .spans
