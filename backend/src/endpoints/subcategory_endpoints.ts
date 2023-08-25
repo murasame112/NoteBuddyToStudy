@@ -264,7 +264,10 @@ export function updateSubcategory(req: Request, res: Response) {
 //  }
 export function updateMultipleSubcategories(req: Request, res: Response) {
     const ids = req.body.ids;
-    const updateQuery = req.body.query;
+    let updateQuery = req.body.query;
+		if( typeof updateQuery.category_id !== 'undefined'){
+			updateQuery.category_id = new ObjectId(updateQuery.category_id);
+		}
     let counter = 0;
     ids.forEach((element: string) => {
             

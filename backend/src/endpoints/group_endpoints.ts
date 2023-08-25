@@ -299,7 +299,17 @@ export function updateGroup(req: Request, res: Response) {
 //  }
 export function updateMultipleGroups(req: Request, res: Response) {
     const ids = req.body.ids;
-    const updateQuery = req.body.query;
+    let updateQuery = req.body.query;
+		if( typeof updateQuery.users !== 'undefined'){
+			let usersIds: ObjectId[] = [];
+			
+			updateQuery.users.forEach((elem: string) => {
+				let user_id = new ObjectId(elem);
+				usersIds.push(user_id);
+			});
+			
+			updateQuery.users = usersIds;
+		}
     let counter = 0;
     ids.forEach((element: string) => {
             
