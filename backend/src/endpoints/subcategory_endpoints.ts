@@ -253,11 +253,11 @@ export function updateSubcategory(req: Request, res: Response) {
 //  http://localhost:3000/subcategories
 // example body:
 // {
-//     "ids":[
+//     "ids":
 //      ["6490d9efdfd298aad1e8f134",
 //      "6490d9f9dfd298aad1e8f135",
 //      "6490d9fddfd298aad1e8f136"]
-//     ],
+//     ,
 //     "query":{
 //        "name":"custom name"
 //     }
