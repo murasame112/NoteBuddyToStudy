@@ -258,7 +258,17 @@ export function deleteGroupsByQuery(req: Request, res: Response) {
 // }
 export function updateGroup(req: Request, res: Response) {
     const id = req.params.id;
-    const query = req.body;
+    let query = req.body;
+		if( typeof query.users !== 'undefined'){
+			let usersIds: ObjectId[] = [];
+			
+			query.users.forEach((elem: string) => {
+				let user_id = new ObjectId(elem);
+				usersIds.push(user_id);
+			});
+			
+			query.users = usersIds;
+		}
     const result = global.updateItemById(id, table_name, query);
     result.then((value) => {
         (value.acknowledged ? res.status(204).send() : res.status(400).send('Error'));

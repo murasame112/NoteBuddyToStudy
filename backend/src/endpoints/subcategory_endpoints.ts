@@ -235,7 +235,10 @@ export function deleteSubcategoriesByQuery(req: Request, res: Response) {
 // }
 export function updateSubcategory(req: Request, res: Response) {
     const id = req.params.id;
-    const query = req.body;
+    let query = req.body;
+		if( typeof query.category_id !== 'undefined'){
+			query.category_id = new ObjectId(query.category_id);
+		}
     const result = global.updateItemById(id, table_name, query);
     result.then((value) => {
         (value.acknowledged ? res.status(204).send() : res.status(400).send('Error'));
