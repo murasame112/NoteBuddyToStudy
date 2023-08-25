@@ -364,14 +364,14 @@ export function updateNote(req: Request, res: Response) {
 // headers:
 //  Content-Type: application/json
 // example:
-//  http://localhost:3000/note
+//  http://localhost:3000/notes
 // example body:
 // {
-//     "ids":[
+//     "ids":
 //      ["6490d9efdfd298aad1e8f134",
 //      "6490d9f9dfd298aad1e8f135",
 //      "6490d9fddfd298aad1e8f136"]
-//     ],
+//     ,
 //     "query":{
 //        "name":"custom name",
 //        "description":"custom description"
