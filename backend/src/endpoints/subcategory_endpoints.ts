@@ -130,11 +130,11 @@ export function insertSubcategory(req: Request, res: Response) {
 // [
 //     {
 //        "name":"custom name",
-//        "category_id":{"$oid":"64a4a1d1a1caf26fbfaa2dc1"}
+//        "category_id":"64a4a1d1a1caf26fbfaa2dc1"
 //     },
     // {
     //    "name":"custom name2"
-    //    "category_id":{"$oid":"64a4a1d1a1caf26fbfaa2dc1"}
+    //    "category_id":"64a4a1d1a1caf26fbfaa2dc1"
     // }
 //  ]
 export function insertMultipleSubcategories(req: Request, res: Response) {

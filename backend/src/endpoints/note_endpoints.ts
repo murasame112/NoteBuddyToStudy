@@ -214,17 +214,17 @@ export function insertNote(req: Request, res: Response) {
 //     {
 //        "name":"custom name",
 //        "adress":"custom adress",
-//        "author_id":{"$oid":"64a49ff9a1caf26fbfaa2dbb"},
-//        "category_id":{"$oid":"64a4a1d1a1caf26fbfaa2dc1"},
-//        "sucategory_id":{"$oid":"64a4a367a1caf26fbfaa2dcc"},
+//        "author_id":"64a49ff9a1caf26fbfaa2dbb",
+//        "category_id":"64a4a1d1a1caf26fbfaa2dc1",
+//        "sucategory_id":"64a4a367a1caf26fbfaa2dcc",
 //        "description":"custom description"
 //     },
     // {
     //    "name":"custom name2",
     //    "adress":"custom adress2",
-    //    "author_id":{"$oid":"64a49ff9a1caf26fbfaa2dbb"},
-    //    "category_id":{"$oid":"64a4a1d1a1caf26fbfaa2dc1"},
-    //    "sucategory_id":{"$oid":"64a4a367a1caf26fbfaa2dcc"},
+    //    "author_id":"64a49ff9a1caf26fbfaa2dbb",
+    //    "category_id":"64a4a1d1a1caf26fbfaa2dc1",
+    //    "sucategory_id":"64a4a367a1caf26fbfaa2dcc",
     //    "description":"custom description2"
     // }
 //  ]

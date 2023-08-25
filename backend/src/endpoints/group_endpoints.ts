@@ -104,9 +104,7 @@ export function getGroupsByQueriedId(req: Request, res: Response) {
 //   {
     // "type":"two",
     // "users":[
-    //    {
-    //       "$oid":"64a49ff9a1caf26fbfaa2dbb"
-    //    }
+    //    "64a49ff9a1caf26fbfaa2dbb"
     // ]
 // }
 export function insertGroup(req: Request, res: Response) {
@@ -138,17 +136,13 @@ export function insertGroup(req: Request, res: Response) {
 //     {
     // "type":"two",
     // "users":[
-    //    {
-    //       "$oid":"64a49ff9a1caf26fbfaa2dbb"
-    //    }
+    //    "64a49ff9a1caf26fbfaa2dbb"
     // ]
 //     },
     // {
     // "type":"two",
     // "users":[
-    //    {
-    //       "$oid":"64a49ff9a1caf26fbfaa2dbb"
-    //    }
+    //    "64a49ff9a1caf26fbfaa2dbb"
     // ]
     // }
 //  ]
@@ -251,9 +245,7 @@ export function deleteGroupsByQuery(req: Request, res: Response) {
 //   {
     // "type":"two",
     // "users":[
-    //    {
-    //       "$oid":"64a49ff9a1caf26fbfaa2dbb"
-    //    }
+    //       "64a49ff9a1caf26fbfaa2dbb"
     // ]
 // }
 export function updateGroup(req: Request, res: Response) {
@@ -291,9 +283,7 @@ export function updateGroup(req: Request, res: Response) {
 //     "query":{
     // "type":"two",
     // "users":[
-    //    {
-    //       "$oid":"64a49ff9a1caf26fbfaa2dbb"
-    //    }
+    //       "64a49ff9a1caf26fbfaa2dbb"
     // ]
 //     }
 //  }
@@ -336,9 +326,7 @@ export function updateMultipleGroups(req: Request, res: Response) {
 //   {
     // "type":"two",
     // "users":[
-    //    {
-    //       "$oid":"64a49ff9a1caf26fbfaa2dbb"
-    //    }
+    //    "64a49ff9a1caf26fbfaa2dbb"
     // ]
 // }
 export function updateGroupsByQuery(req: Request, res: Response) {
@@ -379,10 +367,8 @@ export function updateGroupsByQuery(req: Request, res: Response) {
 //   {
     // "type":"two",
     // "users":[
-    //    {
-    //       "$oid":"64a49ff9a1caf26fbfaa2dbb"
-    //    }
-    // ]
+    //    "64a49ff9a1caf26fbfaa2dbb"
+		// ]
 // }
 export function replaceGroup(req: Request, res: Response) {
     const id = req.params.id;
