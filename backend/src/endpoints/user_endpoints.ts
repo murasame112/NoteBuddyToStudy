@@ -1,22 +1,22 @@
-import { Console } from 'console'
-import { ObjectId } from 'bson';
-import express from 'express'
-import e, { Request, Response } from 'express'
-import {User} from '../models/user_model';
-import * as global from '../global_functions';
-import { Role } from '../enums/role_enum';
+import { Console } from "console";
+import { ObjectId } from "bson";
+import express from "express";
+import e, { Request, Response } from "express";
+import { User } from "../models/user_model";
+import * as global from "../global_functions";
+import { Role } from "../enums/role_enum";
 
-const table_name = 'users';
+const table_name = "users";
 
 // finds all users
 // /users
 // example:
 //  http://localhost:3000/users
 export function getAllUsers(req: Request, res: Response) {
-    const result = global.getAllItems(table_name);
-    result.then((value)=> {
-        res.send(value);
-    });
+  const result = global.getAllItems(table_name);
+  result.then((value) => {
+    res.send(value);
+  });
 }
 
 // finds user by id
@@ -24,56 +24,53 @@ export function getAllUsers(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/user/648c6400e388683aeb23d331
 export function getUserById(req: Request, res: Response) {
-    const id = req.params.id;
-    const result = global.getItemById(id, table_name);
-    let user: User; 
-    result.then((value) => {
-        user = new User(
-            value.name, 
-            value.avatar_url, 
-            value.login, 
-            value.password, 
-            value.active, 
-            value.role
-        );
-        res.send(user);   
-    });
+  const id = req.params.id;
+  const result = global.getItemById(id, table_name);
+  let user: User;
+  result.then((value) => {
+    user = new User(
+      value.name,
+      value.avatar_url,
+      value.login,
+      value.password,
+      value.active,
+      value.role
+    );
+    res.send(user);
+  });
 }
-
 
 // finds multiple users by field and value
 // /users/{field}&{value}
 // example:
 //  http://localhost:3000/users/published&true
 export function getUsersByQuery(req: Request, res: Response) {
-    const field = req.params.field;
-    let value = req.params.value;
-		try {
-			value = JSON.parse(value);
-		} catch (e: any){
-			value = '"'+value+'"';
-			value = JSON.parse(value);
-		} 
-    let query = {[field]: value};
-    const result = global.getItemsByField(query, table_name);
-    const userArray: User[] = []; 
-    let user: User;
-    result.then((value) => {
-        value.forEach((element: User) => {
-            
-            user = new User(
-                element.name, 
-                element.avatar_url, 
-                element.login, 
-                element.password, 
-                element.active, 
-                element.role
-            );
-            userArray.push(user);
-
-        });
-        res.send(userArray);   
+  const field = req.params.field;
+  let value = req.params.value;
+  try {
+    value = JSON.parse(value);
+  } catch (e: any) {
+    value = '"' + value + '"';
+    value = JSON.parse(value);
+  }
+  let query = { [field]: value };
+  const result = global.getItemsByField(query, table_name);
+  const userArray: User[] = [];
+  let user: User;
+  result.then((value) => {
+    value.forEach((element: User) => {
+      user = new User(
+        element.name,
+        element.avatar_url,
+        element.login,
+        element.password,
+        element.active,
+        element.role
+      );
+      userArray.push(user);
     });
+    res.send(userArray);
+  });
 }
 
 // finds multiple users by id_field and value of objectId
@@ -81,30 +78,28 @@ export function getUsersByQuery(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/usersid/note&6490d9efdfd298aad1e8f134
 export function getUsersByQueriedId(req: Request, res: Response) {
-    const field = req.params.field;
-    const value = req.params.value;
-    const objValue = new ObjectId(value);
-    
-    let query = {[field]: (objValue)};
-    const result = global.getItemsByField(query, table_name);
-    const userArray: User[] = []; 
-    let user: User;
-    result.then((value) => {
-        value.forEach((element: User) => {
-            
-            user = new User(
-                element.name, 
-                element.avatar_url, 
-                element.login, 
-                element.password, 
-                element.active, 
-                element.role
-            );
-            userArray.push(user);
+  const field = req.params.field;
+  const value = req.params.value;
+  const objValue = new ObjectId(value);
 
-        });
-        res.send(userArray);   
+  let query = { [field]: objValue };
+  const result = global.getItemsByField(query, table_name);
+  const userArray: User[] = [];
+  let user: User;
+  result.then((value) => {
+    value.forEach((element: User) => {
+      user = new User(
+        element.name,
+        element.avatar_url,
+        element.login,
+        element.password,
+        element.active,
+        element.role
+      );
+      userArray.push(user);
     });
+    res.send(userArray);
+  });
 }
 
 // inserts user to database
@@ -122,20 +117,21 @@ export function getUsersByQueriedId(req: Request, res: Response) {
 //      "description":"custom description"
 // }
 export function insertUser(req: Request, res: Response) {
-    const user: User = new User(
-        req.body.name, 
-        req.body.avatar_url, 
-        req.body.login, 
-        req.body.password, 
-        req.body.active, 
-        req.body.role
-    );
-    const result = global.insertItem(user, table_name);
-    result.then((value) => {
-        (value.acknowledged ? res.status(201).send('id: ' + value.insertedId) : res.status(400).send('Error'));
-    });
+  const user: User = new User(
+    req.body.name,
+    req.body.avatar_url,
+    req.body.login,
+    req.body.password,
+    req.body.active,
+    req.body.role
+  );
+  const result = global.insertItem(user, table_name);
+  result.then((value) => {
+    value.acknowledged
+      ? res.status(201).send("id: " + value.insertedId)
+      : res.status(400).send("Error");
+  });
 }
-
 
 // inserts multiple users to database
 // /users
@@ -153,39 +149,39 @@ export function insertUser(req: Request, res: Response) {
 //        "sucategory_id":{"$oid":"64a4a367a1caf26fbfaa2dcc"},
 //        "description":"custom description"
 //     },
-    // {
-    //    "name":"custom name2",
-    //    "adress":"custom adress2",
-    //    "author_id":{"$oid":"64a49ff9a1caf26fbfaa2dbb"},
-    //    "category_id":{"$oid":"64a4a1d1a1caf26fbfaa2dc1"},
-    //    "sucategory_id":{"$oid":"64a4a367a1caf26fbfaa2dcc"},
-    //    "description":"custom description2"
-    // }
+// {
+//    "name":"custom name2",
+//    "adress":"custom adress2",
+//    "author_id":{"$oid":"64a49ff9a1caf26fbfaa2dbb"},
+//    "category_id":{"$oid":"64a4a1d1a1caf26fbfaa2dc1"},
+//    "sucategory_id":{"$oid":"64a4a367a1caf26fbfaa2dcc"},
+//    "description":"custom description2"
+// }
 //  ]
 export function insertMultipleUsers(req: Request, res: Response) {
-    const users = req.body;
-    let counter = 0;
-    users.forEach((element: User) => {
-        const user: User = new User(
-            element.name, 
-            element.avatar_url, 
-            element.login, 
-            element.password, 
-            element.active, 
-            element.role
-        );
-            
-        const result = global.insertItem(user, table_name);
-        result.then((value) => {
-            counter ++;
-            if(value.acknowledged == false){
-                res.status(400).send('Error');
-            }
-            if(counter == users.length){
-                res.status(204).send();
-            }
-        });
+  const users = req.body;
+  let counter = 0;
+  users.forEach((element: User) => {
+    const user: User = new User(
+      element.name,
+      element.avatar_url,
+      element.login,
+      element.password,
+      element.active,
+      element.role
+    );
+
+    const result = global.insertItem(user, table_name);
+    result.then((value) => {
+      counter++;
+      if (value.acknowledged == false) {
+        res.status(400).send("Error");
+      }
+      if (counter == users.length) {
+        res.status(204).send();
+      }
     });
+  });
 }
 
 // deletes user by id
@@ -193,11 +189,11 @@ export function insertMultipleUsers(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/user/6490d3e5982efd2fe9136154
 export function deleteUser(req: Request, res: Response) {
-    const id = req.params.id;
-    const result = global.deleteItemById(id, table_name);
-    result.then((value) => {
-        (value.acknowledged ? res.status(204).send() : res.status(400).send('Error'));
-    });
+  const id = req.params.id;
+  const result = global.deleteItemById(id, table_name);
+  result.then((value) => {
+    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+  });
 }
 
 // deletes multiple users by array of ids
@@ -212,42 +208,40 @@ export function deleteUser(req: Request, res: Response) {
 //  "6490d9fddfd298aad1e8f136"]
 
 export function deleteMultipleUsers(req: Request, res: Response) {
-    const ids = req.body;
-    let counter = 0;
-    ids.forEach((element: string) => {
-            
-        const result = global.deleteItemById(element, table_name);
-        result.then((value) => {
-            counter ++;
-            if(value.acknowledged == false){
-                res.status(400).send('Error');
-            }
-            if(counter == ids.length){
-                res.status(204).send();
-            }
-        });
+  const ids = req.body;
+  let counter = 0;
+  ids.forEach((element: string) => {
+    const result = global.deleteItemById(element, table_name);
+    result.then((value) => {
+      counter++;
+      if (value.acknowledged == false) {
+        res.status(400).send("Error");
+      }
+      if (counter == ids.length) {
+        res.status(204).send();
+      }
     });
+  });
 }
-
 
 // deletes multiple users by field and value
 // /users/{field}&{value}
 // example:
 //  http://localhost:3000/users/published&true
 export function deleteUsersByQuery(req: Request, res: Response) {
-    const field = req.params.field;
-    let value = req.params.value;
-		try {
-				value = JSON.parse(value);
-		} catch (e: any){
-				value = '"'+value+'"';
-				value = JSON.parse(value);
-		} 
-    let query = {[field]: value};
-    const result = global.deleteItemsByField(query, table_name);
-    result.then((value) => {
-        (value.acknowledged ? res.status(201).send() : res.status(400).send('Error'));
-    }); 
+  const field = req.params.field;
+  let value = req.params.value;
+  try {
+    value = JSON.parse(value);
+  } catch (e: any) {
+    value = '"' + value + '"';
+    value = JSON.parse(value);
+  }
+  let query = { [field]: value };
+  const result = global.deleteItemsByField(query, table_name);
+  result.then((value) => {
+    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+  });
 }
 
 // updates user by id with values passed in request body
@@ -262,12 +256,12 @@ export function deleteUsersByQuery(req: Request, res: Response) {
 //      "description":"custom description"
 // }
 export function updateUser(req: Request, res: Response) {
-    const id = req.params.id;
-    const query = req.body;
-    const result = global.updateItemById(id, table_name, query);
-    result.then((value) => {
-        (value.acknowledged ? res.status(204).send() : res.status(400).send('Error'));
-    });
+  const id = req.params.id;
+  const query = req.body;
+  const result = global.updateItemById(id, table_name, query);
+  result.then((value) => {
+    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+  });
 }
 
 // updates multiple users by array of ids
@@ -289,22 +283,21 @@ export function updateUser(req: Request, res: Response) {
 //     }
 //  }
 export function updateMultipleUsers(req: Request, res: Response) {
-    const ids = req.body.ids;
-    const updateQuery = req.body.query;
-    let counter = 0;
-    ids.forEach((element: string) => {
-            
-        const result = global.updateItemById(element, table_name, updateQuery);
-        result.then((value) => {
-            counter ++;
-            if(value.acknowledged == false){
-                res.status(400).send('Error');
-            }
-            if(counter == ids.length){
-                res.status(204).send();
-            }
-        });
+  const ids = req.body.ids;
+  const updateQuery = req.body.query;
+  let counter = 0;
+  ids.forEach((element: string) => {
+    const result = global.updateItemById(element, table_name, updateQuery);
+    result.then((value) => {
+      counter++;
+      if (value.acknowledged == false) {
+        res.status(400).send("Error");
+      }
+      if (counter == ids.length) {
+        res.status(204).send();
+      }
     });
+  });
 }
 
 // updates multiple users by field and value
@@ -319,16 +312,15 @@ export function updateMultipleUsers(req: Request, res: Response) {
 //      "description":"custom description"
 // }
 export function updateUsersByQuery(req: Request, res: Response) {
-    const field = req.params.field;
-    const value = req.params.value;
-    const updateQuery = req.body;
-    let query = {[field]: JSON.parse(value)};
-    const result = global.updateItemsByField(query, table_name, updateQuery);
-    result.then((value) => {
-        (value.acknowledged ? res.status(204).send() : res.status(400).send('Error'));
-    }); 
+  const field = req.params.field;
+  const value = req.params.value;
+  const updateQuery = req.body;
+  let query = { [field]: JSON.parse(value) };
+  const result = global.updateItemsByField(query, table_name, updateQuery);
+  result.then((value) => {
+    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+  });
 }
-
 
 // replaces user by id with new user passed in request body
 // /user/{id}
@@ -345,41 +337,40 @@ export function updateUsersByQuery(req: Request, res: Response) {
 //      "description":"custom description"
 // }
 export function replaceUser(req: Request, res: Response) {
-    const id = req.params.id;
-    const query = req.body;
-    let user: User;
-    user = new User(
-                query.name, 
-                query.avatar_url, 
-                query.login, 
-                query.password, 
-                query.active, 
-                query.role
-    );
-    const result = global.replaceItemById(id, table_name, user);
-    result.then((value) => {
-        (value.acknowledged ? res.status(201).send() : res.status(400).send('Error'));
-    });
+  const id = req.params.id;
+  const query = req.body;
+  let user: User;
+  user = new User(
+    query.name,
+    query.avatar_url,
+    query.login,
+    query.password,
+    query.active,
+    query.role
+  );
+  const result = global.replaceItemById(id, table_name, user);
+  result.then((value) => {
+    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+  });
 }
-
 
 // steals (returns a user, but then deletes it from database) user by id
 // /stealuser/{id}
 // example:
 //  http://localhost:3000/stealuser/6490d3e5982efd2fe9136154
 export function stealUser(req: Request, res: Response) {
-    const id = req.params.id;
-    const result = global.stealItemById(id, table_name);
-    result.then((value) => {
-        let user: User;
-        user = new User(
-            value.value.name, 
-            value.value.avatar_url, 
-            value.value.login, 
-            value.valuet.password, 
-            value.value.active, 
-            value.value.role
-        );
-        res.status(201).send(user);
-    });
+  const id = req.params.id;
+  const result = global.stealItemById(id, table_name);
+  result.then((value) => {
+    let user: User;
+    user = new User(
+      value.value.name,
+      value.value.avatar_url,
+      value.value.login,
+      value.valuet.password,
+      value.value.active,
+      value.value.role
+    );
+    res.status(201).send(user);
+  });
 }
