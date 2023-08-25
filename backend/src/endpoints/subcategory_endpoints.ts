@@ -297,9 +297,18 @@ export function updateMultipleSubcategories(req: Request, res: Response) {
 // }
 export function updateSubcategoriesByQuery(req: Request, res: Response) {
     const field = req.params.field;
-    const value = req.params.value;
-    const updateQuery = req.body;
-    let query = {[field]: JSON.parse(value)};
+		let value = req.params.value;
+		try {
+				value = JSON.parse(value);
+		} catch (e: any){
+				value = '"'+value+'"';
+				value = JSON.parse(value);
+		} 
+    let updateQuery = req.body;
+		if( typeof updateQuery.category_id !== 'undefined'){
+			updateQuery.category_id = new ObjectId(updateQuery.category_id);
+		}
+    let query = {[field]: value};
     const result = global.updateItemsByField(query, table_name, updateQuery);
     result.then((value) => {
         (value.acknowledged ? res.status(204).send() : res.status(400).send('Error'));

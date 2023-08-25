@@ -343,8 +343,24 @@ export function updateMultipleGroups(req: Request, res: Response) {
 // }
 export function updateGroupsByQuery(req: Request, res: Response) {
     const field = req.params.field;
-    const value = req.params.value;
-    const updateQuery = req.body;
+    let value = req.params.value;
+		try {
+				value = JSON.parse(value);
+		} catch (e: any){
+				value = '"'+value+'"';
+				value = JSON.parse(value);
+		} 
+    let updateQuery = req.body;
+		if( typeof updateQuery.users !== 'undefined'){
+			let usersIds: ObjectId[] = [];
+			
+			updateQuery.users.forEach((elem: string) => {
+				let user_id = new ObjectId(elem);
+				usersIds.push(user_id);
+			});
+			
+			updateQuery.users = usersIds;
+		}
     let query = {[field]: JSON.parse(value)};
     const result = global.updateItemsByField(query, table_name, updateQuery);
     result.then((value) => {
