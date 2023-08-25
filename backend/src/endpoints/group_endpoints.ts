@@ -280,7 +280,7 @@ export function updateGroup(req: Request, res: Response) {
 // headers:
 //  Content-Type: application/json
 // example:
-//  http://localhost:3000/group
+//  http://localhost:3000/groups
 // example body:
 // {
 //     "ids":[

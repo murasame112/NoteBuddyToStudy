@@ -274,7 +274,7 @@ export function updateCard(req: Request, res: Response) {
 // headers:
 //  Content-Type: application/json
 // example:
-//  http://localhost:3000/card
+//  http://localhost:3000/cards
 // example body:
 // {
 //     "ids":[

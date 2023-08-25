@@ -216,7 +216,7 @@ export function updateNotification(req: Request, res: Response) {
 // headers:
 //  Content-Type: application/json
 // example:
-//  http://localhost:3000/notification
+//  http://localhost:3000/notifications
 // example body:
 // {
 //     "ids":[

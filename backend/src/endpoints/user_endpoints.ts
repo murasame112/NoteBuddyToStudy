@@ -275,7 +275,7 @@ export function updateUser(req: Request, res: Response) {
 // headers:
 //  Content-Type: application/json
 // example:
-//  http://localhost:3000/user
+//  http://localhost:3000/users
 // example body:
 // {
 //     "ids":[

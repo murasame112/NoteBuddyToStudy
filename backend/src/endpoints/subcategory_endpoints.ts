@@ -250,7 +250,7 @@ export function updateSubcategory(req: Request, res: Response) {
 // headers:
 //  Content-Type: application/json
 // example:
-//  http://localhost:3000/subcategory
+//  http://localhost:3000/subcategories
 // example body:
 // {
 //     "ids":[

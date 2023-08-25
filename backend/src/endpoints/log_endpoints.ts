@@ -254,7 +254,7 @@ export function updateLog(req: Request, res: Response) {
 // headers:
 //  Content-Type: application/json
 // example:
-//  http://localhost:3000/log
+//  http://localhost:3000/logs
 // example body:
 // {
 //     "ids":[

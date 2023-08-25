@@ -233,7 +233,7 @@ export function updateHint(req: Request, res: Response) {
 // headers:
 //  Content-Type: application/json
 // example:
-//  http://localhost:3000/hint
+//  http://localhost:3000/hints
 // example body:
 // {
 //     "ids":[
