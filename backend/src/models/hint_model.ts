@@ -1,11 +1,7 @@
-export class Hint{
-    content: string
-      
+export class Hint {
+  content: string;
 
-    constructor(
-        content: string) {
-
-            this.content = content;
-    }
-
+  constructor(content: string) {
+    this.content = content;
+  }
 }
