@@ -110,11 +110,12 @@ export function getUsersByQueriedId(req: Request, res: Response) {
 //  http://localhost:3000/user
 // example body:
 //   {
-//      "name":"custom name",
-//      "adress":"custom adress",
-//      "author_id":"some id",
-//      "category_id":"some id",
-//      "description":"custom description"
+    //  "name":"custom name",
+    //  "avatar_url":"custom url",
+    //  "login":"custom login",
+    //  "password":"custom password",
+    //  "active":true,
+		// 	"role":"user"
 // }
 export function insertUser(req: Request, res: Response) {
   const user: User = new User(
@@ -142,20 +143,20 @@ export function insertUser(req: Request, res: Response) {
 // example body:
 // [
 //     {
-//        "name":"custom name",
-//        "adress":"custom adress",
-//        "author_id":{"$oid":"64a49ff9a1caf26fbfaa2dbb"},
-//        "category_id":{"$oid":"64a4a1d1a1caf26fbfaa2dc1"},
-//        "sucategory_id":{"$oid":"64a4a367a1caf26fbfaa2dcc"},
-//        "description":"custom description"
+    //  "name":"custom name",
+    //  "avatar_url":"custom url",
+    //  "login":"custom login",
+    //  "password":"custom password",
+    //  "active":true,
+		// 	"role":"user"
 //     },
 // {
-//    "name":"custom name2",
-//    "adress":"custom adress2",
-//    "author_id":{"$oid":"64a49ff9a1caf26fbfaa2dbb"},
-//    "category_id":{"$oid":"64a4a1d1a1caf26fbfaa2dc1"},
-//    "sucategory_id":{"$oid":"64a4a367a1caf26fbfaa2dcc"},
-//    "description":"custom description2"
+    //  "name":"custom name",
+    //  "avatar_url":"custom url",
+    //  "login":"custom login",
+    //  "password":"custom password",
+    //  "active":true,
+		// 	"role":"user"
 // }
 //  ]
 export function insertMultipleUsers(req: Request, res: Response) {
@@ -278,8 +279,7 @@ export function updateUser(req: Request, res: Response) {
 //      "6490d9fddfd298aad1e8f136"]
 //     ,
 //     "query":{
-//        "name":"custom name",
-//        "description":"custom description"
+//        "name":"custom name"
 //     }
 //  }
 export function updateMultipleUsers(req: Request, res: Response) {
@@ -308,8 +308,7 @@ export function updateMultipleUsers(req: Request, res: Response) {
 //  http://localhost:3000/users/published&true
 // example body:
 //   {
-//      "name":"custom name",
-//      "description":"custom description"
+//      "name":"custom name"
 // }
 export function updateUsersByQuery(req: Request, res: Response) {
   const field = req.params.field;
@@ -330,11 +329,12 @@ export function updateUsersByQuery(req: Request, res: Response) {
 //  http://localhost:3000/user/6490d3e5982efd2fe9136154
 // example body:
 //   {
-//      "name":"custom name",
-//      "adress":"custom adress",
-//      "author_id":"some id",
-//      "category_id":"some id",
-//      "description":"custom description"
+    //  "name":"custom name",
+    //  "avatar_url":"custom url",
+    //  "login":"custom login",
+    //  "password":"custom password",
+    //  "active":true,
+		// 	"role":"user"
 // }
 export function replaceUser(req: Request, res: Response) {
   const id = req.params.id;
