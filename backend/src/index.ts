@@ -71,15 +71,9 @@ app.post("/category", categoryEndpoints.insertCategory);
 app.post("/categories", categoryEndpoints.insertMultipleCategories);
 app.delete("/category/:id", categoryEndpoints.deleteCategory);
 app.delete("/categories", categoryEndpoints.deleteMultipleCategories);
-app.delete(
-  "/categories/:field&:value",
-  categoryEndpoints.deleteCategoriesByQuery
-);
+app.delete("/categories/:field&:value",categoryEndpoints.deleteCategoriesByQuery);
 app.patch("/category/:id", categoryEndpoints.updateCategory);
-app.patch(
-  "/categories/:field&:value",
-  categoryEndpoints.updateCategoriesByQuery
-);
+app.patch("/categories/:field&:value",categoryEndpoints.updateCategoriesByQuery);
 app.patch("/categories", categoryEndpoints.updateMultipleCategories);
 app.put("/category/:id", categoryEndpoints.replaceCategory);
 
@@ -88,27 +82,15 @@ app.put("/category/:id", categoryEndpoints.replaceCategory);
 app.get("/subcategory/:id", subcategoryEndpoints.getSubcategoryById);
 app.get("/stealsubcategory/:id", subcategoryEndpoints.stealSubcategory);
 app.get("/subcategories", subcategoryEndpoints.getAllSubcategories);
-app.get(
-  "/subcategories/:field&:value",
-  subcategoryEndpoints.getSubcategoriesByQuery
-);
-app.get(
-  "/subcategoriesid/:field&:value",
-  subcategoryEndpoints.getSubcategoriesByQueriedId
-);
+app.get("/subcategories/:field&:value", subcategoryEndpoints.getSubcategoriesByQuery);
+app.get("/subcategoriesid/:field&:value",subcategoryEndpoints.getSubcategoriesByQueriedId);
 app.post("/subcategory", subcategoryEndpoints.insertSubcategory);
 app.post("/subcategories", subcategoryEndpoints.insertMultipleSubcategories);
 app.delete("/subcategory/:id", subcategoryEndpoints.deleteSubcategory);
 app.delete("/subcategories", subcategoryEndpoints.deleteMultipleSubcategories);
-app.delete(
-  "/subcategories/:field&:value",
-  subcategoryEndpoints.deleteSubcategoriesByQuery
-);
+app.delete("/subcategories/:field&:value", subcategoryEndpoints.deleteSubcategoriesByQuery);
 app.patch("/subcategory/:id", subcategoryEndpoints.updateSubcategory);
-app.patch(
-  "/subcategories/:field&:value",
-  subcategoryEndpoints.updateSubcategoriesByQuery
-);
+app.patch("/subcategories/:field&:value", subcategoryEndpoints.updateSubcategoriesByQuery);
 app.patch("/subcategories", subcategoryEndpoints.updateMultipleSubcategories);
 app.put("/subcategory/:id", subcategoryEndpoints.replaceSubcategory);
 
@@ -117,23 +99,14 @@ app.put("/subcategory/:id", subcategoryEndpoints.replaceSubcategory);
 app.get("/notification/:id", notificationEndpoints.getNotificationById);
 app.get("/stealnotification/:id", notificationEndpoints.stealNotification);
 app.get("/notifications", notificationEndpoints.getAllNotifications);
-app.get(
-  "/notifications/:field&:value",
-  notificationEndpoints.getNotificationsByQuery
-);
+app.get("/notifications/:field&:value", notificationEndpoints.getNotificationsByQuery);
 app.post("/notification", notificationEndpoints.insertNotification);
 app.post("/notifications", notificationEndpoints.insertMultipleNotifications);
 app.delete("/notification/:id", notificationEndpoints.deleteNotification);
 app.delete("/notifications", notificationEndpoints.deleteMultipleNotifications);
-app.delete(
-  "/notifications/:field&:value",
-  notificationEndpoints.deleteNotificationsByQuery
-);
+app.delete("/notifications/:field&:value", notificationEndpoints.deleteNotificationsByQuery);
 app.patch("/notification/:id", notificationEndpoints.updateNotification);
-app.patch(
-  "/notifications/:field&:value",
-  notificationEndpoints.updateNotificationsByQuery
-);
+app.patch("/notifications/:field&:value", notificationEndpoints.updateNotificationsByQuery);
 app.patch("/notifications", notificationEndpoints.updateMultipleNotifications);
 app.put("/notification/:id", notificationEndpoints.replaceNotification);
 
