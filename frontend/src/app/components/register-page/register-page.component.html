@@ -23,6 +23,10 @@
       <input type="text" placeholder="wpisz e-mail" class="form-inputs" formControlName="mail"><br><br>
       <span  style="color:red;" *ngIf="registerForm.get('mail')!.hasError('required') && registerForm.get('mail')!.touched">
         To pole nie może być puste</span><br>
+
+        <span  style="color:red;" *ngIf="registerForm.get('mail')!.hasError('email') && registerForm.get('mail')!.touched && !registerForm.get('mail')!.hasError('required')" >
+          niepoprawny format email "example@gmail.com"</span><br>
+
         <span  style="color:red;" *ngIf="registerForm.get('mail')!.hasError('spaceValidator') && registerForm.get('mail')!.touched && !registerForm.get('mail')!.hasError('required')" >
           to pole nie może mieć spacji </span><br>
 
