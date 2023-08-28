@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import { User } from 'src/app/models/user.model';
 import { UsersService } from 'src/app/services/users.service';
 
@@ -25,9 +25,10 @@ export class RegisterPageComponent implements OnInit {
 
   registerForm = new FormGroup(
     {
-      login: new FormControl('',[Validators.required,]),
-      mail: new FormControl('',[Validators.required, Validators.email]),
-      password: new FormControl('',Validators.required),
+      login: new FormControl('',[Validators.required,this.spaceValidator()]),
+      mail: new FormControl('',[Validators.required, Validators.email,this.spaceValidator()]),
+      password: new FormControl('',[Validators.required,this.spaceValidator(),this.passwordValidation()]),
+
     }
   )
 
@@ -35,10 +36,10 @@ export class RegisterPageComponent implements OnInit {
   addUser(result:any)
   {
     console.log(result)
-    let login:string = result.login;
+    let login:string = result.login.toString().replace(" ","");
     let email:string = result.mail;
     let password:string = result.password;
-    console.warn(`login: ${login}, email: ${email}, hasło: ${password}`)
+    // console.warn(`login: ${login}, email: ${email}, hasło: ${password}`)
 
     // let newUser: User =
     // {
@@ -86,19 +87,53 @@ export class RegisterPageComponent implements OnInit {
     //   })
 
     // console.log(newUser)
+    console.log(this.registerForm)
 
     console.log(this.registerForm.valid)
+
   }
 
   //No space allowed to be in this expression
-  spaceValidator(control:FormControl)
-  {
+  // spaceValidator(control: FormControl)
+  // {
 
-    if(control.value != null && control.value.indexOf(' ') != -1)
-    {
-      return {SpaceDetected: true}
+  //   if(control.value != null && control.value.indexOf(' ') != -1)
+  //   {
+  //     return {spaceValidator: true}
+  //   }
+  //   return null;
+
+  // }
+
+  spaceValidator(): ValidatorFn
+  {
+    return (control: AbstractControl):  ValidationErrors | null => {
+
+      if(control.value != null && control.value.indexOf(" ") != -1)
+      {
+        return {spaceValidator: true};
+      }
+      return null;
+
     }
-    return null
+  }
+
+  passwordValidation():ValidatorFn
+  {
+    const regex =new RegExp ('^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,}$');
+
+    return (control:AbstractControl): ValidationErrors | null =>{
+
+      const isValid = regex.test(control.value)
+      if(!isValid===true)
+      {
+        return {passwordInvalid:true}
+      }
+      return null
+
+    }
+
+
 
   }
 

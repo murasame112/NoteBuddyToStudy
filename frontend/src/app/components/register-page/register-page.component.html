@@ -13,13 +13,29 @@
       <label class="form-labels">Login</label><br>
       <input type="text" placeholder="wpisz login" class="form-inputs" formControlName="login"><br><br>
 
+      <span  style="color:red;" *ngIf="registerForm.get('login')!.hasError('required') && registerForm.get('login')!.touched">
+        To pole nie może być puste</span><br>
+
+      <span  style="color:red;" *ngIf="registerForm.get('login')!.hasError('spaceValidator') && registerForm.get('login')!.touched && !registerForm.get('login')!.hasError('required')" >
+        to pole nie może posiadać znaków specjalnych oraz spacji </span><br>
+
       <label class="form-labels">Adres e-mail</label><br>
       <input type="text" placeholder="wpisz e-mail" class="form-inputs" formControlName="mail"><br><br>
-      <span  style="color:red;" *ngIf="!registerForm.get('mail')!.valid && registerForm.get('mail')!.touched">
-        ten email jest niepoprawny</span><br>
+      <span  style="color:red;" *ngIf="registerForm.get('mail')!.hasError('required') && registerForm.get('mail')!.touched">
+        To pole nie może być puste</span><br>
+        <span  style="color:red;" *ngIf="registerForm.get('mail')!.hasError('spaceValidator') && registerForm.get('mail')!.touched && !registerForm.get('mail')!.hasError('required')" >
+          to pole nie może mieć spacji </span><br>
 
       <label class="form-labels">Hasło</label><br>
       <input type="password" placeholder="minimum 7 znaków" class="form-inputs" formControlName="password"><br><br>
+      <span  style="color:red;" *ngIf="registerForm.get('password')!.hasError('required') && registerForm.get('password')!.touched">
+        To pole nie może być puste</span><br>
+
+        <span  style="color:red;" *ngIf="registerForm.get('password')!.hasError('passwordInvalid') && registerForm.get('password')!.touched && !registerForm.get('password')!.hasError('required')">
+          To pole  musi zawierać 7 znaków,duże i małe litery i znak specjalny </span><br>
+
+        <span  style="color:red;" *ngIf="registerForm.get('password')!.hasError('spaceValidator') && registerForm.get('password')!.touched && !registerForm.get('password')!.hasError('required')" >
+          to pole nie może mieć spacji </span><br>
 
       <input type="submit" value="Zarejestruj się" id="register-btn">
     </form>
