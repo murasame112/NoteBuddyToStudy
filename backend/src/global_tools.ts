@@ -16,10 +16,10 @@ export function createFullDateString(date?: Date | string) {
 
 // turns dateString (format like in method above) to Date object
 // params:
-// str (optional) - string in format "dd/mm/yyyy, hh:mm:ss"
+// str (optional) - string in format "dd/mm/yyyy, hh:mm:ss". passing Date is allowed, but it does nothing, just return the same Date object
 // returns date object
-export function createDate(str?: string) {
-  if (typeof str !== "undefined") {
+export function createDateFromString(str?: string | Date) {
+  if (typeof str == "string") {
     let strArr = str.split(",");
     let dateArr = strArr[0].split("/");
     let correctStr = "";
@@ -29,10 +29,17 @@ export function createDate(str?: string) {
         correctStr += "-";
       }
     }
+		if (typeof strArr[1] == "undefined"){
+			strArr[1] = " 00:00:00";
+		}
     correctStr += strArr[1];
 
     return new Date(correctStr);
-  } else {
+  } else if (typeof str == "object"){
+		// probably won't be used, but just in case
+		return str;
+	}
+	else if (typeof str == "undefined") {
     // probably won't be used, but just in case
     return new Date();
   }
