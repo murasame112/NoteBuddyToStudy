@@ -102,7 +102,7 @@ export function insertSubcategory(req: Request, res: Response) {
   const result = global.insertItem(subcategory, table_name);
   result.then((value) => {
     value.acknowledged
-      ? res.status(201).send("id: " + value.insertedId)
+      ? res.status(201).send(value.insertedId)
       : res.status(400).send("Error");
   });
 }
