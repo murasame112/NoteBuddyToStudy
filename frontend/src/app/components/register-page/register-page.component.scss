@@ -137,6 +137,27 @@ input.ng-invalid.ng-touched
 
 }
 
+#registerForm
+{
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+gap: 1rem;
+width: 26rem;
+
+}
+
+.registerFormItem
+{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0.1rem;
+  width: 26rem;
+
+}
 
 .form-labels
 {
@@ -144,6 +165,11 @@ input.ng-invalid.ng-touched
   font-size: 1.1rem;
   font-weight: 400;
 
+}
+
+.validators
+{
+width: 26rem;
 }
 
 
