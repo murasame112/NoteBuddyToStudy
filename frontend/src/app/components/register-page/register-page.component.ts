@@ -25,7 +25,7 @@ export class RegisterPageComponent implements OnInit {
 
   registerForm = new FormGroup(
     {
-      login: new FormControl('',[Validators.required,this.spaceValidator()]),
+      login: new FormControl('',[Validators.required,this.spaceValidator(),this.specialCharactersValidator()]),
       mail: new FormControl('',[Validators.required, Validators.email,this.spaceValidator()]),
       password: new FormControl('',[Validators.required,this.spaceValidator(),this.passwordValidation()]),
 
@@ -119,6 +119,24 @@ console.log('Niestety nie spełniłeś warunków, aby zostać nowym użytkowniki
         return {spaceValidator: true};
       }
       return null;
+
+    }
+  }
+
+  specialCharactersValidator(): ValidatorFn
+  {
+    const regex =new RegExp (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/);
+
+
+    return (control:AbstractControl): ValidationErrors | null =>{
+
+      const isValid = regex.test(control.value)
+
+      if(isValid)
+      {
+        return {loginSpecialCharacterError:true}
+      }
+      return null
 
     }
   }

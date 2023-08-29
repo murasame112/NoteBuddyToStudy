@@ -23,7 +23,8 @@
         </ng-container>
 
 
-        <ng-container *ngIf="registerForm.get('login')!.hasError('spaceValidator') && registerForm.get('login')!.touched && !registerForm.get('login')!.hasError('required')">
+        <ng-container *ngIf="registerForm.get('login')!.hasError('spaceValidator') && registerForm.get('login')!.touched && !registerForm.get('login')!.hasError('required') ||
+        registerForm.get('login')!.hasError('loginSpecialCharacterError') && registerForm.get('login')!.touched && !registerForm.get('login')!.hasError('required')">
         <div class="validators"></div>  <span  style="color:red">&#x2022; To pole nie może posiadać znaków specjalnych oraz spacji </span>
         </ng-container>
 
