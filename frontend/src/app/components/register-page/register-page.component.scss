@@ -328,6 +328,18 @@ margin-left: 1rem;
 
 @media (max-width:900px)
 {
+  #registerForm
+  {
+    width: 18rem;
+  }
+
+ .registerFormItem
+ {
+   width: 18rem;
+ }
+
+
+
   #page-name
   {
     font-size: 1.5rem;
@@ -352,6 +364,11 @@ margin-left: 1rem;
     font-weight: 400;
   }
 
+
+  .validators
+  {
+    width: 18rem;
+  }
 
   #register-btn
   {
@@ -430,6 +447,18 @@ display: none;
 
 @media (max-width:560px)
 {
+  #registerForm
+  {
+    width: 14rem;
+  }
+
+ .registerFormItem
+ {
+   width: 14rem;
+ }
+
+
+
   #logo{
 
     grid-row: 1/4;
@@ -461,6 +490,10 @@ display: none;
   font-size: 0.8rem;
 }
 
+.validators
+{
+  width: 14rem;
+}
 
 #register-btn
 {
