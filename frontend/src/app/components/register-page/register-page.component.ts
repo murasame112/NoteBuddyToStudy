@@ -98,17 +98,9 @@ console.log('Niestety nie spełniłeś warunków, aby zostać nowym użytkowniki
 
   }
 
-  //No space allowed to be in this expression
-  // spaceValidator(control: FormControl)
-  // {
 
-  //   if(control.value != null && control.value.indexOf(' ') != -1)
-  //   {
-  //     return {spaceValidator: true}
-  //   }
-  //   return null;
 
-  // }
+//!Validators
 
   spaceValidator(): ValidatorFn
   {
