@@ -36,60 +36,65 @@ export class RegisterPageComponent implements OnInit {
   addUser(result:any)
   {
     console.log(result)
+    console.log(this.registerForm.valid)
+    console.log(this.registerForm)
     let login:string = result.login.toString().replace(" ","");
     let email:string = result.mail;
     let password:string = result.password;
     // console.warn(`login: ${login}, email: ${email}, hasło: ${password}`)
 
-    // let newUser: User =
-    // {
-    //   name: login,
-    //   avatar_url: "random_url",
-    //   login: login,
-    //   password: password,
-    //   active: true,
-    //   created: new Date(),
-    //   role: "user",
-    //   untrusted: false,
-    //   saved_notes: [],
-    //   followed_users: [],
-    //   blocked_users: [],
-    //   notifications: []
+if(this.registerForm.valid===true)
+{
 
-    // }
+  let newUser: User =
+    {
+      name: login,
+      avatar_url: "random_url",
+      login: login,
+      password: password,
+      active: true,
+      created: new Date(),
+      role: "user",
+      untrusted: false,
+      saved_notes: [],
+      followed_users: [],
+      blocked_users: [],
+      notifications: []
 
-
-
-    // this.usersService.addUser(newUser).subscribe(
-    //   (res)=>{
-    //     if(res.status ===201)
-    //     {
-    //       let id:string = res.body;
-    //       console.log(`Dodano użytkownika o id: ${id} `)
-
-    //     }else if(res.status === 400)
-    //     {
-    //       console.log(res,"status 400");
+    }
 
 
-    //     }else if(res.status === 200)
-    //     {
-    //       console.log(res,"status 200");
 
-    //     }else
-    //     {
-    //       console.log("problem")
-    //     }
+    this.usersService.addUser(newUser).subscribe(
+      (res)=>{
+        if(res.status ===201)
+        {
+          let id:string = res.body;
+          console.log(`Dodano użytkownika o id: ${id} `)
 
-    //   },
-    //   (error)=>{
-    //     console.log(error)
-    //   })
+        }else if(res.status === 400)
+        {
+          console.log(res,"status 400");
 
-    // console.log(newUser)
-    console.log(this.registerForm)
 
-    console.log(this.registerForm.valid)
+        }else if(res.status === 200)
+        {
+          console.log(res,"status 200");
+
+        }else
+        {
+          console.log("problem")
+        }
+
+      },
+      (error)=>{
+        console.log(error)
+      })
+
+    console.log(newUser)
+}else
+console.log('Niestety nie spełniłeś warunków, aby zostać nowym użytkownikiem!');
+
 
   }
 
@@ -120,12 +125,15 @@ export class RegisterPageComponent implements OnInit {
 
   passwordValidation():ValidatorFn
   {
-    const regex =new RegExp ('^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,}$');
+
+    const regex =new RegExp (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,}$/);
+
 
     return (control:AbstractControl): ValidationErrors | null =>{
 
       const isValid = regex.test(control.value)
-      if(!isValid===true)
+
+      if(!isValid)
       {
         return {passwordInvalid:true}
       }
