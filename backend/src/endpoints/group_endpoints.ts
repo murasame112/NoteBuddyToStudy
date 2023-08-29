@@ -3,7 +3,7 @@ import { ObjectId } from "bson";
 import express from "express";
 import e, { Request, Response } from "express";
 import { Group } from "../models/group_model";
-import * as global from "../global_functions";
+import * as global from "../global_database_functions";
 import { Type } from "../enums/group_type_enum";
 
 const table_name = "groups";

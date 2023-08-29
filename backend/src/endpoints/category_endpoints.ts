@@ -2,7 +2,7 @@ import { Console } from "console";
 import express from "express";
 import e, { Request, Response } from "express";
 import { Category } from "../models/category_model";
-import * as global from "../global_functions";
+import * as global from "../global_database_functions";
 
 const table_name = "categories";
 

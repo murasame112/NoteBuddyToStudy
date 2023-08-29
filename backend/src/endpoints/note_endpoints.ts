@@ -3,7 +3,7 @@ import { ObjectId } from "bson";
 import express from "express";
 import e, { Request, Response } from "express";
 import { Note } from "../models/note_model";
-import * as global from "../global_functions";
+import * as global from "../global_database_functions";
 
 const table_name = "notes";
 
