@@ -3,12 +3,12 @@
     <img src="../../../assets/login_ellipse.png" alt="" id="login-img">
     <img src="../../../assets/login_Ellipse_small.png" alt="" id="login-img-small">
     <img src="../../../assets/login_Ellipse_mobile.png" alt="" id="login-img-mobile">
-    <span id="logo">NoteBuddy<br><span id="logo2">To</span>Study</span>
+    <span id="logo" routerLink="/landing">NoteBuddy<br><span id="logo2">To</span>Study</span>
   </div>
 
 
-  <div id="page-name">Rejestracja</div>
-  <div id="register-form">
+  <div id="page-name" *ngIf="!isUserRegistered">Rejestracja</div>
+  <div id="register-form" *ngIf="!isUserRegistered">
     <form [formGroup]="registerForm" (ngSubmit)="addUser(registerForm.value)" id="registerForm">
 
       <div class="registerFormItem">
@@ -75,32 +75,35 @@
        </div>
 
 
-      <br><input type="submit" value="Zarejestruj się" id="register-btn">
+      <br><input type="submit" value="Zarejestruj się" id="register-btn" >
     </form>
 
   </div>
 
-  <div id="login-to-account-div">
+  <div id="login-to-account-div" *ngIf="!isUserRegistered">
     <span id="login-to-account">masz już konto? <span id="login-to-account-link" routerLink="/login">zaloguj się</span></span>
   </div>
 
 
-  <div id="orDiv">
+  <div id="orDiv" *ngIf="!isUserRegistered">
     <div class="orLine-line"></div>
     <span id="orSpan" class="form-labels">lub</span>
     <div class="orLine-line"></div>
   </div>
 
-  <div class="LoginWithPlatformBtn" id="loginByPlatformG">
+  <div class="LoginWithPlatformBtn" id="loginByPlatformG" *ngIf="!isUserRegistered">
     <img src="../../../assets/login_google_logo.png" alt="" class="img-platform">
     <span class="LoginWithPlatformSpan">Zaloguj się przez google</span>
   </div>
 
-  <div class="LoginWithPlatformBtn" id="loginByPlatformF">
+  <div class="LoginWithPlatformBtn" id="loginByPlatformF" *ngIf="!isUserRegistered">
     <img src="../../../assets/login_facebook_logo.png" alt="" class="img-platform">
     <span class="LoginWithPlatformSpan">Zaloguj się przez facebook</span>
   </div>
 
+  <ng-container *ngIf="isUserRegistered">
+    <span id="registerSuccessText">Dziękujemy, rejestracja przebiegła pomyślnie. Sprawdz email na, który wysłaliśmy link aktywacyjny do twojego konta</span>
+  </ng-container>
 
 
 

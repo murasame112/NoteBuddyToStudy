@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import { User } from 'src/app/models/user.model';
 import { UsersService } from 'src/app/services/users.service';
+import {CustomValidators} from 'src/app/helpers/custom-validators'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register-page',
@@ -10,27 +12,28 @@ import { UsersService } from 'src/app/services/users.service';
 })
 export class RegisterPageComponent implements OnInit {
 
-  constructor(private usersService: UsersService) {}
+ public registerForm!:FormGroup
+
+  constructor(private usersService: UsersService, private router: Router) {}
 
 
 
   ngOnInit(): void {
+     this.registerForm = new FormGroup(
+      {
+        login: new FormControl('',[Validators.required,CustomValidators.spaceValidator(),CustomValidators.specialCharactersValidator()]),
+        mail: new FormControl('',[Validators.required, Validators.email,CustomValidators.spaceValidator()]),
+        password: new FormControl('',[Validators.required,CustomValidators.spaceValidator(),CustomValidators.passwordValidation()]),
 
+      }
+    )
   }
 
 
-
   // registerForm!:FormGroup
+  isUserRegistered:boolean = false;
 
 
-  registerForm = new FormGroup(
-    {
-      login: new FormControl('',[Validators.required,this.spaceValidator(),this.specialCharactersValidator()]),
-      mail: new FormControl('',[Validators.required, Validators.email,this.spaceValidator()]),
-      password: new FormControl('',[Validators.required,this.spaceValidator(),this.passwordValidation()]),
-
-    }
-  )
 
 
   addUser(result:any)
@@ -93,69 +96,24 @@ if(this.registerForm.valid===true)
 
     console.log(newUser)
 }else
-console.log('Niestety nie spełniłeś warunków, aby zostać nowym użytkownikiem!');
+console.log('Niestety nie spełniłeś warunków, potrzebnych do stworzenia konta!');
 
-
+this.register();
   }
 
 
-
-//!Validators
-
-  spaceValidator(): ValidatorFn
+  register()
   {
-    return (control: AbstractControl):  ValidationErrors | null => {
+    if(this.registerForm.valid)
+    {
+      this.isUserRegistered = true;
 
-      if(control.value != null && control.value.indexOf(" ") != -1)
-      {
-        return {spaceValidator: true};
-      }
-      return null;
+      setTimeout(()=>{
+        this.router.navigate(['/login']);
+      },5000);
 
     }
   }
-
-  specialCharactersValidator(): ValidatorFn
-  {
-    const regex =new RegExp (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/);
-
-
-    return (control:AbstractControl): ValidationErrors | null =>{
-
-      const isValid = regex.test(control.value)
-
-      if(isValid)
-      {
-        return {loginSpecialCharacterError:true}
-      }
-      return null
-
-    }
-  }
-
-  passwordValidation():ValidatorFn
-  {
-
-    const regex =new RegExp (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{7,}$/);
-
-
-    return (control:AbstractControl): ValidationErrors | null =>{
-
-      const isValid = regex.test(control.value)
-
-      if(!isValid)
-      {
-        return {passwordInvalid:true}
-      }
-      return null
-
-    }
-
-
-
-  }
-
-
 
 
 }
