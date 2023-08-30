@@ -19,7 +19,10 @@ categoryName:string ="";
 subCategoryName:string = "";
 userName:string = "";
 
-
+//TODO sortowanie po dacie
+//TODO tworzenie fiszek
+//TODO poprawki z layoucie (addNote) i subcategory box gdy wymagany jest długi temat
+//TODO addNote po dodaniu wraca do notes
 
  @Output()  public deleteNoteEvent: EventEmitter<boolean> = new EventEmitter();
 

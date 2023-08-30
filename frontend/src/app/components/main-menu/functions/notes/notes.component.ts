@@ -137,7 +137,7 @@ export class NotesComponent implements OnInit{
       if(noteTitle != null && noteTitle !='')
       {
         this.filteredNotes = this.filteredNotes.filter(element =>{
-          //! jeśli ma szukać ogólnie po nazwach to można zamiast startWith dać includes
+          //? jeśli ma szukać ogólnie po nazwach to można zamiast startWith dać includes
           return element.name.toLocaleLowerCase().includes(noteTitle.toLocaleLowerCase())
         })
       }
