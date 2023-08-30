@@ -19,6 +19,8 @@ categoryName:string ="";
 subCategoryName:string = "";
 userName:string = "";
 
+
+
  @Output()  public deleteNoteEvent: EventEmitter<boolean> = new EventEmitter();
 
   constructor(private notesService: NotesService ) {

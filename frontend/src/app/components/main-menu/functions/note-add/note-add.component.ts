@@ -55,7 +55,7 @@ constructor(private notesService: NotesService) {}
 
   addNoteForm = new FormGroup(
     {
-      noteName: new FormControl('' ,Validators.required)  ,
+      noteName: new FormControl('' ,Validators.required),
       noteDesc: new FormControl('' ,Validators.required),
       courseName: new FormControl('' ,Validators.required),
       subjectName: new FormControl('' ,Validators.required),
@@ -101,6 +101,7 @@ constructor(private notesService: NotesService) {}
       };
 
       this.notesService.addNote(newNote).subscribe(
+        //! To jest do przerobienia response to zwrocone id
         (response)=>{
           if(response.status === 201)
           {
@@ -113,7 +114,8 @@ constructor(private notesService: NotesService) {}
           {
             console.log(response,"status 200");
           }else
-          console.log(response,"problem");
+          console.log("Inny status")
+          console.log(response);
 
         },
         (error)=>{console.log("Bład:",error)}
