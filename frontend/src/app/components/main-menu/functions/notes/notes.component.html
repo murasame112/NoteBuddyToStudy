@@ -5,7 +5,8 @@
    <app-navbar></app-navbar>
   </nav>
 
-  <main>
+  <main >
+    <i class="fa-solid fa-spinner fa-spin-pulse fa-2xl" style="color: #ffbb00;" *ngIf="isLoading" id="spinner"></i>
     <form [formGroup]="FilterForm"  id="filterForm">
     <div id="filters">
       <div id="categoryAndSubcategory" class="searchFilters">
@@ -77,9 +78,9 @@
 
 
     <div id="noteContent" >
-      <ng-container *ngFor="let note of notesArray">
+      <ng-container *ngFor="let note of notesArray" >
 
-        <app-notes-container [data]="note"></app-notes-container>
+        <app-notes-container [data]="note" (deleteNoteEvent)="refreshNoteData()"></app-notes-container>
 
 
       </ng-container>

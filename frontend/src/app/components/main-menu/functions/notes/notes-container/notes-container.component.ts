@@ -1,4 +1,4 @@
-import { Component, OnInit,Input } from '@angular/core';
+import { Component, OnInit,Input, ViewChild, EventEmitter,Output } from '@angular/core';
 import { NotesService } from '../../../../../services/notes.service';
 import { Note } from 'src/app/models/note.model';
 
@@ -11,13 +11,21 @@ import { Note } from 'src/app/models/note.model';
 })
 export class NotesContainerComponent implements OnInit{
 
+isVisible:boolean=false;
+
+
 @Input() data:Note | null = null ;
 categoryName:string ="";
 subCategoryName:string = "";
 userName:string = "";
 
+ @Output()  public deleteNoteEvent: EventEmitter<boolean> = new EventEmitter();
 
-  constructor(private notesService: NotesService) {}
+  constructor(private notesService: NotesService ) {
+
+  }
+
+
 
   ngOnInit(): void {
     if(this.data != null)
@@ -28,6 +36,7 @@ userName:string = "";
       this.getSubCategory(this.data.subcategory_id);
       this.getUser(this.data.author_id);
     }
+
   }
 
  getCategory(id:Object)
@@ -58,5 +67,30 @@ userName:string = "";
 
     }).toString();
  }
+
+ hoverEventOn()
+ {
+  this.isVisible= true;
+
+ }
+
+ hoverEventOff()
+ {
+  let icons:any = document.querySelectorAll('.icons');
+  this.isVisible= false;
+
+ }
+
+
+ deleteNote(_id:any)
+ {
+  this.notesService.deleteNote(_id.toString()).subscribe((res)=>{
+    this.deleteNoteEvent.emit();
+
+  })
+
+
+ }
+
 
 }
