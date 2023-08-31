@@ -183,6 +183,7 @@ export class NotesComponent implements OnInit{
         console.log(res);
         this.allNotes = res;
         this.notesArray = this.allNotes;
+        this.defaultSort()
         // this.isLoadingN = false
 
 
@@ -288,10 +289,19 @@ export class NotesComponent implements OnInit{
       }
   }
 
+
+
+  defaultSort()
+  {
+    this.filteredNotes = this.allNotes;
+
+    this.notesArray= this.filteredNotes.sort().reverse();
+
+  }
+
   sortNotes($event:any)
   {
-    console.log($event.target.value);
-    let sort:string = "newest";
+
     let value:string |null = $event.target.value;
 
     if(value === "oldest")
@@ -322,6 +332,7 @@ export class NotesComponent implements OnInit{
     {
         this.filteredNotes = this.allNotes;
 
+        //TODO AUTOMATYCZNI PIERWSZE SORTOWANIE JEST PO NAJNOWSZYCH
       //   this.notesArray = this.filteredNotes.sort((a,b)=>{
       //     if(b.positive_reviews && a.positive_reviews)
       //     {
