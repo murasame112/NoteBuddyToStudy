@@ -212,33 +212,6 @@ export class NotesComponent implements OnInit{
 
   }
 
-  getCategoryById(id:string)
-  {
-    // this.notesService.getCategoryById(id)
-    // .pipe(
-    //   map((response:any)=>{
-    //     const name = response;
-    //     return name;
-    //   })
-
-    // )
-
-    // .subscribe(
-    //   (res)=>{
-    //     console.log(res.name)
-    //   }
-    // );
-
-
-
-    // this.notesService.getCategoryById(id)
-    // .subscribe((res)=>{
-    //   console.log(res.name);
-    //   // return res.name;
-    // })
-
-    // this.notesService.getCategoryById(id);
-  }
 
   getSubcategories()
   {
@@ -313,8 +286,84 @@ export class NotesComponent implements OnInit{
       this.isLoading = false;
         console.log(`isLoading ${this.isLoading}`)
       }
+  }
+
+  sortNotes($event:any)
+  {
+    console.log($event.target.value);
+    let sort:string = "newest";
+    let value:string |null = $event.target.value;
+
+    if(value === "oldest")
+    {
+      this.filteredNotes = this.allNotes;
+
+    this.notesArray = this.filteredNotes.sort((a,b)=>
+    {
+      if(a.shared_date && b.shared_date)
+      {
+        let dataA = new Date(a.shared_date);
+        let dataB = new Date(b.shared_date);
+
+        return dataA.getTime() - dataB.getTime();
+      }else
+      {
+        console.log("broo")
+        return 0
+      }
 
 
+    })
+
+
+
+
+    }else if(value === "bestRate")
+    {
+        this.filteredNotes = this.allNotes;
+
+      //   this.notesArray = this.filteredNotes.sort((a,b)=>{
+      //     if(b.positive_reviews && a.positive_reviews)
+      //     {
+      //      Number(b.positive_reviews) - Number(a.positive_reviews)
+
+      //       }return 0
+      //  })
+
+      this.notesArray = this.filteredNotes.sort((a,b)=>{
+         if(a.positive_reviews && a.negative_reviews && b.positive_reviews && b.negative_reviews)
+         {
+
+         return   (b.positive_reviews- b.negative_reviews) - (a.positive_reviews- a.negative_reviews)
+         }
+         return 0
+
+
+      })
+
+    }else if(value === "worstRate")
+    {
+
+      this.filteredNotes = this.allNotes;
+
+      this.notesArray = this.filteredNotes.sort((a,b)=>{
+        if(a.positive_reviews && a.negative_reviews && b.positive_reviews && b.negative_reviews)
+        {
+
+        return   (a.positive_reviews- a.negative_reviews) - (b.positive_reviews- b.negative_reviews)
+        }
+        return 0
+
+
+     })
+
+
+    }else if(value === "newest")
+    {
+      this.filteredNotes = this.allNotes;
+
+      this.notesArray= this.filteredNotes.sort().reverse();
+    }
 
   }
 

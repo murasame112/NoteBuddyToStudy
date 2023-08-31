@@ -64,11 +64,11 @@
       <div id="sortBy">
         <span id="sortByLabel">sortuj po:</span>
         <div id="sortByDiv">
-          <select  id="sortSelect" class="form-select">
-            <option value="">najnowsze</option>
-            <option value="">najstarsze</option>
-            <option value="">najlepiej oceniane</option>
-            <option value="">najgorzej oceniane</option>
+          <select  id="sortSelect" class="form-select" (change)="sortNotes($event)">
+            <option value="newest">najnowsze</option>
+            <option value="oldest">najstarsze</option>
+            <option value="bestRate">najlepiej oceniane</option>
+            <option value="worstRate">najgorzej oceniane</option>
 
           </select>
         </div>
