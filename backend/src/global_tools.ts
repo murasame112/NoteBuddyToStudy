@@ -79,11 +79,11 @@ export function createTimeString(date?: Date | string) {
 // date - date object that we want to compare
 // str - string in format "dd/mm/yyyy", "dd/mm/yyyy, hh:mm:ss" or "dd/mm/yyyyThh:mm:ss"
 // returns true or false
-export function compareFullDateWithString(date: Date, str: string){
+export function compareDateWithString(date: Date, str: string){
 	if(str.length == 10){
-		return this.compareDateWithString(date, str);
+		return this.compareOnlyDateWithString(date, str);
 	}else if(str.length == 19 || str.length == 20){
-		return this.compareDateTimeWithString(date, str);
+		return this.compareFullDateWithString(date, str);
 	}
 }
 
@@ -93,7 +93,7 @@ export function compareFullDateWithString(date: Date, str: string){
 // date - date object that we want to compare
 // str - string in format "dd/mm/yyyy"
 // returns true or false
-export function compareDateWithString(date: Date, str: string){
+export function compareOnlyDateWithString(date: Date, str: string){
 	let strDate = this.createDateString(date);
 	if(str == strDate){
 		return true;
@@ -106,7 +106,7 @@ export function compareDateWithString(date: Date, str: string){
 // date - date object that we want to compare
 // str - string in format "dd/mm/yyyy, hh:mm:ss" or "dd/mm/yyyyThh:mm:ss"
 // returns true or false
-export function compareDateTimeWithString(date: Date, str: string){
+export function compareFullDateWithString(date: Date, str: string){
 	let strDate = '';
 	switch(str.length){
 		case 19:
