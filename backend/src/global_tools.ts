@@ -72,3 +72,32 @@ export function createTimeString(date?: Date | string) {
     return new Date().toLocaleTimeString("en-GB");
   }
 }
+
+
+export function compareFullDateWithString(date: Date, str: string){
+ // if ktory sprawdzi ktorej funkcji uzyc
+}
+
+
+// compares date with string, checks if it's the same day
+// params:
+// date - date object that we want to compare
+// str - string in format "dd/mm/yyyy"
+// returns true or false
+export function compareDateWithString(date: Date, str: string){
+	let strDate = this.createDateString(date);
+	if(str == strDate){
+		return true;
+	}
+	return false;
+}
+
+// compares date with string, checks if it's the same day (and time)
+// params:
+// date - date object that we want to compare
+// str - string in format "dd/mm/yyyy, hh:mm:ss" or "dd/mm/yyyyThh:mm:ss" // TODO: sprawdzić czy dwukropki nie wywalają linku
+// returns true or false
+export function compareDateTimeWithString(date: Date, str: string){
+
+
+}

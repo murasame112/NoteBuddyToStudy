@@ -4,6 +4,7 @@ import express from "express";
 import e, { Request, Response } from "express";
 import { Note } from "../models/note_model";
 import * as global from "../global_database_functions";
+import * as tools from "../global_tools";
 
 const table_name = "notes";
 
