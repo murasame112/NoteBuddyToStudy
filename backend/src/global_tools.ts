@@ -73,6 +73,7 @@ export function createTimeString(date?: Date | string) {
   }
 }
 
+// this one will probably mostly be used in "ByQuery" endpoints
 // compares date with string, checks if it's the same day (and time in case if added)
 // this function just checks what do we want and then picks suitable function
 // params:
