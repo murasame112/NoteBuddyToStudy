@@ -73,9 +73,18 @@ export function createTimeString(date?: Date | string) {
   }
 }
 
-
+// compares date with string, checks if it's the same day (and time in case if added)
+// this function just checks what do we want and then picks suitable function
+// params:
+// date - date object that we want to compare
+// str - string in format "dd/mm/yyyy", "dd/mm/yyyy, hh:mm:ss" or "dd/mm/yyyyThh:mm:ss"
+// returns true or false
 export function compareFullDateWithString(date: Date, str: string){
- // if ktory sprawdzi ktorej funkcji uzyc
+	if(str.length == 10){
+		return this.compareDateWithString(date, str);
+	}else if(str.length == 19 || str.length == 20){
+		return this.compareDateTimeWithString(date, str);
+	}
 }
 
 
