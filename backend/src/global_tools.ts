@@ -95,9 +95,23 @@ export function compareDateWithString(date: Date, str: string){
 // compares date with string, checks if it's the same day (and time)
 // params:
 // date - date object that we want to compare
-// str - string in format "dd/mm/yyyy, hh:mm:ss" or "dd/mm/yyyyThh:mm:ss" // TODO: sprawdzić czy dwukropki nie wywalają linku
+// str - string in format "dd/mm/yyyy, hh:mm:ss" or "dd/mm/yyyyThh:mm:ss"
 // returns true or false
 export function compareDateTimeWithString(date: Date, str: string){
-
+	let strDate = '';
+	switch(str.length){
+		case 19:
+			strDate = this.createDateString(date);
+			strDate += 'T';
+			strDate += this.createTimeString(date);
+			break;
+		case 20:
+			strDate = this.createFullDateString(date);
+			break;
+	}
+	if(str == strDate){
+		return true;
+	}
+	return false;
 
 }
