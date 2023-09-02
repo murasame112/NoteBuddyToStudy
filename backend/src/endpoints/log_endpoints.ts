@@ -94,7 +94,7 @@ export function getLogsByQueriedId(req: Request, res: Response) {
 //      "date":"25-06-2023"
 // }
 export function insertLog(req: Request, res: Response) {
-  const log: Log = new Log(req.body.type, req.body.content, req.body.date);
+  const log: Log = new Log(req.body.type, req.body.content);
   const result = global.insertItem(log, table_name);
   result.then((value) => {
     value.acknowledged
@@ -126,7 +126,7 @@ export function insertMultipleLogs(req: Request, res: Response) {
   const logs = req.body;
   let counter = 0;
   logs.forEach((element: Log) => {
-    const log: Log = new Log(element.type, element.content, element.date);
+    const log: Log = new Log(element.type, element.content);
 
     const result = global.insertItem(log, table_name);
     result.then((value) => {
