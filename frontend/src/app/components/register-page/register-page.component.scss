@@ -130,12 +130,46 @@ grid-template-rows: 1fr;
 }
 
 
+input.ng-invalid.ng-touched
+{
+  border:0.1rem solid rgb(224, 15, 15);
+  box-shadow: 0 0 0.3rem rgb(223, 0, 0);
+
+}
+
+#registerForm
+{
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+gap: 1rem;
+width: 26rem;
+
+}
+
+.registerFormItem
+{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0.1rem;
+  width: 26rem;
+
+}
+
 .form-labels
 {
   font-family: 'poppins', sans-serif;
   font-size: 1.1rem;
   font-weight: 400;
 
+}
+
+.validators
+{
+width: 26rem;
 }
 
 
@@ -263,6 +297,12 @@ margin-left: 1rem;
 }
 
 
+#registerSuccessText
+{
+  grid-area: form;
+  font-family: "poppins",sans-serif;
+}
+
 
 @media (max-width:1000px)
 {
@@ -294,6 +334,18 @@ margin-left: 1rem;
 
 @media (max-width:900px)
 {
+  #registerForm
+  {
+    width: 18rem;
+  }
+
+ .registerFormItem
+ {
+   width: 18rem;
+ }
+
+
+
   #page-name
   {
     font-size: 1.5rem;
@@ -318,6 +370,11 @@ margin-left: 1rem;
     font-weight: 400;
   }
 
+
+  .validators
+  {
+    width: 18rem;
+  }
 
   #register-btn
   {
@@ -396,6 +453,18 @@ display: none;
 
 @media (max-width:560px)
 {
+  #registerForm
+  {
+    width: 14rem;
+  }
+
+ .registerFormItem
+ {
+   width: 14rem;
+ }
+
+
+
   #logo{
 
     grid-row: 1/4;
@@ -427,6 +496,10 @@ display: none;
   font-size: 0.8rem;
 }
 
+.validators
+{
+  width: 14rem;
+}
 
 #register-btn
 {

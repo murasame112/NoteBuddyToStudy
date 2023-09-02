@@ -27,7 +27,15 @@ export function getCardById(req: Request, res: Response) {
   const result = global.getItemById(id, table_name);
   let card: Card;
   result.then((value) => {
-    card = new Card(value.questions, value.answers);
+    card = new Card(
+			value.questions, 
+			value.answers,
+			value.note_id,
+			value.author_id,
+			value.published,
+			value.shared_date,
+			value.last_edit_date
+			);
     res.send(card);
   });
 }
@@ -51,7 +59,15 @@ export function getCardsByQuery(req: Request, res: Response) {
   let card: Card;
   result.then((value) => {
     value.forEach((element: Card) => {
-      card = new Card(element.questions, element.answers);
+      card = new Card(
+				element.questions, 
+				element.answers,
+				element.note_id,
+				element.author_id,
+				element.published,
+				element.shared_date,
+				element.last_edit_date
+				);
       cardArray.push(card);
     });
     res.send(cardArray);
@@ -73,7 +89,15 @@ export function getCardsByQueriedId(req: Request, res: Response) {
   let card: Card;
   result.then((value) => {
     value.forEach((element: Card) => {
-      card = new Card(element.questions, element.answers);
+      card = new Card(
+				element.questions, 
+				element.answers,
+				element.note_id,
+				element.author_id,
+				element.published,
+				element.shared_date,
+				element.last_edit_date
+				);
       cardArray.push(card);
     });
     res.send(cardArray);
@@ -97,14 +121,26 @@ export function getCardsByQueriedId(req: Request, res: Response) {
 //        "xxxxxxxxx",
 //        "yyyyyyyyy",
 //        "zzzzzzzzz"
-//     ]
+//     ],
+//		"note_id":"id",
+//		"author_id":"id"
 //  }
 export function insertCard(req: Request, res: Response) {
-  const card: Card = new Card(req.body.questions, req.body.answers);
+	const note_id = new ObjectId(req.body.note_id);
+	const author_id = new ObjectId(req.body.author_id);
+  const card: Card = new Card(
+		req.body.questions, 
+		req.body.answers,
+		note_id,
+		author_id,
+		req.body.published,
+		req.body.shared_date,
+		req.body.last_edit_date
+		);
   const result = global.insertItem(card, table_name);
   result.then((value) => {
     value.acknowledged
-      ? res.status(201).send("id: " + value.insertedId)
+      ? res.status(201).send(value.insertedId)
       : res.status(400).send("Error");
   });
 }
@@ -127,7 +163,9 @@ export function insertCard(req: Request, res: Response) {
 //        "999999",
 //        "8888888",
 //        "7777777"
-//     ]
+//     ],
+//		"note_id":"id",
+//		"author_id":"id"
 //  },
 // {
 //     "questions":[
@@ -139,14 +177,28 @@ export function insertCard(req: Request, res: Response) {
 //        "xxxxxxxxx",
 //        "yyyyyyyyy",
 //        "zzzzzzzzz"
-//     ]
+//     ],
+//		"note_id":"id",
+//		"author_id":"id"
 //  }
 //  ]
 export function insertMultipleCards(req: Request, res: Response) {
   const cards = req.body;
+  let note_id = new ObjectId();
+  let author_id = new ObjectId();
   let counter = 0;
   cards.forEach((element: Card) => {
-    const card: Card = new Card(element.questions, element.answers);
+		note_id = new ObjectId(element.note_id);
+		author_id = new ObjectId(element.author_id);
+    const card: Card = new Card(
+			element.questions, 
+			element.answers,
+			note_id,
+			author_id,
+			element.published,
+			element.shared_date,
+			element.last_edit_date
+			);
 
     const result = global.insertItem(card, table_name);
     result.then((value) => {
@@ -238,11 +290,19 @@ export function deleteCardsByQuery(req: Request, res: Response) {
 //        "xxxxxxxxx",
 //        "yyyyyyyyy",
 //        "zzzzzzzzz"
-//     ]
+//     ],
+//		"note_id":"id",
+//		"author_id":"id"
 //  }
 export function updateCard(req: Request, res: Response) {
   const id = req.params.id;
   const query = req.body;
+	if (typeof query.note_id !== "undefined") {
+    query.note_id = new ObjectId(query.note_id);
+  }
+	if (typeof query.author_id !== "undefined") {
+    query.author_id = new ObjectId(query.author_id);
+  }
   const result = global.updateItemById(id, table_name, query);
   result.then((value) => {
     value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
@@ -272,12 +332,20 @@ export function updateCard(req: Request, res: Response) {
 //        "xxxxxxxxx",
 //        "yyyyyyyyy",
 //        "zzzzzzzzz"
-//     ]
+//     ],
+//		"note_id":"id",
+//		"author_id":"id"
 //  }
 //  }
 export function updateMultipleCards(req: Request, res: Response) {
   const ids = req.body.ids;
-  const updateQuery = req.body.query;
+	let updateQuery = req.body.query;
+  if (typeof updateQuery.note_id !== "undefined") {
+    updateQuery.note_id = new ObjectId(updateQuery.note_id);
+  }
+  if (typeof updateQuery.author_id !== "undefined") {
+    updateQuery.author_id = new ObjectId(updateQuery.author_id);
+  }
   let counter = 0;
   ids.forEach((element: string) => {
     const result = global.updateItemById(element, table_name, updateQuery);
@@ -310,13 +378,27 @@ export function updateMultipleCards(req: Request, res: Response) {
 //        "xxxxxxxxx",
 //        "yyyyyyyyy",
 //        "zzzzzzzzz"
-//     ]
+//     ],
+//		"note_id":"id",
+//		"author_id":"id"
 //  }
 export function updateCardsByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  const value = req.params.value;
-  const updateQuery = req.body;
-  let query = { [field]: JSON.parse(value) };
+	let value = req.params.value;
+  try {
+    value = JSON.parse(value);
+  } catch (e: any) {
+    value = '"' + value + '"';
+    value = JSON.parse(value);
+  }
+  let updateQuery = req.body;
+  if (typeof updateQuery.note_id !== "undefined") {
+    updateQuery.note_id = new ObjectId(updateQuery.note_id);
+  }
+  if (typeof updateQuery.author_id !== "undefined") {
+    updateQuery.author_id = new ObjectId(updateQuery.author_id);
+  }
+  let query = { [field]: value };
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
     value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
@@ -340,13 +422,23 @@ export function updateCardsByQuery(req: Request, res: Response) {
 //        "xxxxxxxxx",
 //        "yyyyyyyyy",
 //        "zzzzzzzzz"
-//     ]
+//     ],
+//		"note_id":"id",
+//		"author_id":"id"
 //  }
 export function replaceCard(req: Request, res: Response) {
   const id = req.params.id;
   const query = req.body;
   let card: Card;
-  card = new Card(query.questions, query.answers);
+  card = new Card(
+		query.questions, 
+		query.answers,
+		query.note_id,
+		query.author_id,
+		query.published,
+		query.shared_date,
+		query.last_edit_date
+		);
   const result = global.replaceItemById(id, table_name, card);
   result.then((value) => {
     value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
@@ -362,7 +454,15 @@ export function stealCard(req: Request, res: Response) {
   const result = global.stealItemById(id, table_name);
   result.then((value) => {
     let card: Card;
-    card = new Card(value.value.questions, value.value.answers);
+    card = new Card(
+			value.value.questions, 
+			value.value.answers,
+			value.value.note_id,
+			value.value.author_id,
+			value.value.published,
+			value.value.shared_date,
+			value.value.last_edit_date
+			);
     res.status(201).send(card);
   });
 }

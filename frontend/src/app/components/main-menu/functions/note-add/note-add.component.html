@@ -4,6 +4,7 @@
 </nav>
 
 <main>
+  <button id="backBtn" routerLink="/notes">powrót</button>
   <form [formGroup]="addNoteForm" (ngSubmit)="addNote(addNoteForm.value)" id="addForm1">
     <div id="titleBox" class="displayClass">
       <label >Tytuł: </label>

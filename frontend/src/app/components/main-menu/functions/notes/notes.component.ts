@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,EventEmitter } from '@angular/core';
 import { NotesService } from '../../../../services/notes.service';
 import {Note} from '../../../../models/note.model';
-import { first } from 'rxjs';
-import {concatAll, map} from 'rxjs/operators';
+import { Observable, first,forkJoin } from 'rxjs';
+import {concatAll, finalize, map} from 'rxjs/operators';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Category } from 'src/app/models/category.model';
 import { Subcategory } from 'src/app/models/subcategory.model';
@@ -18,10 +18,11 @@ export class NotesComponent implements OnInit{
 
   constructor(private notesService: NotesService) {}
   ngOnInit(): void {
-    this.getNotes();
-    this.getCategories();
-    this.getSubcategories();
-    this.getUsers();
+    this.getNotes()
+    this.getCategories()
+    this.getSubcategories()
+    this.getUsers()
+
 
     this.FilterForm = new FormGroup(
       {
@@ -33,6 +34,12 @@ export class NotesComponent implements OnInit{
     )
 
   }
+
+  isLoading:Boolean = true;
+  isLoadingN:Boolean = true;
+  isLoadingC:Boolean = true;
+  isLoadingSC:Boolean = true;
+  isLoadingU:Boolean = true;
 
   allNotes:Note[] = [];
   notesArray:Note[] =[];
@@ -165,26 +172,44 @@ export class NotesComponent implements OnInit{
   {
 
 
-    this.notesService.getNotes()
+    this.notesService.getNotes().pipe(
+    finalize(()=>{this.isLoadingN = false,
+      this.getAllNotesProperties();
+
+    })
+    )
     .subscribe(
       (res)=>{
         console.log(res);
         this.allNotes = res;
         this.notesArray = this.allNotes;
+        // this.isLoadingN = false
+
+
       }
     );
+
   }
 
   getCategories()
   {
-    this.notesService.getCategories()
+    this.notesService.getCategories().pipe(
+      finalize(()=>{ this.isLoadingC = false,
+        this.getAllNotesProperties();
+      })
+      )
 
     .subscribe(
       (res)=>{
         console.log(res);
         this.allCategories = res;
+        // this.isLoadingC = false
+
+
       }
       );
+
+
   }
 
   getCategoryById(id:string)
@@ -217,22 +242,80 @@ export class NotesComponent implements OnInit{
 
   getSubcategories()
   {
-    this.notesService.getSubcategories().subscribe(
+    this.notesService.getSubcategories().pipe(
+      finalize(()=>{this.isLoadingSC = false,
+        this.getAllNotesProperties();
+      })
+      )
+    .subscribe(
       (res)=>{
         console.log(res)
         this.allSubcategories =res;
         this.subcategoriesArray =this.allSubcategories;
+        // this.isLoadingSC = false
+
+
       })
+
   }
 
   getUsers()
   {
-    this.notesService.getUsers().subscribe(
+    this.notesService.getUsers().pipe(
+      finalize(()=>{this.isLoadingU = false,
+        this.getAllNotesProperties();
+      })
+      )
+    .subscribe(
       (res)=>{
         console.log(res)
         this.allUsers = res;
+        // this.isLoadingU = false
+        this.getAllNotesProperties();
+
       }
     )
+
+  }
+
+
+  refreshNoteData()
+  {
+    console.log("wykonane")
+    this.getNotes()
+
+  }
+
+   getAllNotesProperties()
+  {
+
+      if(
+        this.isLoadingN == true ||
+        this.isLoadingC == true  ||
+        this.isLoadingSC == true ||
+        this.isLoadingU == true
+      )
+      {
+      this.isLoading = true;
+      console.log("Prawda");
+      console.log(this.isLoadingN)
+      console.log(this.isLoadingC)
+      console.log(this.isLoadingSC)
+      console.log(this.isLoadingU)
+
+      }else
+      {
+      console.log("else");
+      console.log(this.isLoadingN)
+      console.log(this.isLoadingC)
+      console.log(this.isLoadingSC)
+      console.log(this.isLoadingU)
+      this.isLoading = false;
+        console.log(`isLoading ${this.isLoading}`)
+      }
+
+
+
   }
 
 

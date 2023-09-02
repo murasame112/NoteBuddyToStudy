@@ -1,0 +1,104 @@
+#container
+{
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 0.32fr 3fr 0.4fr;
+  grid-template-areas:
+  'nav'
+  'main'
+  'footer';
+  // gap: 5rem;
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  row-gap: 0;
+  // place-items: center;
+  // overflow: hidden;
+  font-family: "poppins", sans-serif;
+
+}
+
+nav
+{
+  grid-area: nav;
+  width: 100%;
+  height: 100%;
+
+}
+
+main
+{
+  grid-area: main;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  // padding-top: 1rem;
+  padding-bottom: 4rem;
+  // gap: 1rem;
+
+}
+
+#spinner
+{
+  position: fixed;
+  left: 50%;
+  top: 50%;
+}
+
+#topSection
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 5rem;
+
+}
+
+#nav
+{
+
+}
+
+#title
+{
+  color:#310B61 ;
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+#backBtn
+{
+  position: absolute;
+  right: 1rem;
+  top: 5rem;
+text-decoration: none;
+background-color: rgba(218, 70, 96, 1);
+color: white;
+border: 0.1rem solid rgba(218, 70, 96, 1) ;
+border-radius: 2rem;
+width: 8rem;
+height: 2.5rem;
+align-self: flex-start;
+
+}
+
+
+
+footer
+{
+  grid-area: footer;
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: #222;
+  padding: 0;
+  margin: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

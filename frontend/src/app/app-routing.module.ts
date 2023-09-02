@@ -9,6 +9,7 @@ import { NotesComponent } from './components/main-menu/functions/notes/notes.com
 import { NoteAddComponent } from './components/main-menu/functions/note-add/note-add.component';
 import { CardAddComponent } from './components/main-menu/functions/card-add/card-add.component';
 import { SearchForBuddyComponent } from './components/main-menu/functions/search-for-buddy/search-for-buddy.component';
+import { ShowNoteComponent } from './components/main-menu/functions/notes/show-note/show-note.component';
 
 const routes: Routes = [
   {path:'', redirectTo:"landing", pathMatch:"full"},
@@ -17,6 +18,7 @@ const routes: Routes = [
   {path:'register', component:RegisterPageComponent},
   {path:'main', component:MainMenuComponent},
   {path:'notes', component:NotesComponent},
+  {path:'note/:id',component:ShowNoteComponent},
   {path:'note-add', component:NoteAddComponent},
   {path:'card-add', component:CardAddComponent},
   {path:'search-for-buddy', component:SearchForBuddyComponent},

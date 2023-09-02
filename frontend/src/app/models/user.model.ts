@@ -1,5 +1,5 @@
 export class User{
-  _id:string
+  _id?:string
   name: string
     avatar_url: string
     login: string
@@ -14,12 +14,12 @@ export class User{
     notifications: Array<string>
 
     constructor(
-      _id:string,
       name: string,
       avatar_url: string,
       login: string,
       password: string,
       active: boolean,
+      _id?:string,
       role?: string,
       untrusted?: boolean,
       saved_notes?: Array<string>,
