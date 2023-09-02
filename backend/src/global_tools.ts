@@ -123,5 +123,4 @@ export function compareFullDateWithString(date: Date, str: string){
 		return true;
 	}
 	return false;
-
 }

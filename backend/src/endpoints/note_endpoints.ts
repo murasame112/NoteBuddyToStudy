@@ -35,11 +35,11 @@ export function getNoteById(req: Request, res: Response) {
       value.subcategory_id,
       value.adress,
       value.description,
-      value.shared_date,
-      value.last_edit_date,
       value.published,
       value.positive_reviews,
-      value.negative_reviews
+      value.negative_reviews,
+			value.shared_date,
+			value.last_edit_date
     );
     res.send(note);
   });
@@ -72,11 +72,11 @@ export function getMultipleNotes(req: Request, res: Response) {
         value.subcategory_id,
         value.adress,
         value.description,
-        value.shared_date,
-        value.last_edit_date,
         value.published,
         value.positive_reviews,
-        value.negative_reviews
+        value.negative_reviews,
+        value.shared_date,
+        value.last_edit_date
       );
       noteArray.push(note);
       if (counter == ids.length) {
@@ -113,11 +113,11 @@ export function getNotesByQuery(req: Request, res: Response) {
         element.subcategory_id,
         element.adress,
         element.description,
-        element.shared_date,
-        element.last_edit_date,
         element.published,
         element.positive_reviews,
-        element.negative_reviews
+        element.negative_reviews,
+				element.shared_date,
+        element.last_edit_date
       );
       noteArray.push(note);
     });
@@ -147,11 +147,11 @@ export function getNotesByQueriedId(req: Request, res: Response) {
         element.subcategory_id,
         element.adress,
         element.description,
-        element.shared_date,
-        element.last_edit_date,
         element.published,
         element.positive_reviews,
-        element.negative_reviews
+        element.negative_reviews,
+				element.shared_date,
+        element.last_edit_date
       );
       noteArray.push(note);
     });
@@ -185,8 +185,6 @@ export function insertNote(req: Request, res: Response) {
     subcategory_id,
     req.body.adress,
     req.body.description,
-    req.body.shared_date,
-    req.body.last_edit_date,
     req.body.published,
     req.body.positive_reviews,
     req.body.negative_reviews
@@ -241,8 +239,6 @@ export function insertMultipleNotes(req: Request, res: Response) {
       subcategory_id,
       element.adress,
       element.description,
-      element.shared_date,
-      element.last_edit_date,
       element.published,
       element.positive_reviews,
       element.negative_reviews
@@ -460,11 +456,11 @@ export function replaceNote(req: Request, res: Response) {
     query.subcategory_id,
     query.adress,
     query.description,
-    query.shared_date,
-    query.last_edit_date,
     query.published,
     query.positive_reviews,
-    query.negative_reviews
+    query.negative_reviews,
+		query.shared_date,
+    query.last_edit_date
   );
   const result = global.replaceItemById(id, table_name, note);
   result.then((value) => {
@@ -488,11 +484,11 @@ export function stealNote(req: Request, res: Response) {
       value.value.subcategory_id,
       value.value.adress,
       value.value.description,
-      value.value.shared_date,
-      value.value.last_edit_date,
       value.value.published,
       value.value.positive_reviews,
-      value.value.negative_reviews
+      value.value.negative_reviews,
+			value.value.shared_date,
+      value.value.last_edit_date
     );
     res.status(201).send(note);
   });
