@@ -458,9 +458,7 @@ export function replaceNote(req: Request, res: Response) {
     query.description,
     query.published,
     query.positive_reviews,
-    query.negative_reviews,
-		query.shared_date,
-    query.last_edit_date
+    query.negative_reviews
   );
   const result = global.replaceItemById(id, table_name, note);
   result.then((value) => {

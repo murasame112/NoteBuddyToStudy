@@ -298,7 +298,7 @@ export function replaceLog(req: Request, res: Response) {
   const id = req.params.id;
   const query = req.body;
   let log: Log;
-  log = new Log(query.type, query.content, query.date);
+  log = new Log(query.type, query.content);
   const result = global.replaceItemById(id, table_name, log);
   result.then((value) => {
     value.acknowledged ? res.status(201).send() : res.status(400).send("Error");

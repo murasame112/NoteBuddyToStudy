@@ -431,9 +431,7 @@ export function replaceCard(req: Request, res: Response) {
 		query.answers,
 		query.note_id,
 		query.author_id,
-		query.published,
-		query.shared_date,
-		query.last_edit_date
+		query.published
 		);
   const result = global.replaceItemById(id, table_name, card);
   result.then((value) => {
