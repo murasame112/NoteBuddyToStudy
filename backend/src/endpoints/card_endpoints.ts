@@ -133,9 +133,7 @@ export function insertCard(req: Request, res: Response) {
 		req.body.answers,
 		note_id,
 		author_id,
-		req.body.published,
-		req.body.shared_date,
-		req.body.last_edit_date
+		req.body.published
 		);
   const result = global.insertItem(card, table_name);
   result.then((value) => {
@@ -195,9 +193,7 @@ export function insertMultipleCards(req: Request, res: Response) {
 			element.answers,
 			note_id,
 			author_id,
-			element.published,
-			element.shared_date,
-			element.last_edit_date
+			element.published
 			);
 
     const result = global.insertItem(card, table_name);
