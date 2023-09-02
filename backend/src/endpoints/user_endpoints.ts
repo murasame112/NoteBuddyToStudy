@@ -34,7 +34,13 @@ export function getUserById(req: Request, res: Response) {
       value.login,
       value.password,
       value.active,
-      value.role
+      value.role,
+			value.untrusted,
+			value.saved_notes,
+			value.followed_users,
+			value.blocked_users,
+			value.notifications,
+			value.created
     );
     res.send(user);
   });
@@ -65,7 +71,13 @@ export function getUsersByQuery(req: Request, res: Response) {
         element.login,
         element.password,
         element.active,
-        element.role
+        element.role,
+				element.untrusted,
+				element.saved_notes,
+				element.followed_users,
+				element.blocked_users,
+				element.notifications,
+				element.created
       );
       userArray.push(user);
     });
@@ -94,7 +106,13 @@ export function getUsersByQueriedId(req: Request, res: Response) {
         element.login,
         element.password,
         element.active,
-        element.role
+        element.role,
+				element.untrusted,
+				element.saved_notes,
+				element.followed_users,
+				element.blocked_users,
+				element.notifications,
+				element.created
       );
       userArray.push(user);
     });
@@ -124,7 +142,12 @@ export function insertUser(req: Request, res: Response) {
     req.body.login,
     req.body.password,
     req.body.active,
-    req.body.role
+    req.body.role,
+		req.body.untrusted,
+		req.body.saved_notes,
+		req.body.followed_users,
+		req.body.blocked_users,
+		req.body.notifications
   );
   const result = global.insertItem(user, table_name);
   result.then((value) => {
@@ -169,7 +192,12 @@ export function insertMultipleUsers(req: Request, res: Response) {
       element.login,
       element.password,
       element.active,
-      element.role
+      element.role,
+			element.untrusted,
+			element.saved_notes,
+			element.followed_users,
+			element.blocked_users,
+			element.notifications
     );
 
     const result = global.insertItem(user, table_name);
@@ -346,7 +374,12 @@ export function replaceUser(req: Request, res: Response) {
     query.login,
     query.password,
     query.active,
-    query.role
+    query.role,
+		query.untrusted,
+		query.saved_notes,
+		query.followed_users,
+		query.blocked_users,
+		query.notifications
   );
   const result = global.replaceItemById(id, table_name, user);
   result.then((value) => {
@@ -369,7 +402,13 @@ export function stealUser(req: Request, res: Response) {
       value.value.login,
       value.valuet.password,
       value.value.active,
-      value.value.role
+      value.value.role,
+			value.value.untrusted,
+			value.value.saved_notes,
+			value.value.followed_users,
+			value.value.blocked_users,
+			value.value.notifications,
+			value.value.created
     );
     res.status(201).send(user);
   });
