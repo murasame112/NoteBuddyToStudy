@@ -11,9 +11,9 @@ export class MetaNotification {
     value?: string,
     shared_date?: Date
   ) {
-    notification_id = notification_id;
-    user_id = user_id;
-    value = value ? value : "";
-    shared_date = shared_date ? shared_date : new Date();
+    this.notification_id = notification_id;
+    this.user_id = user_id;
+    this.value = value ? value : "";
+    this.shared_date = shared_date ? shared_date : new Date();
   }
 }

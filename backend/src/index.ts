@@ -7,6 +7,7 @@ import * as userEndpoints from "./endpoints/user_endpoints";
 import * as categoryEndpoints from "./endpoints/category_endpoints";
 import * as subcategoryEndpoints from "./endpoints/subcategory_endpoints";
 import * as notificationEndpoints from "./endpoints/notification_endpoints";
+import * as metanotificationEndpoints from "./endpoints/meta-notification_endpoints";
 import * as cardEndpoints from "./endpoints/card_endpoints";
 import * as groupEndpoints from "./endpoints/group_endpoints";
 import * as hintEndpoints from "./endpoints/hint_endpoints";
@@ -109,6 +110,22 @@ app.patch("/notification/:id", notificationEndpoints.updateNotification);
 app.patch("/notifications/:field&:value", notificationEndpoints.updateNotificationsByQuery);
 app.patch("/notifications", notificationEndpoints.updateMultipleNotifications);
 app.put("/notification/:id", notificationEndpoints.replaceNotification);
+
+// ============== META-NOTIFICATION ENDPOINTS ==============
+
+app.get("/metanotification/:id", metanotificationEndpoints.getMetaNotificationById);
+app.get("/stealmetanotification/:id", metanotificationEndpoints.stealMetaNotification);
+app.get("/metanotifications", metanotificationEndpoints.getAllMetaNotifications);
+app.get("/metanotifications/:field&:value", metanotificationEndpoints.getMetaNotificationsByQuery);
+app.post("/metanotification", metanotificationEndpoints.insertMetaNotification);
+app.post("/metanotifications", metanotificationEndpoints.insertMultipleMetaNotifications);
+app.delete("/metanotification/:id", metanotificationEndpoints.deleteMetaNotification);
+app.delete("/metanotifications", metanotificationEndpoints.deleteMultipleMetaNotifications);
+app.delete("/metanotifications/:field&:value", metanotificationEndpoints.deleteMetaNotificationsByQuery);
+app.patch("/metanotification/:id", metanotificationEndpoints.updateMetaNotification);
+app.patch("/metanotifications/:field&:value", metanotificationEndpoints.updateMetaNotificationsByQuery);
+app.patch("/metanotifications", metanotificationEndpoints.updateMultipleMetaNotifications);
+app.put("/metanotification/:id", metanotificationEndpoints.replaceMetaNotification);
 
 // ============== CARD ENDPOINTS ==============
 
