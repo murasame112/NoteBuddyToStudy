@@ -105,11 +105,9 @@ export function getMetaNotificationsByQueriedId(req: Request, res: Response) {
 //  http://localhost:3000/metanotifcation
 // example body:
 //   {
-//      "name":"custom name",
-//      "adress":"custom adress",
-//      "author_id":"some id",
-//      "category_id":"some id",
-//      "description":"custom description"
+	// "notifiaction_id":"64a4a2aaa1caf26fbfaa2dc8",
+	// "user_id":"64a49ff9a1caf26fbfaa2dbb",
+	// "value":"newUser"
 // }
 export function insertMetaNotification(req: Request, res: Response) {
   const notification_id = new ObjectId(req.body.notification_id);
@@ -137,20 +135,14 @@ export function insertMetaNotification(req: Request, res: Response) {
 // example body:
 // [
 //     {
-//        "name":"custom name",
-//        "adress":"custom adress",
-//        "author_id":"64a49ff9a1caf26fbfaa2dbb",
-//        "category_id":"64a4a1d1a1caf26fbfaa2dc1",
-//        "sucategory_id":"64a4a367a1caf26fbfaa2dcc",
-//        "description":"custom description"
+	// "notifiaction_id":"64a4a2aaa1caf26fbfaa2dc8",
+	// "user_id":"64a49ff9a1caf26fbfaa2dbb",
+	// "value":"newUser"
 //     },
 // {
-//    "name":"custom name2",
-//    "adress":"custom adress2",
-//    "author_id":"64a49ff9a1caf26fbfaa2dbb",
-//    "category_id":"64a4a1d1a1caf26fbfaa2dc1",
-//    "sucategory_id":"64a4a367a1caf26fbfaa2dcc",
-//    "description":"custom description2"
+	// "notifiaction_id":"64a4a2aaa1caf26fbfaa2dc8",
+	// "user_id":"64a49ff9a1caf26fbfaa2dbb",
+	// "value":"newUser2"
 // }
 //  ]
 export function insertMultipleMetaNotifications(req: Request, res: Response) {
@@ -250,8 +242,7 @@ export function deleteMetaNotificationsByQuery(req: Request, res: Response) {
 //  http://localhost:3000/metanotifcation/6490d3e5982efd2fe9136154
 // example body:
 //   {
-//      "name":"custom name",
-//      "description":"custom description"
+	// "value":"newUser"
 // }
 export function updateMetaNotification(req: Request, res: Response) {
   const id = req.params.id;
@@ -283,8 +274,7 @@ export function updateMetaNotification(req: Request, res: Response) {
 //      "6490d9fddfd298aad1e8f136"]
 //     ,
 //     "query":{
-//        "name":"custom name",
-//        "description":"custom description"
+	// "value":"newUser"
 //     }
 //  }
 export function updateMultipleMetaNotifications(req: Request, res: Response) {
@@ -320,8 +310,7 @@ export function updateMultipleMetaNotifications(req: Request, res: Response) {
 //  http://localhost:3000/metanotifcations/published&true
 // example body:
 //   {
-//      "name":"custom name",
-//      "description":"custom description"
+	// "value":"newUser"
 // }
 export function updateMetaNotificationsByQuery(req: Request, res: Response) {
   const field = req.params.field;
@@ -355,11 +344,7 @@ export function updateMetaNotificationsByQuery(req: Request, res: Response) {
 //  http://localhost:3000/metanotifcation/6490d3e5982efd2fe9136154
 // example body:
 //   {
-//      "name":"custom name",
-//      "adress":"custom adress",
-//      "author_id":"some id",
-//      "category_id":"some id",
-//      "description":"custom description"
+	// "value":"newUser"
 // }
 export function replaceMetaNotification(req: Request, res: Response) {
   const id = req.params.id;
