@@ -32,6 +32,7 @@ export function getMetaNotificationById(req: Request, res: Response) {
 			value.notification_id,
 			value.user_id,
 			value.value,
+			value.active,
 			value.shared_date
     );
     res.send(metanotifcation);
@@ -62,6 +63,7 @@ export function getMetaNotificationsByQuery(req: Request, res: Response) {
 				element.notification_id,
 				element.user_id,
 				element.value,
+				element.active,
 				element.shared_date
       );
       metanotifcationArray.push(metanotifcation);
@@ -89,6 +91,7 @@ export function getMetaNotificationsByQueriedId(req: Request, res: Response) {
 				element.notification_id,
 				element.user_id,
 				element.value,
+				element.active,
 				element.shared_date
       );
       metanotifcationArray.push(metanotifcation);
@@ -116,7 +119,8 @@ export function insertMetaNotification(req: Request, res: Response) {
   const metanotifcation: MetaNotification = new MetaNotification(
 		notification_id,
 		user_id,
-		req.body.value
+		req.body.value,
+		req.body.active
   );
   const result = global.insertItem(metanotifcation, table_name);
   result.then((value) => {
@@ -156,7 +160,8 @@ export function insertMultipleMetaNotifications(req: Request, res: Response) {
     const metanotifcation: MetaNotification = new MetaNotification(
 			notification_id,
 			user_id,
-			req.body.value
+			req.body.value,
+			req.body.active
     );
 
     const result = global.insertItem(metanotifcation, table_name);
@@ -354,6 +359,7 @@ export function replaceMetaNotification(req: Request, res: Response) {
 		query.notification_id,
 		query.user_id,
 		query.value,
+		query.active,
 		query.shared_date
   );
   const result = global.replaceItemById(id, table_name, metanotifcation);
@@ -375,6 +381,7 @@ export function stealMetaNotification(req: Request, res: Response) {
 			value.value.notification_id,
 		value.value.user_id,
 		value.value.value,
+		value.value.active,
 		value.value.shared_date
     );
     res.status(201).send(metanotifcation);
