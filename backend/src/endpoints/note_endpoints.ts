@@ -317,8 +317,21 @@ export function deleteNotesByQuery(req: Request, res: Response) {
   });
 }
 
-// TODO: DELETE NOTES BY QUERIED ID
+// deletes multiple notes by id_field and value of objectId
+// /notesid/{field}&{value}
+// example:
+//  http://localhost:3000/notesid/category_id&6490d9efdfd298aad1e8f134
+export function deleteNotesByQueriedId(req: Request, res: Response) {
+  const field = req.params.field;
+  const value = req.params.value;
+  const objValue = new ObjectId(value);
 
+  let query = { [field]: objValue };
+  const result = global.deleteItemsByField(query, table_name);
+  result.then((value) => {
+    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+  });
+}
 // updates note by id with values passed in request body
 // /note/{id}
 // headers:
@@ -425,6 +438,33 @@ export function updateNotesByQuery(req: Request, res: Response) {
     updateQuery.author_id = new ObjectId(updateQuery.author_id);
   }
   let query = { [field]: value };
+  const result = global.updateItemsByField(query, table_name, updateQuery);
+  result.then((value) => {
+    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+  });
+}
+
+// updates multiple notes by id_field and value of objectId
+// /notesid/{field}&{value}
+// example:
+//  http://localhost:3000/notesid/category_id&6490d9efdfd298aad1e8f134
+export function updateNotesByQueriedId(req: Request, res: Response) {
+  const field = req.params.field;
+  let value = req.params.value;
+  const objValue = new ObjectId(value);
+
+  let updateQuery = req.body;
+  if (typeof updateQuery.category_id !== "undefined") {
+    updateQuery.category_id = new ObjectId(updateQuery.category_id);
+  }
+  if (typeof updateQuery.subcategory_id !== "undefined") {
+    updateQuery.subcategory_id = new ObjectId(updateQuery.subcategory_id);
+  }
+  if (typeof updateQuery.author_id !== "undefined") {
+    updateQuery.author_id = new ObjectId(updateQuery.author_id);
+  }
+  let query = { [field]: objValue };
+
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
     value.acknowledged ? res.status(204).send() : res.status(400).send("Error");

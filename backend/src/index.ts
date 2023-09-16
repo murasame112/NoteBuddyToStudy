@@ -40,9 +40,11 @@ app.post("/notes", noteEndpoints.insertMultipleNotes);
 app.delete("/note/:id", noteEndpoints.deleteNote);
 app.delete("/notes", noteEndpoints.deleteMultipleNotes);
 app.delete("/notes/:field&:value", noteEndpoints.deleteNotesByQuery);
+app.delete("/notesid/:field&:value", noteEndpoints.deleteNotesByQueriedId);
 app.patch("/note/:id", noteEndpoints.updateNote);
 app.patch("/notes/:field&:value", noteEndpoints.updateNotesByQuery);
 app.patch("/notes", noteEndpoints.updateMultipleNotes);
+app.patch("/notesid/:field&:value", noteEndpoints.updateNotesByQueriedId);
 app.put("/note/:id", noteEndpoints.replaceNote);
 
 // ============== USER ENDPOINTS ==============
