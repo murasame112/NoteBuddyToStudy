@@ -96,6 +96,7 @@ app.delete("/subcategoriesid/:field&:value", subcategoryEndpoints.deleteSubcateg
 app.patch("/subcategory/:id", subcategoryEndpoints.updateSubcategory);
 app.patch("/subcategories/:field&:value", subcategoryEndpoints.updateSubcategoriesByQuery);
 app.patch("/subcategories", subcategoryEndpoints.updateMultipleSubcategories);
+app.patch("/subcategoriesid/:field&:value", subcategoryEndpoints.updateSubcategoriesByQueriedId);
 app.put("/subcategory/:id", subcategoryEndpoints.replaceSubcategory);
 
 // ============== NOTIFICATION ENDPOINTS ==============
@@ -130,6 +131,7 @@ app.delete("/metanotificationsid/:field&:value", metanotificationEndpoints.delet
 app.patch("/metanotification/:id", metanotificationEndpoints.updateMetaNotification);
 app.patch("/metanotifications/:field&:value", metanotificationEndpoints.updateMetaNotificationsByQuery);
 app.patch("/metanotifications", metanotificationEndpoints.updateMultipleMetaNotifications);
+app.patch("/metanotificationsid/:field&:value", metanotificationEndpoints.updateMetaNotificationsByQueriedId);
 app.put("/metanotification/:id", metanotificationEndpoints.replaceMetaNotification);
 
 // ============== CARD ENDPOINTS ==============
@@ -148,6 +150,7 @@ app.delete("/cardsid/:field&:value", cardEndpoints.deleteCardsByQueriedId);
 app.patch("/card/:id", cardEndpoints.updateCard);
 app.patch("/cards/:field&:value", cardEndpoints.updateCardsByQuery);
 app.patch("/cards", cardEndpoints.updateMultipleCards);
+app.patch("/cardsid/:field&:value", cardEndpoints.updateCardsByQueriedId);
 app.put("/card/:id", cardEndpoints.replaceCard);
 
 // ============== GROUP ENDPOINTS ==============

@@ -346,6 +346,30 @@ export function updateMetaNotificationsByQuery(req: Request, res: Response) {
   });
 }
 
+// updates multiple metanotifications by id_field and value of objectId
+// /metanotificationsid/{field}&{value}
+// example:
+//  http://localhost:3000/metanotificationsid/user_id&6490d9efdfd298aad1e8f134
+export function updateMetaNotificationsByQueriedId(req: Request, res: Response) {
+  const field = req.params.field;
+  let value = req.params.value;
+  const objValue = new ObjectId(value);
+
+  let updateQuery = req.body;
+  if (typeof updateQuery.notifiaction_id !== "undefined") {
+    updateQuery.notifiaction_id = new ObjectId(updateQuery.notifiaction_id);
+  }
+  if (typeof updateQuery.user_id !== "undefined") {
+    updateQuery.user_id = new ObjectId(updateQuery.user_id);
+  }
+  let query = { [field]: objValue };
+
+  const result = global.updateItemsByField(query, table_name, updateQuery);
+  result.then((value) => {
+    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+  });
+}
+
 // replaces metanotifcation by id with new metanotifcation passed in request body
 // /metanotifcation/{id}
 // headers:

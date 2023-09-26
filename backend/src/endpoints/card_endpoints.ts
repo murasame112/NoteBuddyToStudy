@@ -417,6 +417,30 @@ export function updateCardsByQuery(req: Request, res: Response) {
   });
 }
 
+// updates multiple cards by id_field and value of objectId
+// /cardsid/{field}&{value}
+// example:
+//  http://localhost:3000/cardsid/user_id&6490d9efdfd298aad1e8f134
+export function updateCardsByQueriedId(req: Request, res: Response) {
+  const field = req.params.field;
+  let value = req.params.value;
+  const objValue = new ObjectId(value);
+
+  let updateQuery = req.body;
+  if (typeof updateQuery.note_id !== "undefined") {
+    updateQuery.note_id = new ObjectId(updateQuery.note_id);
+  }
+  if (typeof updateQuery.author_id !== "undefined") {
+    updateQuery.author_id = new ObjectId(updateQuery.author_id);
+  }
+  let query = { [field]: objValue };
+
+  const result = global.updateItemsByField(query, table_name, updateQuery);
+  result.then((value) => {
+    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+  });
+}
+
 // replaces card by id with new card passed in request body
 // /card/{id}
 // headers:

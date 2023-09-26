@@ -312,6 +312,28 @@ export function updateSubcategoriesByQuery(req: Request, res: Response) {
   });
 }
 
+// updates multiple subcategories by id_field and value of objectId
+// /subcategoriesid/{field}&{value}
+// example:
+//  http://localhost:3000/subcategoriesid/user_id&6490d9efdfd298aad1e8f134
+export function updateSubcategoriesByQueriedId(req: Request, res: Response) {
+  const field = req.params.field;
+  let value = req.params.value;
+  const objValue = new ObjectId(value);
+
+  let updateQuery = req.body;
+  if (typeof updateQuery.category_id !== "undefined") {
+    updateQuery.category_id = new ObjectId(updateQuery.category_id);
+  }
+  let query = { [field]: objValue };
+
+  const result = global.updateItemsByField(query, table_name, updateQuery);
+  result.then((value) => {
+    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+  });
+}
+
+
 // replaces subcategory by id with new subcategory passed in request body
 // /subcategory/{id}
 // headers:
