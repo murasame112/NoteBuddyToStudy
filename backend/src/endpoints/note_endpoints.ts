@@ -332,6 +332,7 @@ export function deleteNotesByQueriedId(req: Request, res: Response) {
     value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
   });
 }
+
 // updates note by id with values passed in request body
 // /note/{id}
 // headers:

@@ -58,28 +58,6 @@ export function getHintsByQuery(req: Request, res: Response) {
   });
 }
 
-// finds multiple hints by id_field and value of objectId
-// /hintsid/{field}&{value}
-// example:
-//  http://localhost:3000/hintsid/category_id&6490d9efdfd298aad1e8f134
-export function getHintsByQueriedId(req: Request, res: Response) {
-  const field = req.params.field;
-  const value = req.params.value;
-  const objValue = new ObjectId(value);
-
-  let query = { [field]: objValue };
-  const result = global.getItemsByField(query, table_name);
-  const hintArray: Hint[] = [];
-  let hint: Hint;
-  result.then((value) => {
-    value.forEach((element: Hint) => {
-      hint = new Hint(element.content);
-      hintArray.push(hint);
-    });
-    res.send(hintArray);
-  });
-}
-
 // inserts hint to database
 // /hint
 // headers:

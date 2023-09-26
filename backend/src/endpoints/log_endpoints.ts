@@ -59,28 +59,6 @@ export function getLogsByQuery(req: Request, res: Response) {
   });
 }
 
-// finds multiple logs by id_field and value of objectId
-// /logsid/{field}&{value}
-// example:
-//  http://localhost:3000/logsid/category_id&6490d9efdfd298aad1e8f134
-export function getLogsByQueriedId(req: Request, res: Response) {
-  const field = req.params.field;
-  const value = req.params.value;
-  const objValue = new ObjectId(value);
-
-  let query = { [field]: objValue };
-  const result = global.getItemsByField(query, table_name);
-  const logArray: Log[] = [];
-  let log: Log;
-  result.then((value) => {
-    value.forEach((element: Log) => {
-      log = new Log(element.type, element.content, element.date);
-      logArray.push(log);
-    });
-    res.send(logArray);
-  });
-}
-
 // inserts log to database
 // /log
 // headers:

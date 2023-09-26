@@ -237,18 +237,23 @@ export function deleteMetaNotificationsByQuery(req: Request, res: Response) {
   });
 }
 
-// TODO: DELETE NOTES BY QUERIED ID
-
-// updates metanotifcation by id with values passed in request body
-// /metanotifcation/{id}
-// headers:
-//  Content-Type: application/json
+// deletes multiple meta-notifications by id_field and value of objectId
+// /metanotificationsid/{field}&{value}
 // example:
-//  http://localhost:3000/metanotifcation/6490d3e5982efd2fe9136154
-// example body:
-//   {
-	// "value":"newUser"
-// }
+//  http://localhost:3000/metanotificationsid/user_id&6490d9efdfd298aad1e8f134
+export function deleteMetaNotificationsByQueriedId(req: Request, res: Response) {
+  const field = req.params.field;
+  const value = req.params.value;
+  const objValue = new ObjectId(value);
+
+  let query = { [field]: objValue };
+  const result = global.deleteItemsByField(query, table_name);
+  result.then((value) => {
+    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+  });
+}
+
+
 export function updateMetaNotification(req: Request, res: Response) {
   const id = req.params.id;
   let query = req.body;
