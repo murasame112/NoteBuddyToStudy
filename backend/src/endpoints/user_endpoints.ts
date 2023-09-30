@@ -384,7 +384,7 @@ export function stealUser(req: Request, res: Response) {
       value.value.login,
       value.value.avatar_url,
       value.value.email,
-      value.valuet.password,
+      value.value.password,
 			value.value.role,
       value.value.active,
 			value.value.untrusted,
