@@ -39,7 +39,6 @@ export function getUserById(req: Request, res: Response) {
 			value.saved_notes,
 			value.followed_users,
 			value.blocked_users,
-			value.notifications,
 			value.created
     );
     res.send(user);
@@ -76,7 +75,6 @@ export function getUsersByQuery(req: Request, res: Response) {
 				element.saved_notes,
 				element.followed_users,
 				element.blocked_users,
-				element.notifications,
 				element.created
       );
       userArray.push(user);
@@ -111,7 +109,6 @@ export function getUsersByQueriedId(req: Request, res: Response) {
 				element.saved_notes,
 				element.followed_users,
 				element.blocked_users,
-				element.notifications,
 				element.created
       );
       userArray.push(user);
@@ -146,8 +143,7 @@ export function insertUser(req: Request, res: Response) {
 		req.body.untrusted,
 		req.body.saved_notes,
 		req.body.followed_users,
-		req.body.blocked_users,
-		req.body.notifications
+		req.body.blocked_users
   );
   const result = global.insertItem(user, table_name);
   result.then((value) => {
@@ -196,8 +192,7 @@ export function insertMultipleUsers(req: Request, res: Response) {
 			element.untrusted,
 			element.saved_notes,
 			element.followed_users,
-			element.blocked_users,
-			element.notifications
+			element.blocked_users
     );
 
     const result = global.insertItem(user, table_name);
@@ -378,8 +373,7 @@ export function replaceUser(req: Request, res: Response) {
 		query.untrusted,
 		query.saved_notes,
 		query.followed_users,
-		query.blocked_users,
-		query.notifications
+		query.blocked_users
   );
   const result = global.replaceItemById(id, table_name, user);
   result.then((value) => {
@@ -407,7 +401,6 @@ export function stealUser(req: Request, res: Response) {
 			value.value.saved_notes,
 			value.value.followed_users,
 			value.value.blocked_users,
-			value.value.notifications,
 			value.value.created
     );
     res.status(201).send(user);

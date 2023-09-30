@@ -12,7 +12,6 @@ export class User {
   saved_notes: Array<ObjectId>;
   followed_users: Array<ObjectId>;
   blocked_users: Array<ObjectId>;
-  notifications: Array<Notification>;
 	created: Date;
 
   constructor(
@@ -26,7 +25,6 @@ export class User {
     saved_notes?: Array<ObjectId>,
     followed_users?: Array<ObjectId>,
     blocked_users?: Array<ObjectId>,
-    notifications?: Array<Notification>,
 		created?: Date,
   ) {
     this.login = login;
@@ -39,7 +37,6 @@ export class User {
     this.saved_notes = [];
     this.followed_users = [];
     this.blocked_users = [];
-    this.notifications = [];
 		this.created = created ? created : new Date();
   }
 }
