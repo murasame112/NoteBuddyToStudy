@@ -2,9 +2,9 @@ import { ObjectId } from "bson";
 import { Notification } from "./notification_model";
 import { Role } from "../enums/role_enum";
 export class User {
-  name: string;
+  login: string;
   avatar_url: string;
-  login: string; // mail
+  email: string;
   password: string;
   active: boolean; // false means banned
   role: Role;
@@ -16,9 +16,9 @@ export class User {
 	created: Date;
 
   constructor(
-    name: string,
-    avatar_url: string,
     login: string,
+    avatar_url: string,
+    email: string,
     password: string,
     active: boolean,
     role?: Role,
@@ -29,9 +29,9 @@ export class User {
     notifications?: Array<Notification>,
 		created?: Date,
   ) {
-    this.name = name;
-    this.avatar_url = avatar_url;
     this.login = login;
+    this.avatar_url = avatar_url;
+    this.email = email;
     this.password = password;
     this.active = active;
     this.role = role ? role : Role.user;

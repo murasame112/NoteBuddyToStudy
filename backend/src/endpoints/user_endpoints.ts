@@ -29,9 +29,9 @@ export function getUserById(req: Request, res: Response) {
   let user: User;
   result.then((value) => {
     user = new User(
-      value.name,
-      value.avatar_url,
       value.login,
+      value.avatar_url,
+      value.email,
       value.password,
       value.active,
       value.role,
@@ -66,9 +66,9 @@ export function getUsersByQuery(req: Request, res: Response) {
   result.then((value) => {
     value.forEach((element: User) => {
       user = new User(
-        element.name,
-        element.avatar_url,
         element.login,
+        element.avatar_url,
+        element.email,
         element.password,
         element.active,
         element.role,
@@ -101,9 +101,9 @@ export function getUsersByQueriedId(req: Request, res: Response) {
   result.then((value) => {
     value.forEach((element: User) => {
       user = new User(
-        element.name,
-        element.avatar_url,
         element.login,
+        element.avatar_url,
+        element.email,
         element.password,
         element.active,
         element.role,
@@ -128,18 +128,18 @@ export function getUsersByQueriedId(req: Request, res: Response) {
 //  http://localhost:3000/user
 // example body:
 //   {
-    //  "name":"custom name",
-    //  "avatar_url":"custom url",
     //  "login":"custom login",
+    //  "avatar_url":"custom url",
+    //  "email":"custom email",
     //  "password":"custom password",
     //  "active":true,
 		// 	"role":"user"
 // }
 export function insertUser(req: Request, res: Response) {
   const user: User = new User(
-    req.body.name,
-    req.body.avatar_url,
     req.body.login,
+    req.body.avatar_url,
+    req.body.email,
     req.body.password,
     req.body.active,
     req.body.role,
@@ -166,17 +166,17 @@ export function insertUser(req: Request, res: Response) {
 // example body:
 // [
 //     {
-    //  "name":"custom name",
-    //  "avatar_url":"custom url",
     //  "login":"custom login",
+    //  "avatar_url":"custom url",
+    //  "email":"custom email",
     //  "password":"custom password",
     //  "active":true,
 		// 	"role":"user"
 //     },
 // {
-    //  "name":"custom name",
-    //  "avatar_url":"custom url",
     //  "login":"custom login",
+    //  "avatar_url":"custom url",
+    //  "email":"custom email",
     //  "password":"custom password",
     //  "active":true,
 		// 	"role":"user"
@@ -187,9 +187,9 @@ export function insertMultipleUsers(req: Request, res: Response) {
   let counter = 0;
   users.forEach((element: User) => {
     const user: User = new User(
-      element.name,
-      element.avatar_url,
       element.login,
+      element.avatar_url,
+      element.email,
       element.password,
       element.active,
       element.role,
@@ -281,7 +281,7 @@ export function deleteUsersByQuery(req: Request, res: Response) {
 //  http://localhost:3000/user/6490d3e5982efd2fe9136154
 // example body:
 //   {
-//      "name":"custom name",
+//      "login":"custom login",
 //      "description":"custom description"
 // }
 export function updateUser(req: Request, res: Response) {
@@ -307,7 +307,7 @@ export function updateUser(req: Request, res: Response) {
 //      "6490d9fddfd298aad1e8f136"]
 //     ,
 //     "query":{
-//        "name":"custom name"
+//        "login":"custom login"
 //     }
 //  }
 export function updateMultipleUsers(req: Request, res: Response) {
@@ -336,7 +336,7 @@ export function updateMultipleUsers(req: Request, res: Response) {
 //  http://localhost:3000/users/published&true
 // example body:
 //   {
-//      "name":"custom name"
+//      "login":"custom login"
 // }
 export function updateUsersByQuery(req: Request, res: Response) {
   const field = req.params.field;
@@ -357,9 +357,9 @@ export function updateUsersByQuery(req: Request, res: Response) {
 //  http://localhost:3000/user/6490d3e5982efd2fe9136154
 // example body:
 //   {
-    //  "name":"custom name",
-    //  "avatar_url":"custom url",
     //  "login":"custom login",
+    //  "avatar_url":"custom url",
+    //  "email":"custom email",
     //  "password":"custom password",
     //  "active":true,
 		// 	"role":"user"
@@ -369,9 +369,9 @@ export function replaceUser(req: Request, res: Response) {
   const query = req.body;
   let user: User;
   user = new User(
-    query.name,
-    query.avatar_url,
     query.login,
+    query.avatar_url,
+    query.email,
     query.password,
     query.active,
     query.role,
@@ -397,9 +397,9 @@ export function stealUser(req: Request, res: Response) {
   result.then((value) => {
     let user: User;
     user = new User(
-      value.value.name,
-      value.value.avatar_url,
       value.value.login,
+      value.value.avatar_url,
+      value.value.email,
       value.valuet.password,
       value.value.active,
       value.value.role,
