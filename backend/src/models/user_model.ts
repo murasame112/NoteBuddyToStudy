@@ -6,8 +6,8 @@ export class User {
   avatar_url: string;
   email: string;
   password: string;
+	role: Role;
   active: boolean; // false means banned
-  role: Role;
   untrusted: boolean;
   saved_notes: Array<ObjectId>;
   followed_users: Array<ObjectId>;
@@ -19,8 +19,8 @@ export class User {
     avatar_url: string,
     email: string,
     password: string,
-    active: boolean,
-    role?: Role,
+		role?: Role,
+    active?: boolean,
     untrusted?: boolean,
     saved_notes?: Array<ObjectId>,
     followed_users?: Array<ObjectId>,
@@ -31,12 +31,12 @@ export class User {
     this.avatar_url = avatar_url;
     this.email = email;
     this.password = password;
-    this.active = active;
-    this.role = role ? role : Role.user;
-    this.untrusted = false;
-    this.saved_notes = [];
-    this.followed_users = [];
-    this.blocked_users = [];
+		this.role = role ? role : Role.user;
+    this.active = active ? active : true;
+    this.untrusted = untrusted ? untrusted : false;
+    this.saved_notes = saved_notes ? saved_notes : [];
+    this.followed_users = followed_users ? followed_users : [];
+    this.blocked_users = blocked_users ? blocked_users : [];
 		this.created = created ? created : new Date();
   }
 }

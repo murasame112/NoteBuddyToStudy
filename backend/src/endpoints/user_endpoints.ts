@@ -33,8 +33,8 @@ export function getUserById(req: Request, res: Response) {
       value.avatar_url,
       value.email,
       value.password,
+			value.role,
       value.active,
-      value.role,
 			value.untrusted,
 			value.saved_notes,
 			value.followed_users,
@@ -69,8 +69,8 @@ export function getUsersByQuery(req: Request, res: Response) {
         element.avatar_url,
         element.email,
         element.password,
+				element.role,
         element.active,
-        element.role,
 				element.untrusted,
 				element.saved_notes,
 				element.followed_users,
@@ -103,8 +103,8 @@ export function getUsersByQueriedId(req: Request, res: Response) {
         element.avatar_url,
         element.email,
         element.password,
+				element.role,
         element.active,
-        element.role,
 				element.untrusted,
 				element.saved_notes,
 				element.followed_users,
@@ -129,8 +129,8 @@ export function getUsersByQueriedId(req: Request, res: Response) {
     //  "avatar_url":"custom url",
     //  "email":"custom email",
     //  "password":"custom password",
-    //  "active":true,
-		// 	"role":"user"
+		// 	"role":"user",
+    //  "active":true
 // }
 export function insertUser(req: Request, res: Response) {
   const user: User = new User(
@@ -138,12 +138,7 @@ export function insertUser(req: Request, res: Response) {
     req.body.avatar_url,
     req.body.email,
     req.body.password,
-    req.body.active,
-    req.body.role,
-		req.body.untrusted,
-		req.body.saved_notes,
-		req.body.followed_users,
-		req.body.blocked_users
+		req.body.role,
   );
   const result = global.insertItem(user, table_name);
   result.then((value) => {
@@ -166,16 +161,16 @@ export function insertUser(req: Request, res: Response) {
     //  "avatar_url":"custom url",
     //  "email":"custom email",
     //  "password":"custom password",
+		// 	"role":"user",
     //  "active":true,
-		// 	"role":"user"
 //     },
 // {
     //  "login":"custom login",
     //  "avatar_url":"custom url",
     //  "email":"custom email",
     //  "password":"custom password",
-    //  "active":true,
-		// 	"role":"user"
+		// 	"role":"user",
+    //  "active":true
 // }
 //  ]
 export function insertMultipleUsers(req: Request, res: Response) {
@@ -187,12 +182,7 @@ export function insertMultipleUsers(req: Request, res: Response) {
       element.avatar_url,
       element.email,
       element.password,
-      element.active,
-      element.role,
-			element.untrusted,
-			element.saved_notes,
-			element.followed_users,
-			element.blocked_users
+			element.role,
     );
 
     const result = global.insertItem(user, table_name);
@@ -356,8 +346,8 @@ export function updateUsersByQuery(req: Request, res: Response) {
     //  "avatar_url":"custom url",
     //  "email":"custom email",
     //  "password":"custom password",
-    //  "active":true,
-		// 	"role":"user"
+		// 	"role":"user",
+    //  "active":true
 // }
 export function replaceUser(req: Request, res: Response) {
   const id = req.params.id;
@@ -368,8 +358,8 @@ export function replaceUser(req: Request, res: Response) {
     query.avatar_url,
     query.email,
     query.password,
+		query.role,
     query.active,
-    query.role,
 		query.untrusted,
 		query.saved_notes,
 		query.followed_users,
@@ -395,8 +385,8 @@ export function stealUser(req: Request, res: Response) {
       value.value.avatar_url,
       value.value.email,
       value.valuet.password,
+			value.value.role,
       value.value.active,
-      value.value.role,
 			value.value.untrusted,
 			value.value.saved_notes,
 			value.value.followed_users,
