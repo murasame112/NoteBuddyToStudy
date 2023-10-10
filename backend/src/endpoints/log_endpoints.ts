@@ -5,6 +5,7 @@ import e, { Request, Response } from "express";
 import { Log } from "../models/log_model";
 import * as global from "../global_database_functions";
 import { Type } from "../enums/log_type_enum";
+import * as globalTools from "../global_tools";
 
 const table_name = "logs";
 
@@ -194,6 +195,7 @@ export function deleteLogsByQuery(req: Request, res: Response) {
 export function updateLog(req: Request, res: Response) {
   const id = req.params.id;
   const query = req.body;
+	query.date = globalTools.createDateFromString(query.date);
   const result = global.updateItemById(id, table_name, query);
   result.then((value) => {
     value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
@@ -222,6 +224,7 @@ export function updateLog(req: Request, res: Response) {
 export function updateMultipleLogs(req: Request, res: Response) {
   const ids = req.body.ids;
   const updateQuery = req.body.query;
+	updateQuery.date = globalTools.createDateFromString(updateQuery.date);
   let counter = 0;
   ids.forEach((element: string) => {
     const result = global.updateItemById(element, table_name, updateQuery);
@@ -253,6 +256,7 @@ export function updateLogsByQuery(req: Request, res: Response) {
   const field = req.params.field;
   const value = req.params.value;
   const updateQuery = req.body;
+	updateQuery.date = globalTools.createDateFromString(updateQuery.date);
   let query = { [field]: JSON.parse(value) };
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
@@ -270,7 +274,6 @@ export function updateLogsByQuery(req: Request, res: Response) {
 //   {
 //      "type":"ERROR",
 //      "content":"Serce przestało działać",
-//      "date":"25-06-2023"
 // }
 export function replaceLog(req: Request, res: Response) {
   const id = req.params.id;
