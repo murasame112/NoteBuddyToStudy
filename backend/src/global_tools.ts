@@ -29,10 +29,10 @@ export function createDateFromString(str?: string | Date) {
 		}
     correctStr += strArr[1];
 		if(correctStr.includes('undefined')){
-			return false;
+			return 'Invalid date';
 		}
     return new Date(correctStr);
-  } else if (typeof str == "object"){
+  } else if (str instanceof Date){
 		// probably won't be used, but just in case
 		return str;
 	}
@@ -49,7 +49,7 @@ export function createDateFromString(str?: string | Date) {
 export function createFullDateString(date?: Date | string) {
   if (typeof date == "string") {
     return new Date(date).toLocaleString("en-GB");
-  } else if (typeof date == "object") {
+  } else if (date instanceof Date) {
     return date.toLocaleString("en-GB");
   } else if (typeof date == "undefined") {
     return new Date().toLocaleString("en-GB");
@@ -63,7 +63,7 @@ export function createFullDateString(date?: Date | string) {
 export function createDateString(date?: Date | string) {
   if (typeof date == "string") {
     return new Date(date).toLocaleDateString("en-GB");
-  } else if (typeof date == "object") {
+  } else if (date instanceof Date) {
     return date.toLocaleDateString("en-GB");
   } else if (typeof date == "undefined") {
     return new Date().toLocaleDateString("en-GB");
@@ -77,7 +77,7 @@ export function createDateString(date?: Date | string) {
 export function createTimeString(date?: Date | string) {
   if (typeof date == "string") {
     return new Date(date).toLocaleTimeString("en-GB");
-  } else if (typeof date == "object") {
+  } else if (date instanceof Date) {
     return date.toLocaleTimeString("en-GB");
   } else if (typeof date == "undefined") {
     return new Date().toLocaleTimeString("en-GB");
