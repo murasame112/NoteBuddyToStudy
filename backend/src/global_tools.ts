@@ -1,22 +1,17 @@
 import { ObjectId } from "bson";
 
-// creates specific string from date
-// params:
-// date (optional) - date that you want to convert to string (type == Date or string)
-// returns string "dd/mm/yyyy, hh:mm:ss"
-export function createFullDateString(date?: Date | string) {
-  if (typeof date == "string") {
-    return new Date(date).toLocaleString("en-GB");
-  } else if (typeof date == "object") {
-    return date.toLocaleString("en-GB");
-  } else if (typeof date == "undefined") {
-    return new Date().toLocaleString("en-GB");
-  }
-}
+/* ====== CONTENTS:
+
+createDateFromString
+createFullDateString
+createDateString
+createTimeString
+
+ ======= */
 
 // turns dateString (format like in method above) to Date object
 // params:
-// str (optional) - string in format "dd/mm/yyyy, hh:mm:ss". passing Date is allowed, but it does nothing, just return the same Date object
+// str (optional) - string in format "dd/mm/yyyy, hh:mm:ss". passing Date is allowed, but it does nothing, just returns the same Date object
 // returns date object
 export function createDateFromString(str?: string | Date) {
   if (typeof str == "string") {
@@ -33,7 +28,9 @@ export function createDateFromString(str?: string | Date) {
 			strArr[1] = " 00:00:00";
 		}
     correctStr += strArr[1];
-
+		if(correctStr.includes('undefined')){
+			return false;
+		}
     return new Date(correctStr);
   } else if (typeof str == "object"){
 		// probably won't be used, but just in case
@@ -42,6 +39,20 @@ export function createDateFromString(str?: string | Date) {
 	else if (typeof str == "undefined") {
     // probably won't be used, but just in case
     return new Date();
+  }
+}
+
+// creates specific string from date
+// params:
+// date (optional) - date that you want to convert to string (type == Date or string)
+// returns string "dd/mm/yyyy, hh:mm:ss"
+export function createFullDateString(date?: Date | string) {
+  if (typeof date == "string") {
+    return new Date(date).toLocaleString("en-GB");
+  } else if (typeof date == "object") {
+    return date.toLocaleString("en-GB");
+  } else if (typeof date == "undefined") {
+    return new Date().toLocaleString("en-GB");
   }
 }
 
@@ -73,54 +84,54 @@ export function createTimeString(date?: Date | string) {
   }
 }
 
-// this one will probably mostly be used in "ByQuery" endpoints
-// compares date with string, checks if it's the same day (and time in case if added)
-// this function just checks what do we want and then picks suitable function
-// params:
-// date - date object that we want to compare
-// str - string in format "dd/mm/yyyy", "dd/mm/yyyy, hh:mm:ss" or "dd/mm/yyyyThh:mm:ss"
-// returns true or false
-export function compareDateWithString(date: Date, str: string){
-	if(str.length == 10){
-		return this.compareOnlyDateWithString(date, str);
-	}else if(str.length == 19 || str.length == 20){
-		return this.compareFullDateWithString(date, str);
-	}
-}
+// // this one will probably mostly be used in "ByQuery" endpoints
+// // compares date with string, checks if it's the same day (and time in case if added)
+// // this function just checks what do we want and then picks suitable function
+// // params:
+// // date - date object that we want to compare
+// // str - string in format "dd/mm/yyyy", "dd/mm/yyyy, hh:mm:ss" or "dd/mm/yyyyThh:mm:ss"
+// // returns true or false
+// export function compareDateWithString(date: Date, str: string){
+// 	if(str.length == 10){
+// 		return this.compareOnlyDateWithString(date, str);
+// 	}else if(str.length == 19 || str.length == 20){
+// 		return this.compareFullDateWithString(date, str);
+// 	}
+// }
 
 
-// compares date with string, checks if it's the same day
-// params:
-// date - date object that we want to compare
-// str - string in format "dd/mm/yyyy"
-// returns true or false
-export function compareOnlyDateWithString(date: Date, str: string){
-	let strDate = this.createDateString(date);
-	if(str == strDate){
-		return true;
-	}
-	return false;
-}
+// // compares date with string, checks if it's the same day
+// // params:
+// // date - date object that we want to compare
+// // str - string in format "dd/mm/yyyy"
+// // returns true or false
+// export function compareOnlyDateWithString(date: Date, str: string){
+// 	let strDate = this.createDateString(date);
+// 	if(str == strDate){
+// 		return true;
+// 	}
+// 	return false;
+// }
 
-// compares date with string, checks if it's the same day (and time)
-// params:
-// date - date object that we want to compare
-// str - string in format "dd/mm/yyyy, hh:mm:ss" or "dd/mm/yyyyThh:mm:ss"
-// returns true or false
-export function compareFullDateWithString(date: Date, str: string){
-	let strDate = '';
-	switch(str.length){
-		case 19:
-			strDate = this.createDateString(date);
-			strDate += 'T';
-			strDate += this.createTimeString(date);
-			break;
-		case 20:
-			strDate = this.createFullDateString(date);
-			break;
-	}
-	if(str == strDate){
-		return true;
-	}
-	return false;
-}
+// // compares date with string, checks if it's the same day (and time)
+// // params:
+// // date - date object that we want to compare
+// // str - string in format "dd/mm/yyyy, hh:mm:ss" or "dd/mm/yyyyThh:mm:ss"
+// // returns true or false
+// export function compareFullDateWithString(date: Date, str: string){
+// 	let strDate = '';
+// 	switch(str.length){
+// 		case 19:
+// 			strDate = this.createDateString(date);
+// 			strDate += 'T';
+// 			strDate += this.createTimeString(date);
+// 			break;
+// 		case 20:
+// 			strDate = this.createFullDateString(date);
+// 			break;
+// 	}
+// 	if(str == strDate){
+// 		return true;
+// 	}
+// 	return false;
+// }
