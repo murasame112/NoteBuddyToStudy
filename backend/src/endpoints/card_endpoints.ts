@@ -4,6 +4,7 @@ import express from "express";
 import e, { Request, Response } from "express";
 import { Card } from "../models/card_model";
 import * as global from "../global_database_functions";
+import * as globalTools from "../global_tools";
 
 const table_name = "cards";
 
@@ -315,6 +316,8 @@ export function updateCard(req: Request, res: Response) {
 	if (typeof query.author_id !== "undefined") {
     query.author_id = new ObjectId(query.author_id);
   }
+	query.shared_date = globalTools.createDateFromString(query.shared_date);
+	query.last_edit_date = globalTools.createDateFromString(query.last_edit_date);
   const result = global.updateItemById(id, table_name, query);
   result.then((value) => {
     value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
@@ -358,6 +361,8 @@ export function updateMultipleCards(req: Request, res: Response) {
   if (typeof updateQuery.author_id !== "undefined") {
     updateQuery.author_id = new ObjectId(updateQuery.author_id);
   }
+	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
+	updateQuery.last_edit_date = globalTools.createDateFromString(updateQuery.last_edit_date);
   let counter = 0;
   ids.forEach((element: string) => {
     const result = global.updateItemById(element, table_name, updateQuery);
@@ -410,6 +415,8 @@ export function updateCardsByQuery(req: Request, res: Response) {
   if (typeof updateQuery.author_id !== "undefined") {
     updateQuery.author_id = new ObjectId(updateQuery.author_id);
   }
+	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
+	updateQuery.last_edit_date = globalTools.createDateFromString(updateQuery.last_edit_date);
   let query = { [field]: value };
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
@@ -433,6 +440,8 @@ export function updateCardsByQueriedId(req: Request, res: Response) {
   if (typeof updateQuery.author_id !== "undefined") {
     updateQuery.author_id = new ObjectId(updateQuery.author_id);
   }
+	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
+	updateQuery.last_edit_date = globalTools.createDateFromString(updateQuery.last_edit_date);
   let query = { [field]: objValue };
 
   const result = global.updateItemsByField(query, table_name, updateQuery);
