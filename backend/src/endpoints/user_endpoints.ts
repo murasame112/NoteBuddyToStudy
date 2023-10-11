@@ -5,6 +5,7 @@ import e, { Request, Response } from "express";
 import { User } from "../models/user_model";
 import * as global from "../global_database_functions";
 import { Role } from "../enums/role_enum";
+import * as globalTools from "../global_tools";
 
 const table_name = "users";
 
@@ -272,6 +273,7 @@ export function deleteUsersByQuery(req: Request, res: Response) {
 export function updateUser(req: Request, res: Response) {
   const id = req.params.id;
   const query = req.body;
+	query.created = globalTools.createDateFromString(query.created);
   const result = global.updateItemById(id, table_name, query);
   result.then((value) => {
     value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
@@ -298,6 +300,7 @@ export function updateUser(req: Request, res: Response) {
 export function updateMultipleUsers(req: Request, res: Response) {
   const ids = req.body.ids;
   const updateQuery = req.body.query;
+	updateQuery.created = globalTools.createDateFromString(updateQuery.created);
   let counter = 0;
   ids.forEach((element: string) => {
     const result = global.updateItemById(element, table_name, updateQuery);
@@ -327,6 +330,7 @@ export function updateUsersByQuery(req: Request, res: Response) {
   const field = req.params.field;
   const value = req.params.value;
   const updateQuery = req.body;
+	updateQuery.created = globalTools.createDateFromString(updateQuery.created);
   let query = { [field]: JSON.parse(value) };
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {

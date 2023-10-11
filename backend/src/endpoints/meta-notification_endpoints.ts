@@ -4,7 +4,7 @@ import express from "express";
 import e, { Request, Response } from "express";
 import { MetaNotification } from "../models/meta-notification_model";
 import * as global from "../global_database_functions";
-import * as tools from "../global_tools";
+import * as globalTools from "../global_tools";
 
 const table_name = "meta-notifications";
 
@@ -263,6 +263,7 @@ export function updateMetaNotification(req: Request, res: Response) {
   if (typeof query.user_id !== "undefined") {
     query.user_id = new ObjectId(query.user_id);
   }
+	query.shared_date = globalTools.createDateFromString(query.shared_date);
 
   const result = global.updateItemById(id, table_name, query);
   result.then((value) => {
@@ -296,6 +297,7 @@ export function updateMultipleMetaNotifications(req: Request, res: Response) {
   if (typeof updateQuery.user_id !== "undefined") {
     updateQuery.user_id = new ObjectId(updateQuery.user_id);
   }
+	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
 
   let counter = 0;
   ids.forEach((element: string) => {
@@ -338,6 +340,7 @@ export function updateMetaNotificationsByQuery(req: Request, res: Response) {
   if (typeof updateQuery.user_id !== "undefined") {
     updateQuery.user_id = new ObjectId(updateQuery.user_id);
   }
+	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
 
   let query = { [field]: value };
   const result = global.updateItemsByField(query, table_name, updateQuery);
@@ -362,6 +365,7 @@ export function updateMetaNotificationsByQueriedId(req: Request, res: Response) 
   if (typeof updateQuery.user_id !== "undefined") {
     updateQuery.user_id = new ObjectId(updateQuery.user_id);
   }
+	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
   let query = { [field]: objValue };
 
   const result = global.updateItemsByField(query, table_name, updateQuery);
