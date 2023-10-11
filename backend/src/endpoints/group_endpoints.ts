@@ -28,7 +28,7 @@ export function getGroupById(req: Request, res: Response) {
   const result = global.getItemById(id, table_name);
   let group: Group;
   result.then((value) => {
-    group = new Group(value.type, value.users);
+    group = new Group(value.type, value.users, value.created);
     res.send(group);
   });
 }
@@ -52,7 +52,7 @@ export function getGroupsByQuery(req: Request, res: Response) {
   let group: Group;
   result.then((value) => {
     value.forEach((element: Group) => {
-      group = new Group(element.type, element.users);
+      group = new Group(element.type, element.users, element.created);
       groupArray.push(group);
     });
     res.send(groupArray);
@@ -74,7 +74,7 @@ export function getGroupsByQueriedId(req: Request, res: Response) {
   let group: Group;
   result.then((value) => {
     value.forEach((element: Group) => {
-      group = new Group(element.type, element.users);
+      group = new Group(element.type, element.users, element.created);
       groupArray.push(group);
     });
     res.send(groupArray);
@@ -368,7 +368,7 @@ export function stealGroup(req: Request, res: Response) {
   const result = global.stealItemById(id, table_name);
   result.then((value) => {
     let group: Group;
-    group = new Group(value.value.type, value.value.users);
+    group = new Group(value.value.type, value.value.users, value.value.created);
     res.status(201).send(group);
   });
 }
