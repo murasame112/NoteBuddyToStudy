@@ -5,6 +5,7 @@ import e, { Request, Response } from "express";
 import { Group } from "../models/group_model";
 import * as global from "../global_database_functions";
 import { Type } from "../enums/group_type_enum";
+import * as globalTools from "../global_tools";
 
 const table_name = "groups";
 
@@ -231,6 +232,7 @@ export function deleteGroupsByQuery(req: Request, res: Response) {
 export function updateGroup(req: Request, res: Response) {
   const id = req.params.id;
   let query = req.body;
+	query.created = globalTools.createDateFromString(query.created);
   if (typeof query.users !== "undefined") {
     let usersIds: ObjectId[] = [];
 
@@ -270,6 +272,7 @@ export function updateGroup(req: Request, res: Response) {
 export function updateMultipleGroups(req: Request, res: Response) {
   const ids = req.body.ids;
   let updateQuery = req.body.query;
+	updateQuery.created = globalTools.createDateFromString(updateQuery.created);
   if (typeof updateQuery.users !== "undefined") {
     let usersIds: ObjectId[] = [];
 
@@ -318,6 +321,7 @@ export function updateGroupsByQuery(req: Request, res: Response) {
     value = JSON.parse(value);
   }
   let updateQuery = req.body;
+	updateQuery.created = globalTools.createDateFromString(updateQuery.created);
   if (typeof updateQuery.users !== "undefined") {
     let usersIds: ObjectId[] = [];
 
