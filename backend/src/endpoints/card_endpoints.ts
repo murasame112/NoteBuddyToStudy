@@ -123,19 +123,28 @@ export function getCardsByQueriedId(req: Request, res: Response) {
 //        "yyyyyyyyy",
 //        "zzzzzzzzz"
 //     ],
-//		"note_id":"id",
-//		"author_id":"id"
+// 		"note_id":"id",
+// 		"author_id":"id"
 //  }
 export function insertCard(req: Request, res: Response) {
 	const note_id = new ObjectId(req.body.note_id);
 	const author_id = new ObjectId(req.body.author_id);
+	const questions = req.body.questions;
+	const answers = req.body.answers;
+
+	if(!Array.isArray(questions) || !Array.isArray(answers) || questions.length == 0 || answers.length == 0){
+		res.status(400).send("Error");
+		return false;
+	}
+
   const card: Card = new Card(
-		req.body.questions, 
-		req.body.answers,
+		questions, 
+		answers,
 		note_id,
 		author_id,
 		req.body.published
 		);
+
   const result = global.insertItem(card, table_name);
   result.then((value) => {
     value.acknowledged
@@ -185,8 +194,18 @@ export function insertMultipleCards(req: Request, res: Response) {
   const cards = req.body;
   let note_id = new ObjectId();
   let author_id = new ObjectId();
+	let questions =[];
+	let answers = [];
   let counter = 0;
   cards.forEach((element: Card) => {
+		questions = req.body.questions;
+		answers = req.body.answers;
+	
+		if(!Array.isArray(questions) || !Array.isArray(answers) || questions.length == 0 || answers.length == 0){
+			res.status(400).send("Error");
+			return false;
+		}
+	
 		note_id = new ObjectId(element.note_id);
 		author_id = new ObjectId(element.author_id);
     const card: Card = new Card(
@@ -316,6 +335,12 @@ export function updateCard(req: Request, res: Response) {
 	if (typeof query.author_id !== "undefined") {
     query.author_id = new ObjectId(query.author_id);
   }
+
+	if(!Array.isArray(query.questions) || !Array.isArray(query.answers) || query.questions.length == 0 || query.answers.length == 0){
+		res.status(400).send("Error");
+		return false;
+	}
+	
 	query.shared_date = globalTools.createDateFromString(query.shared_date);
 	query.last_edit_date = globalTools.createDateFromString(query.last_edit_date);
   const result = global.updateItemById(id, table_name, query);
@@ -361,6 +386,12 @@ export function updateMultipleCards(req: Request, res: Response) {
   if (typeof updateQuery.author_id !== "undefined") {
     updateQuery.author_id = new ObjectId(updateQuery.author_id);
   }
+
+	if(!Array.isArray(updateQuery.questions) || !Array.isArray(updateQuery.answers) || updateQuery.questions.length == 0 || updateQuery.answers.length == 0){
+		res.status(400).send("Error");
+		return false;
+	}
+
 	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
 	updateQuery.last_edit_date = globalTools.createDateFromString(updateQuery.last_edit_date);
   let counter = 0;
@@ -415,6 +446,12 @@ export function updateCardsByQuery(req: Request, res: Response) {
   if (typeof updateQuery.author_id !== "undefined") {
     updateQuery.author_id = new ObjectId(updateQuery.author_id);
   }
+
+	if(!Array.isArray(updateQuery.questions) || !Array.isArray(updateQuery.answers) || updateQuery.questions.length == 0 || updateQuery.answers.length == 0){
+		res.status(400).send("Error");
+		return false;
+	}
+
 	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
 	updateQuery.last_edit_date = globalTools.createDateFromString(updateQuery.last_edit_date);
   let query = { [field]: value };
@@ -440,6 +477,12 @@ export function updateCardsByQueriedId(req: Request, res: Response) {
   if (typeof updateQuery.author_id !== "undefined") {
     updateQuery.author_id = new ObjectId(updateQuery.author_id);
   }
+
+	if(!Array.isArray(updateQuery.questions) || !Array.isArray(updateQuery.answers) || updateQuery.questions.length == 0 || updateQuery.answers.length == 0){
+		res.status(400).send("Error");
+		return false;
+	}
+	
 	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
 	updateQuery.last_edit_date = globalTools.createDateFromString(updateQuery.last_edit_date);
   let query = { [field]: objValue };
@@ -474,6 +517,12 @@ export function updateCardsByQueriedId(req: Request, res: Response) {
 export function replaceCard(req: Request, res: Response) {
   const id = req.params.id;
   const query = req.body;
+
+	if(!Array.isArray(query.questions) || !Array.isArray(query.answers) || query.questions.length == 0 || query.answers.length == 0){
+		res.status(400).send("Error");
+		return false;
+	}
+
   let card: Card;
   card = new Card(
 		query.questions, 
