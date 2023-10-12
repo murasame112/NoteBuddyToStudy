@@ -198,10 +198,8 @@ export function insertMultipleCards(req: Request, res: Response) {
 	let answers = [];
   let counter = 0;
   cards.forEach((element: Card) => {
-		questions = req.body.questions;
-		answers = req.body.answers;
 	
-		if(!Array.isArray(questions) || !Array.isArray(answers) || questions.length == 0 || answers.length == 0){
+		if(!Array.isArray(element.questions) || !Array.isArray(element.answers) || element.questions.length == 0 || element.answers.length == 0){
 			res.status(400).send("Error");
 			return false;
 		}
