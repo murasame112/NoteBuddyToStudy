@@ -384,6 +384,46 @@ export function updateGroupsByQuery(req: Request, res: Response) {
   });
 }
 
+// updates multiple groups by id_field and value of objectId
+// /groupsid/{field}&{value}
+// example:
+//  http://localhost:3000/groupsid/users&64a49ff9a1caf26fbfaa2dbb
+//   {
+// "type":"two",
+// "users":[
+//    "64a49ff9a1caf26fbfaa2dbb"
+// ]
+// }
+export function updateGroupsByQueriedId(req: Request, res: Response) {
+  const field = req.params.field;
+  let value = req.params.value;
+  const objValue = new ObjectId(value);
+
+  let updateQuery = req.body;
+	if(!Array.isArray(updateQuery.users) || updateQuery.users.length == 0){
+		res.status(400).send("Error");
+		return false;
+	}
+	if (typeof updateQuery.users !== "undefined") {
+    let usersIds: ObjectId[] = [];
+
+    updateQuery.users.forEach((elem: string) => {
+      let user_id = new ObjectId(elem);
+      usersIds.push(user_id);
+    });
+
+    updateQuery.users = usersIds;
+  }
+
+  updateQuery.created = globalTools.createDateFromString(updateQuery.created);
+  let query = { [field]: objValue };
+
+  const result = global.updateItemsByField(query, table_name, updateQuery);
+  result.then((value) => {
+    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+  });
+}
+
 // replaces group by id with new group passed in request body
 // /group/{id}
 // headers:
