@@ -63,7 +63,7 @@ export function getGroupsByQuery(req: Request, res: Response) {
 // finds multiple groups by id_field and value of objectId
 // /groupsid/{field}&{value}
 // example:
-//  http://localhost:3000/groupsid/category_id&6490d9efdfd298aad1e8f134
+//  http://localhost:3000/groupsid/users&64e9be29c7f3fc97903dfdde
 export function getGroupsByQueriedId(req: Request, res: Response) {
   const field = req.params.field;
   const value = req.params.value;
