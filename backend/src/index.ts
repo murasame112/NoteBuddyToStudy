@@ -165,9 +165,11 @@ app.post("/groups", groupEndpoints.insertMultipleGroups);
 app.delete("/group/:id", groupEndpoints.deleteGroup);
 app.delete("/groups", groupEndpoints.deleteMultipleGroups);
 app.delete("/groups/:field&:value", groupEndpoints.deleteGroupsByQuery);
+app.delete("/groupsid/:field&:value", groupEndpoints.deleteGroupsByQueriedId);
 app.patch("/group/:id", groupEndpoints.updateGroup);
 app.patch("/groups/:field&:value", groupEndpoints.updateGroupsByQuery);
 app.patch("/groups", groupEndpoints.updateMultipleGroups);
+//app.patch("/groupsid/:field&:value", groupEndpoints.updateGroupsByQueriedId);
 app.put("/group/:id", groupEndpoints.replaceGroup);
 
 // ============== HINT ENDPOINTS ==============

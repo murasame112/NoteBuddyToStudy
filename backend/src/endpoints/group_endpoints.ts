@@ -227,6 +227,22 @@ export function deleteGroupsByQuery(req: Request, res: Response) {
   });
 }
 
+// deletes multiple groups by id_field and value of objectId
+// /groupsid/{field}&{value}
+// example:
+//  http://localhost:3000/groupsid/users&64a49ff9a1caf26fbfaa2dbb
+export function deleteGroupsByQueriedId(req: Request, res: Response) {
+  const field = req.params.field;
+  const value = req.params.value;
+  const objValue = new ObjectId(value);
+
+  let query = { [field]: objValue };
+  const result = global.deleteItemsByField(query, table_name);
+  result.then((value) => {
+    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+  });
+}
+
 // updates group by id with values passed in request body
 // /group/{id}
 // headers:
