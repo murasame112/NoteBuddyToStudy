@@ -20,6 +20,7 @@
   font-weight: 600;
   justify-self: flex-start;
   margin-left: 0.5rem;
+  user-select: none;
 }
 
 #logo:hover
@@ -67,14 +68,30 @@ grid-area: notes;
   color: white;
   font-weight: 400;
   text-decoration: none;
-  transition: color 0.5s ease-out;
+  // transition: color 0.5s ease-out;
+  display: inline-block;
 }
 
-.nav-btn:hover
+.nav-btn::after
 {
-  color:#F89E30 ;
-  cursor: pointer;
+  display: block;
+  content: '';
+  border-bottom: 1px solid #F89E30;
+  border-radius: 1rem;
+  transform: scaleX(0);
+  transition: transform 250ms ease-in-out;
 }
+
+.nav-btn:hover::after
+{
+  transform: scaleX(1);
+}
+
+  // .nav-btn:hover
+  // {
+  //   // color:#F89E30 ;
+  //   cursor: pointer;
+  // }
 
 .menu-btn
 {

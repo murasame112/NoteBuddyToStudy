@@ -7,6 +7,7 @@
 margin: 0;
 padding: 0;
 height: 30rem;
+user-select: none;
 }
 
 
@@ -120,6 +121,12 @@ justify-content: center;
 align-items: center;
 }
 
+#more_details:hover
+{
+cursor: pointer;
+background: #491e81;
+}
+
 #more_details .anchor
 {
   color: white;
@@ -133,28 +140,27 @@ align-items: center;
 
 }
 
+
 #courses_btn
 {
 display: flex;
-// width: 164px;
-width: 10.25rem;
-// height: 41px;
-height: 2.5625rem;
+// width: 216px;
+width: 13.5rem;
+// height: 45px;
+height: 2.8125rem;
 flex-direction: column;
 justify-content: center;
-
-
 text-align: center;
 
-
-
-font-style: normal;
-font-weight: 600;
-line-height: normal;
 // border: 3px solid #51218F;
 border: 0.1875rem solid #51218F;
 border-radius: 40px;
+}
 
+#courses_btn:hover
+{
+border-color: #491e81;
+cursor: pointer;
 
 }
 
@@ -163,9 +169,10 @@ border-radius: 40px;
 font-family: 'Poppins', sans-serif;
 font-weight: 600;
 // font-size: 16px;
-font-size: 1rem;
+// font-size: 1rem;
 color: #000;
 text-decoration: none;
+
 
 }
 
@@ -203,6 +210,7 @@ font-size: 1.125rem;
 #login_btn:hover
 {
   cursor: pointer;
+  color: rgb(230, 230, 230);
 }
 
 #register_btn
@@ -231,6 +239,8 @@ font-size: 1.125rem;
 #register_btn:hover
 {
   cursor: pointer;
+  color: rgb(230, 230, 230);
+  border: 0.125rem solid rgb(230, 230, 230);
 }
 
 #wave-background
@@ -241,16 +251,20 @@ font-size: 1.125rem;
   margin: 0;
   padding: 0;
   z-index: 0;
+  pointer-events: none;
+
 }
 
 #wave-background-img
 {
  max-width: 90rem;
+ pointer-events: none;
 }
 
 #wave-background-img-mobile
 {
 display: none;
+pointer-events: none;
 }
 
 #hero-background
@@ -260,7 +274,7 @@ position: absolute;
 top: 8.75rem;
 // right: 225px;
 right: 14.0625rem;
-
+pointer-events: none;
 }
 
 #hero-img
@@ -269,19 +283,30 @@ right: 14.0625rem;
 }
 
 
+#motivateDiv
+{
+width: 100%;
+height: 12rem;
+text-align: center;
+z-index: 0;
+position: absolute;
+top: 75rem;
+display: flex;
+align-items: center;
+justify-content: center;
+
+}
+
 #motivate-text
 {
-  position: absolute;
-  text-align: center;
 font-family: 'Poppins', sans-serif;
 font-weight: 700 ;
 // font-size: 48px;
 font-size: 3rem;
-// top: 1180px;
-top: 73.75rem;
-left: 35vw;
 z-index: 1;
+user-select: none;
 }
+
 
 #features
 {
@@ -291,6 +316,7 @@ z-index: 1;
   margin-top: 35rem;
   padding: 0;
   margin: 0;
+  pointer-events: none;
 }
 
 
@@ -313,6 +339,8 @@ z-index: -9999;
 {
 position: relative;
 top: 54rem;
+pointer-events: none;
+user-select: none;
 }
 
 #courses
@@ -530,8 +558,8 @@ height: 2.5rem;
 #courses_btn
 {
 
-width: 8rem;
-height: 2.2rem;
+width: 10rem;
+height: 2.5rem;
 }
 
 #courses_btn .anchor
@@ -573,11 +601,9 @@ footer{
 {
   #motivate-text
   {
-
-
-  font-size: 3rem;
-  left: 28vw;
-  z-index: 1;
+  // font-size: 3rem;
+  // left: 28vw;
+  // z-index: 1;
   }
 
 
@@ -804,9 +830,9 @@ footer{
 
   #courses_btn
   {
-  width: 7.5rem;
-  height: 1.65rem;
-
+  width: 9rem;
+  // height: 1.65rem;
+    height: 2rem;
   }
 
   #courses_btn .anchor
@@ -818,10 +844,8 @@ footer{
 
   #motivate-text
   {
-
-
   font-size: 2rem;
-  left: 30vw;
+  // left: 30vw;
   }
 
 
@@ -896,6 +920,11 @@ footer{
   border: 1px solid white;
   }
 
+  #more_details:hover
+  {
+    border-color:#d6d6d6;
+  }
+
   #more_details .anchor
   {
     font-weight: 600;
@@ -904,9 +933,14 @@ footer{
 
   #courses_btn
   {
-  width: 10rem;
-  height: 1.85rem;
+  width: 12.5rem;
+  height: 2rem;
   border: 2px solid #F89E30;
+  }
+
+  #courses_btn:hover
+  {
+    border-color:#ff9100 ;
   }
 
   #courses_btn .anchor
@@ -1032,8 +1066,8 @@ footer{
 
   #courses_btn
   {
-  width: 10rem;
-  height: 1.85rem;
+  width: 12.5rem;
+  height: 2rem;
   border: 2px solid #F89E30;
   }
 
