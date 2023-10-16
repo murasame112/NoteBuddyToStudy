@@ -3,7 +3,8 @@ import { ObjectId } from "bson";
 import express from "express";
 import e, { Request, Response } from "express";
 import { Note } from "../models/note_model";
-import * as global from "../global_functions";
+import * as global from "../global_database_functions";
+import * as globalTools from "../global_tools";
 
 const table_name = "notes";
 
@@ -34,11 +35,11 @@ export function getNoteById(req: Request, res: Response) {
       value.subcategory_id,
       value.adress,
       value.description,
-      value.shared_date,
-      value.last_edit_date,
       value.published,
       value.positive_reviews,
-      value.negative_reviews
+      value.negative_reviews,
+			value.shared_date,
+			value.last_edit_date
     );
     res.send(note);
   });
@@ -71,11 +72,11 @@ export function getMultipleNotes(req: Request, res: Response) {
         value.subcategory_id,
         value.adress,
         value.description,
-        value.shared_date,
-        value.last_edit_date,
         value.published,
         value.positive_reviews,
-        value.negative_reviews
+        value.negative_reviews,
+        value.shared_date,
+        value.last_edit_date
       );
       noteArray.push(note);
       if (counter == ids.length) {
@@ -112,11 +113,11 @@ export function getNotesByQuery(req: Request, res: Response) {
         element.subcategory_id,
         element.adress,
         element.description,
-        element.shared_date,
-        element.last_edit_date,
         element.published,
         element.positive_reviews,
-        element.negative_reviews
+        element.negative_reviews,
+				element.shared_date,
+        element.last_edit_date
       );
       noteArray.push(note);
     });
@@ -146,11 +147,11 @@ export function getNotesByQueriedId(req: Request, res: Response) {
         element.subcategory_id,
         element.adress,
         element.description,
-        element.shared_date,
-        element.last_edit_date,
         element.published,
         element.positive_reviews,
-        element.negative_reviews
+        element.negative_reviews,
+				element.shared_date,
+        element.last_edit_date
       );
       noteArray.push(note);
     });
@@ -184,8 +185,6 @@ export function insertNote(req: Request, res: Response) {
     subcategory_id,
     req.body.adress,
     req.body.description,
-    req.body.shared_date,
-    req.body.last_edit_date,
     req.body.published,
     req.body.positive_reviews,
     req.body.negative_reviews
@@ -240,8 +239,6 @@ export function insertMultipleNotes(req: Request, res: Response) {
       subcategory_id,
       element.adress,
       element.description,
-      element.shared_date,
-      element.last_edit_date,
       element.published,
       element.positive_reviews,
       element.negative_reviews
@@ -320,7 +317,21 @@ export function deleteNotesByQuery(req: Request, res: Response) {
   });
 }
 
-// TODO: DELETE NOTES BY QUERIED ID
+// deletes multiple notes by id_field and value of objectId
+// /notesid/{field}&{value}
+// example:
+//  http://localhost:3000/notesid/category_id&6490d9efdfd298aad1e8f134
+export function deleteNotesByQueriedId(req: Request, res: Response) {
+  const field = req.params.field;
+  const value = req.params.value;
+  const objValue = new ObjectId(value);
+
+  let query = { [field]: objValue };
+  const result = global.deleteItemsByField(query, table_name);
+  result.then((value) => {
+    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+  });
+}
 
 // updates note by id with values passed in request body
 // /note/{id}
@@ -345,7 +356,9 @@ export function updateNote(req: Request, res: Response) {
   if (typeof query.author_id !== "undefined") {
     query.author_id = new ObjectId(query.author_id);
   }
-
+	query.shared_date = globalTools.createDateFromString(query.shared_date);
+	query.last_edit_date = globalTools.createDateFromString(query.last_edit_date);
+	
   const result = global.updateItemById(id, table_name, query);
   result.then((value) => {
     value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
@@ -382,6 +395,8 @@ export function updateMultipleNotes(req: Request, res: Response) {
   if (typeof updateQuery.author_id !== "undefined") {
     updateQuery.author_id = new ObjectId(updateQuery.author_id);
   }
+	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
+	updateQuery.last_edit_date = globalTools.createDateFromString(updateQuery.last_edit_date);
   let counter = 0;
   ids.forEach((element: string) => {
     const result = global.updateItemById(element, table_name, updateQuery);
@@ -427,7 +442,38 @@ export function updateNotesByQuery(req: Request, res: Response) {
   if (typeof updateQuery.author_id !== "undefined") {
     updateQuery.author_id = new ObjectId(updateQuery.author_id);
   }
+	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
+	updateQuery.last_edit_date = globalTools.createDateFromString(updateQuery.last_edit_date);
   let query = { [field]: value };
+  const result = global.updateItemsByField(query, table_name, updateQuery);
+  result.then((value) => {
+    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+  });
+}
+
+// updates multiple notes by id_field and value of objectId
+// /notesid/{field}&{value}
+// example:
+//  http://localhost:3000/notesid/category_id&6490d9efdfd298aad1e8f134
+export function updateNotesByQueriedId(req: Request, res: Response) {
+  const field = req.params.field;
+  let value = req.params.value;
+  const objValue = new ObjectId(value);
+
+  let updateQuery = req.body;
+  if (typeof updateQuery.category_id !== "undefined") {
+    updateQuery.category_id = new ObjectId(updateQuery.category_id);
+  }
+  if (typeof updateQuery.subcategory_id !== "undefined") {
+    updateQuery.subcategory_id = new ObjectId(updateQuery.subcategory_id);
+  }
+  if (typeof updateQuery.author_id !== "undefined") {
+    updateQuery.author_id = new ObjectId(updateQuery.author_id);
+  }
+	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
+	updateQuery.last_edit_date = globalTools.createDateFromString(updateQuery.last_edit_date);
+  let query = { [field]: objValue };
+
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
     value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
@@ -459,8 +505,6 @@ export function replaceNote(req: Request, res: Response) {
     query.subcategory_id,
     query.adress,
     query.description,
-    query.shared_date,
-    query.last_edit_date,
     query.published,
     query.positive_reviews,
     query.negative_reviews
@@ -487,11 +531,11 @@ export function stealNote(req: Request, res: Response) {
       value.value.subcategory_id,
       value.value.adress,
       value.value.description,
-      value.value.shared_date,
-      value.value.last_edit_date,
       value.value.published,
       value.value.positive_reviews,
-      value.value.negative_reviews
+      value.value.negative_reviews,
+			value.value.shared_date,
+      value.value.last_edit_date
     );
     res.status(201).send(note);
   });

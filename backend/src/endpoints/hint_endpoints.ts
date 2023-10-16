@@ -3,7 +3,7 @@ import { ObjectId } from "bson";
 import express from "express";
 import e, { Request, Response } from "express";
 import { Hint } from "../models/hint_model";
-import * as global from "../global_functions";
+import * as global from "../global_database_functions";
 
 const table_name = "hints";
 
@@ -46,28 +46,6 @@ export function getHintsByQuery(req: Request, res: Response) {
     value = JSON.parse(value);
   }
   let query = { [field]: value };
-  const result = global.getItemsByField(query, table_name);
-  const hintArray: Hint[] = [];
-  let hint: Hint;
-  result.then((value) => {
-    value.forEach((element: Hint) => {
-      hint = new Hint(element.content);
-      hintArray.push(hint);
-    });
-    res.send(hintArray);
-  });
-}
-
-// finds multiple hints by id_field and value of objectId
-// /hintsid/{field}&{value}
-// example:
-//  http://localhost:3000/hintsid/category_id&6490d9efdfd298aad1e8f134
-export function getHintsByQueriedId(req: Request, res: Response) {
-  const field = req.params.field;
-  const value = req.params.value;
-  const objValue = new ObjectId(value);
-
-  let query = { [field]: objValue };
   const result = global.getItemsByField(query, table_name);
   const hintArray: Hint[] = [];
   let hint: Hint;

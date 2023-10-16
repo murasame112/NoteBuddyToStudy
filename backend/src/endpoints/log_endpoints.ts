@@ -3,8 +3,9 @@ import { ObjectId } from "bson";
 import express from "express";
 import e, { Request, Response } from "express";
 import { Log } from "../models/log_model";
-import * as global from "../global_functions";
+import * as global from "../global_database_functions";
 import { Type } from "../enums/log_type_enum";
+import * as globalTools from "../global_tools";
 
 const table_name = "logs";
 
@@ -59,28 +60,6 @@ export function getLogsByQuery(req: Request, res: Response) {
   });
 }
 
-// finds multiple logs by id_field and value of objectId
-// /logsid/{field}&{value}
-// example:
-//  http://localhost:3000/logsid/category_id&6490d9efdfd298aad1e8f134
-export function getLogsByQueriedId(req: Request, res: Response) {
-  const field = req.params.field;
-  const value = req.params.value;
-  const objValue = new ObjectId(value);
-
-  let query = { [field]: objValue };
-  const result = global.getItemsByField(query, table_name);
-  const logArray: Log[] = [];
-  let log: Log;
-  result.then((value) => {
-    value.forEach((element: Log) => {
-      log = new Log(element.type, element.content, element.date);
-      logArray.push(log);
-    });
-    res.send(logArray);
-  });
-}
-
 // inserts log to database
 // /log
 // headers:
@@ -94,7 +73,7 @@ export function getLogsByQueriedId(req: Request, res: Response) {
 //      "date":"25-06-2023"
 // }
 export function insertLog(req: Request, res: Response) {
-  const log: Log = new Log(req.body.type, req.body.content, req.body.date);
+  const log: Log = new Log(req.body.type, req.body.content);
   const result = global.insertItem(log, table_name);
   result.then((value) => {
     value.acknowledged
@@ -126,7 +105,7 @@ export function insertMultipleLogs(req: Request, res: Response) {
   const logs = req.body;
   let counter = 0;
   logs.forEach((element: Log) => {
-    const log: Log = new Log(element.type, element.content, element.date);
+    const log: Log = new Log(element.type, element.content);
 
     const result = global.insertItem(log, table_name);
     result.then((value) => {
@@ -216,6 +195,7 @@ export function deleteLogsByQuery(req: Request, res: Response) {
 export function updateLog(req: Request, res: Response) {
   const id = req.params.id;
   const query = req.body;
+	query.date = globalTools.createDateFromString(query.date);
   const result = global.updateItemById(id, table_name, query);
   result.then((value) => {
     value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
@@ -244,6 +224,7 @@ export function updateLog(req: Request, res: Response) {
 export function updateMultipleLogs(req: Request, res: Response) {
   const ids = req.body.ids;
   const updateQuery = req.body.query;
+	updateQuery.date = globalTools.createDateFromString(updateQuery.date);
   let counter = 0;
   ids.forEach((element: string) => {
     const result = global.updateItemById(element, table_name, updateQuery);
@@ -275,6 +256,7 @@ export function updateLogsByQuery(req: Request, res: Response) {
   const field = req.params.field;
   const value = req.params.value;
   const updateQuery = req.body;
+	updateQuery.date = globalTools.createDateFromString(updateQuery.date);
   let query = { [field]: JSON.parse(value) };
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
@@ -292,13 +274,12 @@ export function updateLogsByQuery(req: Request, res: Response) {
 //   {
 //      "type":"ERROR",
 //      "content":"Serce przestało działać",
-//      "date":"25-06-2023"
 // }
 export function replaceLog(req: Request, res: Response) {
   const id = req.params.id;
   const query = req.body;
   let log: Log;
-  log = new Log(query.type, query.content, query.date);
+  log = new Log(query.type, query.content);
   const result = global.replaceItemById(id, table_name, log);
   result.then((value) => {
     value.acknowledged ? res.status(201).send() : res.status(400).send("Error");

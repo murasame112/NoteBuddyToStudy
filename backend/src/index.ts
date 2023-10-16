@@ -7,6 +7,7 @@ import * as userEndpoints from "./endpoints/user_endpoints";
 import * as categoryEndpoints from "./endpoints/category_endpoints";
 import * as subcategoryEndpoints from "./endpoints/subcategory_endpoints";
 import * as notificationEndpoints from "./endpoints/notification_endpoints";
+import * as metanotificationEndpoints from "./endpoints/meta-notification_endpoints";
 import * as cardEndpoints from "./endpoints/card_endpoints";
 import * as groupEndpoints from "./endpoints/group_endpoints";
 import * as hintEndpoints from "./endpoints/hint_endpoints";
@@ -39,9 +40,11 @@ app.post("/notes", noteEndpoints.insertMultipleNotes);
 app.delete("/note/:id", noteEndpoints.deleteNote);
 app.delete("/notes", noteEndpoints.deleteMultipleNotes);
 app.delete("/notes/:field&:value", noteEndpoints.deleteNotesByQuery);
+app.delete("/notesid/:field&:value", noteEndpoints.deleteNotesByQueriedId);
 app.patch("/note/:id", noteEndpoints.updateNote);
 app.patch("/notes/:field&:value", noteEndpoints.updateNotesByQuery);
 app.patch("/notes", noteEndpoints.updateMultipleNotes);
+app.patch("/notesid/:field&:value", noteEndpoints.updateNotesByQueriedId);
 app.put("/note/:id", noteEndpoints.replaceNote);
 
 // ============== USER ENDPOINTS ==============
@@ -89,9 +92,11 @@ app.post("/subcategories", subcategoryEndpoints.insertMultipleSubcategories);
 app.delete("/subcategory/:id", subcategoryEndpoints.deleteSubcategory);
 app.delete("/subcategories", subcategoryEndpoints.deleteMultipleSubcategories);
 app.delete("/subcategories/:field&:value", subcategoryEndpoints.deleteSubcategoriesByQuery);
+app.delete("/subcategoriesid/:field&:value", subcategoryEndpoints.deleteSubcategoriesByQueriedId);
 app.patch("/subcategory/:id", subcategoryEndpoints.updateSubcategory);
 app.patch("/subcategories/:field&:value", subcategoryEndpoints.updateSubcategoriesByQuery);
 app.patch("/subcategories", subcategoryEndpoints.updateMultipleSubcategories);
+app.patch("/subcategoriesid/:field&:value", subcategoryEndpoints.updateSubcategoriesByQueriedId);
 app.put("/subcategory/:id", subcategoryEndpoints.replaceSubcategory);
 
 // ============== NOTIFICATION ENDPOINTS ==============
@@ -110,6 +115,25 @@ app.patch("/notifications/:field&:value", notificationEndpoints.updateNotificati
 app.patch("/notifications", notificationEndpoints.updateMultipleNotifications);
 app.put("/notification/:id", notificationEndpoints.replaceNotification);
 
+// ============== META-NOTIFICATION ENDPOINTS ==============
+
+app.get("/metanotification/:id", metanotificationEndpoints.getMetaNotificationById);
+app.get("/stealmetanotification/:id", metanotificationEndpoints.stealMetaNotification);
+app.get("/metanotifications", metanotificationEndpoints.getAllMetaNotifications);
+app.get("/metanotifications/:field&:value", metanotificationEndpoints.getMetaNotificationsByQuery);
+app.get("/metanotificationsid/:field&:value", metanotificationEndpoints.getMetaNotificationsByQueriedId);
+app.post("/metanotification", metanotificationEndpoints.insertMetaNotification);
+app.post("/metanotifications", metanotificationEndpoints.insertMultipleMetaNotifications);
+app.delete("/metanotification/:id", metanotificationEndpoints.deleteMetaNotification);
+app.delete("/metanotifications", metanotificationEndpoints.deleteMultipleMetaNotifications);
+app.delete("/metanotifications/:field&:value", metanotificationEndpoints.deleteMetaNotificationsByQuery);
+app.delete("/metanotificationsid/:field&:value", metanotificationEndpoints.deleteMetaNotificationsByQueriedId);
+app.patch("/metanotification/:id", metanotificationEndpoints.updateMetaNotification);
+app.patch("/metanotifications/:field&:value", metanotificationEndpoints.updateMetaNotificationsByQuery);
+app.patch("/metanotifications", metanotificationEndpoints.updateMultipleMetaNotifications);
+app.patch("/metanotificationsid/:field&:value", metanotificationEndpoints.updateMetaNotificationsByQueriedId);
+app.put("/metanotification/:id", metanotificationEndpoints.replaceMetaNotification);
+
 // ============== CARD ENDPOINTS ==============
 
 app.get("/card/:id", cardEndpoints.getCardById);
@@ -122,9 +146,11 @@ app.post("/cards", cardEndpoints.insertMultipleCards);
 app.delete("/card/:id", cardEndpoints.deleteCard);
 app.delete("/cards", cardEndpoints.deleteMultipleCards);
 app.delete("/cards/:field&:value", cardEndpoints.deleteCardsByQuery);
+app.delete("/cardsid/:field&:value", cardEndpoints.deleteCardsByQueriedId);
 app.patch("/card/:id", cardEndpoints.updateCard);
 app.patch("/cards/:field&:value", cardEndpoints.updateCardsByQuery);
 app.patch("/cards", cardEndpoints.updateMultipleCards);
+app.patch("/cardsid/:field&:value", cardEndpoints.updateCardsByQueriedId);
 app.put("/card/:id", cardEndpoints.replaceCard);
 
 // ============== GROUP ENDPOINTS ==============
@@ -139,9 +165,11 @@ app.post("/groups", groupEndpoints.insertMultipleGroups);
 app.delete("/group/:id", groupEndpoints.deleteGroup);
 app.delete("/groups", groupEndpoints.deleteMultipleGroups);
 app.delete("/groups/:field&:value", groupEndpoints.deleteGroupsByQuery);
+app.delete("/groupsid/:field&:value", groupEndpoints.deleteGroupsByQueriedId);
 app.patch("/group/:id", groupEndpoints.updateGroup);
 app.patch("/groups/:field&:value", groupEndpoints.updateGroupsByQuery);
 app.patch("/groups", groupEndpoints.updateMultipleGroups);
+app.patch("/groupsid/:field&:value", groupEndpoints.updateGroupsByQueriedId);
 app.put("/group/:id", groupEndpoints.replaceGroup);
 
 // ============== HINT ENDPOINTS ==============
@@ -150,7 +178,6 @@ app.get("/hint/:id", hintEndpoints.getHintById);
 app.get("/stealhint/:id", hintEndpoints.stealHint);
 app.get("/hints", hintEndpoints.getAllHints);
 app.get("/hints/:field&:value", hintEndpoints.getHintsByQuery);
-app.get("/hintsid/:field&:value", hintEndpoints.getHintsByQueriedId);
 app.post("/hint", hintEndpoints.insertHint);
 app.post("/hints", hintEndpoints.insertMultipleHints);
 app.delete("/hint/:id", hintEndpoints.deleteHint);
@@ -167,7 +194,6 @@ app.get("/log/:id", logEndpoints.getLogById);
 app.get("/steallog/:id", logEndpoints.stealLog);
 app.get("/logs", logEndpoints.getAllLogs);
 app.get("/logs/:field&:value", logEndpoints.getLogsByQuery);
-app.get("/logsid/:field&:value", logEndpoints.getLogsByQueriedId);
 app.post("/log", logEndpoints.insertLog);
 app.post("/logs", logEndpoints.insertMultipleLogs);
 app.delete("/log/:id", logEndpoints.deleteLog);

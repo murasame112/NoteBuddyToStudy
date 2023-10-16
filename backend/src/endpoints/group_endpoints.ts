@@ -3,8 +3,9 @@ import { ObjectId } from "bson";
 import express from "express";
 import e, { Request, Response } from "express";
 import { Group } from "../models/group_model";
-import * as global from "../global_functions";
+import * as global from "../global_database_functions";
 import { Type } from "../enums/group_type_enum";
+import * as globalTools from "../global_tools";
 
 const table_name = "groups";
 
@@ -28,7 +29,7 @@ export function getGroupById(req: Request, res: Response) {
   const result = global.getItemById(id, table_name);
   let group: Group;
   result.then((value) => {
-    group = new Group(value.type, value.users);
+    group = new Group(value.type, value.users, value.created);
     res.send(group);
   });
 }
@@ -52,7 +53,7 @@ export function getGroupsByQuery(req: Request, res: Response) {
   let group: Group;
   result.then((value) => {
     value.forEach((element: Group) => {
-      group = new Group(element.type, element.users);
+      group = new Group(element.type, element.users, element.created);
       groupArray.push(group);
     });
     res.send(groupArray);
@@ -62,7 +63,7 @@ export function getGroupsByQuery(req: Request, res: Response) {
 // finds multiple groups by id_field and value of objectId
 // /groupsid/{field}&{value}
 // example:
-//  http://localhost:3000/groupsid/category_id&6490d9efdfd298aad1e8f134
+//  http://localhost:3000/groupsid/users&64e9be29c7f3fc97903dfdde
 export function getGroupsByQueriedId(req: Request, res: Response) {
   const field = req.params.field;
   const value = req.params.value;
@@ -74,7 +75,7 @@ export function getGroupsByQueriedId(req: Request, res: Response) {
   let group: Group;
   result.then((value) => {
     value.forEach((element: Group) => {
-      group = new Group(element.type, element.users);
+      group = new Group(element.type, element.users, element.created);
       groupArray.push(group);
     });
     res.send(groupArray);
@@ -96,6 +97,12 @@ export function getGroupsByQueriedId(req: Request, res: Response) {
 // }
 export function insertGroup(req: Request, res: Response) {
   let users: ObjectId[] = [];
+
+	if(!Array.isArray(req.body.users) || req.body.users.length == 0){
+		res.status(400).send("Error");
+		return false;
+	}
+
   req.body.users.forEach((element: string) => {
     let user_id = new ObjectId(element);
     users.push(user_id);
@@ -133,9 +140,14 @@ export function insertGroup(req: Request, res: Response) {
 export function insertMultipleGroups(req: Request, res: Response) {
   const groups = req.body;
   let counter = 0;
+
   groups.forEach((element: any) => {
     // TODO: przemyśleć, czy tu powinno byc any?
     let usersIds: ObjectId[] = [];
+		if(!Array.isArray(element.users) || element.users.length == 0){
+			res.status(400).send("Error");
+			return false;
+		}
     element.users.forEach((elem: string) => {
       let user_id = new ObjectId(elem);
       usersIds.push(user_id);
@@ -215,6 +227,22 @@ export function deleteGroupsByQuery(req: Request, res: Response) {
   });
 }
 
+// deletes multiple groups by id_field and value of objectId
+// /groupsid/{field}&{value}
+// example:
+//  http://localhost:3000/groupsid/users&64a49ff9a1caf26fbfaa2dbb
+export function deleteGroupsByQueriedId(req: Request, res: Response) {
+  const field = req.params.field;
+  const value = req.params.value;
+  const objValue = new ObjectId(value);
+
+  let query = { [field]: objValue };
+  const result = global.deleteItemsByField(query, table_name);
+  result.then((value) => {
+    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+  });
+}
+
 // updates group by id with values passed in request body
 // /group/{id}
 // headers:
@@ -231,6 +259,13 @@ export function deleteGroupsByQuery(req: Request, res: Response) {
 export function updateGroup(req: Request, res: Response) {
   const id = req.params.id;
   let query = req.body;
+
+	if(!Array.isArray(query.users) || query.users.length == 0){
+		res.status(400).send("Error");
+		return false;
+	}
+
+	query.created = globalTools.createDateFromString(query.created);
   if (typeof query.users !== "undefined") {
     let usersIds: ObjectId[] = [];
 
@@ -270,6 +305,13 @@ export function updateGroup(req: Request, res: Response) {
 export function updateMultipleGroups(req: Request, res: Response) {
   const ids = req.body.ids;
   let updateQuery = req.body.query;
+
+	if(!Array.isArray(updateQuery.users) || updateQuery.users.length == 0){
+		res.status(400).send("Error");
+		return false;
+	}
+
+	updateQuery.created = globalTools.createDateFromString(updateQuery.created);
   if (typeof updateQuery.users !== "undefined") {
     let usersIds: ObjectId[] = [];
 
@@ -318,6 +360,13 @@ export function updateGroupsByQuery(req: Request, res: Response) {
     value = JSON.parse(value);
   }
   let updateQuery = req.body;
+
+	if(!Array.isArray(updateQuery.users) || updateQuery.users.length == 0){
+		res.status(400).send("Error");
+		return false;
+	}
+
+	updateQuery.created = globalTools.createDateFromString(updateQuery.created);
   if (typeof updateQuery.users !== "undefined") {
     let usersIds: ObjectId[] = [];
 
@@ -329,6 +378,46 @@ export function updateGroupsByQuery(req: Request, res: Response) {
     updateQuery.users = usersIds;
   }
   let query = { [field]: JSON.parse(value) };
+  const result = global.updateItemsByField(query, table_name, updateQuery);
+  result.then((value) => {
+    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+  });
+}
+
+// updates multiple groups by id_field and value of objectId
+// /groupsid/{field}&{value}
+// example:
+//  http://localhost:3000/groupsid/users&64a49ff9a1caf26fbfaa2dbb
+//   {
+// "type":"two",
+// "users":[
+//    "64a49ff9a1caf26fbfaa2dbb"
+// ]
+// }
+export function updateGroupsByQueriedId(req: Request, res: Response) {
+  const field = req.params.field;
+  let value = req.params.value;
+  const objValue = new ObjectId(value);
+
+  let updateQuery = req.body;
+	if(!Array.isArray(updateQuery.users) || updateQuery.users.length == 0){
+		res.status(400).send("Error");
+		return false;
+	}
+	if (typeof updateQuery.users !== "undefined") {
+    let usersIds: ObjectId[] = [];
+
+    updateQuery.users.forEach((elem: string) => {
+      let user_id = new ObjectId(elem);
+      usersIds.push(user_id);
+    });
+
+    updateQuery.users = usersIds;
+  }
+
+  updateQuery.created = globalTools.createDateFromString(updateQuery.created);
+  let query = { [field]: objValue };
+
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
     value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
@@ -351,6 +440,12 @@ export function updateGroupsByQuery(req: Request, res: Response) {
 export function replaceGroup(req: Request, res: Response) {
   const id = req.params.id;
   const query = req.body;
+
+	if(!Array.isArray(query.users) || query.users.length == 0){
+		res.status(400).send("Error");
+		return false;
+	}
+
   let group: Group;
   group = new Group(query.type, query.users);
   const result = global.replaceItemById(id, table_name, group);
@@ -368,7 +463,7 @@ export function stealGroup(req: Request, res: Response) {
   const result = global.stealItemById(id, table_name);
   result.then((value) => {
     let group: Group;
-    group = new Group(value.value.type, value.value.users);
+    group = new Group(value.value.type, value.value.users, value.value.created);
     res.status(201).send(group);
   });
 }

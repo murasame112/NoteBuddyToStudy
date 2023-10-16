@@ -3,8 +3,9 @@ import { ObjectId } from "bson";
 import express from "express";
 import e, { Request, Response } from "express";
 import { User } from "../models/user_model";
-import * as global from "../global_functions";
+import * as global from "../global_database_functions";
 import { Role } from "../enums/role_enum";
+import * as globalTools from "../global_tools";
 
 const table_name = "users";
 
@@ -29,12 +30,17 @@ export function getUserById(req: Request, res: Response) {
   let user: User;
   result.then((value) => {
     user = new User(
-      value.name,
-      value.avatar_url,
       value.login,
+      value.avatar_url,
+      value.email,
       value.password,
+			value.role,
       value.active,
-      value.role
+			value.untrusted,
+			value.saved_notes,
+			value.followed_users,
+			value.blocked_users,
+			value.created
     );
     res.send(user);
   });
@@ -60,12 +66,17 @@ export function getUsersByQuery(req: Request, res: Response) {
   result.then((value) => {
     value.forEach((element: User) => {
       user = new User(
-        element.name,
-        element.avatar_url,
         element.login,
+        element.avatar_url,
+        element.email,
         element.password,
+				element.role,
         element.active,
-        element.role
+				element.untrusted,
+				element.saved_notes,
+				element.followed_users,
+				element.blocked_users,
+				element.created
       );
       userArray.push(user);
     });
@@ -89,12 +100,17 @@ export function getUsersByQueriedId(req: Request, res: Response) {
   result.then((value) => {
     value.forEach((element: User) => {
       user = new User(
-        element.name,
-        element.avatar_url,
         element.login,
+        element.avatar_url,
+        element.email,
         element.password,
+				element.role,
         element.active,
-        element.role
+				element.untrusted,
+				element.saved_notes,
+				element.followed_users,
+				element.blocked_users,
+				element.created
       );
       userArray.push(user);
     });
@@ -110,21 +126,20 @@ export function getUsersByQueriedId(req: Request, res: Response) {
 //  http://localhost:3000/user
 // example body:
 //   {
-    //  "name":"custom name",
-    //  "avatar_url":"custom url",
     //  "login":"custom login",
+    //  "avatar_url":"custom url",
+    //  "email":"custom email",
     //  "password":"custom password",
-    //  "active":true,
-		// 	"role":"user"
+		// 	"role":"user",
+    //  "active":true
 // }
 export function insertUser(req: Request, res: Response) {
   const user: User = new User(
-    req.body.name,
-    req.body.avatar_url,
     req.body.login,
+    req.body.avatar_url,
+    req.body.email,
     req.body.password,
-    req.body.active,
-    req.body.role
+		req.body.role,
   );
   const result = global.insertItem(user, table_name);
   result.then((value) => {
@@ -143,20 +158,20 @@ export function insertUser(req: Request, res: Response) {
 // example body:
 // [
 //     {
-    //  "name":"custom name",
-    //  "avatar_url":"custom url",
     //  "login":"custom login",
+    //  "avatar_url":"custom url",
+    //  "email":"custom email",
     //  "password":"custom password",
+		// 	"role":"user",
     //  "active":true,
-		// 	"role":"user"
 //     },
 // {
-    //  "name":"custom name",
-    //  "avatar_url":"custom url",
     //  "login":"custom login",
+    //  "avatar_url":"custom url",
+    //  "email":"custom email",
     //  "password":"custom password",
-    //  "active":true,
-		// 	"role":"user"
+		// 	"role":"user",
+    //  "active":true
 // }
 //  ]
 export function insertMultipleUsers(req: Request, res: Response) {
@@ -164,12 +179,11 @@ export function insertMultipleUsers(req: Request, res: Response) {
   let counter = 0;
   users.forEach((element: User) => {
     const user: User = new User(
-      element.name,
-      element.avatar_url,
       element.login,
+      element.avatar_url,
+      element.email,
       element.password,
-      element.active,
-      element.role
+			element.role,
     );
 
     const result = global.insertItem(user, table_name);
@@ -253,12 +267,24 @@ export function deleteUsersByQuery(req: Request, res: Response) {
 //  http://localhost:3000/user/6490d3e5982efd2fe9136154
 // example body:
 //   {
-//      "name":"custom name",
+//      "login":"custom login",
 //      "description":"custom description"
 // }
 export function updateUser(req: Request, res: Response) {
   const id = req.params.id;
   const query = req.body;
+		
+	if(!Array.isArray(query.saved_notes) || query.saved_notes.length == 0 ){
+		query.saved_notes = [];
+	}
+	if(!Array.isArray(query.followed_users) || query.followed_users.length == 0 ){
+		query.saved_notes = [];
+	}
+	if(!Array.isArray(query.blocked_users) || query.blocked_users.length == 0 ){
+		query.saved_notes = [];
+	}
+
+	query.created = globalTools.createDateFromString(query.created);
   const result = global.updateItemById(id, table_name, query);
   result.then((value) => {
     value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
@@ -279,12 +305,24 @@ export function updateUser(req: Request, res: Response) {
 //      "6490d9fddfd298aad1e8f136"]
 //     ,
 //     "query":{
-//        "name":"custom name"
+//        "login":"custom login"
 //     }
 //  }
 export function updateMultipleUsers(req: Request, res: Response) {
   const ids = req.body.ids;
   const updateQuery = req.body.query;
+
+	if(!Array.isArray(updateQuery.saved_notes) || updateQuery.saved_notes.length == 0 ){
+		updateQuery.saved_notes = [];
+	}
+	if(!Array.isArray(updateQuery.followed_users) || updateQuery.followed_users.length == 0 ){
+		updateQuery.saved_notes = [];
+	}
+	if(!Array.isArray(updateQuery.blocked_users) || updateQuery.blocked_users.length == 0 ){
+		updateQuery.saved_notes = [];
+	}
+
+	updateQuery.created = globalTools.createDateFromString(updateQuery.created);
   let counter = 0;
   ids.forEach((element: string) => {
     const result = global.updateItemById(element, table_name, updateQuery);
@@ -308,12 +346,24 @@ export function updateMultipleUsers(req: Request, res: Response) {
 //  http://localhost:3000/users/published&true
 // example body:
 //   {
-//      "name":"custom name"
+//      "login":"custom login"
 // }
 export function updateUsersByQuery(req: Request, res: Response) {
   const field = req.params.field;
   const value = req.params.value;
   const updateQuery = req.body;
+
+	if(!Array.isArray(updateQuery.saved_notes) || updateQuery.saved_notes.length == 0 ){
+		updateQuery.saved_notes = [];
+	}
+	if(!Array.isArray(updateQuery.followed_users) || updateQuery.followed_users.length == 0 ){
+		updateQuery.saved_notes = [];
+	}
+	if(!Array.isArray(updateQuery.blocked_users) || updateQuery.blocked_users.length == 0 ){
+		updateQuery.saved_notes = [];
+	}
+
+	updateQuery.created = globalTools.createDateFromString(updateQuery.created);
   let query = { [field]: JSON.parse(value) };
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
@@ -329,24 +379,38 @@ export function updateUsersByQuery(req: Request, res: Response) {
 //  http://localhost:3000/user/6490d3e5982efd2fe9136154
 // example body:
 //   {
-    //  "name":"custom name",
-    //  "avatar_url":"custom url",
     //  "login":"custom login",
+    //  "avatar_url":"custom url",
+    //  "email":"custom email",
     //  "password":"custom password",
-    //  "active":true,
-		// 	"role":"user"
+		// 	"role":"user",
+    //  "active":true
 // }
 export function replaceUser(req: Request, res: Response) {
   const id = req.params.id;
   const query = req.body;
+	if(!Array.isArray(query.saved_notes) || query.saved_notes.length == 0 ){
+		query.saved_notes = [];
+	}
+	if(!Array.isArray(query.followed_users) || query.followed_users.length == 0 ){
+		query.saved_notes = [];
+	}
+	if(!Array.isArray(query.blocked_users) || query.blocked_users.length == 0 ){
+		query.saved_notes = [];
+	}
+	
   let user: User;
   user = new User(
-    query.name,
-    query.avatar_url,
     query.login,
+    query.avatar_url,
+    query.email,
     query.password,
+		query.role,
     query.active,
-    query.role
+		query.untrusted,
+		query.saved_notes,
+		query.followed_users,
+		query.blocked_users
   );
   const result = global.replaceItemById(id, table_name, user);
   result.then((value) => {
@@ -364,12 +428,17 @@ export function stealUser(req: Request, res: Response) {
   result.then((value) => {
     let user: User;
     user = new User(
-      value.value.name,
-      value.value.avatar_url,
       value.value.login,
-      value.valuet.password,
+      value.value.avatar_url,
+      value.value.email,
+      value.value.password,
+			value.value.role,
       value.value.active,
-      value.value.role
+			value.value.untrusted,
+			value.value.saved_notes,
+			value.value.followed_users,
+			value.value.blocked_users,
+			value.value.created
     );
     res.status(201).send(user);
   });

@@ -2,7 +2,7 @@ import { Console } from "console";
 import express from "express";
 import e, { Request, Response } from "express";
 import { Notification } from "../models/notification_model";
-import * as global from "../global_functions";
+import * as global from "../global_database_functions";
 
 const table_name = "notifications";
 
@@ -26,7 +26,7 @@ export function getNotificationById(req: Request, res: Response) {
   const result = global.getItemById(id, table_name);
   let notification: Notification;
   result.then((value) => {
-    notification = new Notification(value.content, value.created_date);
+    notification = new Notification(value.content);
     res.send(notification);
   });
 }
@@ -50,7 +50,7 @@ export function getNotificationsByQuery(req: Request, res: Response) {
   let notification: Notification;
   result.then((value) => {
     value.forEach((element: Notification) => {
-      notification = new Notification(element.content, element.created_date);
+      notification = new Notification(element.content);
       notificationArray.push(notification);
     });
     res.send(notificationArray);
@@ -69,8 +69,7 @@ export function getNotificationsByQuery(req: Request, res: Response) {
 // }
 export function insertNotification(req: Request, res: Response) {
   const notification: Notification = new Notification(
-    req.body.content,
-    req.body.created_date
+    req.body.content
   );
   const result = global.insertItem(notification, table_name);
   result.then((value) => {
@@ -105,8 +104,7 @@ export function insertMultipleNotifications(req: Request, res: Response) {
   let counter = 0;
   notifications.forEach((element: Notification) => {
     const notification: Notification = new Notification(
-      element.content,
-      element.created_date
+      element.content
     );
 
     const result = global.insertItem(notification, table_name);
@@ -274,7 +272,7 @@ export function replaceNotification(req: Request, res: Response) {
   const id = req.params.id;
   const query = req.body;
   let notification: Notification;
-  notification = new Notification(query.content, query.created_date);
+  notification = new Notification(query.content);
   const result = global.replaceItemById(id, table_name, notification);
   result.then((value) => {
     value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
@@ -291,8 +289,7 @@ export function stealNotification(req: Request, res: Response) {
   result.then((value) => {
     let notification: Notification;
     notification = new Notification(
-      value.value.content,
-      value.value.created_date
+      value.value.content
     );
     res.status(201).send(notification);
   });
