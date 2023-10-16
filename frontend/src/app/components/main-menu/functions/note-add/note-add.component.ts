@@ -80,7 +80,7 @@ constructor(private notesService: NotesService) {}
       console.log(data);
 
       let name:string = data.noteName;
-      let author_id:string = "64a49ff9a1caf26fbfaa2dbb";
+      let author_id:string = "652d7b38f2c51e59e3c6241e";
       let category_id:string = data.courseName;
       let subcategory_id:string = data.subjectName;
       let adress:string ="note_url_link";

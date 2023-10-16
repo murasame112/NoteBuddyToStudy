@@ -51,9 +51,9 @@ if(this.registerForm.valid===true)
 
   let newUser: User =
     {
-      name: login,
-      avatar_url: "random_url",
       login: login,
+      avatar_url: "random_url",
+      email: email,
       password: password,
       active: true,
       created: new Date(),
@@ -61,8 +61,7 @@ if(this.registerForm.valid===true)
       untrusted: false,
       saved_notes: [],
       followed_users: [],
-      blocked_users: [],
-      notifications: []
+      blocked_users: []
 
     }
 

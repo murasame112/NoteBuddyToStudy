@@ -121,7 +121,7 @@ export class NotesComponent implements OnInit{
       if(authorName != null && authorName !='')
       {
         const filteredUsers = this.allUsers.filter(element =>{
-          return element.name.toLocaleLowerCase().startsWith(authorName.toLocaleLowerCase());
+          return element.login.toLocaleLowerCase().startsWith(authorName.toLocaleLowerCase());
         })
 
        const filteredUsersIds = filteredUsers.map(e =>e._id);
