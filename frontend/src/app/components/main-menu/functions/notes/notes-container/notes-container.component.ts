@@ -68,7 +68,7 @@ userName:string = "";
   this.notesService.getUserById(id.toString()).subscribe
   (
     (res)=>{
-      this.userName= res.name
+      this.userName= res.login
 
     }).toString();
  }
