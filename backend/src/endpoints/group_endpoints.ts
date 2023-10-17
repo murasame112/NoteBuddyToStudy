@@ -157,11 +157,11 @@ export function insertMultipleGroups(req: Request, res: Response) {
     const result = global.insertItem(group, table_name);
     result.then((value) => {
       counter++;
-      if (value.acknowledged == false) {
-        res.status(400).send("Error");
-      }else if(counter == groups.length) {
+      if(counter == groups.length && value.acknowledged != false) {
         res.status(204).send();
-      }
+      }else{
+				res.status(400).send("Error");
+			}
     });
   });
 }
@@ -196,11 +196,11 @@ export function deleteMultipleGroups(req: Request, res: Response) {
     const result = global.deleteItemById(element, table_name);
     result.then((value) => {
       counter++;
-      if (value.acknowledged == false) {
-        res.status(400).send("Error");
-      }else if(counter == ids.length) {
+    	if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
-      }
+      }else{
+				res.status(400).send("Error");
+			}
     });
   });
 }
@@ -325,11 +325,11 @@ export function updateMultipleGroups(req: Request, res: Response) {
     const result = global.updateItemById(element, table_name, updateQuery);
     result.then((value) => {
       counter++;
-      if (value.acknowledged == false) {
-        res.status(400).send("Error");
-      }else if(counter == ids.length) {
+      if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
-      }
+      }else{
+				res.status(400).send("Error");
+			}
     });
   });
 }
