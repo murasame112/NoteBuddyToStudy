@@ -103,8 +103,7 @@ export function insertMultipleCategories(req: Request, res: Response) {
       counter++;
       if (value.acknowledged == false) {
         res.status(400).send("Error");
-      }
-      if (counter == categories.length) {
+      }else if(counter == categories.length) {
         res.status(204).send();
       }
     });
@@ -143,8 +142,7 @@ export function deleteMultipleCategories(req: Request, res: Response) {
       counter++;
       if (value.acknowledged == false) {
         res.status(400).send("Error");
-      }
-      if (counter == ids.length) {
+      }else if(counter == ids.length) {
         res.status(204).send();
       }
     });
@@ -217,8 +215,7 @@ export function updateMultipleCategories(req: Request, res: Response) {
       counter++;
       if (value.acknowledged == false) {
         res.status(400).send("Error");
-      }
-      if (counter == ids.length) {
+      }else if(counter == ids.length) {
         res.status(204).send();
       }
     });

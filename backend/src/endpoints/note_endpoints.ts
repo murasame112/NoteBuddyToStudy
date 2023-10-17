@@ -249,8 +249,7 @@ export function insertMultipleNotes(req: Request, res: Response) {
       counter++;
       if (value.acknowledged == false) {
         res.status(400).send("Error");
-      }
-      if (counter == notes.length) {
+      }else if(counter == notes.length) {
         res.status(204).send();
       }
     });
@@ -289,8 +288,7 @@ export function deleteMultipleNotes(req: Request, res: Response) {
       counter++;
       if (value.acknowledged == false) {
         res.status(400).send("Error");
-      }
-      if (counter == ids.length) {
+      }else if(counter == ids.length) {
         res.status(204).send();
       }
     });
@@ -404,8 +402,7 @@ export function updateMultipleNotes(req: Request, res: Response) {
       counter++;
       if (value.acknowledged == false) {
         res.status(400).send("Error");
-      }
-      if (counter == ids.length) {
+      }else if(counter == ids.length) {
         res.status(204).send();
       }
     });

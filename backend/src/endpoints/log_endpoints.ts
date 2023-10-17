@@ -112,8 +112,7 @@ export function insertMultipleLogs(req: Request, res: Response) {
       counter++;
       if (value.acknowledged == false) {
         res.status(400).send("Error");
-      }
-      if (counter == logs.length) {
+      }else if(counter == logs.length) {
         res.status(204).send();
       }
     });
@@ -152,8 +151,7 @@ export function deleteMultipleLogs(req: Request, res: Response) {
       counter++;
       if (value.acknowledged == false) {
         res.status(400).send("Error");
-      }
-      if (counter == ids.length) {
+      }else if(counter == ids.length) {
         res.status(204).send();
       }
     });
@@ -232,8 +230,7 @@ export function updateMultipleLogs(req: Request, res: Response) {
       counter++;
       if (value.acknowledged == false) {
         res.status(400).send("Error");
-      }
-      if (counter == ids.length) {
+      }else if(counter == ids.length) {
         res.status(204).send();
       }
     });

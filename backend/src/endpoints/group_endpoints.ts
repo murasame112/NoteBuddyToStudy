@@ -159,8 +159,7 @@ export function insertMultipleGroups(req: Request, res: Response) {
       counter++;
       if (value.acknowledged == false) {
         res.status(400).send("Error");
-      }
-      if (counter == groups.length) {
+      }else if(counter == groups.length) {
         res.status(204).send();
       }
     });
@@ -199,8 +198,7 @@ export function deleteMultipleGroups(req: Request, res: Response) {
       counter++;
       if (value.acknowledged == false) {
         res.status(400).send("Error");
-      }
-      if (counter == ids.length) {
+      }else if(counter == ids.length) {
         res.status(204).send();
       }
     });
@@ -329,8 +327,7 @@ export function updateMultipleGroups(req: Request, res: Response) {
       counter++;
       if (value.acknowledged == false) {
         res.status(400).send("Error");
-      }
-      if (counter == ids.length) {
+      }else if(counter == ids.length) {
         res.status(204).send();
       }
     });

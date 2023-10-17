@@ -104,8 +104,7 @@ export function insertMultipleHints(req: Request, res: Response) {
       counter++;
       if (value.acknowledged == false) {
         res.status(400).send("Error");
-      }
-      if (counter == hints.length) {
+      }else if(counter == hints.length) {
         res.status(204).send();
       }
     });
@@ -144,8 +143,7 @@ export function deleteMultipleHints(req: Request, res: Response) {
       counter++;
       if (value.acknowledged == false) {
         res.status(400).send("Error");
-      }
-      if (counter == ids.length) {
+      }else if(counter == ids.length) {
         res.status(204).send();
       }
     });
@@ -218,8 +216,7 @@ export function updateMultipleHints(req: Request, res: Response) {
       counter++;
       if (value.acknowledged == false) {
         res.status(400).send("Error");
-      }
-      if (counter == ids.length) {
+      }else if(counter == ids.length) {
         res.status(204).send();
       }
     });

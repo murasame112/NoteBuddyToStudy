@@ -191,8 +191,7 @@ export function insertMultipleUsers(req: Request, res: Response) {
       counter++;
       if (value.acknowledged == false) {
         res.status(400).send("Error");
-      }
-      if (counter == users.length) {
+      }else if(counter == users.length) {
         res.status(204).send();
       }
     });
@@ -231,8 +230,7 @@ export function deleteMultipleUsers(req: Request, res: Response) {
       counter++;
       if (value.acknowledged == false) {
         res.status(400).send("Error");
-      }
-      if (counter == ids.length) {
+      }else if(counter == ids.length) {
         res.status(204).send();
       }
     });
@@ -330,8 +328,7 @@ export function updateMultipleUsers(req: Request, res: Response) {
       counter++;
       if (value.acknowledged == false) {
         res.status(400).send("Error");
-      }
-      if (counter == ids.length) {
+      }else if(counter == ids.length) {
         res.status(204).send();
       }
     });
