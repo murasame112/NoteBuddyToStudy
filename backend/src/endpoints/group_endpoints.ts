@@ -277,16 +277,17 @@ export function updateGroup(req: Request, res: Response) {
   let query = req.body;
 
 	if(!Array.isArray(query.users) || query.users.length == 0){
-		res.status(400).send("Error");
-		return false;
+		query.users = [];
 	}
+
+	let user_id: ObjectId;
 
 	query.created = globalTools.createDateFromString(query.created);
   if (typeof query.users !== "undefined") {
     let usersIds: ObjectId[] = [];
 
     query.users.forEach((elem: string) => {
-      let user_id = new ObjectId(elem);
+      user_id = new ObjectId(elem);
       usersIds.push(user_id);
     });
 
@@ -323,16 +324,17 @@ export function updateMultipleGroups(req: Request, res: Response) {
   let updateQuery = req.body.query;
 
 	if(!Array.isArray(updateQuery.users) || updateQuery.users.length == 0){
-		res.status(400).send("Error");
-		return false;
+		updateQuery.users = [];
 	}
+
+	let user_id: ObjectId;
 
 	updateQuery.created = globalTools.createDateFromString(updateQuery.created);
   if (typeof updateQuery.users !== "undefined") {
     let usersIds: ObjectId[] = [];
 
     updateQuery.users.forEach((elem: string) => {
-      let user_id = new ObjectId(elem);
+      user_id = new ObjectId(elem);
       usersIds.push(user_id);
     });
 
@@ -386,16 +388,17 @@ export function updateGroupsByQuery(req: Request, res: Response) {
   let updateQuery = req.body;
 
 	if(!Array.isArray(updateQuery.users) || updateQuery.users.length == 0){
-		res.status(400).send("Error");
-		return false;
+		updateQuery.users = [];
 	}
 
 	updateQuery.created = globalTools.createDateFromString(updateQuery.created);
+	
+	let user_id: ObjectId;
   if (typeof updateQuery.users !== "undefined") {
     let usersIds: ObjectId[] = [];
 
     updateQuery.users.forEach((elem: string) => {
-      let user_id = new ObjectId(elem);
+      user_id = new ObjectId(elem);
       usersIds.push(user_id);
     });
 
@@ -425,14 +428,15 @@ export function updateGroupsByQueriedId(req: Request, res: Response) {
 
   let updateQuery = req.body;
 	if(!Array.isArray(updateQuery.users) || updateQuery.users.length == 0){
-		res.status(400).send("Error");
-		return false;
+		updateQuery.users = [];
 	}
+
+	let user_id: ObjectId;
 	if (typeof updateQuery.users !== "undefined") {
     let usersIds: ObjectId[] = [];
 
     updateQuery.users.forEach((elem: string) => {
-      let user_id = new ObjectId(elem);
+      user_id = new ObjectId(elem);
       usersIds.push(user_id);
     });
 

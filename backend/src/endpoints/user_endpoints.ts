@@ -275,6 +275,22 @@ export function deleteUsersByQuery(req: Request, res: Response) {
   });
 }
 
+// deletes multiple users by id_field and value of objectId
+// /usersid/{field}&{value}
+// example:
+//  http://localhost:3000/usersid/followed_users&64a49ff9a1caf26fbfaa2dbb
+export function deleteUsersByQueriedId(req: Request, res: Response) {
+  const field = req.params.field;
+  const value = req.params.value;
+  const objValue = new ObjectId(value);
+
+  let query = { [field]: objValue };
+  const result = global.deleteItemsByField(query, table_name);
+  result.then((value) => {
+    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+  });
+}
+
 // updates user by id with values passed in request body
 // /user/{id}
 // headers:
@@ -294,10 +310,10 @@ export function updateUser(req: Request, res: Response) {
 		query.saved_notes = [];
 	}
 	if(!Array.isArray(query.followed_users) || query.followed_users.length == 0 ){
-		query.saved_notes = [];
+		query.followed_users = [];
 	}
 	if(!Array.isArray(query.blocked_users) || query.blocked_users.length == 0 ){
-		query.saved_notes = [];
+		query.blocked_users = [];
 	}
 
 	query.created = globalTools.createDateFromString(query.created);
@@ -332,10 +348,10 @@ export function updateMultipleUsers(req: Request, res: Response) {
 		updateQuery.saved_notes = [];
 	}
 	if(!Array.isArray(updateQuery.followed_users) || updateQuery.followed_users.length == 0 ){
-		updateQuery.saved_notes = [];
+		updateQuery.followed_users = [];
 	}
 	if(!Array.isArray(updateQuery.blocked_users) || updateQuery.blocked_users.length == 0 ){
-		updateQuery.saved_notes = [];
+		updateQuery.blocked_users = [];
 	}
 
 	updateQuery.created = globalTools.createDateFromString(updateQuery.created);
@@ -387,14 +403,85 @@ export function updateUsersByQuery(req: Request, res: Response) {
 		updateQuery.saved_notes = [];
 	}
 	if(!Array.isArray(updateQuery.followed_users) || updateQuery.followed_users.length == 0 ){
-		updateQuery.saved_notes = [];
+		updateQuery.followed_users = [];
 	}
 	if(!Array.isArray(updateQuery.blocked_users) || updateQuery.blocked_users.length == 0 ){
-		updateQuery.saved_notes = [];
+		updateQuery.blocked_users = [];
 	}
 
 	updateQuery.created = globalTools.createDateFromString(updateQuery.created);
   let query = { [field]: JSON.parse(value) };
+  const result = global.updateItemsByField(query, table_name, updateQuery);
+  result.then((value) => {
+    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+  });
+}
+
+// updates multiple users by id_field and value of objectId
+// /usersid/{field}&{value}
+// example:
+//  http://localhost:3000/usersid/followed_users&64a49ff9a1caf26fbfaa2dbb
+// example body:
+//   {
+//      "login":"custom login"
+// }
+export function updateUsersByQueriedId(req: Request, res: Response) {
+  const field = req.params.field;
+  let value = req.params.value;
+  const objValue = new ObjectId(value);
+
+  let updateQuery = req.body;
+	if(!Array.isArray(updateQuery.saved_notes) || updateQuery.saved_notes.length == 0 ){
+		updateQuery.saved_notes = [];
+	}
+	if(!Array.isArray(updateQuery.followed_users) || updateQuery.followed_users.length == 0 ){
+		updateQuery.followed_users = [];
+	}
+	if(!Array.isArray(updateQuery.blocked_users) || updateQuery.blocked_users.length == 0 ){
+		updateQuery.blocked_users = [];
+	}
+
+	let note_id: ObjectId;
+	if (typeof updateQuery.saved_notes !== "undefined") {
+    let notesIds: ObjectId[] = [];
+
+		
+    updateQuery.saved_notes.forEach((elem: string) => {
+      note_id = new ObjectId(elem);
+      notesIds.push(note_id);
+    });
+
+    updateQuery.saved_notes = notesIds;
+  }
+	let user_id: ObjectId;
+	if (typeof updateQuery.followed_users !== "undefined") {
+    let usersIds: ObjectId[] = [];
+
+		
+    updateQuery.followed_users.forEach((elem: string) => {
+      user_id = new ObjectId(elem);
+      usersIds.push(user_id);
+    });
+
+    updateQuery.followed_users = usersIds;
+  }
+
+	if (typeof updateQuery.blocked_users !== "undefined") {
+    let usersIds: ObjectId[] = [];
+
+    updateQuery.blocked_users.forEach((elem: string) => {
+      user_id = new ObjectId(elem);
+      usersIds.push(user_id);
+    });
+
+    updateQuery.blocked = usersIds;
+  }
+
+
+
+  updateQuery.created = globalTools.createDateFromString(updateQuery.created);
+  let query = { [field]: objValue };
+
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
     value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
