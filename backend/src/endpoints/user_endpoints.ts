@@ -316,6 +316,43 @@ export function updateUser(req: Request, res: Response) {
 		query.blocked_users = [];
 	}
 
+	let note_id: ObjectId;
+	if (typeof query.saved_notes !== "undefined") {
+    let notesIds: ObjectId[] = [];
+
+		
+    query.saved_notes.forEach((elem: string) => {
+      note_id = new ObjectId(elem);
+      notesIds.push(note_id);
+    });
+
+    query.saved_notes = notesIds;
+  }
+	
+	let user_id: ObjectId;
+	if (typeof query.followed_users !== "undefined") {
+    let usersIds: ObjectId[] = [];
+
+		
+    query.followed_users.forEach((elem: string) => {
+      user_id = new ObjectId(elem);
+      usersIds.push(user_id);
+    });
+
+    query.followed_users = usersIds;
+  }
+
+	if (typeof query.blocked_users !== "undefined") {
+    let usersIds: ObjectId[] = [];
+
+    query.blocked_users.forEach((elem: string) => {
+      user_id = new ObjectId(elem);
+      usersIds.push(user_id);
+    });
+
+    query.blocked = usersIds;
+  }
+
 	query.created = globalTools.createDateFromString(query.created);
   const result = global.updateItemById(id, table_name, query);
   result.then((value) => {
@@ -353,6 +390,43 @@ export function updateMultipleUsers(req: Request, res: Response) {
 	if(!Array.isArray(updateQuery.blocked_users) || updateQuery.blocked_users.length == 0 ){
 		updateQuery.blocked_users = [];
 	}
+
+	let note_id: ObjectId;
+	if (typeof updateQuery.saved_notes !== "undefined") {
+    let notesIds: ObjectId[] = [];
+
+		
+    updateQuery.saved_notes.forEach((elem: string) => {
+      note_id = new ObjectId(elem);
+      notesIds.push(note_id);
+    });
+
+    updateQuery.saved_notes = notesIds;
+  }
+	
+	let user_id: ObjectId;
+	if (typeof updateQuery.followed_users !== "undefined") {
+    let usersIds: ObjectId[] = [];
+
+		
+    updateQuery.followed_users.forEach((elem: string) => {
+      user_id = new ObjectId(elem);
+      usersIds.push(user_id);
+    });
+
+    updateQuery.followed_users = usersIds;
+  }
+
+	if (typeof updateQuery.blocked_users !== "undefined") {
+    let usersIds: ObjectId[] = [];
+
+    updateQuery.blocked_users.forEach((elem: string) => {
+      user_id = new ObjectId(elem);
+      usersIds.push(user_id);
+    });
+
+    updateQuery.blocked = usersIds;
+  }
 
 	updateQuery.created = globalTools.createDateFromString(updateQuery.created);
   let counter = 0;
@@ -409,6 +483,43 @@ export function updateUsersByQuery(req: Request, res: Response) {
 		updateQuery.blocked_users = [];
 	}
 
+	let note_id: ObjectId;
+	if (typeof updateQuery.saved_notes !== "undefined") {
+    let notesIds: ObjectId[] = [];
+
+		
+    updateQuery.saved_notes.forEach((elem: string) => {
+      note_id = new ObjectId(elem);
+      notesIds.push(note_id);
+    });
+
+    updateQuery.saved_notes = notesIds;
+  }
+	
+	let user_id: ObjectId;
+	if (typeof updateQuery.followed_users !== "undefined") {
+    let usersIds: ObjectId[] = [];
+
+		
+    updateQuery.followed_users.forEach((elem: string) => {
+      user_id = new ObjectId(elem);
+      usersIds.push(user_id);
+    });
+
+    updateQuery.followed_users = usersIds;
+  }
+
+	if (typeof updateQuery.blocked_users !== "undefined") {
+    let usersIds: ObjectId[] = [];
+
+    updateQuery.blocked_users.forEach((elem: string) => {
+      user_id = new ObjectId(elem);
+      usersIds.push(user_id);
+    });
+
+    updateQuery.blocked = usersIds;
+  }
+
 	updateQuery.created = globalTools.createDateFromString(updateQuery.created);
   let query = { [field]: JSON.parse(value) };
   const result = global.updateItemsByField(query, table_name, updateQuery);
@@ -453,6 +564,7 @@ export function updateUsersByQueriedId(req: Request, res: Response) {
 
     updateQuery.saved_notes = notesIds;
   }
+
 	let user_id: ObjectId;
 	if (typeof updateQuery.followed_users !== "undefined") {
     let usersIds: ObjectId[] = [];
