@@ -103,12 +103,11 @@ export function insertMultipleCategories(req: Request, res: Response) {
     const result = global.insertItem(cat, table_name);
     result.then((value) => {
       counter++;
-      if (value.acknowledged == false) {
-        res.status(400).send("Error");
-      }
-      if (counter == categories.length) {
+      if(counter == categories.length && value.acknowledged != false) {
         res.status(204).send();
-      }
+      }else{
+				res.status(400).send("Error");
+			}
     });
   });
 }
@@ -143,12 +142,11 @@ export function deleteMultipleCategories(req: Request, res: Response) {
     const result = global.deleteItemById(element, table_name);
     result.then((value) => {
       counter++;
-      if (value.acknowledged == false) {
-        res.status(400).send("Error");
-      }
-      if (counter == ids.length) {
+      if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
-      }
+      }else{
+				res.status(400).send("Error");
+			}
     });
   });
 }
@@ -219,12 +217,11 @@ export function updateMultipleCategories(req: Request, res: Response) {
     const result = global.updateItemById(element, table_name, updateQuery);
     result.then((value) => {
       counter++;
-      if (value.acknowledged == false) {
-        res.status(400).send("Error");
-      }
-      if (counter == ids.length) {
+      if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
-      }
+      }else{
+				res.status(400).send("Error");
+			}
     });
   });
 }

@@ -255,12 +255,11 @@ export function insertMultipleNotes(req: Request, res: Response) {
     const result = global.insertItem(note, table_name);
     result.then((value) => {
       counter++;
-      if (value.acknowledged == false) {
-        res.status(400).send("Error");
-      }
-      if (counter == notes.length) {
+      if(counter == notes.length && value.acknowledged != false) {
         res.status(204).send();
-      }
+      }else{
+				res.status(400).send("Error");
+			}
     });
   });
 }
@@ -295,12 +294,11 @@ export function deleteMultipleNotes(req: Request, res: Response) {
     const result = global.deleteItemById(element, table_name);
     result.then((value) => {
       counter++;
-      if (value.acknowledged == false) {
-        res.status(400).send("Error");
-      }
-      if (counter == ids.length) {
+      if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
-      }
+      }else{
+				res.status(400).send("Error");
+			}
     });
   });
 }
@@ -419,12 +417,11 @@ export function updateMultipleNotes(req: Request, res: Response) {
     const result = global.updateItemById(element, table_name, updateQuery);
     result.then((value) => {
       counter++;
-      if (value.acknowledged == false) {
-        res.status(400).send("Error");
-      }
-      if (counter == ids.length) {
+      if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
-      }
+      }else{
+				res.status(400).send("Error");
+			}
     });
   });
 }

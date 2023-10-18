@@ -226,12 +226,11 @@ export function insertMultipleCards(req: Request, res: Response) {
     const result = global.insertItem(card, table_name);
     result.then((value) => {
       counter++;
-      if (value.acknowledged == false) {
-        res.status(400).send("Error");
-      }
-      if (counter == cards.length) {
+			if(counter == cards.length && value.acknowledged != false) {
         res.status(204).send();
-      }
+      }else{
+				res.status(400).send("Error");
+			}
     });
   });
 }
@@ -266,10 +265,9 @@ export function deleteMultipleCards(req: Request, res: Response) {
     const result = global.deleteItemById(element, table_name);
     result.then((value) => {
       counter++;
-      if (value.acknowledged == false) {
+      if(value.acknowledged == false) {
         res.status(400).send("Error");
-      }
-      if (counter == ids.length) {
+      }else if(counter == ids.length) {
         res.status(204).send();
       }
     });
@@ -414,12 +412,11 @@ export function updateMultipleCards(req: Request, res: Response) {
     const result = global.updateItemById(element, table_name, updateQuery);
     result.then((value) => {
       counter++;
-      if (value.acknowledged == false) {
-        res.status(400).send("Error");
-      }
-      if (counter == ids.length) {
+      if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
-      }
+      }else{
+				res.status(400).send("Error");
+			}
     });
   });
 }
