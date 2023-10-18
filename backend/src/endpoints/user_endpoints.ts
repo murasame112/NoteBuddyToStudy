@@ -411,22 +411,25 @@ export function updateUsersByQueriedId(req: Request, res: Response) {
 		updateQuery.blocked_users = [];
 	}
 
+	let note_id: ObjectId;
 	if (typeof updateQuery.saved_notes !== "undefined") {
     let notesIds: ObjectId[] = [];
 
+		
     updateQuery.saved_notes.forEach((elem: string) => {
-      let note_id = new ObjectId(elem);
+      note_id = new ObjectId(elem);
       notesIds.push(note_id);
     });
 
     updateQuery.saved_notes = notesIds;
   }
-
+	let user_id: ObjectId;
 	if (typeof updateQuery.followed_users !== "undefined") {
     let usersIds: ObjectId[] = [];
 
+		
     updateQuery.followed_users.forEach((elem: string) => {
-      let user_id = new ObjectId(elem);
+      user_id = new ObjectId(elem);
       usersIds.push(user_id);
     });
 
@@ -437,7 +440,7 @@ export function updateUsersByQueriedId(req: Request, res: Response) {
     let usersIds: ObjectId[] = [];
 
     updateQuery.blocked_users.forEach((elem: string) => {
-      let user_id = new ObjectId(elem);
+      user_id = new ObjectId(elem);
       usersIds.push(user_id);
     });
 
