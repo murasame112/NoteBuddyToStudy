@@ -295,12 +295,14 @@ export function updateMultipleSubcategories(req: Request, res: Response) {
 export function updateSubcategoriesByQuery(req: Request, res: Response) {
   const field = req.params.field;
   let value = req.params.value;
+
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+	
   let updateQuery = req.body;
   if (typeof updateQuery.category_id !== "undefined") {
     updateQuery.category_id = new ObjectId(updateQuery.category_id);

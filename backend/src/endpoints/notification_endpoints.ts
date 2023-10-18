@@ -38,12 +38,14 @@ export function getNotificationById(req: Request, res: Response) {
 export function getNotificationsByQuery(req: Request, res: Response) {
   const field = req.params.field;
   let value = req.params.value;
+
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+
   let query = { [field]: value };
   const result = global.getItemsByField(query, table_name);
   const notificationArray: Notification[] = [];
@@ -167,12 +169,14 @@ export function deleteMultipleNotifications(req: Request, res: Response) {
 export function deleteNotificationsByQuery(req: Request, res: Response) {
   const field = req.params.field;
   let value = req.params.value;
+
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+
   let query = { [field]: value };
   const result = global.deleteItemsByField(query, table_name);
   result.then((value) => {
@@ -249,7 +253,15 @@ export function updateMultipleNotifications(req: Request, res: Response) {
 // }
 export function updateNotificationsByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  const value = req.params.value;
+  let value = req.params.value;
+
+	try {
+    value = JSON.parse(value);
+  } catch (e: any) {
+    value = '"' + value + '"';
+    value = JSON.parse(value);
+  }
+
   const updateQuery = req.body;
   let query = { [field]: JSON.parse(value) };
   const result = global.updateItemsByField(query, table_name, updateQuery);

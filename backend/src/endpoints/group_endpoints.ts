@@ -40,13 +40,22 @@ export function getGroupById(req: Request, res: Response) {
 //  http://localhost:3000/groups/published&true
 export function getGroupsByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  let value = req.params.value;
+  let value: any; 
+	value = req.params.value;
+
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+
+	if(field == 'created'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
+
   let query = { [field]: value };
   const result = global.getItemsByField(query, table_name);
   const groupArray: Group[] = [];
@@ -213,13 +222,22 @@ export function deleteMultipleGroups(req: Request, res: Response) {
 //  http://localhost:3000/groups/published&true
 export function deleteGroupsByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  let value = req.params.value;
+  let value: any; 
+	value = req.params.value;
+
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+	
+	if(field == 'created'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
+	
   let query = { [field]: value };
   const result = global.deleteItemsByField(query, table_name);
   result.then((value) => {
@@ -352,13 +370,22 @@ export function updateMultipleGroups(req: Request, res: Response) {
 // }
 export function updateGroupsByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  let value = req.params.value;
+  let value: any;
+	value = req.params.value;
+
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+
+	if(field == 'created'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
+	
   let updateQuery = req.body;
 
 	if(!Array.isArray(updateQuery.users) || updateQuery.users.length == 0){

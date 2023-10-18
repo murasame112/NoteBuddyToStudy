@@ -47,13 +47,22 @@ export function getCardById(req: Request, res: Response) {
 //  http://localhost:3000/cards/published&true
 export function getCardsByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  let value = req.params.value;
+  let value: any;
+	value = req.params.value;
+
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+	
+	if(field == 'shared_date' || field == 'last_edit_date'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
+
   let query = { [field]: value };
   const result = global.getItemsByField(query, table_name);
   const cardArray: Card[] = [];
@@ -273,13 +282,21 @@ export function deleteMultipleCards(req: Request, res: Response) {
 //  http://localhost:3000/cards/published&true
 export function deleteCardsByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  let value = req.params.value;
+  let value: any;
+	value = req.params.value;
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+
+	if(field == 'shared_date' || field == 'last_edit_date'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
+
   let query = { [field]: value };
   const result = global.deleteItemsByField(query, table_name);
   result.then((value) => {
@@ -430,13 +447,22 @@ export function updateMultipleCards(req: Request, res: Response) {
 //  }
 export function updateCardsByQuery(req: Request, res: Response) {
   const field = req.params.field;
-	let value = req.params.value;
+	let value: any; 
+	value = req.params.value;
+
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+
+	if(field == 'shared_date' || field == 'last_edit_date'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
+
   let updateQuery = req.body;
   if (typeof updateQuery.note_id !== "undefined") {
     updateQuery.note_id = new ObjectId(updateQuery.note_id);

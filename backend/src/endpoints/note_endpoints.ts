@@ -92,13 +92,21 @@ export function getMultipleNotes(req: Request, res: Response) {
 //  http://localhost:3000/notes/published&true
 export function getNotesByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  let value = req.params.value;
+  let value: any; 
+	value = req.params.value;
+
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+
+	if(field == 'shared_date' || field == 'last_edit_date'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
 
   let query = { [field]: value };
   const result = global.getItemsByField(query, table_name);
@@ -303,13 +311,22 @@ export function deleteMultipleNotes(req: Request, res: Response) {
 //  http://localhost:3000/notes/published&true
 export function deleteNotesByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  let value = req.params.value;
+  let value: any;
+	value = req.params.value;
+	
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+
+	if(field == 'shared_date' || field == 'last_edit_date'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
+
   let query = { [field]: value };
   const result = global.deleteItemsByField(query, table_name);
   result.then((value) => {
@@ -425,13 +442,22 @@ export function updateMultipleNotes(req: Request, res: Response) {
 // }
 export function updateNotesByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  let value = req.params.value;
+  let value: any;
+	value = req.params.value;
+
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+
+	if(field == 'shared_date' || field == 'last_edit_date'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
+
   let updateQuery = req.body;
   if (typeof updateQuery.category_id !== "undefined") {
     updateQuery.category_id = new ObjectId(updateQuery.category_id);

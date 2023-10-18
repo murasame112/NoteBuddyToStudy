@@ -40,13 +40,22 @@ export function getLogById(req: Request, res: Response) {
 //  http://localhost:3000/logs/published&true
 export function getLogsByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  let value = req.params.value;
+  let value: any; 
+	value = req.params.value;
+
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+
+	if(field == 'date'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
+
   let query = { [field]: value };
   const result = global.getItemsByField(query, table_name);
   const logArray: Log[] = [];
@@ -166,13 +175,22 @@ export function deleteMultipleLogs(req: Request, res: Response) {
 //  http://localhost:3000/logs/published&true
 export function deleteLogsByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  let value = req.params.value;
+  let value: any; 
+	value = req.params.value;
+
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+
+	if(field == 'date'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
+
   let query = { [field]: value };
   const result = global.deleteItemsByField(query, table_name);
   result.then((value) => {
@@ -254,7 +272,22 @@ export function updateMultipleLogs(req: Request, res: Response) {
 // }
 export function updateLogsByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  const value = req.params.value;
+  let value: any; 
+	value = req.params.value;
+
+	try {
+    value = JSON.parse(value);
+  } catch (e: any) {
+    value = '"' + value + '"';
+    value = JSON.parse(value);
+  }
+
+	if(field == 'date'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
+
   const updateQuery = req.body;
 	updateQuery.date = globalTools.createDateFromString(updateQuery.date);
   let query = { [field]: JSON.parse(value) };

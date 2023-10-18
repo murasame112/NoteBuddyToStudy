@@ -45,13 +45,22 @@ export function getMetaNotificationById(req: Request, res: Response) {
 //  http://localhost:3000/metanotifcations/published&true
 export function getMetaNotificationsByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  let value = req.params.value;
+  let value: any;
+	value = req.params.value;
+	
+
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+
+	if(field == 'shared_date'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
 
   let query = { [field]: value };
   const result = global.getItemsByField(query, table_name);
@@ -223,13 +232,22 @@ export function deleteMultipleMetaNotifications(req: Request, res: Response) {
 //  http://localhost:3000/metanotifcations/published&true
 export function deleteMetaNotificationsByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  let value = req.params.value;
+  let value: any;
+	value = req.params.value;
+
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+
+	if(field == 'shared_date'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
+
   let query = { [field]: value };
   const result = global.deleteItemsByField(query, table_name);
   result.then((value) => {
@@ -326,13 +344,22 @@ export function updateMultipleMetaNotifications(req: Request, res: Response) {
 // }
 export function updateMetaNotificationsByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  let value = req.params.value;
+  let value: any;
+	value = req.params.value;
+
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+
+	if(field == 'shared_date'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
+	
   let updateQuery = req.body;
   if (typeof updateQuery.notification_id !== "undefined") {
     updateQuery.notification_id = new ObjectId(updateQuery.notification_id);

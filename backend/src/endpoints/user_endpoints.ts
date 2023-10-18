@@ -52,13 +52,22 @@ export function getUserById(req: Request, res: Response) {
 //  http://localhost:3000/users/published&true
 export function getUsersByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  let value = req.params.value;
+  let value: any;
+	value = req.params.value;
+	
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+
+	if(field == 'created'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
+
   let query = { [field]: value };
   const result = global.getItemsByField(query, table_name);
   const userArray: User[] = [];
@@ -245,13 +254,22 @@ export function deleteMultipleUsers(req: Request, res: Response) {
 //  http://localhost:3000/users/published&true
 export function deleteUsersByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  let value = req.params.value;
+  let value: any;
+	value = req.params.value;
+
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+
+	if(field == 'created'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
+	
   let query = { [field]: value };
   const result = global.deleteItemsByField(query, table_name);
   result.then((value) => {
@@ -350,7 +368,22 @@ export function updateMultipleUsers(req: Request, res: Response) {
 // }
 export function updateUsersByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  const value = req.params.value;
+  let value: any;
+	value = req.params.value;
+
+	try {
+    value = JSON.parse(value);
+  } catch (e: any) {
+    value = '"' + value + '"';
+    value = JSON.parse(value);
+  }
+
+	if(field == 'created'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
+
   const updateQuery = req.body;
 
 	if(!Array.isArray(updateQuery.saved_notes) || updateQuery.saved_notes.length == 0 ){
