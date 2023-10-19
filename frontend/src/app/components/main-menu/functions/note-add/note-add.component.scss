@@ -104,6 +104,12 @@ footer
 
 }
 
+
+#subjectName
+{
+width: 12rem;
+}
+
 #subjectName:disabled
 {
   background-color: rgb(211, 211, 211);
@@ -119,7 +125,7 @@ footer
   justify-content: center;
   align-items: center;
   width: 60rem;
-  height: 35rem;
+  height: 40rem;
   background-color: #F7F7F7;
   border-radius: 1rem;
   gap: 2rem;
@@ -159,18 +165,28 @@ footer
 
 }
 
-#descBox textarea
+// #descBox textarea
+// {
+//   width: 35rem;
+//   height: 20rem;
+//   resize: none;
+//   border: 1px solid #d8d7d7;
+//   background-color: #F7F7F7;
+//   overflow: auto;
+//   outline: none;
+//   box-shadow: none;
+
+
+// }
+
+.quillEditor
 {
-  width: 35rem;
-  height: 20rem;
-  resize: none;
-  border: 1px solid #d8d7d7;
-  background-color: #F7F7F7;
-  overflow: auto;
-  outline: none;
-  box-shadow: none;
+  // border: 1px solid red;
+}
 
-
+.ql-toolbar.ql-snow {
+  border: 1px solid #F7F7F7;
+  border-radius: 0.5rem 0.5rem 0 0;
 }
 
 #optionBox

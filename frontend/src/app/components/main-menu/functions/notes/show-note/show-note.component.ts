@@ -36,7 +36,7 @@ note!:Note;
 
 
   this.noteService.getNoteById(id).pipe(
-  delay(2000))
+  delay(1000))
   .subscribe((res)=>{
 
       this.isLoading = false;

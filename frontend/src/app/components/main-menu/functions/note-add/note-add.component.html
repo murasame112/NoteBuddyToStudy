@@ -13,7 +13,8 @@
 
     <div id="descBox" class="displayClass">
     <label>Treść: </label>
-    <textarea  placeholder="opis notatki"  cols="30" rows="10" formControlName="noteDesc" class="form-control"></textarea>
+    <!-- <textarea  placeholder="opis notatki"  cols="30" rows="10" formControlName="noteDesc" class="form-control"></textarea> -->
+    <quill-editor formControlName="noteDesc" [modules]="quillConfig" [styles]="editorStyle" class="quillEditor"></quill-editor>
     </div>
 
     <div id="optionBox" class="displayClass">

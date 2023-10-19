@@ -7,6 +7,8 @@ import { Note } from 'src/app/models/note.model';
 import { NotesService } from 'src/app/services/notes.service';
 import {Category} from '../../../../models/category.model';
 import { Subcategory } from '../../../../models/subcategory.model';
+import { Router } from '@angular/router';
+
 import { ObjectId } from 'bson';
 
 @Component({
@@ -16,7 +18,7 @@ import { ObjectId } from 'bson';
 })
 export class NoteAddComponent implements OnInit{
 
-constructor(private notesService: NotesService) {}
+constructor(private notesService: NotesService, private router: Router) {}
 
 
       //  category = Object.values(Category);
@@ -123,7 +125,9 @@ constructor(private notesService: NotesService) {}
 
     //  this.categoryArrayList();
 
-
+        setTimeout(()=>{
+          this.router.navigate(['/notes']);
+        },1000);
     }
 
     getCategories()
@@ -263,6 +267,24 @@ constructor(private notesService: NotesService) {}
 
 
       return true
+
+    }
+
+    editorStyle = {
+      width: '35rem',
+      height: '20rem',
+      backgroundColor: '#F7F7F7',
+      border: '1px solid #d8d7d7',
+
+
+    }
+
+    quillConfig = {
+      toolbar: [
+        ['bold', 'italic', 'underline', 'strike'],
+          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+          ['link', 'image'],
+      ],
 
     }
 

@@ -6,6 +6,12 @@
   </nav>
 
   <main>
+ <div id="textEditor">
+  <quill-editor [formControl]="quillContent" [modules]="quillConfig" [styles]="editorStyle" ></quill-editor>
+</div>
+
+<!-- <div [innerHTML]="quillContent.value"></div> -->
+
 
   </main>
 

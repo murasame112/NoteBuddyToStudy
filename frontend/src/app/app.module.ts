@@ -3,6 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import {HttpClientModule} from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import {QuillModule} from 'ngx-quill';
+import { FormsModule } from '@angular/forms';
+
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { PageErrorComponent } from './components/page-error/page-error.component';
 import { FeaturesComponent } from './components/landing-page/features/features.component';
@@ -50,7 +53,10 @@ import { ShowNoteComponent } from './components/main-menu/functions/notes/show-n
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NgbModule
+    NgbModule,
+    QuillModule.forRoot(),
+    FormsModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]
