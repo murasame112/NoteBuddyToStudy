@@ -281,6 +281,7 @@ constructor(private notesService: NotesService, private router: Router) {}
 
     quillConfig = {
       toolbar: [
+        [{'header':[]}],
         ['bold', 'italic', 'underline', 'strike'],
           [{ 'list': 'ordered'}, { 'list': 'bullet' }],
           ['link', 'image'],
