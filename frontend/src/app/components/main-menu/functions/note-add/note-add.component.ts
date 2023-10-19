@@ -283,9 +283,11 @@ constructor(private notesService: NotesService, private router: Router) {}
       toolbar: [
         [{'header':[]}],
         ['bold', 'italic', 'underline', 'strike'],
+        [{ 'color': [] }, { 'background': [] }],
           [{ 'list': 'ordered'}, { 'list': 'bullet' }],
           ['link', 'image'],
       ],
+
 
     }
 
