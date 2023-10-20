@@ -135,12 +135,11 @@ export function getUsersByQueriedId(req: Request, res: Response) {
 //  http://localhost:3000/user
 // example body:
 //   {
-    //  "login":"custom login",
-    //  "avatar_url":"custom url",
-    //  "email":"custom email",
-    //  "password":"custom password",
-		// 	"role":"user",
-    //  "active":true
+//      "login":"custom login",
+//      "avatar_url":"custom url",
+//      "email":"custom email",
+//      "password":"custom password",
+// 			"role":"user"
 // }
 export function insertUser(req: Request, res: Response) {
   const user: User = new User(
