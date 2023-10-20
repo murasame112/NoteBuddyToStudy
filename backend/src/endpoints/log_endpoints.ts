@@ -78,8 +78,7 @@ export function getLogsByQuery(req: Request, res: Response) {
 // example body:
 //   {
 //      "type":"ERROR",
-//      "content":"Serce przestało działać",
-//      "date":"25-06-2023"
+//      "content":"Serce przestało działać"
 // }
 export function insertLog(req: Request, res: Response) {
   const log: Log = new Log(req.body.type, req.body.content);
@@ -101,13 +100,11 @@ export function insertLog(req: Request, res: Response) {
 // [
 //     {
 //      "type":"ERROR",
-//      "content":"Serce zaczęło działać",
-//      "date":"09-11-2000"
+//      "content":"Serce zaczęło działać"
 //     },
 // {
 //      "type":"ERROR",
-//      "content":"Serce przestało działać",
-//      "date":"25-06-2023"
+//      "content":"Serce przestało działać"
 // }
 //  ]
 export function insertMultipleLogs(req: Request, res: Response) {
@@ -205,8 +202,7 @@ export function deleteLogsByQuery(req: Request, res: Response) {
 // example body:
 //   {
 //      "type":"ERROR",
-//      "content":"Serce przestało działać",
-//      "date":"25-06-2023"
+//      "content":"Serce przestało działać"
 // }
 export function updateLog(req: Request, res: Response) {
   const id = req.params.id;
@@ -233,8 +229,7 @@ export function updateLog(req: Request, res: Response) {
 //     ,
 //     "query":{
 //      "type":"ERROR",
-//      "content":"Serce przestało działać",
-//      "date":"25-06-2023"
+//      "content":"Serce przestało działać"
 //     }
 //  }
 export function updateMultipleLogs(req: Request, res: Response) {
@@ -264,8 +259,7 @@ export function updateMultipleLogs(req: Request, res: Response) {
 // example body:
 //   {
 //      "type":"ERROR",
-//      "content":"Serce przestało działać",
-//      "date":"25-06-2023"
+//      "content":"Serce przestało działać"
 // }
 export function updateLogsByQuery(req: Request, res: Response) {
   const field = req.params.field;
