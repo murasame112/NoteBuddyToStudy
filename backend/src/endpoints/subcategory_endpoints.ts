@@ -286,8 +286,7 @@ export function updateMultipleSubcategories(req: Request, res: Response) {
 //  http://localhost:3000/subcategories/published&true
 // example body:
 //   {
-//      "name":"custom name",
-//      "description":"custom description"
+//      "name":"custom name"
 // }
 export function updateSubcategoriesByQuery(req: Request, res: Response) {
   const field = req.params.field;

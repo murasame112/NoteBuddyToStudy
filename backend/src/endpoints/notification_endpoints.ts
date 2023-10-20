@@ -89,14 +89,6 @@ export function insertNotification(req: Request, res: Response) {
 //  http://localhost:3000/notifications
 // example body:
 // [
-//     {
-//        "name":"custom name",
-//        "adress":"custom adress",
-//        "author_id":{"$oid":"64a49ff9a1caf26fbfaa2dbb"},
-//        "category_id":{"$oid":"64a4a1d1a1caf26fbfaa2dc1"},
-//        "sucategory_id":{"$oid":"64a4a367a1caf26fbfaa2dcc"},
-//        "description":"custom description"
-//     },
 // {
 //    "content":"custom content"
 // }
@@ -190,8 +182,7 @@ export function deleteNotificationsByQuery(req: Request, res: Response) {
 //  http://localhost:3000/notification/6490d3e5982efd2fe9136154
 // example body:
 //   {
-//      "name":"custom name",
-//      "description":"custom description"
+//      "content":"custom content"
 // }
 export function updateNotification(req: Request, res: Response) {
   const id = req.params.id;
@@ -216,8 +207,7 @@ export function updateNotification(req: Request, res: Response) {
 //      "6490d9fddfd298aad1e8f136"]
 //     ,
 //     "query":{
-//        "name":"custom name",
-//        "description":"custom description"
+//        "content":"custom content"
 //     }
 //  }
 export function updateMultipleNotifications(req: Request, res: Response) {
@@ -245,8 +235,7 @@ export function updateMultipleNotifications(req: Request, res: Response) {
 //  http://localhost:3000/notifications/published&true
 // example body:
 //   {
-//      "name":"custom name",
-//      "description":"custom description"
+//      "content":"custom content"
 // }
 export function updateNotificationsByQuery(req: Request, res: Response) {
   const field = req.params.field;

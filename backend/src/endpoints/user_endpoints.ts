@@ -299,8 +299,7 @@ export function deleteUsersByQueriedId(req: Request, res: Response) {
 //  http://localhost:3000/user/6490d3e5982efd2fe9136154
 // example body:
 //   {
-//      "login":"custom login",
-//      "description":"custom description"
+//      "login":"custom login"
 // }
 export function updateUser(req: Request, res: Response) {
   const id = req.params.id;
