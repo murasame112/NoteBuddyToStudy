@@ -33,8 +33,7 @@ export function getNoteById(req: Request, res: Response) {
       value.author_id,
       value.category_id,
       value.subcategory_id,
-      value.adress,
-      value.description,
+      value.content,
       value.published,
       value.positive_reviews,
       value.negative_reviews,
@@ -70,8 +69,7 @@ export function getMultipleNotes(req: Request, res: Response) {
         value.author_id,
         value.category_id,
         value.subcategory_id,
-        value.adress,
-        value.description,
+        value.content,
         value.published,
         value.positive_reviews,
         value.negative_reviews,
@@ -119,8 +117,7 @@ export function getNotesByQuery(req: Request, res: Response) {
         element.author_id,
         element.category_id,
         element.subcategory_id,
-        element.adress,
-        element.description,
+        element.content,
         element.published,
         element.positive_reviews,
         element.negative_reviews,
@@ -153,8 +150,7 @@ export function getNotesByQueriedId(req: Request, res: Response) {
         element.author_id,
         element.category_id,
         element.subcategory_id,
-        element.adress,
-        element.description,
+        element.content,
         element.published,
         element.positive_reviews,
         element.negative_reviews,
@@ -176,10 +172,9 @@ export function getNotesByQueriedId(req: Request, res: Response) {
 // example body:
 //   {
 //      "name":"custom name",
-//      "adress":"custom adress",
 //      "author_id":"some id",
 //      "category_id":"some id",
-//      "description":"custom description"
+//      "content":"custom content"
 // }
 export function insertNote(req: Request, res: Response) {
   const category_id = new ObjectId(req.body.category_id);
@@ -191,8 +186,7 @@ export function insertNote(req: Request, res: Response) {
     author_id,
     category_id,
     subcategory_id,
-    req.body.adress,
-    req.body.description,
+    req.body.content,
     req.body.published,
     req.body.positive_reviews,
     req.body.negative_reviews
@@ -215,19 +209,18 @@ export function insertNote(req: Request, res: Response) {
 // [
 //     {
 //        "name":"custom name",
-//        "adress":"custom adress",
+//        "content":"custom content",
 //        "author_id":"64a49ff9a1caf26fbfaa2dbb",
 //        "category_id":"64a4a1d1a1caf26fbfaa2dc1",
 //        "sucategory_id":"64a4a367a1caf26fbfaa2dcc",
-//        "description":"custom description"
+//        "content":"custom content"
 //     },
 // {
 //    "name":"custom name2",
-//    "adress":"custom adress2",
 //    "author_id":"64a49ff9a1caf26fbfaa2dbb",
 //    "category_id":"64a4a1d1a1caf26fbfaa2dc1",
 //    "sucategory_id":"64a4a367a1caf26fbfaa2dcc",
-//    "description":"custom description2"
+//    "content":"custom content2"
 // }
 //  ]
 export function insertMultipleNotes(req: Request, res: Response) {
@@ -245,8 +238,7 @@ export function insertMultipleNotes(req: Request, res: Response) {
       author_id,
       category_id,
       subcategory_id,
-      element.adress,
-      element.description,
+      element.content,
       element.published,
       element.positive_reviews,
       element.negative_reviews
@@ -357,7 +349,7 @@ export function deleteNotesByQueriedId(req: Request, res: Response) {
 // example body:
 //   {
 //      "name":"custom name",
-//      "description":"custom description"
+//      "content":"custom content"
 // }
 export function updateNote(req: Request, res: Response) {
   const id = req.params.id;
@@ -395,7 +387,7 @@ export function updateNote(req: Request, res: Response) {
 //     ,
 //     "query":{
 //        "name":"custom name",
-//        "description":"custom description"
+//        "content":"custom content"
 //     }
 //  }
 export function updateMultipleNotes(req: Request, res: Response) {
@@ -435,7 +427,7 @@ export function updateMultipleNotes(req: Request, res: Response) {
 // example body:
 //   {
 //      "name":"custom name",
-//      "description":"custom description"
+//      "content":"custom content"
 // }
 export function updateNotesByQuery(req: Request, res: Response) {
   const field = req.params.field;
@@ -512,10 +504,9 @@ export function updateNotesByQueriedId(req: Request, res: Response) {
 // example body:
 //   {
 //      "name":"custom name",
-//      "adress":"custom adress",
 //      "author_id":"some id",
 //      "category_id":"some id",
-//      "description":"custom description"
+//      "content":"custom content"
 // }
 export function replaceNote(req: Request, res: Response) {
   const id = req.params.id;
@@ -526,8 +517,7 @@ export function replaceNote(req: Request, res: Response) {
     query.author_id,
     query.category_id,
     query.subcategory_id,
-    query.adress,
-    query.description,
+    query.content,
     query.published,
     query.positive_reviews,
     query.negative_reviews
@@ -552,8 +542,7 @@ export function stealNote(req: Request, res: Response) {
       value.value.author_id,
       value.value.category_id,
       value.value.subcategory_id,
-      value.value.adress,
-      value.value.description,
+      value.value.content,
       value.value.published,
       value.value.positive_reviews,
       value.value.negative_reviews,

@@ -4,8 +4,7 @@ export class Note {
   author_id: ObjectId;
   category_id: ObjectId;
   subcategory_id: ObjectId;
-  adress: string;
-  description?: string;
+  content: string;
   shared_date?: Date;
   last_edit_date?: Date;
   published?: boolean;
@@ -17,8 +16,7 @@ export class Note {
     author_id: ObjectId,
     category_id: ObjectId,
     subcategory_id: ObjectId,
-    adress: string,
-    description?: string,
+    content: string,
     published?: boolean,
     positive_reviews?: number,
     negative_reviews?: number,
@@ -29,8 +27,7 @@ export class Note {
     this.author_id = author_id;
     this.category_id = category_id;
     this.subcategory_id = subcategory_id;
-    this.adress = adress;
-    this.description = description ? description : "";
+    this.content = content;
     this.published = published ? published : false;
     this.positive_reviews = positive_reviews ? positive_reviews : 0;
     this.negative_reviews = negative_reviews ? negative_reviews : 0;
