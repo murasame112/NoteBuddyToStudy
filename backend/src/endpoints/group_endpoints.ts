@@ -276,9 +276,6 @@ export function updateGroup(req: Request, res: Response) {
   const id = req.params.id;
   let query = req.body;
 
-	if(!Array.isArray(query.users) || query.users.length == 0){
-		query.users = [];
-	}
 
 	let user_id: ObjectId;
 
@@ -322,10 +319,6 @@ export function updateGroup(req: Request, res: Response) {
 export function updateMultipleGroups(req: Request, res: Response) {
   const ids = req.body.ids;
   let updateQuery = req.body.query;
-
-	if(!Array.isArray(updateQuery.users) || updateQuery.users.length == 0){
-		updateQuery.users = [];
-	}
 
 	let user_id: ObjectId;
 
@@ -387,9 +380,6 @@ export function updateGroupsByQuery(req: Request, res: Response) {
 	
   let updateQuery = req.body;
 
-	if(!Array.isArray(updateQuery.users) || updateQuery.users.length == 0){
-		updateQuery.users = [];
-	}
 
 	updateQuery.created = globalTools.createDateFromString(updateQuery.created);
 	
@@ -427,9 +417,6 @@ export function updateGroupsByQueriedId(req: Request, res: Response) {
   const objValue = new ObjectId(value);
 
   let updateQuery = req.body;
-	if(!Array.isArray(updateQuery.users) || updateQuery.users.length == 0){
-		updateQuery.users = [];
-	}
 
 	let user_id: ObjectId;
 	if (typeof updateQuery.users !== "undefined") {

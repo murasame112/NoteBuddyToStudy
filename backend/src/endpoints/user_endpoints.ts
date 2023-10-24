@@ -304,16 +304,6 @@ export function updateUser(req: Request, res: Response) {
   const id = req.params.id;
   const query = req.body;
 		
-	if(!Array.isArray(query.saved_notes) || query.saved_notes.length == 0 ){
-		query.saved_notes = [];
-	}
-	if(!Array.isArray(query.followed_users) || query.followed_users.length == 0 ){
-		query.followed_users = [];
-	}
-	if(!Array.isArray(query.blocked_users) || query.blocked_users.length == 0 ){
-		query.blocked_users = [];
-	}
-
 	let note_id: ObjectId;
 	if (typeof query.saved_notes !== "undefined") {
     let notesIds: ObjectId[] = [];
@@ -348,7 +338,7 @@ export function updateUser(req: Request, res: Response) {
       usersIds.push(user_id);
     });
 
-    query.blocked = usersIds;
+    query.blocked_users = usersIds;
   }
 
 	query.created = globalTools.createDateFromString(query.created);
@@ -379,15 +369,6 @@ export function updateMultipleUsers(req: Request, res: Response) {
   const ids = req.body.ids;
   const updateQuery = req.body.query;
 
-	if(!Array.isArray(updateQuery.saved_notes) || updateQuery.saved_notes.length == 0 ){
-		updateQuery.saved_notes = [];
-	}
-	if(!Array.isArray(updateQuery.followed_users) || updateQuery.followed_users.length == 0 ){
-		updateQuery.followed_users = [];
-	}
-	if(!Array.isArray(updateQuery.blocked_users) || updateQuery.blocked_users.length == 0 ){
-		updateQuery.blocked_users = [];
-	}
 
 	let note_id: ObjectId;
 	if (typeof updateQuery.saved_notes !== "undefined") {
@@ -471,15 +452,6 @@ export function updateUsersByQuery(req: Request, res: Response) {
 
   const updateQuery = req.body;
 
-	if(!Array.isArray(updateQuery.saved_notes) || updateQuery.saved_notes.length == 0 ){
-		updateQuery.saved_notes = [];
-	}
-	if(!Array.isArray(updateQuery.followed_users) || updateQuery.followed_users.length == 0 ){
-		updateQuery.followed_users = [];
-	}
-	if(!Array.isArray(updateQuery.blocked_users) || updateQuery.blocked_users.length == 0 ){
-		updateQuery.blocked_users = [];
-	}
 
 	let note_id: ObjectId;
 	if (typeof updateQuery.saved_notes !== "undefined") {
@@ -540,15 +512,6 @@ export function updateUsersByQueriedId(req: Request, res: Response) {
   const objValue = new ObjectId(value);
 
   let updateQuery = req.body;
-	if(!Array.isArray(updateQuery.saved_notes) || updateQuery.saved_notes.length == 0 ){
-		updateQuery.saved_notes = [];
-	}
-	if(!Array.isArray(updateQuery.followed_users) || updateQuery.followed_users.length == 0 ){
-		updateQuery.followed_users = [];
-	}
-	if(!Array.isArray(updateQuery.blocked_users) || updateQuery.blocked_users.length == 0 ){
-		updateQuery.blocked_users = [];
-	}
 
 	let note_id: ObjectId;
 	if (typeof updateQuery.saved_notes !== "undefined") {
@@ -616,15 +579,6 @@ export function updateUsersByQueriedId(req: Request, res: Response) {
 export function replaceUser(req: Request, res: Response) {
   const id = req.params.id;
   const query = req.body;
-	if(!Array.isArray(query.saved_notes) || query.saved_notes.length == 0 ){
-		query.saved_notes = [];
-	}
-	if(!Array.isArray(query.followed_users) || query.followed_users.length == 0 ){
-		query.saved_notes = [];
-	}
-	if(!Array.isArray(query.blocked_users) || query.blocked_users.length == 0 ){
-		query.saved_notes = [];
-	}
 	
   let user: User;
   user = new User(

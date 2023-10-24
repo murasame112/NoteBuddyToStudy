@@ -349,12 +349,6 @@ export function updateCard(req: Request, res: Response) {
     query.author_id = new ObjectId(query.author_id);
   }
 
-	if(!Array.isArray(query.questions) ||  query.questions.length == 0){
-		query.questions = [];
-	}
-	if(!Array.isArray(query.answers) || query.answers.length == 0){
-		query.answers = [];
-	}
 	
 	query.shared_date = globalTools.createDateFromString(query.shared_date);
 	query.last_edit_date = globalTools.createDateFromString(query.last_edit_date);
@@ -402,12 +396,6 @@ export function updateMultipleCards(req: Request, res: Response) {
     updateQuery.author_id = new ObjectId(updateQuery.author_id);
   }
 
-	if(!Array.isArray(updateQuery.questions) ||  updateQuery.questions.length == 0){
-		updateQuery.questions = [];
-	}
-	if(!Array.isArray(updateQuery.answers) || updateQuery.answers.length == 0){
-		updateQuery.answers = [];
-	}
 
 	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
 	updateQuery.last_edit_date = globalTools.createDateFromString(updateQuery.last_edit_date);
@@ -472,12 +460,6 @@ export function updateCardsByQuery(req: Request, res: Response) {
     updateQuery.author_id = new ObjectId(updateQuery.author_id);
   }
 
-	if(!Array.isArray(updateQuery.questions) ||  updateQuery.questions.length == 0){
-		updateQuery.questions = [];
-	}
-	if(!Array.isArray(updateQuery.answers) || updateQuery.answers.length == 0){
-		updateQuery.answers = [];
-	}
 
 	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
 	updateQuery.last_edit_date = globalTools.createDateFromString(updateQuery.last_edit_date);
@@ -505,12 +487,6 @@ export function updateCardsByQueriedId(req: Request, res: Response) {
     updateQuery.author_id = new ObjectId(updateQuery.author_id);
   }
 
-	if(!Array.isArray(updateQuery.questions) ||  updateQuery.questions.length == 0){
-		updateQuery.questions = [];
-	}
-	if(!Array.isArray(updateQuery.answers) || updateQuery.answers.length == 0){
-		updateQuery.answers = [];
-	}
 
 	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
 	updateQuery.last_edit_date = globalTools.createDateFromString(updateQuery.last_edit_date);
