@@ -19,6 +19,8 @@ export function getAllNotes(req: Request, res: Response) {
   });
 }
 
+
+
 // finds note by id
 // /note/{id}
 // example:
@@ -193,9 +195,12 @@ export function insertNote(req: Request, res: Response) {
   );
   const result = global.insertItem(note, table_name);
   result.then((value) => {
-    value.acknowledged
-      ? res.status(201).send(value.insertedId)
-      : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(201).send(value.insertedId)
+		}else{
+			globalTools.logToDatabase("function insertNote failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -250,6 +255,7 @@ export function insertMultipleNotes(req: Request, res: Response) {
       if(counter == notes.length && value.acknowledged != false) {
         res.status(204).send();
       }else{
+				globalTools.logToDatabase("function insertMultipleNotes failed", "error");
 				res.status(400).send("Error");
 			}
     });
@@ -264,7 +270,12 @@ export function deleteNote(req: Request, res: Response) {
   const id = req.params.id;
   const result = global.deleteItemById(id, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteNote failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -289,6 +300,7 @@ export function deleteMultipleNotes(req: Request, res: Response) {
       if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
       }else{
+				globalTools.logToDatabase("function deleteMultipleNotes failed", "error");
 				res.status(400).send("Error");
 			}
     });
@@ -320,7 +332,12 @@ export function deleteNotesByQuery(req: Request, res: Response) {
   let query = { [field]: value };
   const result = global.deleteItemsByField(query, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(201).send();
+		}else{
+			globalTools.logToDatabase("function deleteNotesByQuery failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -336,7 +353,12 @@ export function deleteNotesByQueriedId(req: Request, res: Response) {
   let query = { [field]: objValue };
   const result = global.deleteItemsByField(query, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+    if(value.acknowledged){
+			res.status(201).send();
+		}else{
+			globalTools.logToDatabase("function deleteNotesByQueriedId failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -368,7 +390,12 @@ export function updateNote(req: Request, res: Response) {
 	
   const result = global.updateItemById(id, table_name, query);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateNote failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -412,6 +439,7 @@ export function updateMultipleNotes(req: Request, res: Response) {
       if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
       }else{
+				globalTools.logToDatabase("function updateMultipleNotes failed", "error");
 				res.status(400).send("Error");
 			}
     });
@@ -462,7 +490,12 @@ export function updateNotesByQuery(req: Request, res: Response) {
   let query = { [field]: value };
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateNotesByQuery failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -491,7 +524,12 @@ export function updateNotesByQueriedId(req: Request, res: Response) {
 
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateNotesByQueriedId failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -524,7 +562,12 @@ export function replaceNote(req: Request, res: Response) {
   );
   const result = global.replaceItemById(id, table_name, note);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(201).send();
+		}else{
+			globalTools.logToDatabase("function replaceNote failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
