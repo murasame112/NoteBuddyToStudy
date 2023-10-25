@@ -1,4 +1,7 @@
 import { ObjectId } from "bson";
+import { Log } from "./models/log_model";
+import { Type } from "./enums/log_type_enum";
+import * as global from "./global_database_functions";
 
 /* ====== CONTENTS:
 
@@ -82,4 +85,14 @@ export function createTimeString(date?: Date | string) {
   } else if (typeof date == "undefined") {
     return new Date().toLocaleTimeString("en-GB");
   }
+}
+
+// logs to database
+// params:
+// content (string), type (optional, types are error, info, warning, success)
+export function logToDatabase(content: string, type: string = 'error') {
+	//let tp: keyof typeof Type = type;
+	let properType : Type = Type[type as keyof typeof Type];
+	const log: Log = new Log(properType, content);
+  const result = global.insertItem(log, "logs");
 }
