@@ -119,9 +119,12 @@ export function insertGroup(req: Request, res: Response) {
   const group: Group = new Group(req.body.type, users);
   const result = global.insertItem(group, table_name);
   result.then((value) => {
-    value.acknowledged
-      ? res.status(201).send(value.insertedId)
-      : res.status(400).send("Error");
+    if(value.acknowledged){
+			res.status(201).send(value.insertedId);
+		}else{
+			globalTools.logToDatabase("function insertGroup failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -169,6 +172,7 @@ export function insertMultipleGroups(req: Request, res: Response) {
       if(counter == groups.length && value.acknowledged != false) {
         res.status(204).send();
       }else{
+				globalTools.logToDatabase("function insertMultipleGroups failed", "error");
 				res.status(400).send("Error");
 			}
     });
@@ -183,7 +187,12 @@ export function deleteGroup(req: Request, res: Response) {
   const id = req.params.id;
   const result = global.deleteItemById(id, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteGroup failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -208,6 +217,7 @@ export function deleteMultipleGroups(req: Request, res: Response) {
     	if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
       }else{
+				globalTools.logToDatabase("function deleteMultipleGroups failed", "error");
 				res.status(400).send("Error");
 			}
     });
@@ -239,7 +249,12 @@ export function deleteGroupsByQuery(req: Request, res: Response) {
   let query = { [field]: value };
   const result = global.deleteItemsByField(query, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteGroupsByQuery failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -255,7 +270,12 @@ export function deleteGroupsByQueriedId(req: Request, res: Response) {
   let query = { [field]: objValue };
   const result = global.deleteItemsByField(query, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteGroupsByQueriedId failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -292,7 +312,12 @@ export function updateGroup(req: Request, res: Response) {
   }
   const result = global.updateItemById(id, table_name, query);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateGroup failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -341,6 +366,7 @@ export function updateMultipleGroups(req: Request, res: Response) {
       if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
       }else{
+				globalTools.logToDatabase("function updateMultipleGroups failed", "error");
 				res.status(400).send("Error");
 			}
     });
@@ -397,7 +423,12 @@ export function updateGroupsByQuery(req: Request, res: Response) {
   let query = { [field]: JSON.parse(value) };
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateGroupsByQuery failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -435,7 +466,12 @@ export function updateGroupsByQueriedId(req: Request, res: Response) {
 
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateGroupsByQueriedId failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -465,7 +501,12 @@ export function replaceGroup(req: Request, res: Response) {
   group = new Group(query.type, query.users);
   const result = global.replaceItemById(id, table_name, group);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(201).send();
+		}else{
+			globalTools.logToDatabase("function replaceGroup failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 

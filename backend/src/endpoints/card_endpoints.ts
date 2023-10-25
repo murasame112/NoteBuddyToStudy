@@ -156,9 +156,12 @@ export function insertCard(req: Request, res: Response) {
 
   const result = global.insertItem(card, table_name);
   result.then((value) => {
-    value.acknowledged
-      ? res.status(201).send(value.insertedId)
-      : res.status(400).send("Error");
+    if(value.acknowledged){
+			res.status(201).send(value.insertedId);
+		}else{
+			globalTools.logToDatabase("function insertCard failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -227,8 +230,9 @@ export function insertMultipleCards(req: Request, res: Response) {
     result.then((value) => {
       counter++;
 			if(counter == cards.length && value.acknowledged != false) {
-        res.status(204).send();
+        res.status(201).send();
       }else{
+				globalTools.logToDatabase("function insertMultipleCards failed", "error");
 				res.status(400).send("Error");
 			}
     });
@@ -243,7 +247,12 @@ export function deleteCard(req: Request, res: Response) {
   const id = req.params.id;
   const result = global.deleteItemById(id, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteCard failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -265,10 +274,11 @@ export function deleteMultipleCards(req: Request, res: Response) {
     const result = global.deleteItemById(element, table_name);
     result.then((value) => {
       counter++;
-      if(value.acknowledged == false) {
+      if(counter == ids.length && value.acknowledged != false){
+				res.status(204).send();
+      }else{
+				globalTools.logToDatabase("function deleteMultipleCards failed", "error");
         res.status(400).send("Error");
-      }else if(counter == ids.length) {
-        res.status(204).send();
       }
     });
   });
@@ -298,7 +308,12 @@ export function deleteCardsByQuery(req: Request, res: Response) {
   let query = { [field]: value };
   const result = global.deleteItemsByField(query, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteCardsByQuery failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -314,7 +329,12 @@ export function deleteCardsByQueriedId(req: Request, res: Response) {
   let query = { [field]: objValue };
   const result = global.deleteItemsByField(query, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteCardsByQueriedId failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -354,7 +374,12 @@ export function updateCard(req: Request, res: Response) {
 	query.last_edit_date = globalTools.createDateFromString(query.last_edit_date);
   const result = global.updateItemById(id, table_name, query);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateCard failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -407,6 +432,7 @@ export function updateMultipleCards(req: Request, res: Response) {
       if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
       }else{
+				globalTools.logToDatabase("function updateMultipleCards failed", "error");
 				res.status(400).send("Error");
 			}
     });
@@ -466,7 +492,12 @@ export function updateCardsByQuery(req: Request, res: Response) {
   let query = { [field]: value };
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateCardsByQuery failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -494,7 +525,12 @@ export function updateCardsByQueriedId(req: Request, res: Response) {
 
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateCardsByQueriedId failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -538,7 +574,12 @@ export function replaceCard(req: Request, res: Response) {
 		);
   const result = global.replaceItemById(id, table_name, card);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(201).send();
+		}else{
+			globalTools.logToDatabase("function replaceCard failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 

@@ -3,6 +3,7 @@ import express from "express";
 import e, { Request, Response } from "express";
 import { Category } from "../models/category_model";
 import * as global from "../global_database_functions";
+import * as globalTools from "../global_tools";
 
 const table_name = "categories";
 
@@ -73,9 +74,12 @@ export function insertCategory(req: Request, res: Response) {
   const cat: Category = new Category(req.body.name);
   const result = global.insertItem(cat, table_name);
   result.then((value) => {
-    value.acknowledged
-      ? res.status(201).send(value.insertedId)
-      : res.status(400).send("Error");
+    if(value.acknowledged){
+			res.status(201).send(value.insertedId);
+		}else{
+			globalTools.logToDatabase("function insertCategory failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -104,8 +108,9 @@ export function insertMultipleCategories(req: Request, res: Response) {
     result.then((value) => {
       counter++;
       if(counter == categories.length && value.acknowledged != false) {
-        res.status(204).send();
+        res.status(201).send();
       }else{
+				globalTools.logToDatabase("function insertMultipleCategories failed", "error");
 				res.status(400).send("Error");
 			}
     });
@@ -120,7 +125,12 @@ export function deleteCategory(req: Request, res: Response) {
   const id = req.params.id;
   const result = global.deleteItemById(id, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteCategory failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -145,6 +155,7 @@ export function deleteMultipleCategories(req: Request, res: Response) {
       if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
       }else{
+				globalTools.logToDatabase("function deleteMultipleCategories failed", "error");
 				res.status(400).send("Error");
 			}
     });
@@ -169,7 +180,12 @@ export function deleteCategoriesByQuery(req: Request, res: Response) {
   let query = { [field]: value };
   const result = global.deleteItemsByField(query, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteCategoriesByQuery failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -188,7 +204,12 @@ export function updateCategory(req: Request, res: Response) {
   const query = req.body;
   const result = global.updateItemById(id, table_name, query);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateCategory failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -220,6 +241,7 @@ export function updateMultipleCategories(req: Request, res: Response) {
       if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
       }else{
+				globalTools.logToDatabase("function updateMultipleCategories failed", "error");
 				res.status(400).send("Error");
 			}
     });
@@ -251,7 +273,12 @@ export function updateCategoriesByQuery(req: Request, res: Response) {
   let query = { [field]: JSON.parse(value) };
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateCategoriesByQuery failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -272,7 +299,12 @@ export function replaceCategory(req: Request, res: Response) {
   category = new Category(query.name);
   const result = global.replaceItemById(id, table_name, category);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(201).send();
+		}else{
+			globalTools.logToDatabase("function replaceCategory failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
