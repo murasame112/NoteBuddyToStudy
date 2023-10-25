@@ -4,6 +4,7 @@ import express from "express";
 import e, { Request, Response } from "express";
 import { Subcategory } from "../models/subcategory_model";
 import * as global from "../global_database_functions";
+import * as globalTools from "../global_tools";
 
 const table_name = "subcategories";
 
@@ -101,9 +102,12 @@ export function insertSubcategory(req: Request, res: Response) {
   const subcategory: Subcategory = new Subcategory(category_id, req.body.name);
   const result = global.insertItem(subcategory, table_name);
   result.then((value) => {
-    value.acknowledged
-      ? res.status(201).send(value.insertedId)
-      : res.status(400).send("Error");
+    if(value.acknowledged){
+			res.status(201).send(value.insertedId);
+		}else{
+			globalTools.logToDatabase("function insertSubcategory failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -138,6 +142,7 @@ export function insertMultipleSubcategories(req: Request, res: Response) {
       if(counter == subcategories.length && value.acknowledged != false) {
         res.status(204).send();
       }else{
+				globalTools.logToDatabase("function insertMultipleSubcategories failed", "error");
 				res.status(400).send("Error");
 			}
     });
@@ -152,7 +157,12 @@ export function deleteSubcategory(req: Request, res: Response) {
   const id = req.params.id;
   const result = global.deleteItemById(id, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteSubcategory failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -177,6 +187,7 @@ export function deleteMultipleSubcategories(req: Request, res: Response) {
       if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
       }else{
+				globalTools.logToDatabase("function deleteMultipleSubcategories failed", "error");
 				res.status(400).send("Error");
 			}
     });
@@ -199,7 +210,12 @@ export function deleteSubcategoriesByQuery(req: Request, res: Response) {
   let query = { [field]: value };
   const result = global.deleteItemsByField(query, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteSubcategoriesByQuery failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -215,7 +231,12 @@ export function deleteSubcategoriesByQueriedId(req: Request, res: Response) {
   let query = { [field]: objValue };
   const result = global.deleteItemsByField(query, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteSubcategoriesByQueriedId failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -237,7 +258,12 @@ export function updateSubcategory(req: Request, res: Response) {
   }
   const result = global.updateItemById(id, table_name, query);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateSubcategory failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -272,6 +298,7 @@ export function updateMultipleSubcategories(req: Request, res: Response) {
       if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
       }else{
+				globalTools.logToDatabase("function updateMultipleSubcategories failed", "error");
 				res.status(400).send("Error");
 			}
     });
@@ -306,7 +333,12 @@ export function updateSubcategoriesByQuery(req: Request, res: Response) {
   let query = { [field]: value };
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateSubcategoriesByQuery failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -327,7 +359,12 @@ export function updateSubcategoriesByQueriedId(req: Request, res: Response) {
 
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateSubcategoriesByQueriedId failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -350,7 +387,12 @@ export function replaceSubcategory(req: Request, res: Response) {
   subcategory = new Subcategory(query.category_id, query.name);
   const result = global.replaceItemById(id, table_name, subcategory);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(201).send();
+		}else{
+			globalTools.logToDatabase("function replaceSubcategory failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 

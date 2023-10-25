@@ -3,6 +3,7 @@ import express from "express";
 import e, { Request, Response } from "express";
 import { Notification } from "../models/notification_model";
 import * as global from "../global_database_functions";
+import * as globalTools from "../global_tools";
 
 const table_name = "notifications";
 
@@ -75,9 +76,12 @@ export function insertNotification(req: Request, res: Response) {
   );
   const result = global.insertItem(notification, table_name);
   result.then((value) => {
-    value.acknowledged
-      ? res.status(201).send(value.insertedId)
-      : res.status(400).send("Error");
+    if(value.acknowledged){
+			res.status(201).send(value.insertedId);
+		}else{
+			globalTools.logToDatabase("function insertNotification failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -107,6 +111,7 @@ export function insertMultipleNotifications(req: Request, res: Response) {
       if(counter == notifications.length && value.acknowledged != false) {
         res.status(204).send();
       }else{
+				globalTools.logToDatabase("function insertMultipleNotifications failed", "error");
 				res.status(400).send("Error");
 			}
     });
@@ -121,7 +126,12 @@ export function deleteNotification(req: Request, res: Response) {
   const id = req.params.id;
   const result = global.deleteItemById(id, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+    if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteNotification failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -146,6 +156,7 @@ export function deleteMultipleNotifications(req: Request, res: Response) {
       if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
       }else{
+				globalTools.logToDatabase("function deleteMultipleNotifications failed", "error");
 				res.status(400).send("Error");
 			}
     });
@@ -170,7 +181,12 @@ export function deleteNotificationsByQuery(req: Request, res: Response) {
   let query = { [field]: value };
   const result = global.deleteItemsByField(query, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+    if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteNotificationsByQuery failed", "error");
+			res.status(400).send("Error");
+		} 
   });
 }
 
@@ -189,7 +205,12 @@ export function updateNotification(req: Request, res: Response) {
   const query = req.body;
   const result = global.updateItemById(id, table_name, query);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateNotification failed", "error");
+			res.status(400).send("Error");
+		} 
   });
 }
 
@@ -221,6 +242,7 @@ export function updateMultipleNotifications(req: Request, res: Response) {
       if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
       }else{
+				globalTools.logToDatabase("function updateMultipleNotification failed", "error");
 				res.status(400).send("Error");
 			}
     });
@@ -252,7 +274,12 @@ export function updateNotificationsByQuery(req: Request, res: Response) {
   let query = { [field]: JSON.parse(value) };
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateNotificationsByQuery failed", "error");
+			res.status(400).send("Error");
+		} 
   });
 }
 
@@ -273,7 +300,12 @@ export function replaceNotification(req: Request, res: Response) {
   notification = new Notification(query.content);
   const result = global.replaceItemById(id, table_name, notification);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(201).send();
+		}else{
+			globalTools.logToDatabase("function replaceNotification failed", "error");
+			res.status(400).send("Error");
+		} 
   });
 }
 
