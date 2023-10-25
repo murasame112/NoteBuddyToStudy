@@ -120,7 +120,7 @@ export function insertMultipleLogs(req: Request, res: Response) {
     result.then((value) => {
       counter++;
       if(counter == logs.length && value.acknowledged != false) {
-        res.status(204).send();
+        res.status(201).send();
       }else{
 				globalTools.logToDatabase("function insertMultipleLogs failed", "error");
 				res.status(400).send("Error");

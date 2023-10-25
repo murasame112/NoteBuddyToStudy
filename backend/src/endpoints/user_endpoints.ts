@@ -201,7 +201,7 @@ export function insertMultipleUsers(req: Request, res: Response) {
     result.then((value) => {
       counter++;
       if(counter == users.length && value.acknowledged != false) {
-        res.status(204).send();
+        res.status(201).send();
       }else{
 				globalTools.logToDatabase("function insertMultipleUsers failed", "error");
 				res.status(400).send("Error");

@@ -80,7 +80,7 @@ export function getMultipleNotes(req: Request, res: Response) {
       );
       noteArray.push(note);
       if (counter == ids.length) {
-        res.status(201).send(noteArray);
+        res.send(noteArray);
       }
     });
   });
@@ -253,7 +253,7 @@ export function insertMultipleNotes(req: Request, res: Response) {
     result.then((value) => {
       counter++;
       if(counter == notes.length && value.acknowledged != false) {
-        res.status(204).send();
+        res.status(201).send();
       }else{
 				globalTools.logToDatabase("function insertMultipleNotes failed", "error");
 				res.status(400).send("Error");
@@ -333,7 +333,7 @@ export function deleteNotesByQuery(req: Request, res: Response) {
   const result = global.deleteItemsByField(query, table_name);
   result.then((value) => {
 		if(value.acknowledged){
-			res.status(201).send();
+			res.status(204).send();
 		}else{
 			globalTools.logToDatabase("function deleteNotesByQuery failed", "error");
 			res.status(400).send("Error");
@@ -354,7 +354,7 @@ export function deleteNotesByQueriedId(req: Request, res: Response) {
   const result = global.deleteItemsByField(query, table_name);
   result.then((value) => {
     if(value.acknowledged){
-			res.status(201).send();
+			res.status(204).send();
 		}else{
 			globalTools.logToDatabase("function deleteNotesByQueriedId failed", "error");
 			res.status(400).send("Error");

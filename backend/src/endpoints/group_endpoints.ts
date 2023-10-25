@@ -170,7 +170,7 @@ export function insertMultipleGroups(req: Request, res: Response) {
     result.then((value) => {
       counter++;
       if(counter == groups.length && value.acknowledged != false) {
-        res.status(204).send();
+        res.status(201).send();
       }else{
 				globalTools.logToDatabase("function insertMultipleGroups failed", "error");
 				res.status(400).send("Error");

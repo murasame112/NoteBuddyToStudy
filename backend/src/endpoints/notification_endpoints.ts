@@ -109,7 +109,7 @@ export function insertMultipleNotifications(req: Request, res: Response) {
     result.then((value) => {
       counter++;
       if(counter == notifications.length && value.acknowledged != false) {
-        res.status(204).send();
+        res.status(201).send();
       }else{
 				globalTools.logToDatabase("function insertMultipleNotifications failed", "error");
 				res.status(400).send("Error");
