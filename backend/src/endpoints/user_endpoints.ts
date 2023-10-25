@@ -151,9 +151,12 @@ export function insertUser(req: Request, res: Response) {
   );
   const result = global.insertItem(user, table_name);
   result.then((value) => {
-    value.acknowledged
-      ? res.status(201).send(value.insertedId)
-      : res.status(400).send("Error");
+    if(value.acknowledged){
+			res.status(201).send(value.insertedId);
+		}else{
+			globalTools.logToDatabase("function insertUser failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -200,6 +203,7 @@ export function insertMultipleUsers(req: Request, res: Response) {
       if(counter == users.length && value.acknowledged != false) {
         res.status(204).send();
       }else{
+				globalTools.logToDatabase("function insertMultipleUsers failed", "error");
 				res.status(400).send("Error");
 			}
     });
@@ -214,7 +218,12 @@ export function deleteUser(req: Request, res: Response) {
   const id = req.params.id;
   const result = global.deleteItemById(id, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteUser failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -239,6 +248,7 @@ export function deleteMultipleUsers(req: Request, res: Response) {
       if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
       }else{
+				globalTools.logToDatabase("function deleteMultipleUsers failed", "error");
 				res.status(400).send("Error");
 			}
     });
@@ -270,7 +280,12 @@ export function deleteUsersByQuery(req: Request, res: Response) {
   let query = { [field]: value };
   const result = global.deleteItemsByField(query, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteUsersByQuery failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -286,7 +301,12 @@ export function deleteUsersByQueriedId(req: Request, res: Response) {
   let query = { [field]: objValue };
   const result = global.deleteItemsByField(query, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteUsersByQueriedId failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -344,7 +364,12 @@ export function updateUser(req: Request, res: Response) {
 	query.created = globalTools.createDateFromString(query.created);
   const result = global.updateItemById(id, table_name, query);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateUser failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -416,6 +441,7 @@ export function updateMultipleUsers(req: Request, res: Response) {
       if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
       }else{
+				globalTools.logToDatabase("function updateMultipleUsers failed", "error");
 				res.status(400).send("Error");
 			}
     });
@@ -494,7 +520,12 @@ export function updateUsersByQuery(req: Request, res: Response) {
   let query = { [field]: JSON.parse(value) };
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateUsersByQuery failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -557,7 +588,12 @@ export function updateUsersByQueriedId(req: Request, res: Response) {
 
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateUsersByQueriedId failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -595,7 +631,12 @@ export function replaceUser(req: Request, res: Response) {
   );
   const result = global.replaceItemById(id, table_name, user);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(201).send();
+		}else{
+			globalTools.logToDatabase("function replaceUser failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 

@@ -133,9 +133,12 @@ export function insertMetaNotification(req: Request, res: Response) {
   );
   const result = global.insertItem(metanotifcation, table_name);
   result.then((value) => {
-    value.acknowledged
-      ? res.status(201).send(value.insertedId)
-      : res.status(400).send("Error");
+    if(value.acknowledged){
+			res.status(201).send(value.insertedId);
+		}else{
+			globalTools.logToDatabase("function insertMetaNotification failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -179,6 +182,7 @@ export function insertMultipleMetaNotifications(req: Request, res: Response) {
       if(counter == metanotifcations.length && value.acknowledged != false) {
         res.status(204).send();
       }else{
+				globalTools.logToDatabase("function insertMultipleMetaNotifications failed", "error");
 				res.status(400).send("Error");
 			}
     });
@@ -193,7 +197,12 @@ export function deleteMetaNotification(req: Request, res: Response) {
   const id = req.params.id;
   const result = global.deleteItemById(id, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteMetaNotification failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -218,6 +227,7 @@ export function deleteMultipleMetaNotifications(req: Request, res: Response) {
       if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
       }else{
+				globalTools.logToDatabase("function deleteMultipleMetaNotifications failed", "error");
 				res.status(400).send("Error");
 			}
     });
@@ -249,7 +259,12 @@ export function deleteMetaNotificationsByQuery(req: Request, res: Response) {
   let query = { [field]: value };
   const result = global.deleteItemsByField(query, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteMetaNotificationsByQuery failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -265,7 +280,12 @@ export function deleteMetaNotificationsByQueriedId(req: Request, res: Response) 
   let query = { [field]: objValue };
   const result = global.deleteItemsByField(query, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteMetaNotificationsByQueriedId failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -283,7 +303,12 @@ export function updateMetaNotification(req: Request, res: Response) {
 
   const result = global.updateItemById(id, table_name, query);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateMetaNotification failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -323,6 +348,7 @@ export function updateMultipleMetaNotifications(req: Request, res: Response) {
       if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
       }else{
+				globalTools.logToDatabase("function updateMultipleMetaNotifications failed", "error");
 				res.status(400).send("Error");
 			}
     });
@@ -369,7 +395,12 @@ export function updateMetaNotificationsByQuery(req: Request, res: Response) {
   let query = { [field]: value };
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateMetaNotificationsByQuery failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -394,7 +425,12 @@ export function updateMetaNotificationsByQueriedId(req: Request, res: Response) 
 
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateMetaNotificationsByQuery failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -421,7 +457,12 @@ export function replaceMetaNotification(req: Request, res: Response) {
   );
   const result = global.replaceItemById(id, table_name, metanotifcation);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(201).send();
+		}else{
+			globalTools.logToDatabase("function replaceMetaNotification failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
