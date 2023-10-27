@@ -3,6 +3,7 @@ import express from "express";
 import e, { Request, Response } from "express";
 import { Notification } from "../models/notification_model";
 import * as global from "../global_database_functions";
+import * as globalTools from "../global_tools";
 
 const table_name = "notifications";
 
@@ -38,12 +39,14 @@ export function getNotificationById(req: Request, res: Response) {
 export function getNotificationsByQuery(req: Request, res: Response) {
   const field = req.params.field;
   let value = req.params.value;
+
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+
   let query = { [field]: value };
   const result = global.getItemsByField(query, table_name);
   const notificationArray: Notification[] = [];
@@ -73,9 +76,12 @@ export function insertNotification(req: Request, res: Response) {
   );
   const result = global.insertItem(notification, table_name);
   result.then((value) => {
-    value.acknowledged
-      ? res.status(201).send(value.insertedId)
-      : res.status(400).send("Error");
+    if(value.acknowledged){
+			res.status(201).send(value.insertedId);
+		}else{
+			globalTools.logToDatabase("function insertNotification failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -87,14 +93,6 @@ export function insertNotification(req: Request, res: Response) {
 //  http://localhost:3000/notifications
 // example body:
 // [
-//     {
-//        "name":"custom name",
-//        "adress":"custom adress",
-//        "author_id":{"$oid":"64a49ff9a1caf26fbfaa2dbb"},
-//        "category_id":{"$oid":"64a4a1d1a1caf26fbfaa2dc1"},
-//        "sucategory_id":{"$oid":"64a4a367a1caf26fbfaa2dcc"},
-//        "description":"custom description"
-//     },
 // {
 //    "content":"custom content"
 // }
@@ -110,12 +108,12 @@ export function insertMultipleNotifications(req: Request, res: Response) {
     const result = global.insertItem(notification, table_name);
     result.then((value) => {
       counter++;
-      if (value.acknowledged == false) {
-        res.status(400).send("Error");
-      }
-      if (counter == notifications.length) {
-        res.status(204).send();
-      }
+      if(counter == notifications.length && value.acknowledged != false) {
+        res.status(201).send();
+      }else{
+				globalTools.logToDatabase("function insertMultipleNotifications failed", "error");
+				res.status(400).send("Error");
+			}
     });
   });
 }
@@ -128,7 +126,12 @@ export function deleteNotification(req: Request, res: Response) {
   const id = req.params.id;
   const result = global.deleteItemById(id, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+    if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteNotification failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -150,12 +153,12 @@ export function deleteMultipleNotifications(req: Request, res: Response) {
     const result = global.deleteItemById(element, table_name);
     result.then((value) => {
       counter++;
-      if (value.acknowledged == false) {
-        res.status(400).send("Error");
-      }
-      if (counter == ids.length) {
+      if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
-      }
+      }else{
+				globalTools.logToDatabase("function deleteMultipleNotifications failed", "error");
+				res.status(400).send("Error");
+			}
     });
   });
 }
@@ -167,16 +170,23 @@ export function deleteMultipleNotifications(req: Request, res: Response) {
 export function deleteNotificationsByQuery(req: Request, res: Response) {
   const field = req.params.field;
   let value = req.params.value;
+
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+
   let query = { [field]: value };
   const result = global.deleteItemsByField(query, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+    if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteNotificationsByQuery failed", "error");
+			res.status(400).send("Error");
+		} 
   });
 }
 
@@ -188,15 +198,19 @@ export function deleteNotificationsByQuery(req: Request, res: Response) {
 //  http://localhost:3000/notification/6490d3e5982efd2fe9136154
 // example body:
 //   {
-//      "name":"custom name",
-//      "description":"custom description"
+//      "content":"custom content"
 // }
 export function updateNotification(req: Request, res: Response) {
   const id = req.params.id;
   const query = req.body;
   const result = global.updateItemById(id, table_name, query);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateNotification failed", "error");
+			res.status(400).send("Error");
+		} 
   });
 }
 
@@ -214,8 +228,7 @@ export function updateNotification(req: Request, res: Response) {
 //      "6490d9fddfd298aad1e8f136"]
 //     ,
 //     "query":{
-//        "name":"custom name",
-//        "description":"custom description"
+//        "content":"custom content"
 //     }
 //  }
 export function updateMultipleNotifications(req: Request, res: Response) {
@@ -226,12 +239,12 @@ export function updateMultipleNotifications(req: Request, res: Response) {
     const result = global.updateItemById(element, table_name, updateQuery);
     result.then((value) => {
       counter++;
-      if (value.acknowledged == false) {
-        res.status(400).send("Error");
-      }
-      if (counter == ids.length) {
+      if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
-      }
+      }else{
+				globalTools.logToDatabase("function updateMultipleNotification failed", "error");
+				res.status(400).send("Error");
+			}
     });
   });
 }
@@ -244,17 +257,29 @@ export function updateMultipleNotifications(req: Request, res: Response) {
 //  http://localhost:3000/notifications/published&true
 // example body:
 //   {
-//      "name":"custom name",
-//      "description":"custom description"
+//      "content":"custom content"
 // }
 export function updateNotificationsByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  const value = req.params.value;
+  let value = req.params.value;
+
+	try {
+    value = JSON.parse(value);
+  } catch (e: any) {
+    value = '"' + value + '"';
+    value = JSON.parse(value);
+  }
+
   const updateQuery = req.body;
   let query = { [field]: JSON.parse(value) };
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateNotificationsByQuery failed", "error");
+			res.status(400).send("Error");
+		} 
   });
 }
 
@@ -275,7 +300,12 @@ export function replaceNotification(req: Request, res: Response) {
   notification = new Notification(query.content);
   const result = global.replaceItemById(id, table_name, notification);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(201).send();
+		}else{
+			globalTools.logToDatabase("function replaceNotification failed", "error");
+			res.status(400).send("Error");
+		} 
   });
 }
 

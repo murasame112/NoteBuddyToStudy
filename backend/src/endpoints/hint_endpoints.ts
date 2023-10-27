@@ -4,6 +4,7 @@ import express from "express";
 import e, { Request, Response } from "express";
 import { Hint } from "../models/hint_model";
 import * as global from "../global_database_functions";
+import * as globalTools from "../global_tools";
 
 const table_name = "hints";
 
@@ -39,12 +40,14 @@ export function getHintById(req: Request, res: Response) {
 export function getHintsByQuery(req: Request, res: Response) {
   const field = req.params.field;
   let value = req.params.value;
+
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+
   let query = { [field]: value };
   const result = global.getItemsByField(query, table_name);
   const hintArray: Hint[] = [];
@@ -72,9 +75,12 @@ export function insertHint(req: Request, res: Response) {
   const hint: Hint = new Hint(req.body.content);
   const result = global.insertItem(hint, table_name);
   result.then((value) => {
-    value.acknowledged
-      ? res.status(201).send(value.insertedId)
-      : res.status(400).send("Error");
+    if(value.acknowledged){
+			res.status(201).send(value.insertedId);
+		}else{
+			globalTools.logToDatabase("function insertHint failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -102,12 +108,12 @@ export function insertMultipleHints(req: Request, res: Response) {
     const result = global.insertItem(hint, table_name);
     result.then((value) => {
       counter++;
-      if (value.acknowledged == false) {
-        res.status(400).send("Error");
-      }
-      if (counter == hints.length) {
-        res.status(204).send();
-      }
+      if(counter == hints.length && value.acknowledged != false) {
+        res.status(201).send();
+      }else{
+				globalTools.logToDatabase("function insertMultipleHints failed", "error");
+				res.status(400).send("Error");
+			}
     });
   });
 }
@@ -120,7 +126,12 @@ export function deleteHint(req: Request, res: Response) {
   const id = req.params.id;
   const result = global.deleteItemById(id, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteHint failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -142,12 +153,12 @@ export function deleteMultipleHints(req: Request, res: Response) {
     const result = global.deleteItemById(element, table_name);
     result.then((value) => {
       counter++;
-      if (value.acknowledged == false) {
-        res.status(400).send("Error");
-      }
-      if (counter == ids.length) {
+      if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
-      }
+      }else{
+				globalTools.logToDatabase("function deleteMultipleHints failed", "error");
+				res.status(400).send("Error");
+			}
     });
   });
 }
@@ -159,16 +170,23 @@ export function deleteMultipleHints(req: Request, res: Response) {
 export function deleteHintsByQuery(req: Request, res: Response) {
   const field = req.params.field;
   let value = req.params.value;
+
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+
   let query = { [field]: value };
   const result = global.deleteItemsByField(query, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteHintsByQuery failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -187,7 +205,12 @@ export function updateHint(req: Request, res: Response) {
   const query = req.body;
   const result = global.updateItemById(id, table_name, query);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateHint failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -216,12 +239,12 @@ export function updateMultipleHints(req: Request, res: Response) {
     const result = global.updateItemById(element, table_name, updateQuery);
     result.then((value) => {
       counter++;
-      if (value.acknowledged == false) {
-        res.status(400).send("Error");
-      }
-      if (counter == ids.length) {
+      if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
-      }
+      }else{
+				globalTools.logToDatabase("function updateHint failed", "error");
+				res.status(400).send("Error");
+			}
     });
   });
 }
@@ -238,12 +261,25 @@ export function updateMultipleHints(req: Request, res: Response) {
 // }
 export function updateHintsByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  const value = req.params.value;
+  let value = req.params.value;
+	
+	try {
+    value = JSON.parse(value);
+  } catch (e: any) {
+    value = '"' + value + '"';
+    value = JSON.parse(value);
+  }
+
   const updateQuery = req.body;
   let query = { [field]: JSON.parse(value) };
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateHintsByQuery failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -264,7 +300,12 @@ export function replaceHint(req: Request, res: Response) {
   hint = new Hint(query.content);
   const result = global.replaceItemById(id, table_name, hint);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(201).send();
+		}else{
+			globalTools.logToDatabase("function replaceHint failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 

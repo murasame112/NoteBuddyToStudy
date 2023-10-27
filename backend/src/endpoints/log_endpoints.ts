@@ -40,13 +40,22 @@ export function getLogById(req: Request, res: Response) {
 //  http://localhost:3000/logs/published&true
 export function getLogsByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  let value = req.params.value;
+  let value: any; 
+	value = req.params.value;
+
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+
+	if(field == 'date'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
+
   let query = { [field]: value };
   const result = global.getItemsByField(query, table_name);
   const logArray: Log[] = [];
@@ -69,16 +78,18 @@ export function getLogsByQuery(req: Request, res: Response) {
 // example body:
 //   {
 //      "type":"ERROR",
-//      "content":"Serce przestało działać",
-//      "date":"25-06-2023"
+//      "content":"Serce przestało działać"
 // }
 export function insertLog(req: Request, res: Response) {
   const log: Log = new Log(req.body.type, req.body.content);
   const result = global.insertItem(log, table_name);
   result.then((value) => {
-    value.acknowledged
-      ? res.status(201).send(value.insertedId)
-      : res.status(400).send("Error");
+    if(value.acknowledged){
+			res.status(201).send(value.insertedId);
+		}else{
+			globalTools.logToDatabase("function insertLog failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -92,13 +103,11 @@ export function insertLog(req: Request, res: Response) {
 // [
 //     {
 //      "type":"ERROR",
-//      "content":"Serce zaczęło działać",
-//      "date":"09-11-2000"
+//      "content":"Serce zaczęło działać"
 //     },
 // {
 //      "type":"ERROR",
-//      "content":"Serce przestało działać",
-//      "date":"25-06-2023"
+//      "content":"Serce przestało działać"
 // }
 //  ]
 export function insertMultipleLogs(req: Request, res: Response) {
@@ -110,12 +119,12 @@ export function insertMultipleLogs(req: Request, res: Response) {
     const result = global.insertItem(log, table_name);
     result.then((value) => {
       counter++;
-      if (value.acknowledged == false) {
-        res.status(400).send("Error");
-      }
-      if (counter == logs.length) {
-        res.status(204).send();
-      }
+      if(counter == logs.length && value.acknowledged != false) {
+        res.status(201).send();
+      }else{
+				globalTools.logToDatabase("function insertMultipleLogs failed", "error");
+				res.status(400).send("Error");
+			}
     });
   });
 }
@@ -128,7 +137,12 @@ export function deleteLog(req: Request, res: Response) {
   const id = req.params.id;
   const result = global.deleteItemById(id, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteLog failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -150,12 +164,12 @@ export function deleteMultipleLogs(req: Request, res: Response) {
     const result = global.deleteItemById(element, table_name);
     result.then((value) => {
       counter++;
-      if (value.acknowledged == false) {
-        res.status(400).send("Error");
-      }
-      if (counter == ids.length) {
+      if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
-      }
+      }else{
+				globalTools.logToDatabase("function deleteMultipleLogs failed", "error");
+				res.status(400).send("Error");
+			}
     });
   });
 }
@@ -166,17 +180,31 @@ export function deleteMultipleLogs(req: Request, res: Response) {
 //  http://localhost:3000/logs/published&true
 export function deleteLogsByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  let value = req.params.value;
+  let value: any; 
+	value = req.params.value;
+
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+
+	if(field == 'date'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
+
   let query = { [field]: value };
   const result = global.deleteItemsByField(query, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteLogsByQuery failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -189,8 +217,7 @@ export function deleteLogsByQuery(req: Request, res: Response) {
 // example body:
 //   {
 //      "type":"ERROR",
-//      "content":"Serce przestało działać",
-//      "date":"25-06-2023"
+//      "content":"Serce przestało działać"
 // }
 export function updateLog(req: Request, res: Response) {
   const id = req.params.id;
@@ -198,7 +225,12 @@ export function updateLog(req: Request, res: Response) {
 	query.date = globalTools.createDateFromString(query.date);
   const result = global.updateItemById(id, table_name, query);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateLog failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -217,8 +249,7 @@ export function updateLog(req: Request, res: Response) {
 //     ,
 //     "query":{
 //      "type":"ERROR",
-//      "content":"Serce przestało działać",
-//      "date":"25-06-2023"
+//      "content":"Serce przestało działać"
 //     }
 //  }
 export function updateMultipleLogs(req: Request, res: Response) {
@@ -230,12 +261,12 @@ export function updateMultipleLogs(req: Request, res: Response) {
     const result = global.updateItemById(element, table_name, updateQuery);
     result.then((value) => {
       counter++;
-      if (value.acknowledged == false) {
-        res.status(400).send("Error");
-      }
-      if (counter == ids.length) {
+      if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
-      }
+      }else{
+				globalTools.logToDatabase("function updateMultipleLogs failed", "error");
+				res.status(400).send("Error");
+			}
     });
   });
 }
@@ -249,18 +280,37 @@ export function updateMultipleLogs(req: Request, res: Response) {
 // example body:
 //   {
 //      "type":"ERROR",
-//      "content":"Serce przestało działać",
-//      "date":"25-06-2023"
+//      "content":"Serce przestało działać"
 // }
 export function updateLogsByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  const value = req.params.value;
+  let value: any; 
+	value = req.params.value;
+
+	try {
+    value = JSON.parse(value);
+  } catch (e: any) {
+    value = '"' + value + '"';
+    value = JSON.parse(value);
+  }
+
+	if(field == 'date'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
+
   const updateQuery = req.body;
 	updateQuery.date = globalTools.createDateFromString(updateQuery.date);
   let query = { [field]: JSON.parse(value) };
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateLogsByQuery failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -282,7 +332,12 @@ export function replaceLog(req: Request, res: Response) {
   log = new Log(query.type, query.content);
   const result = global.replaceItemById(id, table_name, log);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(201).send();
+		}else{
+			globalTools.logToDatabase("function replaceLog failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 

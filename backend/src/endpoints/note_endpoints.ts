@@ -19,6 +19,8 @@ export function getAllNotes(req: Request, res: Response) {
   });
 }
 
+
+
 // finds note by id
 // /note/{id}
 // example:
@@ -33,8 +35,7 @@ export function getNoteById(req: Request, res: Response) {
       value.author_id,
       value.category_id,
       value.subcategory_id,
-      value.adress,
-      value.description,
+      value.content,
       value.published,
       value.positive_reviews,
       value.negative_reviews,
@@ -70,8 +71,7 @@ export function getMultipleNotes(req: Request, res: Response) {
         value.author_id,
         value.category_id,
         value.subcategory_id,
-        value.adress,
-        value.description,
+        value.content,
         value.published,
         value.positive_reviews,
         value.negative_reviews,
@@ -80,7 +80,7 @@ export function getMultipleNotes(req: Request, res: Response) {
       );
       noteArray.push(note);
       if (counter == ids.length) {
-        res.status(201).send(noteArray);
+        res.send(noteArray);
       }
     });
   });
@@ -92,13 +92,21 @@ export function getMultipleNotes(req: Request, res: Response) {
 //  http://localhost:3000/notes/published&true
 export function getNotesByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  let value = req.params.value;
+  let value: any; 
+	value = req.params.value;
+
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+
+	if(field == 'shared_date' || field == 'last_edit_date'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
 
   let query = { [field]: value };
   const result = global.getItemsByField(query, table_name);
@@ -111,8 +119,7 @@ export function getNotesByQuery(req: Request, res: Response) {
         element.author_id,
         element.category_id,
         element.subcategory_id,
-        element.adress,
-        element.description,
+        element.content,
         element.published,
         element.positive_reviews,
         element.negative_reviews,
@@ -145,8 +152,7 @@ export function getNotesByQueriedId(req: Request, res: Response) {
         element.author_id,
         element.category_id,
         element.subcategory_id,
-        element.adress,
-        element.description,
+        element.content,
         element.published,
         element.positive_reviews,
         element.negative_reviews,
@@ -168,10 +174,9 @@ export function getNotesByQueriedId(req: Request, res: Response) {
 // example body:
 //   {
 //      "name":"custom name",
-//      "adress":"custom adress",
 //      "author_id":"some id",
 //      "category_id":"some id",
-//      "description":"custom description"
+//      "content":"custom content"
 // }
 export function insertNote(req: Request, res: Response) {
   const category_id = new ObjectId(req.body.category_id);
@@ -183,17 +188,19 @@ export function insertNote(req: Request, res: Response) {
     author_id,
     category_id,
     subcategory_id,
-    req.body.adress,
-    req.body.description,
+    req.body.content,
     req.body.published,
     req.body.positive_reviews,
     req.body.negative_reviews
   );
   const result = global.insertItem(note, table_name);
   result.then((value) => {
-    value.acknowledged
-      ? res.status(201).send(value.insertedId)
-      : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(201).send(value.insertedId)
+		}else{
+			globalTools.logToDatabase("function insertNote failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -207,19 +214,18 @@ export function insertNote(req: Request, res: Response) {
 // [
 //     {
 //        "name":"custom name",
-//        "adress":"custom adress",
+//        "content":"custom content",
 //        "author_id":"64a49ff9a1caf26fbfaa2dbb",
 //        "category_id":"64a4a1d1a1caf26fbfaa2dc1",
 //        "sucategory_id":"64a4a367a1caf26fbfaa2dcc",
-//        "description":"custom description"
+//        "content":"custom content"
 //     },
 // {
 //    "name":"custom name2",
-//    "adress":"custom adress2",
 //    "author_id":"64a49ff9a1caf26fbfaa2dbb",
 //    "category_id":"64a4a1d1a1caf26fbfaa2dc1",
 //    "sucategory_id":"64a4a367a1caf26fbfaa2dcc",
-//    "description":"custom description2"
+//    "content":"custom content2"
 // }
 //  ]
 export function insertMultipleNotes(req: Request, res: Response) {
@@ -237,8 +243,7 @@ export function insertMultipleNotes(req: Request, res: Response) {
       author_id,
       category_id,
       subcategory_id,
-      element.adress,
-      element.description,
+      element.content,
       element.published,
       element.positive_reviews,
       element.negative_reviews
@@ -247,12 +252,12 @@ export function insertMultipleNotes(req: Request, res: Response) {
     const result = global.insertItem(note, table_name);
     result.then((value) => {
       counter++;
-      if (value.acknowledged == false) {
-        res.status(400).send("Error");
-      }
-      if (counter == notes.length) {
-        res.status(204).send();
-      }
+      if(counter == notes.length && value.acknowledged != false) {
+        res.status(201).send();
+      }else{
+				globalTools.logToDatabase("function insertMultipleNotes failed", "error");
+				res.status(400).send("Error");
+			}
     });
   });
 }
@@ -265,7 +270,12 @@ export function deleteNote(req: Request, res: Response) {
   const id = req.params.id;
   const result = global.deleteItemById(id, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteNote failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -287,12 +297,12 @@ export function deleteMultipleNotes(req: Request, res: Response) {
     const result = global.deleteItemById(element, table_name);
     result.then((value) => {
       counter++;
-      if (value.acknowledged == false) {
-        res.status(400).send("Error");
-      }
-      if (counter == ids.length) {
+      if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
-      }
+      }else{
+				globalTools.logToDatabase("function deleteMultipleNotes failed", "error");
+				res.status(400).send("Error");
+			}
     });
   });
 }
@@ -303,17 +313,31 @@ export function deleteMultipleNotes(req: Request, res: Response) {
 //  http://localhost:3000/notes/published&true
 export function deleteNotesByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  let value = req.params.value;
+  let value: any;
+	value = req.params.value;
+	
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+
+	if(field == 'shared_date' || field == 'last_edit_date'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
+
   let query = { [field]: value };
   const result = global.deleteItemsByField(query, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteNotesByQuery failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -329,7 +353,12 @@ export function deleteNotesByQueriedId(req: Request, res: Response) {
   let query = { [field]: objValue };
   const result = global.deleteItemsByField(query, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+    if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteNotesByQueriedId failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -342,7 +371,7 @@ export function deleteNotesByQueriedId(req: Request, res: Response) {
 // example body:
 //   {
 //      "name":"custom name",
-//      "description":"custom description"
+//      "content":"custom content"
 // }
 export function updateNote(req: Request, res: Response) {
   const id = req.params.id;
@@ -361,7 +390,12 @@ export function updateNote(req: Request, res: Response) {
 	
   const result = global.updateItemById(id, table_name, query);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateNote failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -380,7 +414,7 @@ export function updateNote(req: Request, res: Response) {
 //     ,
 //     "query":{
 //        "name":"custom name",
-//        "description":"custom description"
+//        "content":"custom content"
 //     }
 //  }
 export function updateMultipleNotes(req: Request, res: Response) {
@@ -402,12 +436,12 @@ export function updateMultipleNotes(req: Request, res: Response) {
     const result = global.updateItemById(element, table_name, updateQuery);
     result.then((value) => {
       counter++;
-      if (value.acknowledged == false) {
-        res.status(400).send("Error");
-      }
-      if (counter == ids.length) {
+      if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
-      }
+      }else{
+				globalTools.logToDatabase("function updateMultipleNotes failed", "error");
+				res.status(400).send("Error");
+			}
     });
   });
 }
@@ -421,17 +455,26 @@ export function updateMultipleNotes(req: Request, res: Response) {
 // example body:
 //   {
 //      "name":"custom name",
-//      "description":"custom description"
+//      "content":"custom content"
 // }
 export function updateNotesByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  let value = req.params.value;
+  let value: any;
+	value = req.params.value;
+
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+
+	if(field == 'shared_date' || field == 'last_edit_date'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
+
   let updateQuery = req.body;
   if (typeof updateQuery.category_id !== "undefined") {
     updateQuery.category_id = new ObjectId(updateQuery.category_id);
@@ -447,7 +490,12 @@ export function updateNotesByQuery(req: Request, res: Response) {
   let query = { [field]: value };
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateNotesByQuery failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -476,7 +524,12 @@ export function updateNotesByQueriedId(req: Request, res: Response) {
 
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateNotesByQueriedId failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -489,10 +542,9 @@ export function updateNotesByQueriedId(req: Request, res: Response) {
 // example body:
 //   {
 //      "name":"custom name",
-//      "adress":"custom adress",
 //      "author_id":"some id",
 //      "category_id":"some id",
-//      "description":"custom description"
+//      "content":"custom content"
 // }
 export function replaceNote(req: Request, res: Response) {
   const id = req.params.id;
@@ -503,15 +555,19 @@ export function replaceNote(req: Request, res: Response) {
     query.author_id,
     query.category_id,
     query.subcategory_id,
-    query.adress,
-    query.description,
+    query.content,
     query.published,
     query.positive_reviews,
     query.negative_reviews
   );
   const result = global.replaceItemById(id, table_name, note);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(201).send();
+		}else{
+			globalTools.logToDatabase("function replaceNote failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -529,8 +585,7 @@ export function stealNote(req: Request, res: Response) {
       value.value.author_id,
       value.value.category_id,
       value.value.subcategory_id,
-      value.value.adress,
-      value.value.description,
+      value.value.content,
       value.value.published,
       value.value.positive_reviews,
       value.value.negative_reviews,

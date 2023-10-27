@@ -52,13 +52,22 @@ export function getUserById(req: Request, res: Response) {
 //  http://localhost:3000/users/published&true
 export function getUsersByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  let value = req.params.value;
+  let value: any;
+	value = req.params.value;
+	
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+
+	if(field == 'created'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
+
   let query = { [field]: value };
   const result = global.getItemsByField(query, table_name);
   const userArray: User[] = [];
@@ -126,12 +135,11 @@ export function getUsersByQueriedId(req: Request, res: Response) {
 //  http://localhost:3000/user
 // example body:
 //   {
-    //  "login":"custom login",
-    //  "avatar_url":"custom url",
-    //  "email":"custom email",
-    //  "password":"custom password",
-		// 	"role":"user",
-    //  "active":true
+//      "login":"custom login",
+//      "avatar_url":"custom url",
+//      "email":"custom email",
+//      "password":"custom password",
+// 			"role":"user"
 // }
 export function insertUser(req: Request, res: Response) {
   const user: User = new User(
@@ -143,9 +151,12 @@ export function insertUser(req: Request, res: Response) {
   );
   const result = global.insertItem(user, table_name);
   result.then((value) => {
-    value.acknowledged
-      ? res.status(201).send(value.insertedId)
-      : res.status(400).send("Error");
+    if(value.acknowledged){
+			res.status(201).send(value.insertedId);
+		}else{
+			globalTools.logToDatabase("function insertUser failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -189,12 +200,12 @@ export function insertMultipleUsers(req: Request, res: Response) {
     const result = global.insertItem(user, table_name);
     result.then((value) => {
       counter++;
-      if (value.acknowledged == false) {
-        res.status(400).send("Error");
-      }
-      if (counter == users.length) {
-        res.status(204).send();
-      }
+      if(counter == users.length && value.acknowledged != false) {
+        res.status(201).send();
+      }else{
+				globalTools.logToDatabase("function insertMultipleUsers failed", "error");
+				res.status(400).send("Error");
+			}
     });
   });
 }
@@ -207,7 +218,12 @@ export function deleteUser(req: Request, res: Response) {
   const id = req.params.id;
   const result = global.deleteItemById(id, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteUser failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -229,12 +245,12 @@ export function deleteMultipleUsers(req: Request, res: Response) {
     const result = global.deleteItemById(element, table_name);
     result.then((value) => {
       counter++;
-      if (value.acknowledged == false) {
-        res.status(400).send("Error");
-      }
-      if (counter == ids.length) {
+      if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
-      }
+      }else{
+				globalTools.logToDatabase("function deleteMultipleUsers failed", "error");
+				res.status(400).send("Error");
+			}
     });
   });
 }
@@ -245,17 +261,52 @@ export function deleteMultipleUsers(req: Request, res: Response) {
 //  http://localhost:3000/users/published&true
 export function deleteUsersByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  let value = req.params.value;
+  let value: any;
+	value = req.params.value;
+
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+
+	if(field == 'created'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
+	
   let query = { [field]: value };
   const result = global.deleteItemsByField(query, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteUsersByQuery failed", "error");
+			res.status(400).send("Error");
+		}
+  });
+}
+
+// deletes multiple users by id_field and value of objectId
+// /usersid/{field}&{value}
+// example:
+//  http://localhost:3000/usersid/followed_users&64a49ff9a1caf26fbfaa2dbb
+export function deleteUsersByQueriedId(req: Request, res: Response) {
+  const field = req.params.field;
+  const value = req.params.value;
+  const objValue = new ObjectId(value);
+
+  let query = { [field]: objValue };
+  const result = global.deleteItemsByField(query, table_name);
+  result.then((value) => {
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteUsersByQueriedId failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -267,27 +318,58 @@ export function deleteUsersByQuery(req: Request, res: Response) {
 //  http://localhost:3000/user/6490d3e5982efd2fe9136154
 // example body:
 //   {
-//      "login":"custom login",
-//      "description":"custom description"
+//      "login":"custom login"
 // }
 export function updateUser(req: Request, res: Response) {
   const id = req.params.id;
   const query = req.body;
 		
-	if(!Array.isArray(query.saved_notes) || query.saved_notes.length == 0 ){
-		query.saved_notes = [];
-	}
-	if(!Array.isArray(query.followed_users) || query.followed_users.length == 0 ){
-		query.saved_notes = [];
-	}
-	if(!Array.isArray(query.blocked_users) || query.blocked_users.length == 0 ){
-		query.saved_notes = [];
-	}
+	let note_id: ObjectId;
+	if (typeof query.saved_notes !== "undefined") {
+    let notesIds: ObjectId[] = [];
+
+		
+    query.saved_notes.forEach((elem: string) => {
+      note_id = new ObjectId(elem);
+      notesIds.push(note_id);
+    });
+
+    query.saved_notes = notesIds;
+  }
+	
+	let user_id: ObjectId;
+	if (typeof query.followed_users !== "undefined") {
+    let usersIds: ObjectId[] = [];
+
+		
+    query.followed_users.forEach((elem: string) => {
+      user_id = new ObjectId(elem);
+      usersIds.push(user_id);
+    });
+
+    query.followed_users = usersIds;
+  }
+
+	if (typeof query.blocked_users !== "undefined") {
+    let usersIds: ObjectId[] = [];
+
+    query.blocked_users.forEach((elem: string) => {
+      user_id = new ObjectId(elem);
+      usersIds.push(user_id);
+    });
+
+    query.blocked_users = usersIds;
+  }
 
 	query.created = globalTools.createDateFromString(query.created);
   const result = global.updateItemById(id, table_name, query);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateUser failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -312,15 +394,43 @@ export function updateMultipleUsers(req: Request, res: Response) {
   const ids = req.body.ids;
   const updateQuery = req.body.query;
 
-	if(!Array.isArray(updateQuery.saved_notes) || updateQuery.saved_notes.length == 0 ){
-		updateQuery.saved_notes = [];
-	}
-	if(!Array.isArray(updateQuery.followed_users) || updateQuery.followed_users.length == 0 ){
-		updateQuery.saved_notes = [];
-	}
-	if(!Array.isArray(updateQuery.blocked_users) || updateQuery.blocked_users.length == 0 ){
-		updateQuery.saved_notes = [];
-	}
+
+	let note_id: ObjectId;
+	if (typeof updateQuery.saved_notes !== "undefined") {
+    let notesIds: ObjectId[] = [];
+
+		
+    updateQuery.saved_notes.forEach((elem: string) => {
+      note_id = new ObjectId(elem);
+      notesIds.push(note_id);
+    });
+
+    updateQuery.saved_notes = notesIds;
+  }
+	
+	let user_id: ObjectId;
+	if (typeof updateQuery.followed_users !== "undefined") {
+    let usersIds: ObjectId[] = [];
+
+		
+    updateQuery.followed_users.forEach((elem: string) => {
+      user_id = new ObjectId(elem);
+      usersIds.push(user_id);
+    });
+
+    updateQuery.followed_users = usersIds;
+  }
+
+	if (typeof updateQuery.blocked_users !== "undefined") {
+    let usersIds: ObjectId[] = [];
+
+    updateQuery.blocked_users.forEach((elem: string) => {
+      user_id = new ObjectId(elem);
+      usersIds.push(user_id);
+    });
+
+    updateQuery.blocked = usersIds;
+  }
 
 	updateQuery.created = globalTools.createDateFromString(updateQuery.created);
   let counter = 0;
@@ -328,12 +438,12 @@ export function updateMultipleUsers(req: Request, res: Response) {
     const result = global.updateItemById(element, table_name, updateQuery);
     result.then((value) => {
       counter++;
-      if (value.acknowledged == false) {
-        res.status(400).send("Error");
-      }
-      if (counter == ids.length) {
+      if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
-      }
+      }else{
+				globalTools.logToDatabase("function updateMultipleUsers failed", "error");
+				res.status(400).send("Error");
+			}
     });
   });
 }
@@ -350,24 +460,140 @@ export function updateMultipleUsers(req: Request, res: Response) {
 // }
 export function updateUsersByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  const value = req.params.value;
+  let value: any;
+	value = req.params.value;
+
+	try {
+    value = JSON.parse(value);
+  } catch (e: any) {
+    value = '"' + value + '"';
+    value = JSON.parse(value);
+  }
+
+	if(field == 'created'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
+
   const updateQuery = req.body;
 
-	if(!Array.isArray(updateQuery.saved_notes) || updateQuery.saved_notes.length == 0 ){
-		updateQuery.saved_notes = [];
-	}
-	if(!Array.isArray(updateQuery.followed_users) || updateQuery.followed_users.length == 0 ){
-		updateQuery.saved_notes = [];
-	}
-	if(!Array.isArray(updateQuery.blocked_users) || updateQuery.blocked_users.length == 0 ){
-		updateQuery.saved_notes = [];
-	}
+
+	let note_id: ObjectId;
+	if (typeof updateQuery.saved_notes !== "undefined") {
+    let notesIds: ObjectId[] = [];
+
+		
+    updateQuery.saved_notes.forEach((elem: string) => {
+      note_id = new ObjectId(elem);
+      notesIds.push(note_id);
+    });
+
+    updateQuery.saved_notes = notesIds;
+  }
+	
+	let user_id: ObjectId;
+	if (typeof updateQuery.followed_users !== "undefined") {
+    let usersIds: ObjectId[] = [];
+
+		
+    updateQuery.followed_users.forEach((elem: string) => {
+      user_id = new ObjectId(elem);
+      usersIds.push(user_id);
+    });
+
+    updateQuery.followed_users = usersIds;
+  }
+
+	if (typeof updateQuery.blocked_users !== "undefined") {
+    let usersIds: ObjectId[] = [];
+
+    updateQuery.blocked_users.forEach((elem: string) => {
+      user_id = new ObjectId(elem);
+      usersIds.push(user_id);
+    });
+
+    updateQuery.blocked = usersIds;
+  }
 
 	updateQuery.created = globalTools.createDateFromString(updateQuery.created);
   let query = { [field]: JSON.parse(value) };
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateUsersByQuery failed", "error");
+			res.status(400).send("Error");
+		}
+  });
+}
+
+// updates multiple users by id_field and value of objectId
+// /usersid/{field}&{value}
+// example:
+//  http://localhost:3000/usersid/followed_users&64a49ff9a1caf26fbfaa2dbb
+// example body:
+//   {
+//      "login":"custom login"
+// }
+export function updateUsersByQueriedId(req: Request, res: Response) {
+  const field = req.params.field;
+  let value = req.params.value;
+  const objValue = new ObjectId(value);
+
+  let updateQuery = req.body;
+
+	let note_id: ObjectId;
+	if (typeof updateQuery.saved_notes !== "undefined") {
+    let notesIds: ObjectId[] = [];
+
+		
+    updateQuery.saved_notes.forEach((elem: string) => {
+      note_id = new ObjectId(elem);
+      notesIds.push(note_id);
+    });
+
+    updateQuery.saved_notes = notesIds;
+  }
+
+	let user_id: ObjectId;
+	if (typeof updateQuery.followed_users !== "undefined") {
+    let usersIds: ObjectId[] = [];
+
+		
+    updateQuery.followed_users.forEach((elem: string) => {
+      user_id = new ObjectId(elem);
+      usersIds.push(user_id);
+    });
+
+    updateQuery.followed_users = usersIds;
+  }
+
+	if (typeof updateQuery.blocked_users !== "undefined") {
+    let usersIds: ObjectId[] = [];
+
+    updateQuery.blocked_users.forEach((elem: string) => {
+      user_id = new ObjectId(elem);
+      usersIds.push(user_id);
+    });
+
+    updateQuery.blocked = usersIds;
+  }
+
+
+
+  updateQuery.created = globalTools.createDateFromString(updateQuery.created);
+  let query = { [field]: objValue };
+
+  const result = global.updateItemsByField(query, table_name, updateQuery);
+  result.then((value) => {
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateUsersByQueriedId failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -389,15 +615,6 @@ export function updateUsersByQuery(req: Request, res: Response) {
 export function replaceUser(req: Request, res: Response) {
   const id = req.params.id;
   const query = req.body;
-	if(!Array.isArray(query.saved_notes) || query.saved_notes.length == 0 ){
-		query.saved_notes = [];
-	}
-	if(!Array.isArray(query.followed_users) || query.followed_users.length == 0 ){
-		query.saved_notes = [];
-	}
-	if(!Array.isArray(query.blocked_users) || query.blocked_users.length == 0 ){
-		query.saved_notes = [];
-	}
 	
   let user: User;
   user = new User(
@@ -414,7 +631,12 @@ export function replaceUser(req: Request, res: Response) {
   );
   const result = global.replaceItemById(id, table_name, user);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(201).send();
+		}else{
+			globalTools.logToDatabase("function replaceUser failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 

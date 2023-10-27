@@ -1,4 +1,7 @@
 import { ObjectId } from "bson";
+import { Log } from "./models/log_model";
+import { Type } from "./enums/log_type_enum";
+import * as global from "./global_database_functions";
 
 /* ====== CONTENTS:
 
@@ -84,54 +87,12 @@ export function createTimeString(date?: Date | string) {
   }
 }
 
-// // this one will probably mostly be used in "ByQuery" endpoints
-// // compares date with string, checks if it's the same day (and time in case if added)
-// // this function just checks what do we want and then picks suitable function
-// // params:
-// // date - date object that we want to compare
-// // str - string in format "dd/mm/yyyy", "dd/mm/yyyy, hh:mm:ss" or "dd/mm/yyyyThh:mm:ss"
-// // returns true or false
-// export function compareDateWithString(date: Date, str: string){
-// 	if(str.length == 10){
-// 		return this.compareOnlyDateWithString(date, str);
-// 	}else if(str.length == 19 || str.length == 20){
-// 		return this.compareFullDateWithString(date, str);
-// 	}
-// }
-
-
-// // compares date with string, checks if it's the same day
-// // params:
-// // date - date object that we want to compare
-// // str - string in format "dd/mm/yyyy"
-// // returns true or false
-// export function compareOnlyDateWithString(date: Date, str: string){
-// 	let strDate = this.createDateString(date);
-// 	if(str == strDate){
-// 		return true;
-// 	}
-// 	return false;
-// }
-
-// // compares date with string, checks if it's the same day (and time)
-// // params:
-// // date - date object that we want to compare
-// // str - string in format "dd/mm/yyyy, hh:mm:ss" or "dd/mm/yyyyThh:mm:ss"
-// // returns true or false
-// export function compareFullDateWithString(date: Date, str: string){
-// 	let strDate = '';
-// 	switch(str.length){
-// 		case 19:
-// 			strDate = this.createDateString(date);
-// 			strDate += 'T';
-// 			strDate += this.createTimeString(date);
-// 			break;
-// 		case 20:
-// 			strDate = this.createFullDateString(date);
-// 			break;
-// 	}
-// 	if(str == strDate){
-// 		return true;
-// 	}
-// 	return false;
-// }
+// logs to database
+// params:
+// content (string), type (optional, types are error, info, warning, success)
+export function logToDatabase(content: string, type: string = 'error') {
+	//let tp: keyof typeof Type = type;
+	let properType : Type = Type[type as keyof typeof Type];
+	const log: Log = new Log(properType, content);
+  const result = global.insertItem(log, "logs");
+}

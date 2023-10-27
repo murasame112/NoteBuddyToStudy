@@ -45,13 +45,22 @@ export function getMetaNotificationById(req: Request, res: Response) {
 //  http://localhost:3000/metanotifcations/published&true
 export function getMetaNotificationsByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  let value = req.params.value;
+  let value: any;
+	value = req.params.value;
+	
+
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+
+	if(field == 'shared_date'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
 
   let query = { [field]: value };
   const result = global.getItemsByField(query, table_name);
@@ -124,9 +133,12 @@ export function insertMetaNotification(req: Request, res: Response) {
   );
   const result = global.insertItem(metanotifcation, table_name);
   result.then((value) => {
-    value.acknowledged
-      ? res.status(201).send(value.insertedId)
-      : res.status(400).send("Error");
+    if(value.acknowledged){
+			res.status(201).send(value.insertedId);
+		}else{
+			globalTools.logToDatabase("function insertMetaNotification failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -167,12 +179,12 @@ export function insertMultipleMetaNotifications(req: Request, res: Response) {
     const result = global.insertItem(metanotifcation, table_name);
     result.then((value) => {
       counter++;
-      if (value.acknowledged == false) {
-        res.status(400).send("Error");
-      }
-      if (counter == metanotifcations.length) {
-        res.status(204).send();
-      }
+      if(counter == metanotifcations.length && value.acknowledged != false) {
+        res.status(201).send();
+      }else{
+				globalTools.logToDatabase("function insertMultipleMetaNotifications failed", "error");
+				res.status(400).send("Error");
+			}
     });
   });
 }
@@ -185,7 +197,12 @@ export function deleteMetaNotification(req: Request, res: Response) {
   const id = req.params.id;
   const result = global.deleteItemById(id, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteMetaNotification failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -207,12 +224,12 @@ export function deleteMultipleMetaNotifications(req: Request, res: Response) {
     const result = global.deleteItemById(element, table_name);
     result.then((value) => {
       counter++;
-      if (value.acknowledged == false) {
-        res.status(400).send("Error");
-      }
-      if (counter == ids.length) {
+      if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
-      }
+      }else{
+				globalTools.logToDatabase("function deleteMultipleMetaNotifications failed", "error");
+				res.status(400).send("Error");
+			}
     });
   });
 }
@@ -223,17 +240,31 @@ export function deleteMultipleMetaNotifications(req: Request, res: Response) {
 //  http://localhost:3000/metanotifcations/published&true
 export function deleteMetaNotificationsByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  let value = req.params.value;
+  let value: any;
+	value = req.params.value;
+
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+
+	if(field == 'shared_date'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
+
   let query = { [field]: value };
   const result = global.deleteItemsByField(query, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteMetaNotificationsByQuery failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -249,7 +280,12 @@ export function deleteMetaNotificationsByQueriedId(req: Request, res: Response) 
   let query = { [field]: objValue };
   const result = global.deleteItemsByField(query, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteMetaNotificationsByQueriedId failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -267,7 +303,12 @@ export function updateMetaNotification(req: Request, res: Response) {
 
   const result = global.updateItemById(id, table_name, query);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateMetaNotification failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -304,12 +345,12 @@ export function updateMultipleMetaNotifications(req: Request, res: Response) {
     const result = global.updateItemById(element, table_name, updateQuery);
     result.then((value) => {
       counter++;
-      if (value.acknowledged == false) {
-        res.status(400).send("Error");
-      }
-      if (counter == ids.length) {
+      if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
-      }
+      }else{
+				globalTools.logToDatabase("function updateMultipleMetaNotifications failed", "error");
+				res.status(400).send("Error");
+			}
     });
   });
 }
@@ -326,13 +367,22 @@ export function updateMultipleMetaNotifications(req: Request, res: Response) {
 // }
 export function updateMetaNotificationsByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  let value = req.params.value;
+  let value: any;
+	value = req.params.value;
+
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+
+	if(field == 'shared_date'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
+	
   let updateQuery = req.body;
   if (typeof updateQuery.notification_id !== "undefined") {
     updateQuery.notification_id = new ObjectId(updateQuery.notification_id);
@@ -345,7 +395,12 @@ export function updateMetaNotificationsByQuery(req: Request, res: Response) {
   let query = { [field]: value };
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateMetaNotificationsByQuery failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -370,7 +425,12 @@ export function updateMetaNotificationsByQueriedId(req: Request, res: Response) 
 
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateMetaNotificationsByQuery failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -397,7 +457,12 @@ export function replaceMetaNotification(req: Request, res: Response) {
   );
   const result = global.replaceItemById(id, table_name, metanotifcation);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(201).send();
+		}else{
+			globalTools.logToDatabase("function replaceMetaNotification failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 

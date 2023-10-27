@@ -47,13 +47,22 @@ export function getCardById(req: Request, res: Response) {
 //  http://localhost:3000/cards/published&true
 export function getCardsByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  let value = req.params.value;
+  let value: any;
+	value = req.params.value;
+
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+	
+	if(field == 'shared_date' || field == 'last_edit_date'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
+
   let query = { [field]: value };
   const result = global.getItemsByField(query, table_name);
   const cardArray: Card[] = [];
@@ -147,9 +156,12 @@ export function insertCard(req: Request, res: Response) {
 
   const result = global.insertItem(card, table_name);
   result.then((value) => {
-    value.acknowledged
-      ? res.status(201).send(value.insertedId)
-      : res.status(400).send("Error");
+    if(value.acknowledged){
+			res.status(201).send(value.insertedId);
+		}else{
+			globalTools.logToDatabase("function insertCard failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -217,12 +229,12 @@ export function insertMultipleCards(req: Request, res: Response) {
     const result = global.insertItem(card, table_name);
     result.then((value) => {
       counter++;
-      if (value.acknowledged == false) {
-        res.status(400).send("Error");
-      }
-      if (counter == cards.length) {
-        res.status(204).send();
-      }
+			if(counter == cards.length && value.acknowledged != false) {
+        res.status(201).send();
+      }else{
+				globalTools.logToDatabase("function insertMultipleCards failed", "error");
+				res.status(400).send("Error");
+			}
     });
   });
 }
@@ -235,7 +247,12 @@ export function deleteCard(req: Request, res: Response) {
   const id = req.params.id;
   const result = global.deleteItemById(id, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteCard failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -257,11 +274,11 @@ export function deleteMultipleCards(req: Request, res: Response) {
     const result = global.deleteItemById(element, table_name);
     result.then((value) => {
       counter++;
-      if (value.acknowledged == false) {
+      if(counter == ids.length && value.acknowledged != false){
+				res.status(204).send();
+      }else{
+				globalTools.logToDatabase("function deleteMultipleCards failed", "error");
         res.status(400).send("Error");
-      }
-      if (counter == ids.length) {
-        res.status(204).send();
       }
     });
   });
@@ -273,17 +290,30 @@ export function deleteMultipleCards(req: Request, res: Response) {
 //  http://localhost:3000/cards/published&true
 export function deleteCardsByQuery(req: Request, res: Response) {
   const field = req.params.field;
-  let value = req.params.value;
+  let value: any;
+	value = req.params.value;
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+
+	if(field == 'shared_date' || field == 'last_edit_date'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
+
   let query = { [field]: value };
   const result = global.deleteItemsByField(query, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteCardsByQuery failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -299,7 +329,12 @@ export function deleteCardsByQueriedId(req: Request, res: Response) {
   let query = { [field]: objValue };
   const result = global.deleteItemsByField(query, table_name);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteCardsByQueriedId failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -334,16 +369,17 @@ export function updateCard(req: Request, res: Response) {
     query.author_id = new ObjectId(query.author_id);
   }
 
-	if(!Array.isArray(query.questions) || !Array.isArray(query.answers) || query.questions.length == 0 || query.answers.length == 0){
-		res.status(400).send("Error");
-		return false;
-	}
 	
 	query.shared_date = globalTools.createDateFromString(query.shared_date);
 	query.last_edit_date = globalTools.createDateFromString(query.last_edit_date);
   const result = global.updateItemById(id, table_name, query);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateCard failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -385,10 +421,6 @@ export function updateMultipleCards(req: Request, res: Response) {
     updateQuery.author_id = new ObjectId(updateQuery.author_id);
   }
 
-	if(!Array.isArray(updateQuery.questions) || !Array.isArray(updateQuery.answers) || updateQuery.questions.length == 0 || updateQuery.answers.length == 0){
-		res.status(400).send("Error");
-		return false;
-	}
 
 	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
 	updateQuery.last_edit_date = globalTools.createDateFromString(updateQuery.last_edit_date);
@@ -397,12 +429,12 @@ export function updateMultipleCards(req: Request, res: Response) {
     const result = global.updateItemById(element, table_name, updateQuery);
     result.then((value) => {
       counter++;
-      if (value.acknowledged == false) {
-        res.status(400).send("Error");
-      }
-      if (counter == ids.length) {
+      if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
-      }
+      }else{
+				globalTools.logToDatabase("function updateMultipleCards failed", "error");
+				res.status(400).send("Error");
+			}
     });
   });
 }
@@ -430,13 +462,22 @@ export function updateMultipleCards(req: Request, res: Response) {
 //  }
 export function updateCardsByQuery(req: Request, res: Response) {
   const field = req.params.field;
-	let value = req.params.value;
+	let value: any; 
+	value = req.params.value;
+
   try {
     value = JSON.parse(value);
   } catch (e: any) {
     value = '"' + value + '"';
     value = JSON.parse(value);
   }
+
+	if(field == 'shared_date' || field == 'last_edit_date'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
+
   let updateQuery = req.body;
   if (typeof updateQuery.note_id !== "undefined") {
     updateQuery.note_id = new ObjectId(updateQuery.note_id);
@@ -445,17 +486,18 @@ export function updateCardsByQuery(req: Request, res: Response) {
     updateQuery.author_id = new ObjectId(updateQuery.author_id);
   }
 
-	if(!Array.isArray(updateQuery.questions) || !Array.isArray(updateQuery.answers) || updateQuery.questions.length == 0 || updateQuery.answers.length == 0){
-		res.status(400).send("Error");
-		return false;
-	}
 
 	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
 	updateQuery.last_edit_date = globalTools.createDateFromString(updateQuery.last_edit_date);
   let query = { [field]: value };
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateCardsByQuery failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -476,18 +518,19 @@ export function updateCardsByQueriedId(req: Request, res: Response) {
     updateQuery.author_id = new ObjectId(updateQuery.author_id);
   }
 
-	if(!Array.isArray(updateQuery.questions) || !Array.isArray(updateQuery.answers) || updateQuery.questions.length == 0 || updateQuery.answers.length == 0){
-		res.status(400).send("Error");
-		return false;
-	}
-	
+
 	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
 	updateQuery.last_edit_date = globalTools.createDateFromString(updateQuery.last_edit_date);
   let query = { [field]: objValue };
 
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
-    value.acknowledged ? res.status(204).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateCardsByQueriedId failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
@@ -531,7 +574,12 @@ export function replaceCard(req: Request, res: Response) {
 		);
   const result = global.replaceItemById(id, table_name, card);
   result.then((value) => {
-    value.acknowledged ? res.status(201).send() : res.status(400).send("Error");
+		if(value.acknowledged){
+			res.status(201).send();
+		}else{
+			globalTools.logToDatabase("function replaceCard failed", "error");
+			res.status(400).send("Error");
+		}
   });
 }
 
