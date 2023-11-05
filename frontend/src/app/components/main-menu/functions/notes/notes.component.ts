@@ -318,7 +318,7 @@ export class NotesComponent implements OnInit{
         return dataA.getTime() - dataB.getTime();
       }else
       {
-        console.log("broo")
+        console.log("noo")
         return 0
       }
 

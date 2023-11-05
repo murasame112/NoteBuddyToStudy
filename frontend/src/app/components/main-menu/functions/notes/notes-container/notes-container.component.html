@@ -1,8 +1,13 @@
 <div id="container"   (mouseover)="hoverEventOn()" (mouseleave)="hoverEventOff()">
   <div id="noteTop">
-    <div id="trustedAuthor">
+
+    <div id="trustedAuthor" *ngIf="!untrustedUser">
       <i class="fa-solid fa-check fa-lg" style="color: #0ebe2c;"></i>
       <span>zaufany autor</span></div>
+      <div id="trustedAuthor" *ngIf="untrustedUser" style="visibility: hidden;">
+        <i class="fa-solid fa-check fa-lg" style="color: #ff1100;"></i>
+        <span>niezaufany autor</span></div>
+
     <div  #container *ngIf="isVisible" id="hoverMenu">
       <i class="fa-solid fa-trash fa-xl icons" (click)="deleteNote(data?._id)"></i>
       <i class="fa-solid fa-download fa-xl icons"></i>
@@ -17,8 +22,11 @@
     </div>
   </div>
 
+
+
+
 <span class="spans" id="name">{{data?.name}}</span>
-<span class="spans" id="desc">{{data?.description}}</span>
+<span class="spans" id="desc">{{data?.content}}</span>
 
 <div id="categories">
   <span class="categoriesC" id="course">{{categoryName}}</span>

@@ -85,8 +85,8 @@ constructor(private notesService: NotesService, private router: Router) {}
       let author_id:string = "652d7b38f2c51e59e3c6241e";
       let category_id:string = data.courseName;
       let subcategory_id:string = data.subjectName;
-      let adress:string ="note_url_link";
-      let description:string = data.noteDesc;
+      // let adress:string ="note_url_link";
+      let content:string = data.noteDesc;
 
 
 
@@ -96,8 +96,8 @@ constructor(private notesService: NotesService, private router: Router) {}
         author_id: author_id,
         category_id: category_id,
         subcategory_id: subcategory_id,
-        adress: adress,
-        description: description
+        // adress: adress,
+        content: content
 
 
       };
@@ -271,10 +271,9 @@ constructor(private notesService: NotesService, private router: Router) {}
     }
 
     editorStyle = {
-      width: '35rem',
-      height: '20rem',
+
       backgroundColor: '#F7F7F7',
-      border: '1px solid #d8d7d7',
+
 
 
     }

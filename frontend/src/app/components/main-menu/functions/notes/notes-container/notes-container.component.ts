@@ -11,26 +11,24 @@ import { Note } from 'src/app/models/note.model';
 })
 export class NotesContainerComponent implements OnInit{
 
-isVisible:boolean=false;
+  //TODO sortowanie po dacie
+  //TODO tworzenie fiszek
+  //TODO poprawki z layoucie (addNote) i subcategory box gdy wymagany jest długi temat
+  //TODO addNote po dodaniu wraca do notes
 
 
-@Input() data:Note | null = null ;
-categoryName:string ="";
-subCategoryName:string = "";
-userName:string = "";
-
-//TODO sortowanie po dacie
-//TODO tworzenie fiszek
-//TODO poprawki z layoucie (addNote) i subcategory box gdy wymagany jest długi temat
-//TODO addNote po dodaniu wraca do notes
-
+ @Input() data:Note | null = null ;
  @Output()  public deleteNoteEvent: EventEmitter<boolean> = new EventEmitter();
 
-  constructor(private notesService: NotesService ) {
 
-  }
+ isVisible:boolean=false;
+ categoryName:string ="";
+ subCategoryName:string = "";
+ userName:string = "";
+ untrustedUser:boolean = false;
 
 
+  constructor(private notesService: NotesService ) {}
 
   ngOnInit(): void {
     if(this.data != null)
@@ -68,8 +66,8 @@ userName:string = "";
   this.notesService.getUserById(id.toString()).subscribe
   (
     (res)=>{
-      this.userName= res.login
-
+      this.userName= res.login;
+      this.untrustedUser = res.untrusted;
     }).toString();
  }
 

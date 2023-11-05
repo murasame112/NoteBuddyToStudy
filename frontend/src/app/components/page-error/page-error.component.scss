@@ -1,0 +1,38 @@
+
+
+#container
+{
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: 'poppins', sans-serif;
+}
+
+#error
+{
+  font-size: 6rem;
+
+}
+
+#errorText
+{
+  font-size: 1.5rem;
+}
+
+
+@media(max-width:425px)
+{
+  #error
+{
+  font-size: 4rem;
+
+}
+
+#errorText
+{
+  font-size: 1rem;
+}
+}

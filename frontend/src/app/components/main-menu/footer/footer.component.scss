@@ -49,7 +49,6 @@
   #footer-line
 {
   width: 28rem;
-  height: 0.010rem;
 
 }
 
@@ -59,14 +58,11 @@
 }
 }
 
-@media(max-width:500px)
+@media(max-width:650px)
 {
-
   #footer-line
 {
-  width: 25rem;
   height: 0.010rem;
-
 }
 
 }
@@ -87,6 +83,6 @@
 
   #copyright
 {
-  font-size: 0.7rem;
+  font-size: 0.5rem;
 }
 }

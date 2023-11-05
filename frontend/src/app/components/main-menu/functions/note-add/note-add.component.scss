@@ -129,7 +129,8 @@ width: 12rem;
   background-color: #F7F7F7;
   border-radius: 1rem;
   gap: 2rem;
-
+  margin-top: 4.5rem;
+  margin-bottom: 5.2rem;
 }
 
 
@@ -179,15 +180,7 @@ width: 12rem;
 
 // }
 
-.quillEditor
-{
-  // border: 1px solid red;
-}
 
-.ql-toolbar.ql-snow {
-  border: 1px solid #F7F7F7;
-  border-radius: 0.5rem 0.5rem 0 0;
-}
 
 #optionBox
 {
@@ -228,12 +221,23 @@ width: 12rem;
 
 
 
+@media(max-width:1024px)
+{
+ #addForm1
+ {
+  width: 52rem;
+  height: 38rem;
+  gap: 2rem;
+ }
+}
+
+
 @media(max-width:960px)
 {
   #addForm1
 {
   width: 50rem;
-  height: 38rem;
+  height: 36rem;
   gap: 1rem;
 
 }
@@ -255,6 +259,34 @@ width: 12rem;
   height: 20rem;
 }
 
+
+#addNoteBtn
+{
+  width: 10rem;
+  height: 2rem;
+}
+
+}
+
+@media(max-width:810px)
+{
+  #addForm1
+{
+  width: 40rem;
+  height: 40rem;
+}
+
+#titleBox input
+{
+  width: 25rem;
+}
+
+#descBox textarea
+{
+  width: 25rem;
+
+}
+
 #optionBox
 {
   flex-direction: column;
@@ -270,39 +302,15 @@ width: 12rem;
 .optLabel
 {
 text-align: center;
-  width: 5rem;
-}
-
-#addNoteBtn
-{
-  width: 10rem;
-  height: 2rem;
-}
-
-}
-
-@media(max-width:810px)
-{
-  #addForm1
-{
-  width: 40rem;
-}
-
-#titleBox input
-{
-  width: 25rem;
-}
-
-#descBox textarea
-{
-  width: 25rem;
-  height: 20rem;
+width: 5rem;
 }
 
 }
 
 @media(max-width:660px)
 {
+
+
   #addForm1
 {
   width: 30rem;
@@ -319,12 +327,27 @@ text-align: center;
 }
 }
 
+@media(max-width:650px)
+{
+  #backBtn
+  {
+    right: 1rem;
+    top: 3rem;
+    border-radius: 2rem;
+    width: 8rem;
+    height: 2.5rem;
+    align-self: flex-start;
+
+  }
+}
+
 
 @media(max-width:530px)
 {
   #addForm1
 {
   width: 25rem;
+  height: 42rem;
 }
 
 #titleBox input
@@ -342,14 +365,11 @@ text-align: center;
 
 @media(max-width:430px)
 {
-  main
-  {
-    height: 45rem;
-  }
+
   #addForm1
   {
     width: 20rem;
-    height: 42rem;
+    height: 48rem;
   }
 
   #titleBox
@@ -370,22 +390,6 @@ text-align: center;
     gap: 0.5rem;
 
   }
-}
-
-@media(max-width:340px)
-{
-
-  main
-  {
-    height: 50rem;
-  }
-
-  #addForm1
-  {
-    width: 18rem;
-    height: 48rem;
-  }
-
 
   .displayClass
   {
@@ -399,11 +403,90 @@ text-align: center;
   // background-color: pink;
   width: auto;
 }
+
+}
+
+@media(max-width:340px)
+{
+  #addForm1
+  {
+    width: 18rem;
+
+  }
 }
 
 ::ng-deep {
+
 .ql-toolbar.ql-snow{
-  border:1px solid rgb(192, 192, 192) !important;
-  border-radius: 1rem 1rem 0 0 !important;
+  border:1px solid #dee2e6!important;
+  border-radius:  .5rem .5rem 0 0 !important;
+  border: none;
+  width: 35rem;
+  // margin-bottom: 1rem;
+  text-align: center;
+}
+
+
+.ql-container.ql-snow
+{
+  border-radius: 0  0 .5rem .5rem;
+  border: 1px solid #dee2e6!important;
+  width: 35rem;
+  height: 20rem;
+
+}
+
+
+@media(max-width:810px)
+{
+  .ql-toolbar.ql-snow{
+    width: 25rem;
+  }
+
+
+  .ql-container.ql-snow
+  {
+    width: 25rem;
+  }
+}
+
+@media(max-width:660px)
+{
+  .ql-toolbar.ql-snow{
+    width: 20rem;
+  }
+
+
+  .ql-container.ql-snow
+  {
+    width: 20rem;
+  }
+}
+
+@media(max-width:530px)
+{
+  .ql-toolbar.ql-snow{
+    width: 15rem;
+  }
+
+
+  .ql-container.ql-snow
+  {
+    width: 15rem;
+    height: 20rem;
+  }
 }
 }
+
+// @media(max-height:840px)
+// {
+
+//   #addForm1
+//   {
+//     width: 46rem;
+//     height: 35rem;
+//     gap: 1rem;
+//     margin: 1rem;
+
+//   }
+// }

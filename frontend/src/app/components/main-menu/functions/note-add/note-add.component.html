@@ -14,7 +14,7 @@
     <div id="descBox" class="displayClass">
     <label>Treść: </label>
     <!-- <textarea  placeholder="opis notatki"  cols="30" rows="10" formControlName="noteDesc" class="form-control"></textarea> -->
-    <quill-editor formControlName="noteDesc" [modules]="quillConfig" [styles]="editorStyle" class="quillEditor"></quill-editor>
+    <quill-editor formControlName="noteDesc" [modules]="quillConfig" [styles]="editorStyle" class="quillEditor" placeholder="Wpisz tekst"></quill-editor>
     </div>
 
     <div id="optionBox" class="displayClass">
@@ -45,7 +45,7 @@
       </select>
     </div>
 
-    <div class="displayClass">
+    <!-- <div class="displayClass">
 
       <label class="optLabel">Typ:</label>
       <select formControlName="typeName" class="form-select" >
@@ -53,11 +53,11 @@
         <option value="Treść">Treść</option>
         <option value="Zdjęcie">Zdjęcie</option>
       </select>
-      </div>
+      </div> -->
 
     </div>
 
-    <button type="submit" id="addNoteBtn">Dodaj notatke</button>
+    <button type="submit" id="addNoteBtn">Dodaj notatkę</button>
 
   </form>
 </main>
