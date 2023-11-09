@@ -80,7 +80,7 @@
     <div id="noteContent" >
       <ng-container *ngFor="let note of notesArray" >
 
-        <app-notes-container [data]="note" (deleteNoteEvent)="refreshNoteData()"></app-notes-container>
+        <app-notes-container [data]="note" [notesAndDetails]="notesWithDetails" (deleteNoteEvent)="refreshNoteData()"></app-notes-container>
 
 
       </ng-container>

@@ -1,6 +1,7 @@
 import { Component, OnInit,Input, ViewChild, EventEmitter,Output } from '@angular/core';
 import { NotesService } from '../../../../../services/notes.service';
 import { Note } from 'src/app/models/note.model';
+import { NoteAndDetails } from 'src/app/models/noteAndDetails.model';
 
 
 
@@ -18,6 +19,7 @@ export class NotesContainerComponent implements OnInit{
 
 
  @Input() data:Note | null = null ;
+ @Input() notesAndDetails:NoteAndDetails[] | null = null;
  @Output()  public deleteNoteEvent: EventEmitter<boolean> = new EventEmitter();
 
 
@@ -27,6 +29,19 @@ export class NotesContainerComponent implements OnInit{
  userName:string = "";
  untrustedUser:boolean = false;
 
+ noteID:string = "";
+ noteName:string = "";
+ noteCategory:string ="";
+ noteSubcategory:string="";
+ author:string ="";
+
+currentNoteDetails:NoteAndDetails = {
+  noteID: this.noteID,
+  noteName: this.noteName,
+  categoryName: this.noteCategory,
+  subcategoryName: this.noteSubcategory,
+  author: this.author
+};
 
   constructor(private notesService: NotesService ) {}
 
@@ -34,13 +49,40 @@ export class NotesContainerComponent implements OnInit{
     if(this.data != null)
     {
       //TODO async all methods to load at the same time
-      // console.log(this.data.category_id);
-      this.getCategory(this.data.category_id);
-      this.getSubCategory(this.data.subcategory_id);
-      this.getUser(this.data.author_id);
+      // this.getAllData(this.data.category_id,this.data.subcategory_id,this.data.author_id);
+      // this.getCategory(this.data.category_id);
+      // this.getSubCategory(this.data.subcategory_id);
+      // this.getUser(this.data.author_id);
+      // this.getDetails()
     }
 
   }
+
+  getAllData(categoryID:any,subcategoryID:any,userID:any)
+  {
+
+      this.notesService.getAllDataById(categoryID.toString(),subcategoryID.toString(),userID.toString()).subscribe((res)=>{
+        // console.log(res);
+        this.categoryName = res[0].name;
+        this.subCategoryName= res[1].name
+        this.userName= res[2].login;
+        this.untrustedUser = res[2].untrusted;
+
+      })
+  }
+
+  getDetails()
+  {
+    if(this.data !=null && this.notesAndDetails != null)
+    {
+
+     console.log(this.notesAndDetails[0])
+
+    }
+
+  }
+
+
 
  getCategory(id:Object)
  {
@@ -74,15 +116,13 @@ export class NotesContainerComponent implements OnInit{
  hoverEventOn()
  {
   this.isVisible= true;
-
  }
 
  hoverEventOff()
  {
-  let icons:any = document.querySelectorAll('.icons');
+  // let icons:any = document.querySelectorAll('.icons');
   this.isVisible= false;
-
- }
+}
 
 
  deleteNote(_id:any)
@@ -91,8 +131,6 @@ export class NotesContainerComponent implements OnInit{
     this.deleteNoteEvent.emit();
 
   })
-
-
  }
 
 

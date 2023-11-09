@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, combineLatest, forkJoin} from 'rxjs';
 import { Note } from '../models/note.model';
 import {HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/operators';
+import { UsersService } from './users.service';
+import { NoteAndDetails } from '../models/noteAndDetails.model';
 
 
 @Injectable({
@@ -12,7 +14,7 @@ export class NotesService {
 
   public apiUrl = 'http://localhost:3000';
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient, private  userService:UsersService) { }
 
 
   addNote(note:Note):Observable<any>
@@ -107,14 +109,6 @@ export class NotesService {
       })
 
     )
-
-    // .subscribe(
-    //   (res)=>{
-    //   console.log(res.name);
-    //  return res.name??"";
-    // })
-
-    // return "123";
   }
 
 
@@ -178,6 +172,60 @@ export class NotesService {
       })
 
     )
+  }
+
+
+
+  getAllData()
+  {
+    return combineLatest([
+      this.getNotes(),
+      this.getCategories(),
+      this.getSubcategories(),
+      this.userService.getUsers(),
+    ])
+    .pipe(
+      map(([notes,categories,subcategories,users])=>{
+         return [notes,categories,subcategories,users];
+        }))
+  }
+
+  getAllDataById(categoryID:string,subcategoryID:string,userID:string)
+  {
+    // return combineLatest([
+    //   this.getCategoryById(categoryID),
+    //   this.getSubCategoryById(subcategoryID),
+    //   this.userService.getUserById(userID)
+    // ])
+    // .pipe(
+    //   map(([category,subcategory,user])=>{
+    //     return [category,subcategory,user]
+    //   })
+    // )
+
+      return forkJoin([
+        this.getCategoryById(categoryID),
+      this.getSubCategoryById(subcategoryID),
+      this.userService.getUserById(userID)
+      ]).pipe(
+        map(([category,subcategory,user])=>{
+          return [category,subcategory,user]
+        })
+      )
+
+  }
+
+  mergeNotesAndDetails(noteID:string,noteName:string,noteCategory:string,noteSubcategory:string,author:string)
+  {
+    let noteWithDetails:NoteAndDetails=
+   {
+    noteID: noteID,
+    noteName: noteName,
+    categoryName: noteCategory,
+    subcategoryName: noteSubcategory,
+    author: author
+   }
+    return noteWithDetails;
   }
 
 }

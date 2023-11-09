@@ -7,6 +7,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Category } from 'src/app/models/category.model';
 import { Subcategory } from 'src/app/models/subcategory.model';
 import { User } from 'src/app/models/user.model';
+import { NoteAndDetails } from 'src/app/models/noteAndDetails.model';
 
 
 @Component({
@@ -18,10 +19,11 @@ export class NotesComponent implements OnInit{
 
   constructor(private notesService: NotesService) {}
   ngOnInit(): void {
-    this.getNotes()
-    this.getCategories()
-    this.getSubcategories()
-    this.getUsers()
+    this.getAllNotes()
+    // this.getNotes()
+    // this.getCategories()
+    // this.getSubcategories()
+    // this.getUsers()
 
 
     this.FilterForm = new FormGroup(
@@ -36,10 +38,8 @@ export class NotesComponent implements OnInit{
   }
 
   isLoading:Boolean = true;
-  isLoadingN:Boolean = true;
-  isLoadingC:Boolean = true;
-  isLoadingSC:Boolean = true;
-  isLoadingU:Boolean = true;
+
+  notesWithDetails:any[] = [];
 
   allNotes:Note[] = [];
   notesArray:Note[] =[];
@@ -167,16 +167,59 @@ export class NotesComponent implements OnInit{
     }
 
 
+getAllNotes()
+{
+  this.notesService.getAllData().subscribe((res)=>{
+        console.log("NOTES",res);
+
+        this.allNotes = res[0];
+        this.notesArray = this.allNotes;
+        this.allCategories = res[1];
+        this.allSubcategories =res[2];
+        this.subcategoriesArray =this.allSubcategories;
+        this.allUsers = res[3];
+
+
+        this.allNotes.forEach((note,counter=0)=>
+        {
+          counter++
+          console.warn(`Notatka:${counter}`,note._id,note.name)
+          if(note.category_id != undefined && note.subcategory_id != undefined && note.author_id != undefined)
+          {
+
+            this.notesService.getAllDataById(note.category_id.toString(),note.subcategory_id.toString(),note.author_id.toString())
+            .subscribe((response)=>{
+              // console.log("test",response);
+              if(note._id != undefined)
+              {
+               let noteWithDetails:NoteAndDetails = this.notesService.mergeNotesAndDetails(note._id?.toString(),note.name , response[0].name, response[1].name,response[2].login);
+                // console.log("mergeNotatki",noteWithDetails);
+                this.notesWithDetails.push(noteWithDetails);
+              }
+            })
+          }
+
+        })
+
+        // console.log('tablica Details:',this.notesWithDetails)
+        this.isLoading= false;
+        this.defaultSort()
+
+  })
+
+
+
+}
+
 
   getNotes()
   {
 
 
     this.notesService.getNotes().pipe(
-    finalize(()=>{this.isLoadingN = false,
-      this.getAllNotesProperties();
-
-    })
+    // finalize(()=>{
+    //   this.getAllNotesProperties();
+    // })
     )
     .subscribe(
       (res)=>{
@@ -184,7 +227,7 @@ export class NotesComponent implements OnInit{
         this.allNotes = res;
         this.notesArray = this.allNotes;
         this.defaultSort()
-        // this.isLoadingN = false
+
 
 
       }
@@ -195,16 +238,16 @@ export class NotesComponent implements OnInit{
   getCategories()
   {
     this.notesService.getCategories().pipe(
-      finalize(()=>{ this.isLoadingC = false,
-        this.getAllNotesProperties();
-      })
+      // finalize(()=>{
+      //   this.getAllNotesProperties();
+      // })
       )
 
     .subscribe(
       (res)=>{
         console.log(res);
         this.allCategories = res;
-        // this.isLoadingC = false
+
 
 
       }
@@ -217,16 +260,16 @@ export class NotesComponent implements OnInit{
   getSubcategories()
   {
     this.notesService.getSubcategories().pipe(
-      finalize(()=>{this.isLoadingSC = false,
-        this.getAllNotesProperties();
-      })
+      // finalize(()=>{
+      //   this.getAllNotesProperties();
+      // })
       )
     .subscribe(
       (res)=>{
         console.log(res)
         this.allSubcategories =res;
         this.subcategoriesArray =this.allSubcategories;
-        // this.isLoadingSC = false
+
 
 
       })
@@ -236,16 +279,15 @@ export class NotesComponent implements OnInit{
   getUsers()
   {
     this.notesService.getUsers().pipe(
-      finalize(()=>{this.isLoadingU = false,
-        this.getAllNotesProperties();
-      })
+      // finalize(()=>{
+      //   this.getAllNotesProperties();
+      // })
       )
     .subscribe(
       (res)=>{
         console.log(res)
         this.allUsers = res;
-        // this.isLoadingU = false
-        this.getAllNotesProperties();
+
 
       }
     )
@@ -259,36 +301,6 @@ export class NotesComponent implements OnInit{
     this.getNotes()
 
   }
-
-   getAllNotesProperties()
-  {
-
-      if(
-        this.isLoadingN == true ||
-        this.isLoadingC == true  ||
-        this.isLoadingSC == true ||
-        this.isLoadingU == true
-      )
-      {
-      this.isLoading = true;
-      console.log("Prawda");
-      console.log(this.isLoadingN)
-      console.log(this.isLoadingC)
-      console.log(this.isLoadingSC)
-      console.log(this.isLoadingU)
-
-      }else
-      {
-      console.log("else");
-      console.log(this.isLoadingN)
-      console.log(this.isLoadingC)
-      console.log(this.isLoadingSC)
-      console.log(this.isLoadingU)
-      this.isLoading = false;
-        console.log(`isLoading ${this.isLoading}`)
-      }
-  }
-
 
 
   defaultSort()
@@ -324,9 +336,6 @@ export class NotesComponent implements OnInit{
 
 
     })
-
-
-
 
     }else if(value === "bestRate")
     {
