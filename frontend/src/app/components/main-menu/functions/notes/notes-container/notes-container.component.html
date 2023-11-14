@@ -1,60 +1,85 @@
-<div id="container"   (mouseover)="hoverEventOn()" (mouseleave)="hoverEventOff()">
+<div id="container" (mouseover)="hoverEventOn()" (mouseleave)="hoverEventOff()">
   <div id="noteTop">
-
     <div id="trustedAuthor" *ngIf="!untrustedUser">
-      <i class="fa-solid fa-check fa-lg" style="color: #0ebe2c;"></i>
-      <span>zaufany autor</span></div>
-      <div id="trustedAuthor" *ngIf="untrustedUser" style="visibility: hidden;">
-        <i class="fa-solid fa-check fa-lg" style="color: #ff1100;"></i>
-        <span>niezaufany autor</span></div>
+      <i class="fa-solid fa-check fa-lg" style="color: #0ebe2c"></i>
+      <span>zaufany autor</span>
+    </div>
+    <div id="trustedAuthor" *ngIf="untrustedUser" style="visibility: hidden">
+      <i class="fa-solid fa-check fa-lg" style="color: #ff1100"></i>
+      <span>niezaufany autor</span>
+    </div>
 
-    <div  #container *ngIf="isVisible" id="hoverMenu">
-      <i class="fa-solid fa-trash fa-xl icons" (click)="deleteNote(data?._id)"></i>
+    <div #container *ngIf="isVisible" id="hoverMenu">
+      <i
+        class="fa-solid fa-trash fa-xl icons"
+        (click)="deleteNote(data?._id)"
+      ></i>
       <i class="fa-solid fa-download fa-xl icons"></i>
 
-      <svg width="27" height="25" viewBox="0 0 27 25" fill="none" xmlns="http://www.w3.org/2000/svg"  class="icons" id="cardIcon">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M18 25H24C25.6569 25 27 23.6569 27 22V6C27 4.34315 25.6569 3 24 3H16H16V5H16H24C24.5523 5 25 5.44772 25 6V22C25 22.5523 24.5523 23 24 23H18V25Z" fill="black" />
-        <rect x="1.27993" y="0.61715" width="11.977" height="19.7019" rx="3" transform="matrix(0.945608 -0.325309 0.334322 0.942459 -0.136709 4.99876)" stroke="black" stroke-width="2"  />
-        </svg>
+      <svg
+        width="27"
+        height="25"
+        viewBox="0 0 27 25"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        class="icons"
+        id="cardIcon"
+      >
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M18 25H24C25.6569 25 27 23.6569 27 22V6C27 4.34315 25.6569 3 24 3H16H16V5H16H24C24.5523 5 25 5.44772 25 6V22C25 22.5523 24.5523 23 24 23H18V25Z"
+          fill="black"
+        />
+        <rect
+          x="1.27993"
+          y="0.61715"
+          width="11.977"
+          height="19.7019"
+          rx="3"
+          transform="matrix(0.945608 -0.325309 0.334322 0.942459 -0.136709 4.99876)"
+          stroke="black"
+          stroke-width="2"
+        />
+      </svg>
 
       <i class="fa-regular fa-star fa-xl icons"></i>
-      <i class="fa-solid fa-up-right-and-down-left-from-center fa-xl icons" routerLink="/note/{{data?._id}}"></i>
+      <i
+        class="fa-solid fa-up-right-and-down-left-from-center fa-xl icons"
+        routerLink="/note/{{ data?._id }}"
+      ></i>
     </div>
   </div>
 
+  <span class="spans" id="name">{{ data?.name }}</span>
+  <span class="spans" id="desc">{{ data?.content }}</span>
 
-
-
-<span class="spans" id="name">{{data?.name}}</span>
-<span class="spans" id="desc">{{data?.content}}</span>
-
-<div id="categories">
-  <span class="categoriesC" id="course">{{categoryName}}</span>
-  <span class="categoriesC" id="subcategory">{{subCategoryName}}</span>
-</div>
-
-
-<div id="bottom">
-
-  <div id="rates">
-    <button class="ratesBtns">
-      <span  id="likeNumber">{{data?.positive_reviews}}</span>
-      <i class="fa fa-solid fa-thumbs-up fa-lg"></i>
-    </button>
-
-    <button class="ratesBtns">
-      <span  id="dislikeNumber">{{data?.negative_reviews}}</span>
-      <i class="fa-solid fa-thumbs-down fa-lg"></i>
-    </button>
+  <div id="categories">
+    <span class="categoriesC" id="course">{{ categoryName }}</span>
+    <span class="categoriesC" id="subcategory">{{ subCategoryName }}</span>
   </div>
 
+  <div id="bottom">
+    <div id="rates">
+      <button class="ratesBtns">
+        <span id="likeNumber">{{ data?.positive_reviews }}</span>
+        <i class="fa fa-solid fa-thumbs-up fa-lg"></i>
+      </button>
 
-  <div id="authorAndDate">
-    <span  id="authorName">autor: <span id="authorColor">{{userName}}</span></span>
-  <span  id="lastEditDate">Ostatnio aktualizowane: {{data?.last_edit_date | date:'dd-MM-yyyy HH:mm'}}</span>
+      <button class="ratesBtns">
+        <span id="dislikeNumber">{{ data?.negative_reviews }}</span>
+        <i class="fa-solid fa-thumbs-down fa-lg"></i>
+      </button>
+    </div>
+
+    <div id="authorAndDate">
+      <span id="authorName"
+        >autor: <span id="authorColor">{{ userName }}</span></span
+      >
+      <span id="lastEditDate"
+        >Ostatnio aktualizowane:
+        {{ data?.last_edit_date | date : "dd-MM-yyyy HH:mm" }}</span
+      >
+    </div>
   </div>
-
-</div>
-
-
 </div>

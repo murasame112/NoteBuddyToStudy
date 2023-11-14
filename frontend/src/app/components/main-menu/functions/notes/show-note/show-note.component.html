@@ -1,22 +1,26 @@
 <div id="container">
   <nav>
     <app-navbar></app-navbar>
-   </nav>
+  </nav>
 
-   <main>
-    <i class="fa-solid fa-spinner fa-spin-pulse fa-2xl" id="spinner" style="color: #ffbb00;" *ngIf="isLoading"></i>
-    <div id="topSection">
-      <div id="nav"><span id="title">{{note.name}}</span></div>
+  <main>
+    <i
+      class="fa-solid fa-spinner fa-spin-pulse fa-2xl"
+      id="spinner"
+      style="color: #ffbb00"
+      *ngIf="isLoading"
+    ></i>
+    <div id="topSection" *ngIf="!isLoading">
+      <div id="nav">
+        <span id="title">{{ note.name }}</span>
+      </div>
       <button id="backBtn" routerLink="/notes">powrót</button>
-
     </div>
 
-    <p id="text">{{note.content}}</p>
+    <p id="text" *ngIf="!isLoading">{{ note.content }}</p>
+  </main>
 
-
-   </main>
-
-<footer>
-  <app-footer></app-footer>
-</footer>
+  <footer>
+    <app-footer></app-footer>
+  </footer>
 </div>
