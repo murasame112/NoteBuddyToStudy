@@ -1,42 +1,34 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-// import { Category } from 'src/app/enums/category';
-// import { Subcategory } from 'src/app/enums/subcategory';
+import { takeUntil } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
+
 import { Note } from 'src/app/models/note.model';
 import { NotesService } from 'src/app/services/notes.service';
 import { Category } from '../../../../models/category.model';
 import { Subcategory } from '../../../../models/subcategory.model';
-import { Router } from '@angular/router';
-
-import { ObjectId } from 'bson';
 
 @Component({
   selector: 'app-note-add',
   templateUrl: './note-add.component.html',
   styleUrls: ['./note-add.component.scss'],
 })
-export class NoteAddComponent implements OnInit {
-  constructor(private notesService: NotesService, private router: Router) {}
+export class NoteAddComponent extends Unsubscribe implements OnInit {
+  constructor(private notesService: NotesService, private router: Router) {
+    super();
+  }
 
-  //  category = Object.values(Category);
-  //  subcategory = Object.values(Subcategory);
   categoryName: Category[] = [];
   categoryArray: Category[] = [];
-  category: Category[] = [];
 
-  subcategoryName: Subcategory[] = [];
+  subcategoryOrigin: Subcategory[] = [];
   subcategoriesArray: Subcategory[] = [];
   subcategoryFilteredArray: Subcategory[] = [];
-  subcategory: Subcategory[] = [];
-
-  selectedCategory: string = '';
-
-  noteArray: Note[] = [];
 
   ngOnInit(): void {
     this.getCategories();
     this.getSubcategories();
-    this.getValue();
 
     this.addNoteForm = new FormGroup({
       noteName: new FormControl('', Validators.required),
@@ -55,13 +47,7 @@ export class NoteAddComponent implements OnInit {
     typeName: new FormControl('', Validators.required),
   });
 
-  getValue() {
-    this.notesService.getNotes().subscribe((res) => {
-      this.noteArray = res;
-      console.log(this.noteArray);
-    });
-  }
-
+  //Dodawanie notatki
   addNote(data: any) {
     console.log(data);
 
@@ -69,7 +55,6 @@ export class NoteAddComponent implements OnInit {
     let author_id: string = '652d7b38f2c51e59e3c6241e';
     let category_id: string = data.courseName;
     let subcategory_id: string = data.subjectName;
-    // let adress:string ="note_url_link";
     let content: string = data.noteDesc;
 
     let newNote: Note = {
@@ -77,29 +62,21 @@ export class NoteAddComponent implements OnInit {
       author_id: author_id,
       category_id: category_id,
       subcategory_id: subcategory_id,
-      // adress: adress,
       content: content,
     };
 
-    this.notesService.addNote(newNote).subscribe(
-      //! To jest do przerobienia response to zwrocone id
-      (response) => {
-        if (response.status === 201) {
-          let insertedId: string = response.body;
-          console.log(`Dodano notatkę o id:${insertedId}`);
-        } else if (response.status === 400) {
-          console.log('Error status 400:', response);
-        } else if (response.status === 200) {
-          console.log(response, 'status 200');
-        } else console.log('Inny status');
-        console.log(response);
-      },
-      (error) => {
-        console.log('Bład:', error);
-      }
-    );
-
-    //  this.categoryArrayList();
+    this.notesService
+      .addNote(newNote)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(
+        //! To jest do przerobienia response zwraca ID
+        (response) => {
+          console.log('ID:', response);
+        },
+        (error) => {
+          console.log('Bład:', error);
+        }
+      );
 
     setTimeout(() => {
       this.router.navigate(['/notes']);
@@ -107,92 +84,37 @@ export class NoteAddComponent implements OnInit {
   }
 
   getCategories() {
-    this.notesService.getCategories().subscribe((res) => {
-      // console.log(res)
-      this.categoryArray = res;
-      res.forEach((element) => {
-        this.categoryName.push(element.name);
-
-        // this.category.push(element.id);
-        // this.category.push(element.name);
-        // this.category.push(element._id);
+    this.notesService
+      .getCategories()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((res) => {
+        this.categoryArray = res;
+        res.forEach((element) => {
+          this.categoryName.push(element.name);
+        });
       });
-
-      for (let i = 0; i < res.length; i++) {
-        this.category.push(res[i]);
-        // console.log(this.category)
-      }
-    });
   }
 
   getSubcategories() {
-    this.notesService.getSubcategories().subscribe((res) => {
-      res.forEach((e) => {
-        this.subcategoryName.push(e.name);
-        this.subcategoriesArray.push(e);
+    this.notesService
+      .getSubcategories()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((res) => {
+        res.forEach((e) => {
+          // this.subcategoryName.push(e.name);
+          this.subcategoriesArray.push(e);
+        });
+
+        for (let i = 0; i < res.length; i++) {
+          this.subcategoryOrigin.push(res[i]);
+        }
       });
-
-      for (let i = 0; i < res.length; i++) {
-        // for(let j=0;j<this.category.length;j++)
-        // {
-        //   if(res[i].category_id ===this.category[j]._id)
-        //   {
-        //     console.log(res[i].category_id);
-        //     console.log(this.category[j]._id);
-
-        //   }
-
-        // }
-
-        this.subcategory.push(res[i]);
-        // console.log(this.subcategory)
-      }
-    });
   }
 
-  categoryArrayList() {
-    for (let i = 0; i < this.category.length; i++) {
-      console.log(this.category[i]);
-    }
-
-    console.warn('================');
-
-    for (let i = 0; i < this.subcategory.length; i++) {
-      console.log(this.subcategory[i]);
-    }
-  }
-
-  filterSubcategory(categoryName: string) {
-    let selectedCategoryId: string = '';
-    // console.log(categoryName)
-
-    for (let i = 0; i < this.category.length; i++) {
-      if (this.category[i].name === categoryName) {
-        selectedCategoryId = this.category[i]._id;
-
-        // for(let j=0;j<this.subcategory.length;j++)
-        // {
-        //   if(this.subcategory[j].category_id ===  selectedCategoryId)
-        //   {
-        //     for(let x=0;x<this.subcategory.length;x++)
-        //     {
-        //       console.log(this.subcategory[x].name);
-        //     }
-        //   }
-        // }
-      }
-    }
-
-    console.log(`name:${categoryName} id:${selectedCategoryId}`);
-  }
-
+  //Filtrowanie podkategorii na podstawie kategorii
   filterSubcategories() {
     let courseId = this.addNoteForm.get('courseName')?.value;
-    let subjectName = this.addNoteForm.get('subjectName')?.value;
-
-    this.subcategoryFilteredArray = this.subcategory;
-
-    console.log(this.subcategoryFilteredArray);
+    this.subcategoryFilteredArray = this.subcategoryOrigin;
 
     if (courseId != null && courseId != '') {
       this.subcategoryFilteredArray = this.subcategoryFilteredArray.filter(
@@ -200,21 +122,25 @@ export class NoteAddComponent implements OnInit {
           return e.category_id === courseId;
         }
       );
+      // console.log('FilteredSubcategories', this.subcategoryFilteredArray);
+      // console.log('categoryNAME', this.categoryName);
       this.subcategoriesArray = this.subcategoryFilteredArray;
     }
+
+    this.onCategoryChange();
   }
 
-  get onCategoryChange() {
+  //Włączanie i wyłączanie wyboru podkategorii
+  onCategoryChange() {
     let categoryName = this.addNoteForm.get('courseName')?.value;
     this.addNoteForm.get('subjectName')?.disable();
 
     if (categoryName != null && categoryName != '') {
       this.addNoteForm.get('subjectName')?.enable();
     }
-
-    return true;
   }
 
+  //! QUILL
   editorStyle = {
     backgroundColor: '#F7F7F7',
   };
@@ -228,4 +154,6 @@ export class NoteAddComponent implements OnInit {
       ['link', 'image'],
     ],
   };
+
+  //! /QUILL
 }

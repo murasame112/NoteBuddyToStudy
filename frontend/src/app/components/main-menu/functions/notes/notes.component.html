@@ -20,16 +20,14 @@
                 class="categorySelect form-select"
                 id=""
                 formControlName="categoryName"
-                [(ngModel)]="selectedCategory"
-                (change)="applyFilters()"
-                [disabled]="!onCategoryChange"
+                (change)="categorySelectionChangeFunc()"
               >
                 <option value="" selected disabled hidden>
                   Wybierz kierunek
                 </option>
 
                 <option value="">Wszystkie kierunki</option>
-                <ng-container *ngFor="let cat of allCategories">
+                <ng-container *ngFor="let cat of categoriesOrigin">
                   <option [value]="cat._id">{{ cat.name }}</option>
                 </ng-container>
               </select>
@@ -47,6 +45,7 @@
               >
                 <option value="" selected disabled hidden>Wybierz temat</option>
 
+                <option value="">Wszystkie tematy</option>
                 <ng-container *ngFor="let sub of subcategoriesArray">
                   <option [value]="sub._id">{{ sub.name }}</option>
                 </ng-container>
@@ -104,14 +103,11 @@
     </div>
 
     <div id="noteContent">
-      <ng-container *ngFor="let note of notesArray">
-        <ng-container *ngFor="let finalN of finalNotes">
-          <app-notes-container
-            [data]="note"
-            [finalNotes]="finalN"
-            (deleteNoteEvent)="refreshNoteData()"
-          ></app-notes-container>
-        </ng-container>
+      <ng-container *ngFor="let finalN of finalNotesArray">
+        <app-notes-container
+          [finalNote]="finalN"
+          (deleteNoteEvent)="refreshNoteData()"
+        ></app-notes-container>
       </ng-container>
     </div>
   </main>

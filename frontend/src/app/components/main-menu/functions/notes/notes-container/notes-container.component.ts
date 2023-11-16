@@ -24,16 +24,15 @@ export class NotesContainerComponent extends Unsubscribe implements OnInit {
   //TODO poprawki z layoucie (addNote) i subcategory box gdy wymagany jest długi temat
   //TODO addNote po dodaniu wraca do notes
 
-  @Input() data: Note | null = null;
+  // @Input() data: Note | null = null;
   // @Input() notesAndDetails: NoteAndDetails[] | null = null;
-  @Input() finalNotes: FinalNote | null = null;
+  @Input() finalNote: FinalNote | null = null;
   @Output() public deleteNoteEvent: EventEmitter<boolean> = new EventEmitter();
 
   isVisible: boolean = false;
-  categoryName: string = '';
+  categoryName: string | undefined = this.finalNote?.categoryName;
   subCategoryName: string = '';
   userName: string = '';
-  untrustedUser: boolean = false;
 
   // noteID: string = '';
   // noteName: string = '';
@@ -54,19 +53,19 @@ export class NotesContainerComponent extends Unsubscribe implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.data != null) {
-      //TODO async all methods to load at the same time
-      // this.getAllData(
-      //   this.data.category_id,
-      //   this.data.subcategory_id,
-      //   this.data.author_id
-      // );
-      ///
-      // this.getCategory(this.data.category_id);
-      // this.getSubCategory(this.data.subcategory_id);
-      // this.getUser(this.data.author_id);
-      // this.getDetails()
-    }
+    // if (this.data != null) {
+    //TODO async all methods to load at the same time
+    // this.getAllData(
+    //   this.data.category_id,
+    //   this.data.subcategory_id,
+    //   this.data.author_id
+    // );
+    ///
+    // this.getCategory(this.data.category_id);
+    // this.getSubCategory(this.data.subcategory_id);
+    // this.getUser(this.data.author_id);
+    // this.getDetails()
+    // }
     // console.log(this.finalNotes);
   }
 
@@ -120,7 +119,7 @@ export class NotesContainerComponent extends Unsubscribe implements OnInit {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((res) => {
         this.userName = res.login;
-        this.untrustedUser = res.untrusted;
+        // this.untrustedUser = res.untrusted;
       })
       .toString();
   }

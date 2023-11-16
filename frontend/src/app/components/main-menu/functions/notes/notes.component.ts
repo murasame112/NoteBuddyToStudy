@@ -21,11 +21,7 @@ export class NotesComponent extends Unsubscribe implements OnInit {
     super();
   }
   ngOnInit(): void {
-    // this.getNotes()
-    // this.getCategories()
-    // this.getSubcategories()
-    // this.getUsers()
-    this.getAllNotes();
+    this.getAllNotesArrays();
     this.getFinalNotes();
 
     this.FilterForm = new FormGroup({
@@ -38,17 +34,17 @@ export class NotesComponent extends Unsubscribe implements OnInit {
 
   isLoading: Boolean = true;
 
-  // notesWithDetails: any[] = [];
-  finalNotes: FinalNote[] = [];
+  finalNotesOrigin: FinalNote[] = [];
+  finalNotesArray: FinalNote[] = [];
+  filteredFinalNotes: FinalNote[] = [];
 
-  allNotes: Note[] = [];
+  notesOrigin: Note[] = [];
   notesArray: Note[] = [];
-  filteredNotes: Note[] = [];
 
-  allCategories: Category[] = [];
-  selectedCategory: string = '';
+  categoriesOrigin: Category[] = [];
+  selectedCategory: string | null | undefined = '';
 
-  allSubcategories: Subcategory[] = [];
+  subcategoriesOrigin: Subcategory[] = [];
   subcategoriesArray: Subcategory[] = [];
   filteredsubcategories: Subcategory[] = [];
 
@@ -62,30 +58,34 @@ export class NotesComponent extends Unsubscribe implements OnInit {
   });
 
   applyFilters() {
-    console.log(this.selectedCategory);
+    // console.log('selectedCategoryID:', this.selectedCategory);
+
     let subcategoryName = this.FilterForm.get('subcategoryName')?.value;
     let categoryId = this.FilterForm.get('categoryName')?.value;
     let authorName = this.FilterForm.get('author')?.value ?? '';
     let noteTitle: string = this.FilterForm.get('noteTitle')?.value ?? '';
 
-    console.log(this.allUsers);
+    this.selectedCategory = categoryId;
 
-    this.filteredNotes = this.allNotes;
-    this.filteredsubcategories = this.allSubcategories;
+    // console.log(this.allUsers);
+
+    this.filteredFinalNotes = this.finalNotesOrigin;
+    this.filteredsubcategories = this.subcategoriesOrigin;
 
     if (this.selectedCategory == '') {
       this.FilterForm.get('subcategoryName')?.setValue('');
+      console.log('default category value');
     }
 
     //CategoryFilter
     if (this.selectedCategory != null && this.selectedCategory != '') {
-      this.filteredNotes = this.filteredNotes.filter((element) => {
+      this.filteredFinalNotes = this.filteredFinalNotes.filter((element) => {
         return element.category_id === this.selectedCategory;
       });
 
       //SubcategoryFilter
       if (subcategoryName != null && subcategoryName != '') {
-        this.filteredNotes = this.filteredNotes.filter((element) => {
+        this.filteredFinalNotes = this.filteredFinalNotes.filter((element) => {
           return element.subcategory_id === subcategoryName;
         });
       }
@@ -95,51 +95,74 @@ export class NotesComponent extends Unsubscribe implements OnInit {
         return e.category_id === categoryId;
       });
       this.subcategoriesArray = this.filteredsubcategories;
-
-      this.filteredsubcategories.forEach((e) => {
-        console.log(`Filtered subcategories Id: ${e.category_id} `);
-      });
     }
 
     //AuthorFilter
     if (authorName != null && authorName != '') {
-      const filteredUsers = this.allUsers.filter((element) => {
+      const filteredUsers = this.finalNotesOrigin.filter((element) => {
         return element.login
           .toLocaleLowerCase()
           .startsWith(authorName.toLocaleLowerCase());
       });
 
-      const filteredUsersIds = filteredUsers.map((e) => e._id);
+      const filteredUsersIds = filteredUsers.map((e) => e.author_id);
 
-      this.filteredNotes = this.filteredNotes.filter((element) => {
+      this.filteredFinalNotes = this.filteredFinalNotes.filter((element) => {
         return filteredUsersIds.includes(element.author_id.toString());
       });
     }
 
     //NameFilter
     if (noteTitle != null && noteTitle != '') {
-      this.filteredNotes = this.filteredNotes.filter((element) => {
+      this.filteredFinalNotes = this.filteredFinalNotes.filter((element) => {
         //? jeśli ma szukać ogólnie po nazwach to można zamiast startWith dać includes
-        return element.name
-          .toLocaleLowerCase()
-          .includes(noteTitle.toLocaleLowerCase());
+        const noteName = element.noteName.toLocaleLowerCase();
+        const actualSearchTitle = noteTitle.toLocaleLowerCase();
+
+        return (
+          noteName.startsWith(actualSearchTitle) ||
+          this.wordsSplitter(noteName, actualSearchTitle)
+        );
       });
     }
 
     //Przypisywanie
-    this.notesArray = this.filteredNotes;
+    // this.notesArray = this.filteredNotes;
+    this.finalNotesArray = this.filteredFinalNotes;
+  }
+
+  // dzielenie podanej nazwy notatki na pojedyncze slowa
+  wordsSplitter(noteName: string, actualInputTitle: string): boolean {
+    const words = noteName.split(' ');
+
+    for (const word of words) {
+      if (word.startsWith(actualInputTitle)) {
+        // console.log('pasujace slowo', word);
+        return true;
+      }
+    }
+
+    return false;
   }
 
   // Wyłączanie subcategory select gdy kierunek nie został wybrany
-  get onCategoryChange() {
+  categorySelectionChangeFunc() {
+    this.applyFilters();
+
     let categoryName = this.FilterForm.get('categoryName')?.value;
+    let subcatID = this.FilterForm.get('subcategoryName')?.value;
+
     this.FilterForm.get('subcategoryName')?.disable();
 
     if (categoryName != null && categoryName != '') {
       this.FilterForm.get('subcategoryName')?.enable();
+      if (subcatID != '') {
+        this.FilterForm.get('subcategoryName')?.setValue('');
+        this.filteredFinalNotes = this.finalNotesOrigin;
+        this.applyFilters();
+        this.finalNotesArray = this.filteredFinalNotes;
+      }
     }
-
-    return true;
   }
 
   getFinalNotes() {
@@ -147,60 +170,28 @@ export class NotesComponent extends Unsubscribe implements OnInit {
       .getAllNoteData()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((res) => {
-        console.log('Final note:', res);
-        this.finalNotes = res;
+        console.log('note:', res);
+        this.finalNotesOrigin = res;
+        this.finalNotesArray = this.finalNotesOrigin;
+        this.defaultSort();
       });
   }
 
-  getAllNotes() {
+  getAllNotesArrays() {
     this.notesService
       .getAllData()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((res) => {
-        console.log('NOTES', res);
+        console.log('notesArrays', res);
 
-        this.allNotes = res[0];
-        this.notesArray = this.allNotes;
-        this.allCategories = res[1];
-        this.allSubcategories = res[2];
-        this.subcategoriesArray = this.allSubcategories;
+        this.notesOrigin = res[0];
+        this.notesArray = this.notesOrigin;
+        this.categoriesOrigin = res[1];
+        this.subcategoriesOrigin = res[2];
+        this.subcategoriesArray = this.subcategoriesOrigin;
         this.allUsers = res[3];
 
-        // this.allNotes.forEach((note) => {
-        //   // console.warn(`Notatka`, note._id, note.name);
-        //   if (
-        //     note.category_id != undefined &&
-        //     note.subcategory_id != undefined &&
-        //     note.author_id != undefined
-        //   ) {
-        //     this.notesService
-        //       .getAllDataById(
-        //         note.category_id.toString(),
-        //         note.subcategory_id.toString(),
-        //         note.author_id.toString()
-        //       )
-        //       .pipe(takeUntil(this.unsubscribe$))
-        //       .subscribe((response) => {
-        //         // console.log("test",response);
-        //         if (note._id != undefined) {
-        //           let noteWithDetails: NoteAndDetails =
-        //             this.notesService.mergeNotesAndDetails(
-        //               note._id?.toString(),
-        //               note.name,
-        //               response[0].name,
-        //               response[1].name,
-        //               response[2].login
-        //             );
-        //           console.log('mergeNotatki', noteWithDetails);
-        //           this.notesWithDetails.push(noteWithDetails);
-        //         }
-        //       });
-        //   }
-        // });
-
-        // console.log('tablica Details:',this.notesWithDetails)
         this.isLoading = false;
-        this.defaultSort();
       });
   }
 
@@ -210,9 +201,9 @@ export class NotesComponent extends Unsubscribe implements OnInit {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((res) => {
         console.log(res);
-        this.allNotes = res;
-        this.notesArray = this.allNotes;
-        this.defaultSort();
+        this.notesOrigin = res;
+        this.notesArray = this.notesOrigin;
+        // this.defaultSort();
       });
   }
 
@@ -222,7 +213,7 @@ export class NotesComponent extends Unsubscribe implements OnInit {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((res) => {
         console.log(res);
-        this.allCategories = res;
+        this.categoriesOrigin = res;
       });
   }
 
@@ -232,8 +223,8 @@ export class NotesComponent extends Unsubscribe implements OnInit {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((res) => {
         console.log(res);
-        this.allSubcategories = res;
-        this.subcategoriesArray = this.allSubcategories;
+        this.subcategoriesOrigin = res;
+        this.subcategoriesArray = this.subcategoriesOrigin;
       });
   }
 
@@ -249,81 +240,66 @@ export class NotesComponent extends Unsubscribe implements OnInit {
 
   refreshNoteData() {
     console.log('wykonane');
-    this.getNotes();
+    // this.getNotes();
+    this.getAllNotesArrays();
+    this.getFinalNotes();
   }
 
   defaultSort() {
-    this.filteredNotes = this.allNotes;
-
-    this.notesArray = this.filteredNotes.sort().reverse();
+    this.finalNotesArray.sort((a, b) => {
+      const dataA = new Date(a.shared_date).getTime();
+      const dataB = new Date(b.shared_date).getTime();
+      return dataB - dataA;
+    });
   }
 
   sortNotes($event: any) {
     let value: string | null = $event.target.value;
+    console.log('wywolanie');
+    this.applyFilters();
+    this.filteredFinalNotes.reverse();
 
-    if (value === 'oldest') {
-      this.filteredNotes = this.allNotes;
-
-      this.notesArray = this.filteredNotes.sort((a, b) => {
-        if (a.shared_date && b.shared_date) {
-          let dataA = new Date(a.shared_date);
-          let dataB = new Date(b.shared_date);
-
-          return dataA.getTime() - dataB.getTime();
-        } else {
-          console.log('noo');
-          return 0;
-        }
+    if (value === 'newest') {
+      this.filteredFinalNotes.sort((a, b) => {
+        const dataA = new Date(a.shared_date).getTime();
+        const dataB = new Date(b.shared_date).getTime();
+        return dataB - dataA;
+      });
+    } else if (value === 'oldest') {
+      this.filteredFinalNotes.sort((a, b) => {
+        const dataA = new Date(a.shared_date).getTime();
+        const dataB = new Date(b.shared_date).getTime();
+        return dataA - dataB;
       });
     } else if (value === 'bestRate') {
-      this.filteredNotes = this.allNotes;
+      this.filteredFinalNotes.sort((a, b) => {
+        // const rateA = a.positive_reviews - a.negative_reviews;
+        // const rateB = b.positive_reviews - b.negative_reviews;
+        const rateA =
+          (a.positive_reviews * 100) /
+          (a.positive_reviews + a.negative_reviews);
+        const rateB =
+          (b.positive_reviews * 100) /
+          (b.positive_reviews + b.negative_reviews);
 
-      //TODO AUTOMATYCZNI PIERWSZE SORTOWANIE JEST PO NAJNOWSZYCH
-      //   this.notesArray = this.filteredNotes.sort((a,b)=>{
-      //     if(b.positive_reviews && a.positive_reviews)
-      //     {
-      //      Number(b.positive_reviews) - Number(a.positive_reviews)
-
-      //       }return 0
-      //  })
-
-      this.notesArray = this.filteredNotes.sort((a, b) => {
-        if (
-          a.positive_reviews &&
-          a.negative_reviews &&
-          b.positive_reviews &&
-          b.negative_reviews
-        ) {
-          return (
-            b.positive_reviews -
-            b.negative_reviews -
-            (a.positive_reviews - a.negative_reviews)
-          );
-        }
-        return 0;
+        return rateB - rateA;
       });
     } else if (value === 'worstRate') {
-      this.filteredNotes = this.allNotes;
-
-      this.notesArray = this.filteredNotes.sort((a, b) => {
-        if (
-          a.positive_reviews &&
-          a.negative_reviews &&
-          b.positive_reviews &&
-          b.negative_reviews
-        ) {
-          return (
-            a.positive_reviews -
-            a.negative_reviews -
-            (b.positive_reviews - b.negative_reviews)
-          );
-        }
-        return 0;
+      this.filteredFinalNotes.sort((a, b) => {
+        // const rateA = a.positive_reviews - a.negative_reviews;
+        // const rateB = b.positive_reviews - b.negative_reviews;
+        const rateA =
+          (a.positive_reviews * 100) /
+          (a.positive_reviews + a.negative_reviews);
+        const rateB =
+          (b.positive_reviews * 100) /
+          (b.positive_reviews + b.negative_reviews);
+        return rateA - rateB;
       });
-    } else if (value === 'newest') {
-      this.filteredNotes = this.allNotes;
-
-      this.notesArray = this.filteredNotes.sort().reverse();
+    } else {
+      return;
     }
+
+    this.finalNotesArray = this.filteredFinalNotes;
   }
 }

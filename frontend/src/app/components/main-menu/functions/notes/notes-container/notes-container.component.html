@@ -1,10 +1,14 @@
 <div id="container" (mouseover)="hoverEventOn()" (mouseleave)="hoverEventOff()">
   <div id="noteTop">
-    <div id="trustedAuthor" *ngIf="!untrustedUser">
+    <div id="trustedAuthor" *ngIf="!finalNote?.untrusted">
       <i class="fa-solid fa-check fa-lg" style="color: #0ebe2c"></i>
       <span>zaufany autor</span>
     </div>
-    <div id="trustedAuthor" *ngIf="untrustedUser" style="visibility: hidden">
+    <div
+      id="trustedAuthor"
+      *ngIf="finalNote?.untrusted"
+      style="visibility: hidden"
+    >
       <i class="fa-solid fa-check fa-lg" style="color: #ff1100"></i>
       <span>niezaufany autor</span>
     </div>
@@ -12,7 +16,7 @@
     <div #container *ngIf="isVisible" id="hoverMenu">
       <i
         class="fa-solid fa-trash fa-xl icons"
-        (click)="deleteNote(data?._id)"
+        (click)="deleteNote(finalNote?.note_id)"
       ></i>
       <i class="fa-solid fa-download fa-xl icons"></i>
 
@@ -46,39 +50,41 @@
       <i class="fa-regular fa-star fa-xl icons"></i>
       <i
         class="fa-solid fa-up-right-and-down-left-from-center fa-xl icons"
-        routerLink="/note/{{ data?._id }}"
+        routerLink="/note/{{ finalNote?.note_id }}"
       ></i>
     </div>
   </div>
 
-  <span class="spans" id="name">{{ data?.name }}</span>
-  <span class="spans" id="desc">{{ data?.content }}</span>
+  <span class="spans" id="name">{{ finalNote?.noteName }}</span>
+  <span class="spans" id="desc">{{ finalNote?.content }}</span>
 
   <div id="categories">
-    <span class="categoriesC" id="course">{{ categoryName }}</span>
-    <span class="categoriesC" id="subcategory">{{ subCategoryName }}</span>
+    <span class="categoriesC" id="course">{{ finalNote?.categoryName }}</span>
+    <span class="categoriesC" id="subcategory">{{
+      finalNote?.subcategoryName
+    }}</span>
   </div>
 
   <div id="bottom">
     <div id="rates">
       <button class="ratesBtns">
-        <span id="likeNumber">{{ data?.positive_reviews }}</span>
+        <span id="likeNumber">{{ finalNote?.positive_reviews }}</span>
         <i class="fa fa-solid fa-thumbs-up fa-lg"></i>
       </button>
 
       <button class="ratesBtns">
-        <span id="dislikeNumber">{{ data?.negative_reviews }}</span>
+        <span id="dislikeNumber">{{ finalNote?.negative_reviews }}</span>
         <i class="fa-solid fa-thumbs-down fa-lg"></i>
       </button>
     </div>
 
     <div id="authorAndDate">
       <span id="authorName"
-        >autor: <span id="authorColor">{{ userName }}</span></span
+        >autor: <span id="authorColor">{{ finalNote?.login }}</span></span
       >
       <span id="lastEditDate"
         >Ostatnio aktualizowane:
-        {{ data?.last_edit_date | date : "dd-MM-yyyy HH:mm" }}</span
+        {{ finalNote?.last_edit_date | date : "dd-MM-yyyy HH:mm" }}</span
       >
     </div>
   </div>

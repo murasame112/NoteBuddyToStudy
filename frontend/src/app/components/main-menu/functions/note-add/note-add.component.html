@@ -1,68 +1,74 @@
 <div id="container">
-<nav>
-  <app-navbar></app-navbar>
-</nav>
+  <nav>
+    <app-navbar></app-navbar>
+  </nav>
 
-<main>
-  <button id="backBtn" routerLink="/notes">powrót</button>
-  <form [formGroup]="addNoteForm" (ngSubmit)="addNote(addNoteForm.value)" id="addForm1">
-    <div id="titleBox" class="displayClass">
-      <label >Tytuł: </label>
-      <input type="text" placeholder="tytuł notatki" formControlName="noteName" class="form-control">
-    </div>
-
-    <div id="descBox" class="displayClass">
-    <label>Treść: </label>
-    <!-- <textarea  placeholder="opis notatki"  cols="30" rows="10" formControlName="noteDesc" class="form-control"></textarea> -->
-    <quill-editor formControlName="noteDesc" [modules]="quillConfig" [styles]="editorStyle" class="quillEditor" placeholder="Wpisz tekst"></quill-editor>
-    </div>
-
-    <div id="optionBox" class="displayClass">
-
-      <div class="displayClass">
-      <label class="optLabel">Kierunek:</label>
-        <!-- <select formControlName="courseName" class="form-select" [(ngModel)]="selectedCategory" (change)="filterSubcategory(selectedCategory)"> -->
-          <select formControlName="courseName" class="form-select" [(ngModel)]="selectedCategory" (change)="filterSubcategories()">
-          <option value="" selected disabled hidden >Wybierz kierunek</option>
-
-            <ng-container  *ngFor="let cat of categoryArray; let i = index">
-             <option  [value]="cat._id">{{cat.name}}</option>
-            </ng-container>
-
-        </select>
+  <main>
+    <button id="backBtn" routerLink="/notes">powrót</button>
+    <form
+      [formGroup]="addNoteForm"
+      (ngSubmit)="addNote(addNoteForm.value)"
+      id="addForm1"
+    >
+      <div id="titleBox" class="displayClass">
+        <label>Tytuł: </label>
+        <input
+          type="text"
+          placeholder="tytuł notatki"
+          formControlName="noteName"
+          class="form-control"
+        />
       </div>
 
-      <div class="displayClass">
-      <label class="optLabel">Temat:</label>
-      <select formControlName="subjectName" class="form-select " [disabled]="!onCategoryChange" id="subjectName">
-        <option value="" selected disabled hidden>Wybierz temat</option>
+      <div id="descBox" class="displayClass">
+        <label>Treść: </label>
+        <!-- <textarea  placeholder="opis notatki"  cols="30" rows="10" formControlName="noteDesc" class="form-control"></textarea> -->
+        <quill-editor
+          formControlName="noteDesc"
+          [modules]="quillConfig"
+          [styles]="editorStyle"
+          class="quillEditor"
+          placeholder="Wpisz tekst"
+        ></quill-editor>
+      </div>
 
-        <ng-container *ngFor="let sub of subcategoriesArray">
-          <option [value]="sub._id">{{sub.name}}</option>
-        </ng-container>
+      <div id="optionBox" class="displayClass">
+        <div class="displayClass">
+          <label class="optLabel">Kierunek:</label>
+          <select
+            formControlName="courseName"
+            class="form-select"
+            (change)="filterSubcategories()"
+          >
+            <option value="" selected disabled hidden>Wybierz kierunek</option>
 
+            <ng-container *ngFor="let cat of categoryArray; let i = index">
+              <option [value]="cat._id">{{ cat.name }}</option>
+            </ng-container>
+          </select>
+        </div>
 
-      </select>
-    </div>
+        <div class="displayClass">
+          <label class="optLabel">Temat:</label>
+          <select
+            formControlName="subjectName"
+            class="form-select"
+            id="subjectName"
+          >
+            <option value="" selected disabled hidden>Wybierz temat</option>
 
-    <!-- <div class="displayClass">
+            <ng-container *ngFor="let sub of subcategoriesArray">
+              <option [value]="sub._id">{{ sub.name }}</option>
+            </ng-container>
+          </select>
+        </div>
+      </div>
 
-      <label class="optLabel">Typ:</label>
-      <select formControlName="typeName" class="form-select" >
-        <option value="" selected disabled hidden>Wybierz typ</option>
-        <option value="Treść">Treść</option>
-        <option value="Zdjęcie">Zdjęcie</option>
-      </select>
-      </div> -->
+      <button type="submit" id="addNoteBtn">Dodaj notatkę</button>
+    </form>
+  </main>
 
-    </div>
-
-    <button type="submit" id="addNoteBtn">Dodaj notatkę</button>
-
-  </form>
-</main>
-
-<footer>
-  <div id="footerContent"><app-footer></app-footer></div>
-</footer>
+  <footer>
+    <div id="footerContent"><app-footer></app-footer></div>
+  </footer>
 </div>
