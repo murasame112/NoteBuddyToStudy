@@ -56,7 +56,13 @@
   </div>
 
   <span class="spans" id="name">{{ finalNote?.noteName }}</span>
-  <span class="spans" id="desc">{{ finalNote?.content }}</span>
+  <!-- <span class="spans" id="desc">{{ finalNote?.content }}</span> -->
+  <quill-view-html
+    class="spans"
+    id="desc"
+    [content]="htmlText"
+    theme="snow"
+  ></quill-view-html>
 
   <div id="categories">
     <span class="categoriesC" id="course">{{ finalNote?.categoryName }}</span>

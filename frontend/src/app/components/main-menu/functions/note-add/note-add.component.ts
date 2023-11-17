@@ -8,6 +8,7 @@ import { Note } from 'src/app/models/note.model';
 import { NotesService } from 'src/app/services/notes.service';
 import { Category } from '../../../../models/category.model';
 import { Subcategory } from '../../../../models/subcategory.model';
+import Quill from 'quill';
 
 @Component({
   selector: 'app-note-add',
@@ -130,7 +131,7 @@ export class NoteAddComponent extends Unsubscribe implements OnInit {
     this.onCategoryChange();
   }
 
-  //Włączanie i wyłączanie wyboru podkategorii
+  // Wyłączanie subcategory select gdy kierunek nie został wybrany
   onCategoryChange() {
     let categoryName = this.addNoteForm.get('courseName')?.value;
     this.addNoteForm.get('subjectName')?.disable();
@@ -141,6 +142,14 @@ export class NoteAddComponent extends Unsubscribe implements OnInit {
   }
 
   //! QUILL
+
+  quill = new Quill('#quill', {
+    modules: {
+      toolbar: false, // Snow includes toolbar by default
+    },
+    theme: 'snow',
+  });
+
   editorStyle = {
     backgroundColor: '#F7F7F7',
   };

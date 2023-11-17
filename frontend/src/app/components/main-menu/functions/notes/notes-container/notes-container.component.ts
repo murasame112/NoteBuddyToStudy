@@ -33,6 +33,7 @@ export class NotesContainerComponent extends Unsubscribe implements OnInit {
   categoryName: string | undefined = this.finalNote?.categoryName;
   subCategoryName: string = '';
   userName: string = '';
+  htmlText: any = '';
 
   // noteID: string = '';
   // noteName: string = '';
@@ -53,6 +54,7 @@ export class NotesContainerComponent extends Unsubscribe implements OnInit {
   }
 
   ngOnInit(): void {
+    this.htmlText = this.finalNote?.content;
     // if (this.data != null) {
     //TODO async all methods to load at the same time
     // this.getAllData(

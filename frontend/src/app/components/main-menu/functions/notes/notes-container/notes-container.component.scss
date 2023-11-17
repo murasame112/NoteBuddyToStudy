@@ -1,5 +1,4 @@
-#container
-{
+#container {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -10,24 +9,19 @@
   border-radius: 1rem;
   gap: 0.5rem;
 
-  font-family: 'poppins', sans-serif;
+  font-family: "poppins", sans-serif;
   font-weight: 400;
   font-size: 0.8rem;
   transition: 0.5s ease;
-
 }
 
-#container:hover
-{
+#container:hover {
   background-color: rgba(177, 177, 177, 0.35);
-  box-shadow:0rem 0rem 1.2rem rgb(136, 136, 136);
+  box-shadow: 0rem 0rem 1.2rem rgb(136, 136, 136);
   transition: 0.5s ease;
 }
 
-
-#noteTop
-{
-
+#noteTop {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -36,55 +30,42 @@
   padding: 0.7rem 1rem 0.3rem;
 }
 
-#trustedAuthor
-{
+#trustedAuthor {
   display: flex;
   align-items: center;
   gap: 0.2rem;
 }
 
-#hoverMenu
-{
+#hoverMenu {
   display: flex;
   align-items: center;
   gap: 0.6rem;
 }
 
-.icons
-{
+.icons {
   // visibility: hidden;
   transition: transform 0.5s ease;
-
 }
 
-
-.icons:hover
-{
+.icons:hover {
   cursor: pointer;
   transition: 0.5s ease;
   transform: translateY(-0.1rem);
   color: #320b61;
 }
 
-#cardIcon
-{
+#cardIcon {
   width: 1.2rem;
   height: 1.2rem;
-
-
 }
 
-#cardIcon:hover path
-{
+#cardIcon:hover path {
   fill: #320b61;
 }
 
-#cardIcon:hover rect
-{
-  stroke:#320b61;
+#cardIcon:hover rect {
+  stroke: #320b61;
 }
-
-
 
 // .cardIcon1:hover
 // {
@@ -96,43 +77,38 @@
 //   stroke: #320b61;
 // }
 
-#svg-icon
-{
+#svg-icon {
   fill: blue;
 }
 
-#svg-icon:hover
-{
+#svg-icon:hover {
   fill: red;
 }
 
-.spans
-{
+.spans {
   // background-color: red;
   width: 19rem;
 }
 
-#name
-{
+#name {
   // padding-top: 0.2rem;
   text-align: center;
   font-size: 0.9rem;
   min-height: 3rem;
 }
 
-#desc
-{
+#desc {
   background-color: rgb(223, 222, 222);
-  border: 0.1rem solid rgb(218,218,218);
+  border: 0.1rem solid rgb(218, 218, 218);
   border-radius: 0.5rem;
   padding: 0.2rem;
   // background-color: burlywood;
   height: 20rem;
   width: 21rem;
+  overflow: hidden;
 }
 
-#categories
-{
+#categories {
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -142,41 +118,34 @@
   padding-left: 1rem;
 }
 
-.categoriesC
-{
+.categoriesC {
   background-color: rgba(168, 168, 168, 0.2);
-  color: #3F107A;
+  color: #3f107a;
   font-size: 0.8rem;
   text-align: center;
   border-radius: 1rem;
-  border: 1px solid  rgba(201, 200, 200, 0.774);
+  border: 1px solid rgba(201, 200, 200, 0.774);
 }
 
-#course
-{
-  min-width:7rem;
+#course {
+  min-width: 7rem;
 }
 
-#subcategory
-{
-  min-width:9rem;
+#subcategory {
+  min-width: 9rem;
 }
 
-
-#bottom
-{
+#bottom {
   display: flex;
-  justify-content:space-between;
-  align-items:center;
+  justify-content: space-between;
+  align-items: center;
   gap: 1rem;
   // background-color: rgba(240, 255, 255, 0.616);
   width: 98%;
   padding-bottom: 0.5rem;
 }
 
-
-#rates
-{
+#rates {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -186,8 +155,7 @@
   gap: 0.2rem;
 }
 
-.ratesBtns
-{
+.ratesBtns {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -199,18 +167,15 @@
   min-height: 1.5rem;
 }
 
-#likeNumber
-{
-  color: #55BB05;
+#likeNumber {
+  color: #55bb05;
 }
 
-#dislikeNumber
-{
-  color: #DE421F;
+#dislikeNumber {
+  color: #de421f;
 }
 
-#authorAndDate
-{
+#authorAndDate {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -219,20 +184,15 @@
   width: 65%;
 }
 
-#authorName
-{
-font-size: 0.7rem;
+#authorName {
+  font-size: 0.7rem;
 }
 
-#authorColor
-{
-  color: #3E1079;
+#authorColor {
+  color: #3e1079;
 }
 
-#lastEditDate
-{
+#lastEditDate {
   font-size: 0.6rem;
   color: #858585;
 }
-
-

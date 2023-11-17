@@ -57,17 +57,14 @@ export class NotesComponent extends Unsubscribe implements OnInit {
     noteTitle: new FormControl(''),
   });
 
+  //Zastosowanie filtrowanie po dostępnych opcji
   applyFilters() {
-    // console.log('selectedCategoryID:', this.selectedCategory);
-
     let subcategoryName = this.FilterForm.get('subcategoryName')?.value;
     let categoryId = this.FilterForm.get('categoryName')?.value;
     let authorName = this.FilterForm.get('author')?.value ?? '';
     let noteTitle: string = this.FilterForm.get('noteTitle')?.value ?? '';
 
     this.selectedCategory = categoryId;
-
-    // console.log(this.allUsers);
 
     this.filteredFinalNotes = this.finalNotesOrigin;
     this.filteredsubcategories = this.subcategoriesOrigin;
@@ -165,6 +162,7 @@ export class NotesComponent extends Unsubscribe implements OnInit {
     }
   }
 
+  //Pobieranie notatki z jej wszystkimi informacjami
   getFinalNotes() {
     this.notesService
       .getAllNoteData()
@@ -177,6 +175,7 @@ export class NotesComponent extends Unsubscribe implements OnInit {
       });
   }
 
+  //Pobieranie wszystkich tablic z bazy danych
   getAllNotesArrays() {
     this.notesService
       .getAllData()
@@ -245,6 +244,7 @@ export class NotesComponent extends Unsubscribe implements OnInit {
     this.getFinalNotes();
   }
 
+  //Domyślne sortowanie przy właczeniu strony
   defaultSort() {
     this.finalNotesArray.sort((a, b) => {
       const dataA = new Date(a.shared_date).getTime();
@@ -253,6 +253,7 @@ export class NotesComponent extends Unsubscribe implements OnInit {
     });
   }
 
+  //sortowanie notatek
   sortNotes($event: any) {
     let value: string | null = $event.target.value;
     console.log('wywolanie');
