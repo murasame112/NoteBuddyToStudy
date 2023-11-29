@@ -17,20 +17,48 @@
           placeholder="tytuł notatki"
           formControlName="noteName"
           class="form-control"
+          [class.invalid]="addNoteForm.get('noteName')?.invalid &&
+          (addNoteForm.get('noteName')?.touched ||
+          addNoteForm.get('noteName')?.dirty) ||
+          isSubmitted && addNoteForm.get('noteName')?.untouched"
         />
       </div>
 
       <div id="descBox" class="displayClass">
         <label>Treść: </label>
-        <!-- <textarea  placeholder="opis notatki"  cols="30" rows="10" formControlName="noteDesc" class="form-control"></textarea> -->
         <quill-editor
           formControlName="noteDesc"
-          [modules]="quillConfig"
+          [modules]="quillModules"
           [styles]="editorStyle"
+          [required]="true"
+          [placeholder]="quillPlaceholder"
           class="quillEditor"
-          placeholder="Wpisz tekst"
           id="quill"
-        ></quill-editor>
+          (onEditorCreated)="onEditorCreated($event)"
+
+          [class.invalid]="addNoteForm.get('noteDesc')?.invalid &&
+          (addNoteForm.get('noteDesc')?.touched ||
+          addNoteForm.get('noteDesc')?.dirty) ||
+          isSubmitted && addNoteForm.get('noteDesc')?.untouched"
+        >
+<!--  -->
+<!-- <div >
+  <span class="ql-formats">
+    <select class="ql-font">
+      <option selected value="arial">Arial</option>
+      <option  value="verdana">Verdana</option>
+      <option  value="timesnewroman">Times New Roman</option>
+      <option  value="roboto">Roboto</option>
+      <option  value="monospace">Monospace</option>
+      <option  value="poppins">Poppins</option>
+    </select>
+
+    <select class="ql-color" [title]="'Color'"></select>
+    <select class="ql-background" [title]="'BackgroundColor'"></select>
+  </span>
+</div> -->
+<!--  -->
+      </quill-editor>
       </div>
 
       <div id="optionBox" class="displayClass">
@@ -40,6 +68,11 @@
             formControlName="courseName"
             class="form-select"
             (change)="filterSubcategories()"
+
+            [class.invalid]="addNoteForm.get('courseName')?.invalid &&
+          (addNoteForm.get('courseName')?.touched ||
+          addNoteForm.get('courseName')?.dirty) ||
+          isSubmitted && addNoteForm.get('courseName')?.untouched"
           >
             <option value="" selected disabled hidden>Wybierz kierunek</option>
 
@@ -55,6 +88,11 @@
             formControlName="subjectName"
             class="form-select"
             id="subjectName"
+
+            [class.invalid]="addNoteForm.get('subjectName')?.invalid &&
+          (addNoteForm.get('subjectName')?.touched ||
+          addNoteForm.get('subjectName')?.dirty) ||
+          isSubmitted && addNoteForm.get('subjectName')?.untouched"
           >
             <option value="" selected disabled hidden>Wybierz temat</option>
 

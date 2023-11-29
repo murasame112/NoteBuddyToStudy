@@ -11,3 +11,8 @@ body,html
 
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
+/* Importing Quills SCSS file. */
+@import '~quill/dist/quill.snow.css';
+@import '~quill/dist/quill.core.css';
+
+

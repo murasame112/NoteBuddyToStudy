@@ -48,6 +48,8 @@ width: 8rem;
 height: 2.5rem;
 align-self: flex-start;
 
+
+
 }
 
 
@@ -133,17 +135,21 @@ width: 12rem;
   margin-bottom: 5.2rem;
 }
 
+.invalid
+{
+  border:1px solid rgb(255, 0, 0);
+  border-radius: .4rem;
+}
+
 
 
 #titleBox
 {
-
 }
 #titleBox input
 {
   width: 35rem;
   background-color: #F7F7F7;
-
 }
 
 #titleBox input:focus
@@ -226,7 +232,7 @@ width: 12rem;
  #addForm1
  {
   width: 52rem;
-  height: 38rem;
+  height: 40rem;
   gap: 2rem;
  }
 }
@@ -237,7 +243,7 @@ width: 12rem;
   #addForm1
 {
   width: 50rem;
-  height: 36rem;
+  height: 38rem;
   gap: 1rem;
 
 }
@@ -273,7 +279,7 @@ width: 12rem;
   #addForm1
 {
   width: 40rem;
-  height: 40rem;
+  height: 42rem;
 }
 
 #titleBox input
@@ -314,6 +320,7 @@ width: 5rem;
   #addForm1
 {
   width: 30rem;
+  height: 45rem;
 }
 
 #titleBox input
@@ -347,7 +354,7 @@ width: 5rem;
   #addForm1
 {
   width: 25rem;
-  height: 42rem;
+  height: 47rem;
 }
 
 #titleBox input
@@ -369,7 +376,8 @@ width: 5rem;
   #addForm1
   {
     width: 20rem;
-    height: 48rem;
+    height: 49rem;
+
   }
 
   #titleBox
@@ -400,7 +408,7 @@ width: 5rem;
 
 .optLabel
 {
-  // background-color: pink;
+
   width: auto;
 }
 
@@ -435,6 +443,379 @@ width: 5rem;
   height: 20rem;
 
 }
+
+//Nagłówki nazwy
+.ql-snow .ql-picker.ql-header .ql-picker-label::before, .ql-snow .ql-picker.ql-header .ql-picker-item::before {
+  content: "Normalny";
+}
+
+.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="2"]:before, .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="2"]:before {
+  content: "Nagłówek 2 ";
+}
+
+.ql-snow .ql-picker.ql-header .ql-picker-item[data-value="3"]:before, .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="3"]:before {
+  content: "Nagłówek 3";
+
+}
+
+.ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg{
+  right: -4px;
+}
+
+//Czcionka nazwy
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value=small]::before, .ql-snow .ql-picker.ql-size .ql-picker-item[data-value=small]::before {
+  content: 'Mała';
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-label::before, .ql-snow .ql-picker.ql-size .ql-picker-item::before {
+  content: "Normalna";
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value=large]::before, .ql-snow .ql-picker.ql-size .ql-picker-item[data-value=large]::before {
+  content: 'Duża';
+}
+
+////! Quill Fonts
+
+.ql-font .ql-picker-label
+{
+  width: 8.5rem;
+
+}
+
+// [quill-editor-toolbar] .ql-font span[data-label="Arial"]::before {
+//   font-family: "Arial", "sans-serif";
+// }
+
+// [quill-editor-toolbar] .ql-font span[data-label="Verdana"]::before {
+//   font-family: "Verdana", "serif";
+// }
+
+// [quill-editor-toolbar] .ql-font span[data-label="Times New Roman"]::before {
+//   font-family: 'Times New Roman', "serif";
+// }
+
+// [quill-editor-toolbar] .ql-font span[data-label="Roboto"]::before {
+//   font-family: "Roboto", "serif";
+// }
+
+// [quill-editor-toolbar] .ql-font span[data-label="Monospace"]::before {
+//   font-family: "Courier New", "monospace";
+// }
+
+// [quill-editor-toolbar] .ql-font span[data-label="Poppins"]::before {
+//   font-family: "Poppins", "serif";
+// }
+
+
+//TODO Druga Wersja fonts!!
+
+.ql-formats .ql-font span[data-value ="arial"]::before {
+  font-family: "Arial", "sans-serif" !important;
+  content: 'Arial'!important;
+
+}
+
+.ql-formats .ql-font span[data-value ="verdana"]::before {
+  font-family: "Verdana", "serif" !important;
+  content: 'Verdana'!important;
+
+}
+
+.ql-formats .ql-font span[data-value ="timesnewroman"]::before {
+  font-family: 'Times New Roman', "serif" !important;
+  content: 'Times New Roman'!important;
+
+}
+
+.ql-formats .ql-font span[data-value ="roboto"]::before {
+  font-family: "Roboto", "serif" !important;
+  content: 'Roboto'!important;
+
+}
+
+.ql-formats .ql-font span[data-value ="monospace"]::before {
+  font-family: "Courier New", "monospace" !important;
+  content: 'Monospace'!important;
+
+}
+
+.ql-formats .ql-font span[data-value ="poppins"]::before {
+  font-family: "Poppins", "serif" !important;
+  content: 'Poppins'!important;
+
+}
+
+
+//!TODO </>
+
+
+.ql-font-arial {
+  font-family: "Arial", sans-serif;
+}
+
+.ql-font-verdana {
+  font-family: "Verdana";
+}
+
+.ql-font-timesnewroman {
+  font-family: "Times New Roman";
+}
+
+.ql-font-roboto {
+  font-family: "Roboto";
+}
+
+.ql-font-monospace {
+  font-family: "Courier New", "monospace";
+}
+
+.ql-font-poppins {
+  font-family: "Poppins", "serif";
+}
+
+
+
+
+////!
+
+
+////TODO TOOLTIPS
+
+/** All toolbar buttons are inside of .ql-formats */
+.ql-formats button {
+  position: relative;
+
+  /** Set a tooltip with css pseudo-elements, when buttons are hover, active or focus  */
+  &:hover::after,
+  &:active::after,
+  &:focus::after {
+      // background: #0d1e42;
+      background: #310B61;
+      color: white;
+      padding: 0.5em;
+      border-radius: 0.4em;
+      top: -120%;
+      left: -10px;
+      z-index: 999999;
+      position: absolute;
+      font-size: 12px;
+
+  }
+}
+
+.ql-formats .ql-picker  {
+  position: relative;
+
+  /** Set a tooltip with css pseudo-elements, when buttons are hover, active or focus  */
+  &:hover::after,
+  &:active::after,
+  &:focus::after {
+      // background: #0d1e42;
+      background: #310B61;
+      color: white;
+      padding: 0.5em;
+      border-radius: 0.4em;
+      top: -180%;
+      left: -10px;
+      z-index: 999999;
+      position: absolute;
+      font-size: 12px;
+
+  }
+}
+
+
+
+
+/** Set tooltip content for bold button **/
+.ql-picker.ql-header
+{
+  &:hover::after,
+  &:active::after,
+  &:focus::after {
+      content: "Nagłówek";
+  }
+}
+
+.ql-picker.ql-size
+{
+  &:hover::after,
+  &:active::after,
+  &:focus::after {
+      content: "Rozmiar czcionki";
+  }
+}
+
+.ql-picker.ql-font
+{
+  &:hover::after,
+  &:active::after,
+  &:focus::after {
+      content: "Czcionka";
+  }
+}
+
+.ql-bold {
+  &:hover::after,
+  &:active::after,
+  &:focus::after {
+      content: "Pogrubienie";
+  }
+}
+
+.ql-italic {
+  &:hover::after,
+  &:active::after,
+  &:focus::after {
+      content: "Kursywa";
+  }
+}
+
+.ql-underline {
+  &:hover::after,
+  &:active::after,
+  &:focus::after {
+      content: "Podkreślenie";
+  }
+}
+.ql-strike {
+  &:hover::after,
+  &:active::after,
+  &:focus::after {
+      content: "Przekreślenie";
+  }
+}
+.ql-clean{
+  &:hover::after,
+  &:active::after,
+  &:focus::after {
+      content: "Wyczyść styl";
+  }
+}
+.ql-indent[value="-1"]{
+  &:hover::after,
+  &:active::after,
+  &:focus::after {
+      content: "Brak akapitu";
+  }
+}
+.ql-indent[value="+1"]{
+  &:hover::after,
+  &:active::after,
+  &:focus::after {
+      content: "Wstaw akapitu";
+  }
+}
+
+.ql-picker.ql-color
+{
+  &:hover::after,
+  &:active::after,
+  &:focus::after {
+      content: "Kolor czcionki";
+  }
+}
+
+.ql-picker.ql-background
+{
+  &:hover::after,
+  &:active::after,
+  &:focus::after {
+      content: "Kolor tła";
+  }
+}
+
+.ql-blockquote {
+  &:hover::after,
+  &:active::after,
+  &:focus::after {
+      content: "Cytat";
+  }
+}
+.ql-code-block {
+  &:hover::after,
+  &:active::after,
+  &:focus::after {
+      content: "Kod";
+  }
+}
+
+.ql-list[value="ordered"] {
+  &:hover::after,
+  &:active::after,
+  &:focus::after {
+      content: "Lista numerowana";
+      top: -200%;
+  }
+}
+
+.ql-list[value="bullet"] {
+  &:hover::after,
+  &:active::after,
+  &:focus::after {
+      content: "Lista punktowana";
+      top: -200%;
+  }
+}
+
+.ql-align[value=""]{
+  &:hover::after,
+  &:active::after,
+  &:focus::after {
+      content: "Do lewej";
+      top: -200%;
+  }
+}
+
+.ql-align[value="center"]{
+  &:hover::after,
+  &:active::after,
+  &:focus::after {
+      content: "Wyśrodkuj";
+      top: -200%;
+  }
+}
+
+.ql-align[value="justify"]{
+  &:hover::after,
+  &:active::after,
+  &:focus::after {
+      content: "Wyjustuj";
+      top: -200%;
+  }
+}
+
+
+
+.ql-align[value="right"]{
+  &:hover::after,
+  &:active::after,
+  &:focus::after {
+      content: "Do prawej";
+      top: -200%;
+  }
+}
+
+.ql-link {
+  &:hover::after,
+  &:active::after,
+  &:focus::after {
+      content: "Hyperlink";
+  }
+}
+
+.ql-image {
+  &:hover::after,
+  &:active::after,
+  &:focus::after {
+      content: "Dodaj zdjęcie";
+  }
+}
+
+
+
+////TODO </>
 
 
 @media(max-width:810px)
@@ -476,6 +857,17 @@ width: 5rem;
     height: 20rem;
   }
 }
+
+@media(max-width:430px)
+{
+  .ql-container.ql-snow
+  {
+    width: 15rem;
+    height: 16rem;
+
+  }
+}
+
 }
 
 // @media(max-height:840px)

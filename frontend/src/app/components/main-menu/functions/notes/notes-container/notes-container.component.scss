@@ -101,12 +101,53 @@
   background-color: rgb(223, 222, 222);
   border: 0.1rem solid rgb(218, 218, 218);
   border-radius: 0.5rem;
-  padding: 0.2rem;
-  // background-color: burlywood;
+  padding: 0.25rem;
   height: 20rem;
   width: 21rem;
-  overflow: hidden;
+
 }
+
+::ng-deep{
+  .ql-container.ql-snow.ngx-quill-view-html
+  {
+    // border: 0.1rem solid red;
+    padding: 0;
+    margin: 0;
+    border-radius: 0.5rem;
+    width: 20.3rem;
+    height: 19.3rem;
+  }
+  .ql-editor
+  {
+  overflow: hidden;
+  }
+  .ql-font-arial {
+    font-family: "Arial", sans-serif;
+  }
+
+  .ql-font-verdana {
+    font-family: "Verdana";
+  }
+
+  .ql-font-timesnewroman {
+    font-family: "Times New Roman";
+  }
+
+  .ql-font-roboto {
+    font-family: "Roboto";
+  }
+
+  .ql-font-monospace {
+    font-family: "Courier New", "monospace";
+  }
+
+  .ql-font-poppins {
+    font-family: "Poppins", "serif";
+  }
+}
+
+
+
 
 #categories {
   display: flex;
@@ -129,10 +170,12 @@
 
 #course {
   min-width: 7rem;
+  // max-width: 12rem;
 }
 
 #subcategory {
   min-width: 9rem;
+  max-width: 12rem;
 }
 
 #bottom {

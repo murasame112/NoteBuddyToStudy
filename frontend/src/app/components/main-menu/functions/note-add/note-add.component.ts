@@ -9,6 +9,31 @@ import { NotesService } from 'src/app/services/notes.service';
 import { Category } from '../../../../models/category.model';
 import { Subcategory } from '../../../../models/subcategory.model';
 import Quill from 'quill';
+import { CustomOption } from 'ngx-quill';
+import Parchment from 'parchment';
+
+
+//Rejestrowanie i dodawanie do listy wybranych czcionek
+ const font = Quill.import('formats/font')
+ font.whitelist = ['serif','arial', 'verdana', 'timesnewroman', 'roboto', 'monospace','poppins']
+ Quill.register(font, true)
+
+//  Dodawanie wybranych protokółów do linków w edytorze
+const Link = Quill.import('formats/link')
+Link.PROTOCOL_WHITELIST = ['http', 'https']
+Link.sanitize = function(sanitizedUrl:string)
+{
+  if(!sanitizedUrl ||sanitizedUrl ==='about:blank') return sanitizedUrl;
+
+  const hasWhitelistedProtocol = Link.PROTOCOL_WHITELIST.some(function(protocol:string){
+    return sanitizedUrl.startsWith(protocol);
+  })
+
+  return hasWhitelistedProtocol? sanitizedUrl:`http://${sanitizedUrl}`
+}
+Quill.register(Link, true);
+
+
 
 @Component({
   selector: 'app-note-add',
@@ -27,6 +52,24 @@ export class NoteAddComponent extends Unsubscribe implements OnInit {
   subcategoriesArray: Subcategory[] = [];
   subcategoryFilteredArray: Subcategory[] = [];
 
+  isSubmitted:boolean = false;
+
+  // editorModel = [{
+  //   attributes: {
+  //     font: ['roboto']
+  //   }
+  // }]
+  //[(ngModel)]="editorModel" w html quillEditor
+
+  addNoteForm = new FormGroup({
+    noteName: new FormControl('', Validators.required),
+    noteDesc: new FormControl('', Validators.required),
+    courseName: new FormControl('', Validators.required),
+    subjectName: new FormControl('', Validators.required),
+
+  });
+
+
   ngOnInit(): void {
     this.getCategories();
     this.getSubcategories();
@@ -35,53 +78,59 @@ export class NoteAddComponent extends Unsubscribe implements OnInit {
       noteName: new FormControl('', Validators.required),
       noteDesc: new FormControl('', Validators.required),
       courseName: new FormControl('', Validators.required),
-      subjectName: new FormControl({ value: '', disabled: true }),
-      typeName: new FormControl('', Validators.required),
-    });
-  }
+      subjectName: new FormControl({ value: '', disabled: true },Validators.required),
 
-  addNoteForm = new FormGroup({
-    noteName: new FormControl('', Validators.required),
-    noteDesc: new FormControl('', Validators.required),
-    courseName: new FormControl('', Validators.required),
-    subjectName: new FormControl('', Validators.required),
-    typeName: new FormControl('', Validators.required),
-  });
+    });
+
+
+  }
 
   //Dodawanie notatki
   addNote(data: any) {
     console.log(data);
 
-    let name: string = data.noteName;
     let author_id: string = '652d7b38f2c51e59e3c6241e';
+    let name: string = data.noteName;
+    let content: string = data.noteDesc;
     let category_id: string = data.courseName;
     let subcategory_id: string = data.subjectName;
-    let content: string = data.noteDesc;
+    this.isSubmitted = true;
 
-    let newNote: Note = {
-      name: name,
-      author_id: author_id,
-      category_id: category_id,
-      subcategory_id: subcategory_id,
-      content: content,
-    };
 
-    this.notesService
-      .addNote(newNote)
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(
-        //! To jest do przerobienia response zwraca ID
-        (response) => {
-          console.log('ID:', response);
-        },
-        (error) => {
-          console.log('Bład:', error);
-        }
-      );
+    if(name !='' && content != ''&& content != null && category_id != '' && subcategory_id !='')
+    {
+      let newNote: Note = {
+        name: name,
+        author_id: author_id,
+        category_id: category_id,
+        subcategory_id: subcategory_id,
+        content: content,
+      };
 
-    setTimeout(() => {
-      this.router.navigate(['/notes']);
-    }, 1000);
+      this.notesService
+        .addNote(newNote)
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(
+          //! To jest do przerobienia response zwraca ID
+          (response) => {
+            console.log('ID:', response);
+          },
+          (error) => {
+            console.log('Bład:', error);
+          }
+        );
+
+      setTimeout(() => {
+        this.router.navigate(['/notes']);
+      }, 1000);
+
+
+    }else
+    {
+      alert("Nie wszystkie pola formularza zostały uzupełnione");
+    }
+
+
   }
 
   getCategories() {
@@ -139,30 +188,53 @@ export class NoteAddComponent extends Unsubscribe implements OnInit {
     if (categoryName != null && categoryName != '') {
       this.addNoteForm.get('subjectName')?.enable();
     }
+
   }
+
 
   //! QUILL
 
-  quill = new Quill('#quill', {
-    modules: {
-      toolbar: false, // Snow includes toolbar by default
-    },
-    theme: 'snow',
-  });
+  //Quill Modules
+
+  quillModules = {
+    toolbar: [
+      [
+        {'header':[2, 3, false]},
+        {'size':['small', false, 'large']},
+        {'font':['serif','arial', 'verdana', 'timesnewroman', 'roboto', 'monospace','poppins']},
+      ],[],[],
+      ['bold', 'italic', 'underline', 'strike','clean'],
+      [ { 'indent': '-1'}, { 'indent': '+1' }],
+      [{ color: [] }, { background: [] }],
+      ['blockquote', 'code-block'],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      [{'align':''},{'align':'center'},{'align':'right'},{'align':'justify'}],
+      ['link', 'image'],
+    ],
+
+  };
+
+  //Styles
 
   editorStyle = {
     backgroundColor: '#F7F7F7',
   };
 
-  quillConfig = {
-    toolbar: [
-      [{ header: [] }],
-      ['bold', 'italic', 'underline', 'strike'],
-      [{ color: [] }, { background: [] }],
-      [{ list: 'ordered' }, { list: 'bullet' }],
-      ['link', 'image'],
-    ],
-  };
+  //CustomOptions
+  quillPlaceholder="Wpisz tekst";
+
+  //Quill output
+  onEditorCreated(editor:any)
+  {
+
+    //Zmiana placeholdera dla linków
+    let tooltip = editor.theme.tooltip;
+    let input = tooltip.root.querySelector("input[data-link]");
+    input.dataset.link = 'https://www.twms.pl';
+
+  }
+
 
   //! /QUILL
+
 }

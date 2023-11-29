@@ -42,7 +42,7 @@
         </ng-container>
 
         <ng-container *ngIf="registerForm.get('mail')!.hasError('email') && registerForm.get('mail')!.touched && !registerForm.get('mail')!.hasError('required')">
-          <div class="validators"> <span  style="color:red;">&#x2022; Niepoprawny format email "example@gmail.com"</span></div>
+          <div class="validators"> <span  style="color:red;">&#x2022; Niepoprawny format email "example#&64gmail.com"</span></div>
        </ng-container>
 
        <ng-container *ngIf="registerForm.get('mail')!.hasError('spaceValidator') && registerForm.get('mail')!.touched && !registerForm.get('mail')!.hasError('required')">
