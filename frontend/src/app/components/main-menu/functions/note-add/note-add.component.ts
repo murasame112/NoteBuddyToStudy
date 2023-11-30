@@ -35,10 +35,11 @@ Quill.register(Link, true);
 
 //Dodawanie image-resizera
 
- import ImageResize from 'quill-image-resize-module';
-Quill.register('modules/imageResize', ImageResize);
+//  import ImageResize from 'quill-image-resize-module';
+// Quill.register('modules/imageResize', ImageResize);
 
-
+import BlotFormatter from 'quill-blot-formatter';
+Quill.register('modules/blotFormatter', BlotFormatter);
 
 @Component({
   selector: 'app-note-add',
@@ -216,6 +217,9 @@ export class NoteAddComponent extends Unsubscribe implements OnInit {
       [{'align':''},{'align':'center'},{'align':'right'},{'align':'justify'}],
       ['link', 'image'],
     ],
+
+    // imageResize: {},
+    blotFormatter:{}
 
   };
 
