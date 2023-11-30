@@ -41,6 +41,11 @@ Quill.register(Link, true);
 import BlotFormatter from 'quill-blot-formatter';
 Quill.register('modules/blotFormatter', BlotFormatter);
 
+//kompresowanie zdjęć
+import ImageCompress from 'quill-image-compress';
+Quill.register('modules/imageCompress', ImageCompress);
+
+
 @Component({
   selector: 'app-note-add',
   templateUrl: './note-add.component.html',
@@ -219,7 +224,8 @@ export class NoteAddComponent extends Unsubscribe implements OnInit {
     ],
 
     // imageResize: {},
-    blotFormatter:{}
+    blotFormatter:{},
+    imageCompress:{}
 
   };
 
