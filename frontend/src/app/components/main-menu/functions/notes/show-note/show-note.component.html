@@ -17,8 +17,13 @@
       <button id="backBtn" routerLink="/notes">powrót</button>
     </div>
 
-    <p id="text" *ngIf="!isLoading">{{ note.content }}</p>
-
+    <!-- <p id="text" *ngIf="!isLoading">{{ note.content }}</p> -->
+    <quill-view-html
+      *ngIf="!isLoading"
+      id="text"
+      [content]="htmlText"
+      theme="snow"
+    ></quill-view-html>
   </main>
 
   <footer>

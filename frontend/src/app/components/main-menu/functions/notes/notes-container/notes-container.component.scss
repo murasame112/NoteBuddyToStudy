@@ -104,12 +104,10 @@
   padding: 0.25rem;
   height: 20rem;
   width: 21rem;
-
 }
 
-::ng-deep{
-  .ql-container.ql-snow.ngx-quill-view-html
-  {
+::ng-deep {
+  .ql-container.ql-snow.ngx-quill-view-html {
     // border: 0.1rem solid red;
     padding: 0;
     margin: 0;
@@ -117,9 +115,8 @@
     width: 20.3rem;
     height: 19.3rem;
   }
-  .ql-editor
-  {
-  overflow: hidden;
+  .ql-editor {
+    overflow: hidden;
   }
   .ql-font-arial {
     font-family: "Arial", sans-serif;
@@ -144,10 +141,11 @@
   .ql-font-poppins {
     font-family: "Poppins", "serif";
   }
+
+  #desc div {
+    border: none;
+  }
 }
-
-
-
 
 #categories {
   display: flex;
