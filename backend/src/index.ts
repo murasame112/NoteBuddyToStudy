@@ -59,9 +59,11 @@ app.post("/users", userEndpoints.insertMultipleUsers);
 app.delete("/user/:id", userEndpoints.deleteUser);
 app.delete("/users", userEndpoints.deleteMultipleUsers);
 app.delete("/users/:field&:value", userEndpoints.deleteUsersByQuery);
+app.delete("/usersid/:field&:value", userEndpoints.deleteUsersByQueriedId);
 app.patch("/user/:id", userEndpoints.updateUser);
 app.patch("/users/:field&:value", userEndpoints.updateUsersByQuery);
 app.patch("/users", userEndpoints.updateMultipleUsers);
+app.patch("/usersid/:field&:value", userEndpoints.updateUsersByQueriedId);
 app.put("/user/:id", userEndpoints.replaceUser);
 
 // ============== CATEGORY ENDPOINTS ==============

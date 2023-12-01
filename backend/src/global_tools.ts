@@ -12,7 +12,7 @@ createTimeString
 
  ======= */
 
-// turns dateString (format like in method above) to Date object
+// turns dateString to Date object
 // params:
 // str (optional) - string in format "dd/mm/yyyy, hh:mm:ss". passing Date is allowed, but it does nothing, just returns the same Date object
 // returns date object
