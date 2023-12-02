@@ -1,29 +1,45 @@
-<div id="containerNav" >
-<span id="logo" routerLink="/notes">NoteBuddy<br><span id="logo2">To</span>Study</span>
+<div id="containerNav">
+  <span id="logo" routerLink="/notes"
+    >NoteBuddy<br /><span id="logo2">To</span>Study</span
+  >
 
+  <a id="notes-btn" class="nav-btn" routerLink="/notes">Notatki</a>
+  <a id="advices-btn" class="nav-btn">Porady do nauki</a>
+  <a id="learnTogether-btn" class="nav-btn">Wyszukiwarka do wspólnej nauki</a>
+  <a id="chat-btn" class="nav-btn">Czat</a>
+  <a id="followers-btn" class="nav-btn">Ulubione</a>
 
-    <a id="notes-btn" class="nav-btn" routerLink="/notes">Notatki</a>
-    <a id="advices-btn" class="nav-btn">Porady do nauki</a>
-    <a id="learnTogether-btn" class="nav-btn">Wyszukiwarka do wspólnej nauki</a>
-    <a id="chat-btn" class="nav-btn">Czat</a>
-    <a id="followers-btn" class="nav-btn">Ulubione</a>
+  <div id="hamb-menu">
+    <a class="menu-btn hamburger-nav-btns" routerLink="/notes">Notatki</a>
+    <a class="menu-btn hamburger-nav-btns">Porady do nauki</a>
+    <a class="menu-btn hamburger-nav-btns">Wyszukiwarka do wspólnej nauki</a>
+    <a class="menu-btn hamburger-nav-btns">Czat</a>
+    <a class="menu-btn hamburger-nav-btns">Ulubione</a>
 
     <a href="" id="profile-btn" class="menu-btn">Profil</a>
     <a href="" id="settings-btn" class="menu-btn">Ustawienia</a>
-    <i class="fa fa-sharp fa-solid fa-xmark fa-xl" id="hamburgerIcon-close" (click)="menuBarClose()"></i>
+    <a href="" id="admin-btn" class="menu-btn">Panel Admina</a>
+  </div>
+  <i
+    class="fa fa-sharp fa-solid fa-xmark fa-xl"
+    id="hamburgerIcon-close"
+    (click)="menuBarClose()"
+  ></i>
 
-
-    <div id="avatar-and-menu">
+  <div id="avatar-and-menu">
     <div id="avatar">
-      <img src="" alt="" id="avatar-img">
+      <img src="" alt="" id="avatar-img" />
       <span id="avatar-login-name">kowalski</span>
     </div>
 
     <div id="hamburger-btn">
-     <i class="fa fa-solid fa-bars fa-lg" id="hamburgerIcon" (click)="menuBarOpen()"></i>
+      <i
+        class="fa fa-solid fa-bars fa-lg"
+        id="hamburgerIcon"
+        (click)="menuBarOpen()"
+      ></i>
     </div>
   </div>
 </div>
 
 <div id="hamburgerBar"></div>
-
