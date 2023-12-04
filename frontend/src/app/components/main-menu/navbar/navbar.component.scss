@@ -73,7 +73,7 @@
 
 //!
 
-#hamb-menu {
+#hamburger-menu {
   display: none;
   position: absolute;
   top: 4.5rem;
@@ -108,27 +108,6 @@
 
 //! </>
 
-// #profile-btn {
-//   position: absolute;
-//   z-index: 10;
-//   top: 15rem;
-//   right: 11.7rem;
-// }
-
-// #settings-btn {
-//   position: absolute;
-//   z-index: 10;
-//   top: 17rem;
-//   right: 8.7rem;
-// }
-
-// #admin-btn {
-//   position: absolute;
-//   z-index: 10;
-//   top: 19rem;
-//   right: 7.7rem;
-// }
-
 #hamburgerIcon-close {
   color: white;
   position: absolute;
@@ -140,6 +119,8 @@
 
 #hamburgerIcon-close:hover {
   cursor: pointer;
+  color: #f89e30;
+  transition: 250ms ease-in-out;
 }
 
 #avatar-and-menu {
@@ -185,6 +166,8 @@
 
 #hamburgerIcon:hover {
   cursor: pointer;
+  color: #f89e30;
+  transition: 250ms ease-in-out;
 }
 
 #hamburgerBar {
@@ -259,7 +242,7 @@
     display: none;
   }
 
-  #hamb-menu {
+  #hamburger-menu {
     height: 15rem;
     width: 14rem;
     right: 0;

@@ -1,0 +1,111 @@
+#container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 70rem;
+  padding-top: 1rem;
+  font-family: "poppins", sans-serif;
+  font-weight: 400;
+  // border: 1px solid green;
+}
+
+#findUserSection {
+  // border: 1px solid purple;
+  width: 60rem;
+  height: 6rem;
+}
+
+#findUserNote {
+  margin: 0;
+  padding: 0;
+  width: 35rem;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+
+  // border: 1px solid blue;
+  background-color: #dddddd;
+  border-radius: 0.5rem;
+}
+
+#findUserNoteInput {
+  background-color: #d1d1d1;
+  border: 1px solid #cecdcd;
+  border-radius: 0.5rem;
+  height: 2rem;
+  padding-left: 1rem;
+  transition: 60ms ease-in;
+}
+
+#findUserNoteInput:focus {
+  border: 1px solid #310b61;
+  background-color: #cfcece;
+  outline: 1px solid #310b61;
+  caret-color: #310b61;
+}
+
+#findUserNoteBtn {
+  text-decoration: none;
+  background-color: rgba(218, 70, 96, 1);
+  color: white;
+  border: 0.1rem solid rgba(218, 70, 96, 1);
+  border-radius: 2rem;
+  width: 5rem;
+  height: 2rem;
+  font-size: 0.8rem;
+}
+
+#findUserNoteBtn:hover {
+  background-color: rgb(221, 75, 102);
+  border: rgb(221, 75, 102);
+}
+
+#notesSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#userNotes {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+#paginationButtons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 22rem;
+  height: 4rem;
+  gap: 1rem;
+}
+
+.paginationButton {
+  text-decoration: none;
+  background-color: #87ca52;
+  color: white;
+  border: 0.1rem solid #80c04f;
+  border-radius: 2rem;
+  width: 12rem;
+  height: 3rem;
+}
+
+.paginationButton:hover {
+  background-color: #89cf54;
+  border: 0.1rem solid #83c551;
+}
+
+#paginationButtons :disabled {
+  background-color: #78b648;
+  color: #5b8a38;
+  border: 0.1rem solid #71ac45;
+}

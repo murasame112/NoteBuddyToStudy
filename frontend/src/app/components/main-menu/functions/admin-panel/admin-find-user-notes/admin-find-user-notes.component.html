@@ -1,0 +1,44 @@
+<div id="container">
+  <div id="findUserSection">
+    <h5>Notatki i fiszki użytkownika</h5>
+    <div id="findUserNote" [formGroup]="findUserNotesForm">
+      <span>Podaj nazwę użytkownika:</span>
+      <input
+        id="findUserNoteInput"
+        type="text"
+        placeholder="-"
+        formControlName="userName"
+      />
+      <button id="findUserNoteBtn" (click)="searchNotes()">szukaj</button>
+    </div>
+  </div>
+
+  <div id="notesSection" *ngIf="currentSearchedUserNotes.length != 0">
+    <div id="userNotes">
+      <ng-container *ngFor="let note of notesDisplayedForUser">
+        <app-notes-container
+          [finalNote]="note"
+          (deleteNoteEvent)="refreshNoteData()"
+        ></app-notes-container>
+      </ng-container>
+    </div>
+    <div id="paginationButtons">
+      <button
+        class="paginationButton"
+        (click)="prevPage()"
+        [disabled]="currentPage === 0"
+      >
+        Poprzednia
+      </button>
+      <button
+        class="paginationButton"
+        (click)="nextPage()"
+        [disabled]="currentPage === maxPage"
+      >
+        Następna
+      </button>
+    </div>
+  </div>
+
+  <div id="UserCards"></div>
+</div>

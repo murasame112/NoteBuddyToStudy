@@ -34,7 +34,7 @@ export class NavbarComponent implements OnInit {
 
   menuBarOpen() {
     let hamburgerBar: any = document.querySelector('#hamburgerBar');
-    let hamb_menu: any = document.querySelector('#hamb-menu');
+    let hamburger_menu: any = document.querySelector('#hamburger-menu');
     let hamburgerIcon: any = document.querySelector('#hamburgerIcon');
     let hamburgerIconClose: any = document.querySelector(
       '#hamburgerIcon-close'
@@ -45,7 +45,7 @@ export class NavbarComponent implements OnInit {
     );
 
     hamburgerBar.style.display = 'block';
-    hamb_menu.style.display = 'flex';
+    hamburger_menu.style.display = 'flex';
     hamburgerIcon.style.visibility = 'hidden';
     hamburgerIconClose.style.display = 'block';
 
@@ -66,7 +66,7 @@ export class NavbarComponent implements OnInit {
 
   menuBarClose() {
     let hamburgerBar: any = document.querySelector('#hamburgerBar');
-    let hamb_menu: any = document.querySelector('#hamb-menu');
+    let hamburger_menu: any = document.querySelector('#hamburger-menu');
     let hamburgerIcon: any = document.querySelector('#hamburgerIcon');
     let hamburgerIconClose: any = document.querySelector(
       '#hamburgerIcon-close'
@@ -74,7 +74,7 @@ export class NavbarComponent implements OnInit {
     let menuBtn: any = document.querySelectorAll('.menu-btn');
 
     hamburgerBar.style.display = 'none';
-    hamb_menu.style.display = 'none';
+    hamburger_menu.style.display = 'none';
     hamburgerIcon.style.visibility = 'visible';
     hamburgerIconClose.style.display = 'none';
 

@@ -175,7 +175,7 @@ export class NotesComponent extends Unsubscribe implements OnInit {
       });
   }
 
-  //Pobieranie wszystkich tablic z bazy danych
+  //Pobieranie wszystkich tablic z bazy danych dotyczacych notatek
   getAllNotesArrays() {
     this.notesService
       .getAllData()

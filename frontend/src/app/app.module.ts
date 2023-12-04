@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {QuillModule} from 'ngx-quill';
+import { QuillModule } from 'ngx-quill';
 import { FormsModule } from '@angular/forms';
 
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
@@ -23,9 +23,9 @@ import { SearchForBuddyComponent } from './components/main-menu/functions/search
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NotesContainerComponent } from './components/main-menu/functions/notes/notes-container/notes-container.component';
 import { ShowNoteComponent } from './components/main-menu/functions/notes/show-note/show-note.component';
-
-
-
+import { AdminPanelMainComponent } from './components/main-menu/functions/admin-panel/admin-panel-main/admin-panel-main.component';
+import { AdminFindUserNotesComponent } from './components/main-menu/functions/admin-panel/admin-find-user-notes/admin-find-user-notes.component';
+import { AdminCrudCatSubcatComponent } from './components/main-menu/functions/admin-panel/admin-crud-cat-subcat/admin-crud-cat-subcat.component';
 
 @NgModule({
   declarations: [
@@ -45,8 +45,9 @@ import { ShowNoteComponent } from './components/main-menu/functions/notes/show-n
     SearchForBuddyComponent,
     NotesContainerComponent,
     ShowNoteComponent,
-
-
+    AdminPanelMainComponent,
+    AdminFindUserNotesComponent,
+    AdminCrudCatSubcatComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,10 +56,9 @@ import { ShowNoteComponent } from './components/main-menu/functions/notes/show-n
     HttpClientModule,
     NgbModule,
     QuillModule.forRoot(),
-    FormsModule
-
+    FormsModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
