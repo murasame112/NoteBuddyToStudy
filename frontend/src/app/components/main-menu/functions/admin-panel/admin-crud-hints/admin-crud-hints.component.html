@@ -1,0 +1,58 @@
+<div id="container">
+  <h5 class="adminPanelText">Porady do nauki</h5>
+
+  <!-- Dodawanie porady do nauki -->
+  <div class="studyTipsContainer">
+    <form
+      class="studyTipsForm"
+      [formGroup]="addHintForm"
+      (ngSubmit)="addHint(addHintForm.value)"
+    >
+      <span class="studyTipsSpan">Dodaj nową poradę:</span>
+      <textarea
+        type="text"
+        placeholder="treść porady do nauki"
+        class="valueTextarea"
+        formControlName="content"
+      ></textarea>
+      <div class="studyTipsbtnsDiv">
+        <button class="createBtn">Dodaj</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Edytowanie porady do nauki -->
+  <div class="studyTipsContainer">
+    <form class="studyTipsForm" [formGroup]="editHintForm">
+      <span class="studyTipsSpan">Edytuj poradę:</span>
+      <div id="editTipsSelectContainer">
+        <select
+          id="editTipsSelect"
+          formControlName="_id"
+          (change)="onEditHintChange()"
+        >
+          <ng-container *ngFor="let hint of hintOrigin">
+            <option [value]="hint._id">{{ hint.content }}</option>
+          </ng-container>
+
+          <option value="">wybierz poradę</option>
+        </select>
+        <textarea
+          type="text"
+          placeholder="treść porady do nauki"
+          class="valueTextarea"
+          formControlName="content"
+        ></textarea>
+      </div>
+
+      <div class="studyTipsbtnsDiv">
+        <button class="editBtn" type="submit" (click)="updateHint()">
+          Edytuj
+        </button>
+        <button class="deleteBtn" type="submit" (click)="deleteHint()">
+          Usuń
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

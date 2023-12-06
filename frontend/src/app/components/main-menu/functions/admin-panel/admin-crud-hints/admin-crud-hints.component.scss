@@ -22,60 +22,90 @@ h5 {
   width: 40rem;
 }
 
-#addNewCategorySection {
-  // border: 1px solid purple;
+.studyTipsContainer {
   width: 40rem;
-  height: 4rem;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  // gap: 4rem;
-}
-
-#addNewCategoryForm {
-  margin: 0;
-  padding: 0;
-  width: 40rem;
-  height: 3rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 2rem;
-
   // border: 1px solid blue;
   background-color: #dddddd;
   border-radius: 0.5rem;
 }
 
-#addCategorySpan {
-  // border: 1px solid red;
-  width: 15rem;
+.studyTipsForm {
+  width: 40rem;
+  height: 15rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
 }
 
-.valueInputs {
+.studyTipsSpan {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // border: 1px solid red;
+  width: 11rem;
+  height: 3rem;
+}
+
+#editTipsSelectContainer .valueTextarea {
+  height: 8rem;
+}
+
+#editTipsSelect {
   background-color: #d1d1d1;
   border: 1px solid #cecdcd;
   border-radius: 0.5rem;
+  width: 20rem;
   height: 2rem;
   padding-left: 1rem;
   transition: 60ms ease-in;
-  width: 13.5rem;
 }
 
-.valueInputs:focus {
+#editTipsSelect:focus {
+  border: 1px solid #310b61;
+  background-color: #cfcece;
+  outline: 1px solid #310b61;
+}
+
+.valueTextarea {
+  background-color: #d1d1d1;
+  border: 1px solid #cecdcd;
+  border-radius: 0.5rem;
+  height: 12rem;
+  padding-left: 1rem;
+  transition: 60ms ease-in;
+  width: 20rem;
+  padding: 1rem;
+  resize: none;
+}
+
+.valueTextarea:focus {
   border: 1px solid #310b61;
   background-color: #cfcece;
   outline: 1px solid #310b61;
   caret-color: #310b61;
 }
 
-#addCategoryBtnDiv {
+.studyTipsbtnsDiv {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  // border: 1px solid black;
-  height: 3rem;
+
+  // border: 1px solid red;
   width: 6rem;
+  height: 6rem;
+  gap: 1rem;
+}
+
+#editTipsSelectContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  // border: 1px solid red;
+  gap: 1rem;
+  height: 12rem;
 }
 
 .createBtn {
@@ -134,80 +164,4 @@ h5 {
 select.invalid {
   outline: 1px solid rgb(255, 0, 0);
   border-radius: 0.4rem;
-}
-
-.editCategoryAddSubcatContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  margin: 0;
-  // padding: 1rem;
-  width: 40rem;
-  height: 8rem;
-  gap: 1rem;
-
-  // border: 1px solid blue;
-  background-color: #dddddd;
-  border-radius: 0.5rem;
-}
-
-.editCategoryAddSubcatForm {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 40rem;
-  //
-  // border: 1px solid blue;
-  gap: 2rem;
-}
-
-.editCategoryAddSubcatSpan {
-  // border: 1px solid red;
-  width: 15rem;
-}
-
-.editCategoryAddSubcatContent {
-  // border: 2px solid green;
-  // width: 17rem;
-  width: 13.5rem;
-
-  height: 8rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-}
-
-.categoryAndSubcatSelect {
-  background-color: #d1d1d1;
-  border: 1px solid #cecdcd;
-  border-radius: 0.5rem;
-  width: 13.5rem;
-  height: 2rem;
-  padding-left: 1rem;
-  transition: 60ms ease-in;
-}
-
-.categoryAndSubcatSelect:focus {
-  border: 1px solid #310b61;
-  background-color: #cfcece;
-  outline: 1px solid #310b61;
-}
-
-.editAndDeleteBtnsSection {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  // border: 1px solid orange;
-  width: 6rem;
-  height: 8rem;
-}
-
-#ediSubcategoryContainer {
-  height: 10rem;
 }

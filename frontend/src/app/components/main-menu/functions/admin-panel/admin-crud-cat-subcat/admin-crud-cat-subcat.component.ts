@@ -20,6 +20,11 @@ export class AdminCrudCatSubcatComponent extends Unsubscribe implements OnInit {
   editSubcategoryForm!: FormGroup;
 
   isSubmitted: boolean = false;
+  isSubmittedAddCategoryForm: boolean = false;
+  isSubmittedEditCategoryForm: boolean = false;
+  isSubmittedAddSubcategoryForm: boolean = false;
+  isSubmittedEditSubcategoryForm: boolean = false;
+
   categoriesOrigin: Category[] = [];
   subcategoriesOrigin: Subcategory[] = [];
   filteredSubcategories: Subcategory[] = [];
@@ -69,7 +74,7 @@ export class AdminCrudCatSubcatComponent extends Unsubscribe implements OnInit {
 
   addCategory(categoryName: Category) {
     const isInvalid = this.addCategoryForm.invalid;
-    this.isSubmitted = true;
+    this.isSubmittedAddCategoryForm = true;
 
     const newCategory: Category = {
       name: categoryName.name,
@@ -98,7 +103,7 @@ export class AdminCrudCatSubcatComponent extends Unsubscribe implements OnInit {
         this.addCategoryForm.reset();
         this.addCategoryForm.markAsPristine();
         this.addCategoryForm.markAsUntouched();
-        this.isSubmitted = false;
+        this.isSubmittedAddCategoryForm = false;
       }
     } else {
       alert('Wpisz nazwę kierunku');
@@ -108,6 +113,7 @@ export class AdminCrudCatSubcatComponent extends Unsubscribe implements OnInit {
   updateCategory() {
     let categoryId = this.editCategoryForm.get('selectedCategoryName')?.value;
     let selectedCategorName = this.editCategoryForm.get('categoryName')?.value;
+    this.isSubmittedEditCategoryForm = true;
 
     if (categoryId && selectedCategorName) {
       console.log('selected category', categoryId);
@@ -133,6 +139,7 @@ export class AdminCrudCatSubcatComponent extends Unsubscribe implements OnInit {
               this.editCategoryForm.patchValue({
                 categoryName: selectedCategorName,
               });
+              this.isSubmittedEditCategoryForm = false;
               console.log('updateCategoryOrigin', this.categoriesOrigin);
             });
         }
@@ -144,6 +151,7 @@ export class AdminCrudCatSubcatComponent extends Unsubscribe implements OnInit {
 
   deleteCategory() {
     let id = this.editCategoryForm.get('selectedCategoryName')?.value;
+    this.isSubmittedEditCategoryForm = true;
 
     if (id) {
       this.categoriesService
@@ -153,7 +161,7 @@ export class AdminCrudCatSubcatComponent extends Unsubscribe implements OnInit {
           this.categoriesOrigin = this.categoriesOrigin.filter((category) => {
             return category._id != id;
           });
-
+          this.isSubmittedEditCategoryForm = false;
           console.log('categories after delete:', this.categoriesOrigin);
         });
       this.editCategoryForm.reset();
@@ -193,7 +201,7 @@ export class AdminCrudCatSubcatComponent extends Unsubscribe implements OnInit {
 
   addSubcategory(subcategory: Subcategory) {
     const isInvalid = this.addSubcategoryForm.invalid;
-    this.isSubmitted = true;
+    this.isSubmittedAddSubcategoryForm = true;
 
     const newSubcategory: Subcategory = {
       category_id: subcategory.category_id,
@@ -226,7 +234,7 @@ export class AdminCrudCatSubcatComponent extends Unsubscribe implements OnInit {
         this.addSubcategoryForm.reset();
         this.addSubcategoryForm.markAsPristine();
         this.addSubcategoryForm.markAsUntouched();
-        this.isSubmitted = false;
+        this.isSubmittedAddSubcategoryForm = false;
       }
     } else {
       alert('Wybierz kierunek i wpisz nazwę tematu');
@@ -240,6 +248,7 @@ export class AdminCrudCatSubcatComponent extends Unsubscribe implements OnInit {
     let subcategoryId = this.editSubcategoryForm.get('_id')?.value;
     //input value subcategory name
     let subcategoryInputName = this.editSubcategoryForm.get('name')?.value;
+    this.isSubmittedEditSubcategoryForm = true;
 
     if (categoryId && subcategoryId && subcategoryInputName) {
       console.log('selected category id:', categoryId);
@@ -275,6 +284,8 @@ export class AdminCrudCatSubcatComponent extends Unsubscribe implements OnInit {
               this.editSubcategoryForm.patchValue({
                 name: subcategoryInputName,
               });
+              this.isSubmittedEditSubcategoryForm = false;
+
               console.log('updateSubcategoryOrigin', this.subcategoriesOrigin);
             });
         }
@@ -286,6 +297,7 @@ export class AdminCrudCatSubcatComponent extends Unsubscribe implements OnInit {
 
   deleteSubcategory() {
     let id = this.editSubcategoryForm.get('_id')?.value;
+    this.isSubmittedEditSubcategoryForm = true;
 
     if (id) {
       this.subcategoriesService
@@ -307,6 +319,7 @@ export class AdminCrudCatSubcatComponent extends Unsubscribe implements OnInit {
         category_id: '',
         _id: '',
       });
+      this.isSubmittedEditSubcategoryForm = false;
     } else {
       alert('nie wybrales kierunku i tematu');
     }

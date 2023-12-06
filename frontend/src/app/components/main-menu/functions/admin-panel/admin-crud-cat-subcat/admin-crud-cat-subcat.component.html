@@ -10,7 +10,7 @@
       (ngSubmit)="addCategory(addCategoryForm.value)"
     >
       <div id="addNewCategoryForm">
-        <span>Dodaj nowy kierunek studiów:</span>
+        <span id="addCategorySpan">Dodaj nowy kierunek studiów:</span>
         <input
           id="addCategoryInput"
           class="valueInputs"
@@ -21,10 +21,13 @@
             (addCategoryForm.get('name')?.invalid &&
               (addCategoryForm.get('name')?.touched ||
                 addCategoryForm.get('name')?.dirty)) ||
-            (isSubmitted && addCategoryForm.get('name')?.untouched)
+            (isSubmittedAddCategoryForm &&
+              addCategoryForm.get('name')?.untouched)
           "
         />
-        <button class="createBtn" type="submit">dodaj</button>
+        <div id="addCategoryBtnDiv">
+          <button class="createBtn" type="submit">dodaj</button>
+        </div>
       </div>
     </form>
   </div>
@@ -34,21 +37,6 @@
     <form [formGroup]="editCategoryForm" class="editCategoryAddSubcatForm">
       <span class="editCategoryAddSubcatSpan">Edytuj wybrany kierunek:</span>
       <div class="editCategoryAddSubcatContent">
-        <!-- <select
-                class="categorySelect form-select"
-                id=""
-                formControlName="categoryName"
-                (change)="categorySelectionChangeFunc()"
-              >
-                <option value="" selected disabled hidden>
-                  Wybierz kierunek
-                </option>
-
-                <option value="">Wszystkie kierunki</option>
-                <ng-container *ngFor="let cat of categoriesOrigin">
-                  <option [value]="cat._id">{{ cat.name }}</option>
-                </ng-container>
-              </select> -->
         <select
           class="categoryAndSubcatSelect"
           formControlName="selectedCategoryName"
@@ -57,7 +45,7 @@
             (editCategoryForm.get('selectedCategoryName')?.invalid &&
               (editCategoryForm.get('selectedCategoryName')?.touched ||
                 editCategoryForm.get('selectedCategoryName')?.dirty)) ||
-            (isSubmitted &&
+            (isSubmittedEditCategoryForm &&
               editCategoryForm.get('selectedCategoryName')?.untouched)
           "
         >
@@ -78,7 +66,8 @@
             (editCategoryForm.get('categoryName')?.invalid &&
               (editCategoryForm.get('categoryName')?.touched ||
                 editCategoryForm.get('categoryName')?.dirty)) ||
-            (isSubmitted && editCategoryForm.get('categoryName')?.untouched)
+            (isSubmittedEditCategoryForm &&
+              editCategoryForm.get('categoryName')?.untouched)
           "
         />
       </div>
@@ -106,7 +95,17 @@
     >
       <span class="editCategoryAddSubcatSpan">Dodaj nowy temat:</span>
       <div class="editCategoryAddSubcatContent">
-        <select class="categoryAndSubcatSelect" formControlName="category_id">
+        <select
+          class="categoryAndSubcatSelect"
+          formControlName="category_id"
+          [class.invalid]="
+            (addSubcategoryForm.get('category_id')?.invalid &&
+              (addSubcategoryForm.get('category_id')?.touched ||
+                addSubcategoryForm.get('category_id')?.dirty)) ||
+            (isSubmittedAddSubcategoryForm &&
+              addSubcategoryForm.get('category_id')?.untouched)
+          "
+        >
           <option value="" selected disabled hidden>Wybierz kierunek</option>
           <ng-container *ngFor="let cat of categoriesOrigin">
             <option [value]="cat._id">{{ cat.name }}</option>
@@ -122,12 +121,15 @@
             (addSubcategoryForm.get('name')?.invalid &&
               (addSubcategoryForm.get('name')?.touched ||
                 addSubcategoryForm.get('name')?.dirty)) ||
-            (isSubmitted && addSubcategoryForm.get('name')?.untouched)
+            (isSubmittedAddSubcategoryForm &&
+              addSubcategoryForm.get('name')?.untouched)
           "
         />
       </div>
 
-      <button class="createBtn" type="submit">Dodaj</button>
+      <div class="editAndDeleteBtnsSection">
+        <button class="createBtn" type="submit">Dodaj</button>
+      </div>
     </form>
   </div>
 
@@ -140,6 +142,13 @@
           class="categoryAndSubcatSelect"
           formControlName="category_id"
           (change)="onEditSubcategoryCategorySelectChange()"
+          [class.invalid]="
+            (editSubcategoryForm.get('category_id')?.invalid &&
+              (editSubcategoryForm.get('category_id')?.touched ||
+                editSubcategoryForm.get('category_id')?.dirty)) ||
+            (isSubmittedEditSubcategoryForm &&
+              editSubcategoryForm.get('category_id')?.untouched)
+          "
         >
           <option value="" selected disabled hidden>Wybierz kierunek</option>
           <ng-container *ngFor="let cat of categoriesOrigin">
@@ -151,6 +160,13 @@
           class="categoryAndSubcatSelect"
           formControlName="_id"
           (change)="onEditSubcategoryChange()"
+          [class.invalid]="
+            (editSubcategoryForm.get('_id')?.invalid &&
+              (editSubcategoryForm.get('_id')?.touched ||
+                editSubcategoryForm.get('_id')?.dirty)) ||
+            (isSubmittedEditSubcategoryForm &&
+              editSubcategoryForm.get('_id')?.untouched)
+          "
         >
           <option value="" selected disabled hidden>Wybierz Temat</option>
 
@@ -165,6 +181,13 @@
           class="valueInputs"
           placeholder="-"
           formControlName="name"
+          [class.invalid]="
+            (editSubcategoryForm.get('name')?.invalid &&
+              (editSubcategoryForm.get('name')?.touched ||
+                editSubcategoryForm.get('name')?.dirty)) ||
+            (isSubmittedEditSubcategoryForm &&
+              editSubcategoryForm.get('name')?.untouched)
+          "
         />
       </div>
 
