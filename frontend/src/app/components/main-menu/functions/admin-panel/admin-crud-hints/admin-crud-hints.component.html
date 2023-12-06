@@ -14,6 +14,12 @@
         placeholder="treść porady do nauki"
         class="valueTextarea"
         formControlName="content"
+        [class.invalid]="
+          (addHintForm.get('content')?.invalid &&
+            (addHintForm.get('content')?.touched ||
+              addHintForm.get('content')?.dirty)) ||
+          (isSubmittedAddHintForm && addHintForm.get('content')?.untouched)
+        "
       ></textarea>
       <div class="studyTipsbtnsDiv">
         <button class="createBtn">Dodaj</button>
@@ -30,18 +36,30 @@
           id="editTipsSelect"
           formControlName="_id"
           (change)="onEditHintChange()"
+          [class.invalid]="
+            (editHintForm.get('_id')?.invalid &&
+              (editHintForm.get('_id')?.touched ||
+                editHintForm.get('_id')?.dirty)) ||
+            (isSubmittedEditHintForm && editHintForm.get('_id')?.untouched)
+          "
         >
           <ng-container *ngFor="let hint of hintOrigin">
             <option [value]="hint._id">{{ hint.content }}</option>
           </ng-container>
 
-          <option value="">wybierz poradę</option>
+          <option value="" selected disabled hidden>wybierz poradę</option>
         </select>
         <textarea
           type="text"
           placeholder="treść porady do nauki"
           class="valueTextarea"
           formControlName="content"
+          [class.invalid]="
+            (editHintForm.get('content')?.invalid &&
+              (editHintForm.get('content')?.touched ||
+                editHintForm.get('content')?.dirty)) ||
+            (isSubmittedEditHintForm && editHintForm.get('content')?.untouched)
+          "
         ></textarea>
       </div>
 
