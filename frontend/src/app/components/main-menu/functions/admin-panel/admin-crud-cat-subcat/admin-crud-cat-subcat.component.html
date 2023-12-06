@@ -1,1 +1,177 @@
-<p>admin-crud-cat-subcat works!</p>
+<div id="container">
+  <h5 class="adminPanelText">Kierunki i tematy</h5>
+
+  <h6 class="adminPanelText">Kierunki:</h6>
+
+  <!-- Dodawanie Kierunków -->
+  <div id="addNewCategorySection">
+    <form
+      [formGroup]="addCategoryForm"
+      (ngSubmit)="addCategory(addCategoryForm.value)"
+    >
+      <div id="addNewCategoryForm">
+        <span>Dodaj nowy kierunek studiów:</span>
+        <input
+          id="addCategoryInput"
+          class="valueInputs"
+          type="text"
+          placeholder="-"
+          formControlName="name"
+          [class.invalid]="
+            (addCategoryForm.get('name')?.invalid &&
+              (addCategoryForm.get('name')?.touched ||
+                addCategoryForm.get('name')?.dirty)) ||
+            (isSubmitted && addCategoryForm.get('name')?.untouched)
+          "
+        />
+        <button class="createBtn" type="submit">dodaj</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Edytowanie kierunków -->
+  <div class="editCategoryAddSubcatContainer">
+    <form [formGroup]="editCategoryForm" class="editCategoryAddSubcatForm">
+      <span class="editCategoryAddSubcatSpan">Edytuj wybrany kierunek:</span>
+      <div class="editCategoryAddSubcatContent">
+        <!-- <select
+                class="categorySelect form-select"
+                id=""
+                formControlName="categoryName"
+                (change)="categorySelectionChangeFunc()"
+              >
+                <option value="" selected disabled hidden>
+                  Wybierz kierunek
+                </option>
+
+                <option value="">Wszystkie kierunki</option>
+                <ng-container *ngFor="let cat of categoriesOrigin">
+                  <option [value]="cat._id">{{ cat.name }}</option>
+                </ng-container>
+              </select> -->
+        <select
+          class="categoryAndSubcatSelect"
+          formControlName="selectedCategoryName"
+          (change)="onEditCategoryChange()"
+          [class.invalid]="
+            (editCategoryForm.get('selectedCategoryName')?.invalid &&
+              (editCategoryForm.get('selectedCategoryName')?.touched ||
+                editCategoryForm.get('selectedCategoryName')?.dirty)) ||
+            (isSubmitted &&
+              editCategoryForm.get('selectedCategoryName')?.untouched)
+          "
+        >
+          <option value="" selected disabled hidden>Wybierz kierunek</option>
+
+          <ng-container *ngFor="let cat of categoriesOrigin">
+            <option [value]="cat._id">{{ cat.name }}</option>
+          </ng-container>
+        </select>
+
+        <input
+          type="text"
+          id="editCategoryInput"
+          class="valueInputs"
+          formControlName="categoryName"
+          placeholder="-"
+          [class.invalid]="
+            (editCategoryForm.get('categoryName')?.invalid &&
+              (editCategoryForm.get('categoryName')?.touched ||
+                editCategoryForm.get('categoryName')?.dirty)) ||
+            (isSubmitted && editCategoryForm.get('categoryName')?.untouched)
+          "
+        />
+      </div>
+
+      <div class="editAndDeleteBtnsSection">
+        <button class="editBtn" type="submit" (click)="updateCategory()">
+          Edytuj
+        </button>
+        <button class="deleteBtn" type="submit" (click)="deleteCategory()">
+          Usuń
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <h6 class="adminPanelText">Tematy:</h6>
+
+  <!-- Dodawanie tematów -->
+  <div class="editCategoryAddSubcatContainer">
+    <form
+      class="editCategoryAddSubcatForm"
+      [formGroup]="addSubcategoryForm"
+      class="editCategoryAddSubcatForm"
+      (ngSubmit)="addSubcategory(addSubcategoryForm.value)"
+    >
+      <span class="editCategoryAddSubcatSpan">Dodaj nowy temat:</span>
+      <div class="editCategoryAddSubcatContent">
+        <select class="categoryAndSubcatSelect" formControlName="category_id">
+          <option value="" selected disabled hidden>Wybierz kierunek</option>
+          <ng-container *ngFor="let cat of categoriesOrigin">
+            <option [value]="cat._id">{{ cat.name }}</option>
+          </ng-container>
+        </select>
+
+        <input
+          id="addSubcategoryInput"
+          class="valueInputs"
+          placeholder="-"
+          formControlName="name"
+          [class.invalid]="
+            (addSubcategoryForm.get('name')?.invalid &&
+              (addSubcategoryForm.get('name')?.touched ||
+                addSubcategoryForm.get('name')?.dirty)) ||
+            (isSubmitted && addSubcategoryForm.get('name')?.untouched)
+          "
+        />
+      </div>
+
+      <button class="createBtn" type="submit">Dodaj</button>
+    </form>
+  </div>
+
+  <!-- Edytowanie tematów -->
+  <div class="editCategoryAddSubcatContainer" id="ediSubcategoryContainer">
+    <form class="editCategoryAddSubcatForm" [formGroup]="editSubcategoryForm">
+      <span class="editCategoryAddSubcatSpan">Edytuj wybrany temat:</span>
+      <div class="editCategoryAddSubcatContent">
+        <select
+          class="categoryAndSubcatSelect"
+          formControlName="category_id"
+          (change)="onEditSubcategoryCategorySelectChange()"
+        >
+          <option value="" selected disabled hidden>Wybierz kierunek</option>
+          <ng-container *ngFor="let cat of categoriesOrigin">
+            <option [value]="cat._id">{{ cat.name }}</option>
+          </ng-container>
+        </select>
+
+        <select
+          class="categoryAndSubcatSelect"
+          formControlName="_id"
+          (change)="onEditSubcategoryChange()"
+        >
+          <option value="" selected disabled hidden>Wybierz Temat</option>
+
+          <ng-container *ngFor="let subcat of filteredSubcategories">
+            <option [value]="subcat._id">{{ subcat.name }}</option>
+          </ng-container>
+        </select>
+
+        <input
+          type="text"
+          id="editSubcategoryInput"
+          class="valueInputs"
+          placeholder="-"
+          formControlName="name"
+        />
+      </div>
+
+      <div class="editAndDeleteBtnsSection">
+        <button class="editBtn" (click)="updateSubcategory()">Edytuj</button>
+        <button class="deleteBtn" (click)="deleteSubcategory()">Usuń</button>
+      </div>
+    </form>
+  </div>
+</div>

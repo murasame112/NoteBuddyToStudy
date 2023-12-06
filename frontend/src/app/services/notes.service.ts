@@ -135,35 +135,6 @@ export class NotesService {
     );
   }
 
-  // getAllDataById(categoryID: string, subcategoryID: string, userID: string) {
-  //   return forkJoin([
-  //     this.getCategoryById(categoryID),
-  //     this.getSubCategoryById(subcategoryID),
-  //     this.userService.getUserById(userID),
-  //   ]).pipe(
-  //     map(([category, subcategory, user]) => {
-  //       return [category, subcategory, user];
-  //     })
-  //   );
-  // }
-
-  // mergeNotesAndDetails(
-  //   noteID: string,
-  //   noteName: string,
-  //   noteCategory: string,
-  //   noteSubcategory: string,
-  //   author: string
-  // ) {
-  //   let noteWithDetails: NoteAndDetails = {
-  //     noteID: noteID,
-  //     noteName: noteName,
-  //     categoryName: noteCategory,
-  //     subcategoryName: noteSubcategory,
-  //     author: author,
-  //   };
-  //   return noteWithDetails;
-  // }
-
   getAllNoteData(): Observable<FinalNote[]> {
     let finalNotes: FinalNote[] = [];
 

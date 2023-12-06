@@ -67,6 +67,15 @@ main {
   align-items: flex-start;
 }
 
+#categoryAndSubcategoryCrud {
+  width: 100%;
+  min-height: 15rem;
+  border: 2px dotted purple;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
 footer {
   grid-area: footer;
   width: 100%;
