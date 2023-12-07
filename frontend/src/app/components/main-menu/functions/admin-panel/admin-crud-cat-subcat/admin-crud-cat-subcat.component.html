@@ -88,7 +88,6 @@
   <!-- Dodawanie tematów -->
   <div class="editCategoryAddSubcatContainer">
     <form
-      class="editCategoryAddSubcatForm"
       [formGroup]="addSubcategoryForm"
       class="editCategoryAddSubcatForm"
       (ngSubmit)="addSubcategory(addSubcategoryForm.value)"
@@ -134,8 +133,12 @@
   </div>
 
   <!-- Edytowanie tematów -->
-  <div class="editCategoryAddSubcatContainer" id="ediSubcategoryContainer">
-    <form class="editCategoryAddSubcatForm" [formGroup]="editSubcategoryForm">
+  <div class="editCategoryAddSubcatContainer" id="editSubcategoryContainer">
+    <form
+      id="editSubcategoryFormId"
+      class="editCategoryAddSubcatForm"
+      [formGroup]="editSubcategoryForm"
+    >
       <span class="editCategoryAddSubcatSpan">Edytuj wybrany temat:</span>
       <div class="editCategoryAddSubcatContent">
         <select

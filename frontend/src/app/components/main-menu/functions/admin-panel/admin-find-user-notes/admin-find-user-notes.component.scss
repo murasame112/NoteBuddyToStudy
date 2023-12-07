@@ -3,8 +3,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 70rem;
-  // padding-top: 1rem;
+  max-width: 70rem;
+  //!
+  padding-top: 2rem;
+  //!
   font-family: "poppins", sans-serif;
   font-weight: 400;
   // border: 1px solid green;
@@ -118,4 +120,38 @@ h5 {
   background-color: #78b648;
   color: #5b8a38;
   border: 0.1rem solid #71ac45;
+}
+
+@media (max-width: 700px) {
+  #findUserSection {
+    width: 25rem;
+    height: 18rem;
+  }
+
+  #findUserNote {
+    width: 25rem;
+    height: 10rem;
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 420px) {
+  #findUserSection {
+    width: 18rem;
+    height: 18rem;
+  }
+
+  #findUserNote {
+    width: 18rem;
+    height: 10rem;
+  }
+
+  #paginationButtons {
+    width: 18rem;
+  }
+
+  .paginationButton {
+    width: 8rem;
+  }
 }

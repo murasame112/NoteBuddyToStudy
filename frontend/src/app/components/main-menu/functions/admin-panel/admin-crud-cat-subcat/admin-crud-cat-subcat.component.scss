@@ -7,7 +7,7 @@
   padding-top: 1rem;
   font-family: "poppins", sans-serif;
   font-weight: 400;
-  // border: 2px solid red;
+  // border: 2px solid green;
   gap: 1rem;
   padding-bottom: 1rem;
 }
@@ -145,9 +145,9 @@ select.invalid {
   // padding: 1rem;
   width: 40rem;
   height: 8rem;
-  gap: 1rem;
+  // gap: 1rem;
 
-  // border: 1px solid blue;
+  // border: 1px solid red;
   background-color: #dddddd;
   border-radius: 0.5rem;
 }
@@ -208,6 +208,108 @@ select.invalid {
   height: 8rem;
 }
 
-#ediSubcategoryContainer {
+#editSubcategoryContainer {
   height: 10rem;
+}
+
+@media (max-width: 1000px) {
+  #container {
+    width: 40rem;
+  }
+}
+
+@media (max-width: 700px) {
+  #container {
+    width: 30rem;
+  }
+  .adminPanelText {
+    width: 25rem;
+  }
+
+  #addNewCategorySection {
+    width: 25rem;
+    height: 10rem;
+    justify-content: center;
+  }
+
+  #addNewCategoryForm {
+    width: 25rem;
+    height: 10rem;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .editCategoryAddSubcatSpan {
+    width: 20rem;
+    text-align: center;
+  }
+
+  .editCategoryAddSubcatContainer {
+    width: 25rem;
+    height: 17rem;
+    gap: 0rem;
+  }
+
+  .editCategoryAddSubcatForm {
+    flex-direction: column;
+    width: 20rem;
+    height: 16rem;
+    // border: 1px solid red;
+    gap: 0rem;
+  }
+
+  #editSubcategoryFormId {
+    gap: 1rem;
+  }
+
+  #editSubcategoryContainer {
+    height: 17rem;
+  }
+
+  .editAndDeleteBtnsSection {
+    flex-direction: row;
+    gap: 1rem;
+    // border: 1px solid orange;
+    width: 13rem;
+    height: 3rem;
+  }
+}
+
+@media (max-width: 500px) {
+  #container {
+    width: 25rem;
+  }
+}
+
+@media (max-width: 420px) {
+  #container {
+    width: 18rem;
+  }
+  .adminPanelText {
+    width: 18rem;
+  }
+
+  #addNewCategorySection {
+    width: 18rem;
+  }
+
+  #addNewCategoryForm {
+    width: 18rem;
+  }
+
+  .editCategoryAddSubcatSpan {
+    width: 18rem;
+  }
+
+  .editCategoryAddSubcatContainer {
+    width: 18rem;
+  }
+
+  .editCategoryAddSubcatForm {
+    width: 18rem;
+  }
+
+  #editSubcategoryContainer {
+    height: 17rem;
+  }
 }

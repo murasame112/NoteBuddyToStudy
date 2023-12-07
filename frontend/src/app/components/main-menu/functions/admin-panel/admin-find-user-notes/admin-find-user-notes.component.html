@@ -1,7 +1,7 @@
 <div id="container">
   <div id="findUserSection">
     <h5>Notatki i fiszki użytkownika</h5>
-    <div id="findUserNote" [formGroup]="findUserNotesForm">
+    <form id="findUserNote" [formGroup]="findUserNotesForm">
       <span>Podaj nazwę użytkownika:</span>
       <input
         id="findUserNoteInput"
@@ -10,7 +10,7 @@
         formControlName="userName"
       />
       <button id="findUserNoteBtn" (click)="searchNotes()">szukaj</button>
-    </div>
+    </form>
   </div>
 
   <div id="notesSection" *ngIf="currentSearchedUserNotes.length != 0">

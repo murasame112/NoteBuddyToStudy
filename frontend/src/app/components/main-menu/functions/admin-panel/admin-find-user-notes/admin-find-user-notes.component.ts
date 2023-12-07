@@ -23,11 +23,6 @@ export class AdminFindUserNotesComponent extends Unsubscribe implements OnInit {
 
   usersNotesOrigin: FinalNote[] = [];
   currentSearchedUserNotes: FinalNote[] = [];
-  // usersNotesArray: FinalNote[] = [];
-
-  // notesOrigin: Note[] = [];
-  // categoryOrigin: Category[] = [];
-  // subcategoryOrigin: Subcategory[] = [];
   usersOrigin: User[] = [];
 
   //!
@@ -71,7 +66,7 @@ export class AdminFindUserNotesComponent extends Unsubscribe implements OnInit {
       .getAllNoteData()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((res) => {
-        console.log('res', res);
+        // console.log('res', res);
         this.usersNotesOrigin = res;
       });
   }
@@ -90,7 +85,7 @@ export class AdminFindUserNotesComponent extends Unsubscribe implements OnInit {
     } else {
     }
 
-    console.log(this.currentSearchedUserNotes);
+    // console.log(this.currentSearchedUserNotes);
     this.currentPage = 0;
     this.maxPage =
       Math.ceil(this.currentSearchedUserNotes.length / this.itemsPerPage) - 1;
@@ -104,10 +99,10 @@ export class AdminFindUserNotesComponent extends Unsubscribe implements OnInit {
       startIndex,
       startIndex + this.itemsPerPage
     );
-    console.log(
-      `current page${this.currentPage} of ${this.maxPage}`,
-      this.notesDisplayedForUser
-    );
+    // console.log(
+    //   `current page${this.currentPage} of ${this.maxPage}`,
+    //   this.notesDisplayedForUser
+    // );
   }
 
   nextPage() {
@@ -115,7 +110,7 @@ export class AdminFindUserNotesComponent extends Unsubscribe implements OnInit {
       this.currentPage++;
       this.updateDisplayedNotes();
     }
-    console.log('click next page');
+    // console.log('click next page');
   }
 
   prevPage() {
@@ -123,7 +118,7 @@ export class AdminFindUserNotesComponent extends Unsubscribe implements OnInit {
       this.currentPage--;
       this.updateDisplayedNotes();
     }
-    console.log('click prev page');
+    // console.log('click prev page');
   }
 
   refreshNoteData() {
