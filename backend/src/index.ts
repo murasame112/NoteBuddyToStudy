@@ -2,6 +2,8 @@ import express from "express";
 import { Console } from "console";
 import { Request, Response } from "express";
 import { ObjectId } from "bson";
+
+import * as loginService from "./services/login";
 import * as noteEndpoints from "./endpoints/note_endpoints";
 import * as userEndpoints from "./endpoints/user_endpoints";
 import * as categoryEndpoints from "./endpoints/category_endpoints";
@@ -28,6 +30,9 @@ app.use(cors());
 //   })
 // )
 
+// ============== LOGIN ENDPOINTS ==============
+
+app.post("/register", loginService.login);
 // ============== NOTE ENDPOINTS ==============
 
 app.get("/note/:id", noteEndpoints.getNoteById);
