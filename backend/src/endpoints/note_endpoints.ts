@@ -6,6 +6,8 @@ import { Note } from "../models/note_model";
 import * as global from "../global_database_functions";
 import * as globalTools from "../global_tools";
 
+import * as loginService from "../services/login";
+
 const table_name = "notes";
 
 // finds all notes
@@ -13,6 +15,7 @@ const table_name = "notes";
 // example:
 //  http://localhost:3000/notes
 export function getAllNotes(req: Request, res: Response) {
+	loginService.hashPassword("haslo321");
   const result = global.getAllItems(table_name);
   result.then((value) => {
     res.send(value);
