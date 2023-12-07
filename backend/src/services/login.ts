@@ -8,27 +8,33 @@ import jwt from 'jsonwebtoken';
 import passwordHash from 'password-hash';
 
 /* TODO:
-2 - funkcja do rejestracji (a raczej przerobić insertUser tak, żeby używało hashowania i wcześniej sprawdzało czy użytkownik istnieje)
 3 - funkcja do logowania (hashowanie hasla, porownywanie z baza, tworzenie tokenu lub zwracanie info ze blad)
 4 - funkcja do wylogowywania
 5 - edycja endpointow zeby przyjmowaly token (czy to powinno byc na backu?)
 6 - czasowe tokeny
 7 - poprawa funkcji checkIfUserExists (powinno byc inne zapytanie do bazy niz get all users, bardziej cos jak sql'owe "like")
 8 - udokumentować wszystko
+9 - przerobic pozostale InsertUser (multiple etc)?
 
 */
-function checkIfUserExists(userEmail: string){
-	const result = global.getAllItems('users');
+export async function checkIfUserExists(userEmail: string){
+	const result = await global.getAllItems('users');
 	let check = false;
-  result.then((value) => {
-    value.forEach(function (element){
-			if(element.email == userEmail){
-				check = true;
-			}
-		});
-  });
-
-	return check;
+	result.forEach(function (element){
+				if(element.email == userEmail){
+					check = true;
+				}
+			});
+			return check;
+  // result.then((value) => {
+  //   value.forEach(function (element){
+	// 		if(element.email == userEmail){
+	// 			check = true;
+	// 			return check;
+	// 		}
+	// 	});		
+  // });
+	
 }
 
 export function hashPassword(password: string){

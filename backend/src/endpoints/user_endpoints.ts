@@ -5,6 +5,7 @@ import e, { Request, Response } from "express";
 import { User } from "../models/user_model";
 import * as global from "../global_database_functions";
 import { Role } from "../enums/role_enum";
+import * as loginService from "../services/login";
 import * as globalTools from "../global_tools";
 
 const table_name = "users";
@@ -142,22 +143,31 @@ export function getUsersByQueriedId(req: Request, res: Response) {
 // 			"role":"user"
 // }
 export function insertUser(req: Request, res: Response) {
-  const user: User = new User(
-    req.body.login,
-    req.body.avatar_url,
-    req.body.email,
-    req.body.password,
-		req.body.role,
-  );
-  const result = global.insertItem(user, table_name);
-  result.then((value) => {
-    if(value.acknowledged){
-			res.status(201).send(value.insertedId);
-		}else{
-			globalTools.logToDatabase("function insertUser failed", "error");
-			res.status(400).send("Error");
+
+	loginService.checkIfUserExists(req.body.email).then((value) => {
+		if(value == true){
+			res.status(400).send("Error - user already exists");
+			return false;
 		}
-  });
+		const user: User = new User(
+			req.body.login,
+			req.body.avatar_url,
+			req.body.email,
+			loginService.hashPassword(req.body.password),
+			req.body.role,
+		);
+		const result = global.insertItem(user, table_name);
+		result.then((value) => {
+			if(value.acknowledged){
+				res.status(201).send(value.insertedId);
+			}else{
+				globalTools.logToDatabase("function insertUser failed", "error");
+				res.status(400).send("Error");
+			}
+		});
+
+	});
+  
 }
 
 // inserts multiple users to database
