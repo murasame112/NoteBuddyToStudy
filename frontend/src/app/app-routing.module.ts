@@ -11,6 +11,7 @@ import { CardAddComponent } from './components/main-menu/functions/card-add/card
 import { SearchForBuddyComponent } from './components/main-menu/functions/search-for-buddy/search-for-buddy.component';
 import { ShowNoteComponent } from './components/main-menu/functions/notes/show-note/show-note.component';
 import { AdminPanelMainComponent } from './components/main-menu/functions/admin-panel/admin-panel-main/admin-panel-main.component';
+import { HintsComponent } from './components/main-menu/functions/hints/hints.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'landing', pathMatch: 'full' },
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'card-add', component: CardAddComponent },
   { path: 'search-for-buddy', component: SearchForBuddyComponent },
   { path: 'admin-panel', component: AdminPanelMainComponent },
+  { path: 'hints', component: HintsComponent },
   { path: '**', component: PageErrorComponent },
 ];
 

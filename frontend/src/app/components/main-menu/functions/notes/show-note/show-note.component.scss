@@ -163,7 +163,8 @@ footer {
 @media (max-width: 650px) {
   #backBtn {
     right: 1rem;
-    top: 3.5rem;
+    top: 4.5rem;
+    width: 6rem;
   }
 }
 
@@ -180,13 +181,12 @@ footer {
   }
 
   #backBtn {
-    width: 6rem;
     height: 2.5rem;
     align-self: flex-start;
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 420px) {
   #backBtn {
     position: static;
     align-self: center;

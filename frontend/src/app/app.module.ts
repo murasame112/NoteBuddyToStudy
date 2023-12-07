@@ -27,6 +27,8 @@ import { AdminPanelMainComponent } from './components/main-menu/functions/admin-
 import { AdminFindUserNotesComponent } from './components/main-menu/functions/admin-panel/admin-find-user-notes/admin-find-user-notes.component';
 import { AdminCrudCatSubcatComponent } from './components/main-menu/functions/admin-panel/admin-crud-cat-subcat/admin-crud-cat-subcat.component';
 import { AdminCrudHintsComponent } from './components/main-menu/functions/admin-panel/admin-crud-hints/admin-crud-hints.component';
+import { HintsComponent } from './components/main-menu/functions/hints/hints.component';
+import { HintModelComponent } from './components/main-menu/functions/hints/hint-model/hint-model.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +52,8 @@ import { AdminCrudHintsComponent } from './components/main-menu/functions/admin-
     AdminFindUserNotesComponent,
     AdminCrudCatSubcatComponent,
     AdminCrudHintsComponent,
+    HintsComponent,
+    HintModelComponent,
   ],
   imports: [
     BrowserModule,

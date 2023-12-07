@@ -172,6 +172,7 @@ export class NotesComponent extends Unsubscribe implements OnInit {
         this.finalNotesOrigin = res;
         this.finalNotesArray = this.finalNotesOrigin;
         this.defaultSort();
+        this.isLoading = false;
       });
   }
 
@@ -189,8 +190,6 @@ export class NotesComponent extends Unsubscribe implements OnInit {
         this.subcategoriesOrigin = res[2];
         this.subcategoriesArray = this.subcategoriesOrigin;
         this.allUsers = res[3];
-
-        this.isLoading = false;
       });
   }
 
