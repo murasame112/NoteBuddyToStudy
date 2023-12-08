@@ -14,6 +14,18 @@ const table_name = "users";
 // /users
 // example:
 //  http://localhost:3000/users
+export function loginUser(req: Request, res: Response) {
+  const result = loginService.login(req.body.email, req.body.password);
+	//console.log(result);
+	result.then((value) => {
+    res.send(value);
+  });
+}
+
+// finds all users
+// /users
+// example:
+//  http://localhost:3000/users
 export function getAllUsers(req: Request, res: Response) {
   const result = global.getAllItems(table_name);
   result.then((value) => {

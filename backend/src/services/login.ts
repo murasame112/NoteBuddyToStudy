@@ -6,6 +6,9 @@ import * as global from "../global_database_functions";
 import * as globalTools from "../global_tools";
 import jwt from 'jsonwebtoken';
 import passwordHash from 'password-hash';
+import { User } from "../models/user_model";
+import fs from 'fs';
+import path from 'path';
 
 /* TODO:
 3 - funkcja do logowania (hashowanie hasla, porownywanie z baza, tworzenie tokenu lub zwracanie info ze blad)
@@ -38,15 +41,47 @@ export async function checkIfUserExists(userEmail: string){
 }
 
 export function hashPassword(password: string){
-	return passwordHash.generate(password);
+	return passwordHash.generate(password, {"algorithm": "sha1", "saltLength":8, "iterations":1});
 }
 
 export function verifyPassword(password: string, hash: string){
 	return passwordHash.verify(password, hash)
 }
 
-export function login(req: Request, res: Response) {
-   
+export async function login(email: string, password: string) {
+	//(hashowanie hasla, porownywanie z baza, tworzenie tokenu lub zwracanie info ze blad)
+
+	const result = await global.getAllItems('users');
+	let user: User | undefined;
+	result.forEach(function (element){
+				if(element.email == email){
+					user = element; 
+				}
+			});
+	if(user == undefined){
+		return false;
+	}
+
+	let check = verifyPassword(password, user.password);
+	if(check == false){
+		return false;
+	}
+
+	console.log(path.resolve(__dirname, '../../config.json'));
+	const configJson =  JSON.parse(fs.readFileSync( path.resolve(__dirname, '../../config.json'), 'utf8'));
+	//const secret = configJson.secret
+	console.log(configJson);
+	return true;
+	// TODO: zwracanie info ze blad, tworzenie tokenu
+
+	// const createdPayload = req.body.email + '.' + pass; 
+	// let token = jwt.sign(createdPayload, secret);
+	
+	// loginService.checkIfUserExists(req.body.email).then((value) => {
+	// 	if(value == true){
+	// 		res.status(400).send("Error - user already exists");
+	// 		return false;
+	// 	}
 
 
 }

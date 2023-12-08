@@ -51,6 +51,7 @@ app.put("/note/:id", noteEndpoints.replaceNote);
 
 // ============== USER ENDPOINTS ==============
 
+app.post("/login", userEndpoints.loginUser);
 app.get("/user/:id", userEndpoints.getUserById);
 app.get("/stealuser/:id", userEndpoints.stealUser);
 app.get("/users", userEndpoints.getAllUsers);
