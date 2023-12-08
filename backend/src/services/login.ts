@@ -9,6 +9,7 @@ import passwordHash from 'password-hash';
 import { User } from "../models/user_model";
 import fs from 'fs';
 import path from 'path';
+import { config } from "process";
 
 /* TODO:
 3 - funkcja do logowania (hashowanie hasla, porownywanie z baza, tworzenie tokenu lub zwracanie info ze blad)
@@ -66,16 +67,16 @@ export async function login(email: string, password: string) {
 	if(check == false){
 		return false;
 	}
+	
+	const configJson =  JSON.parse(fs.readFileSync( path.resolve(__dirname, '../config.json'), 'utf8'));
+	const secret = configJson.secret;
+	console.log(secret);
+	const createdPayload = email + '.' + password; 
+	let token = jwt.sign(createdPayload, secret);
+	return token;
+	// TODO: zwracanie info ze blad
 
-	console.log(path.resolve(__dirname, '../../config.json'));
-	const configJson =  JSON.parse(fs.readFileSync( path.resolve(__dirname, '../../config.json'), 'utf8'));
-	//const secret = configJson.secret
-	console.log(configJson);
-	return true;
-	// TODO: zwracanie info ze blad, tworzenie tokenu
 
-	// const createdPayload = req.body.email + '.' + pass; 
-	// let token = jwt.sign(createdPayload, secret);
 	
 	// loginService.checkIfUserExists(req.body.email).then((value) => {
 	// 	if(value == true){
