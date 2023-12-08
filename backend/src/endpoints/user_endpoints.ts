@@ -5,9 +5,11 @@ import e, { Request, Response } from "express";
 import { User } from "../models/user_model";
 import * as global from "../global_database_functions";
 import { Role } from "../enums/role_enum";
+import * as loginService from "../services/login";
 import * as globalTools from "../global_tools";
 
 const table_name = "users";
+
 
 // finds all users
 // /users
@@ -142,22 +144,31 @@ export function getUsersByQueriedId(req: Request, res: Response) {
 // 			"role":"user"
 // }
 export function insertUser(req: Request, res: Response) {
-  const user: User = new User(
-    req.body.login,
-    req.body.avatar_url,
-    req.body.email,
-    req.body.password,
-		req.body.role,
-  );
-  const result = global.insertItem(user, table_name);
-  result.then((value) => {
-    if(value.acknowledged){
-			res.status(201).send(value.insertedId);
-		}else{
-			globalTools.logToDatabase("function insertUser failed", "error");
-			res.status(400).send("Error");
+
+	loginService.checkIfUserExists(req.body.email).then((value) => {
+		if(value == true){
+			res.status(400).send("Error - user already exists");
+			return false;
 		}
-  });
+		const user: User = new User(
+			req.body.login,
+			req.body.avatar_url,
+			req.body.email,
+			loginService.hashPassword(req.body.password),
+			req.body.role,
+		);
+		const result = global.insertItem(user, table_name);
+		result.then((value) => {
+			if(value.acknowledged){
+				res.status(201).send(value.insertedId);
+			}else{
+				globalTools.logToDatabase("function insertUser failed", "error");
+				res.status(400).send("Error");
+			}
+		});
+
+	});
+  
 }
 
 // inserts multiple users to database
@@ -663,5 +674,23 @@ export function stealUser(req: Request, res: Response) {
 			value.value.created
     );
     res.status(201).send(user);
+  });
+}
+
+// === login endpoints ============
+
+// logs user in. returns token if successful, otherwise false
+// /login
+// example body:
+//   {
+    //  "email":"custom email",
+    //  "password":"custom password",
+// }
+// example:
+//  http://localhost:3000/login
+export function loginUser(req: Request, res: Response) {
+  const result = loginService.login(req.body.email, req.body.password);
+	result.then((value) => {
+    res.send(value);
   });
 }

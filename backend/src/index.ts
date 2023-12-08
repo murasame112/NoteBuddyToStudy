@@ -2,6 +2,7 @@ import express from "express";
 import { Console } from "console";
 import { Request, Response } from "express";
 import { ObjectId } from "bson";
+
 import * as noteEndpoints from "./endpoints/note_endpoints";
 import * as userEndpoints from "./endpoints/user_endpoints";
 import * as categoryEndpoints from "./endpoints/category_endpoints";
@@ -28,6 +29,7 @@ app.use(cors());
 //   })
 // )
 
+
 // ============== NOTE ENDPOINTS ==============
 
 app.get("/note/:id", noteEndpoints.getNoteById);
@@ -49,6 +51,7 @@ app.put("/note/:id", noteEndpoints.replaceNote);
 
 // ============== USER ENDPOINTS ==============
 
+app.post("/login", userEndpoints.loginUser);
 app.get("/user/:id", userEndpoints.getUserById);
 app.get("/stealuser/:id", userEndpoints.stealUser);
 app.get("/users", userEndpoints.getAllUsers);
