@@ -50,8 +50,6 @@ export function verifyPassword(password: string, hash: string){
 }
 
 export async function login(email: string, password: string) {
-	//(hashowanie hasla, porownywanie z baza, tworzenie tokenu lub zwracanie info ze blad)
-
 	const result = await global.getAllItems('users');
 	let user: User | undefined;
 	result.forEach(function (element){
@@ -73,17 +71,6 @@ export async function login(email: string, password: string) {
 	const createdPayload = email + '.' + password; 
 	let token = jwt.sign(createdPayload, secret);
 	return token;
-	// TODO: zwracanie info ze blad
-
-
-	
-	// loginService.checkIfUserExists(req.body.email).then((value) => {
-	// 	if(value == true){
-	// 		res.status(400).send("Error - user already exists");
-	// 		return false;
-	// 	}
-
-
 }
 
 // ==========================

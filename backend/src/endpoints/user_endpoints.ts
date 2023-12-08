@@ -10,17 +10,6 @@ import * as globalTools from "../global_tools";
 
 const table_name = "users";
 
-// finds all users
-// /users
-// example:
-//  http://localhost:3000/users
-export function loginUser(req: Request, res: Response) {
-  const result = loginService.login(req.body.email, req.body.password);
-	//console.log(result);
-	result.then((value) => {
-    res.send(value);
-  });
-}
 
 // finds all users
 // /users
@@ -685,5 +674,23 @@ export function stealUser(req: Request, res: Response) {
 			value.value.created
     );
     res.status(201).send(user);
+  });
+}
+
+// === login endpoints ============
+
+// logs user in. returns token if successful, otherwise false
+// /login
+// example body:
+//   {
+    //  "email":"custom email",
+    //  "password":"custom password",
+// }
+// example:
+//  http://localhost:3000/login
+export function loginUser(req: Request, res: Response) {
+  const result = loginService.login(req.body.email, req.body.password);
+	result.then((value) => {
+    res.send(value);
   });
 }
