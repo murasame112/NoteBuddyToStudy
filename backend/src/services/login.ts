@@ -9,10 +9,8 @@ import passwordHash from 'password-hash';
 import { User } from "../models/user_model";
 import fs from 'fs';
 import path from 'path';
-import { config } from "process";
 
 /* TODO:
-3 - funkcja do logowania (hashowanie hasla, porownywanie z baza, tworzenie tokenu lub zwracanie info ze blad)
 4 - funkcja do wylogowywania
 5 - edycja endpointow zeby przyjmowaly token (czy to powinno byc na backu?)
 6 - czasowe tokeny
@@ -50,6 +48,30 @@ export function verifyPassword(password: string, hash: string){
 }
 
 export async function login(email: string, password: string) {
+	const result = await global.getAllItems('users');
+	let user: User | undefined;
+	result.forEach(function (element){
+				if(element.email == email){
+					user = element; 
+				}
+			});
+	if(user == undefined){
+		return false;
+	}
+
+	let check = verifyPassword(password, user.password);
+	if(check == false){
+		return false;
+	}
+	
+	const configJson =  JSON.parse(fs.readFileSync( path.resolve(__dirname, '../config.json'), 'utf8'));
+	const secret = configJson.secret;
+	const createdPayload = email + '.' + password; 
+	let token = jwt.sign(createdPayload, secret);
+	return token;
+}
+
+export async function logout(email: string, password: string) {
 	const result = await global.getAllItems('users');
 	let user: User | undefined;
 	result.forEach(function (element){
