@@ -70,7 +70,6 @@ export async function login(email: string, password: string) {
 	
 	const configJson =  JSON.parse(fs.readFileSync( path.resolve(__dirname, '../config.json'), 'utf8'));
 	const secret = configJson.secret;
-	console.log(secret);
 	const createdPayload = email + '.' + password; 
 	let token = jwt.sign(createdPayload, secret);
 	return token;
