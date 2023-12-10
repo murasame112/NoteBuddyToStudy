@@ -18,7 +18,7 @@ import { NavbarComponent } from './components/main-menu/navbar/navbar.component'
 import { FooterComponent } from './components/main-menu/footer/footer.component';
 import { NotesComponent } from './components/main-menu/functions/notes/notes.component';
 import { NoteAddComponent } from './components/main-menu/functions/note-add/note-add.component';
-import { CardAddComponent } from './components/main-menu/functions/card-add/card-add.component';
+import { CardAddComponent } from './components/main-menu/functions/cards/card-add/card-add.component';
 import { SearchForBuddyComponent } from './components/main-menu/functions/search-for-buddy/search-for-buddy.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NotesContainerComponent } from './components/main-menu/functions/notes/notes-container/notes-container.component';
@@ -29,6 +29,8 @@ import { AdminCrudCatSubcatComponent } from './components/main-menu/functions/ad
 import { AdminCrudHintsComponent } from './components/main-menu/functions/admin-panel/admin-crud-hints/admin-crud-hints.component';
 import { HintsComponent } from './components/main-menu/functions/hints/hints.component';
 import { HintModelComponent } from './components/main-menu/functions/hints/hint-model/hint-model.component';
+import { CardsComponent } from './components/main-menu/functions/cards/cards.component';
+import { CardModelComponent } from './components/main-menu/functions/cards/card-model/card-model.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +56,8 @@ import { HintModelComponent } from './components/main-menu/functions/hints/hint-
     AdminCrudHintsComponent,
     HintsComponent,
     HintModelComponent,
+    CardsComponent,
+    CardModelComponent,
   ],
   imports: [
     BrowserModule,

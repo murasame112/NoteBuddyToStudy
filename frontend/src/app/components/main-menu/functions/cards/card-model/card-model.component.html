@@ -1,0 +1,11 @@
+<div id="container">
+  <div id="questionContainer" class="content" (click)="changeToAnswer()">
+    <span class="contentSpan">Pytanie:</span>
+    <p id="question" class="contentP">{{ cardContent?.question }}</p>
+  </div>
+
+  <div id="answerContainer" class="content" (click)="changeToQuestion()">
+    <span class="contentSpan">Odpowiedź:</span>
+    <p id="answer" class="contentP">{{ cardContent?.answer }}</p>
+  </div>
+</div>

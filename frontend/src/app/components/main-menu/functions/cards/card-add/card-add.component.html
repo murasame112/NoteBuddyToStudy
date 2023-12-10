@@ -1,0 +1,42 @@
+<div id="container">
+  <nav>
+    <app-navbar></app-navbar>
+  </nav>
+
+  <main>
+    <button id="backBtn" routerLink="/cards/{{ noteId }}">powrót</button>
+
+    <h2 id="title_text">Nowa fiszka</h2>
+    <form
+      [formGroup]="addCardForm"
+      (ngSubmit)="addCard(addCardForm.value)"
+      id="addCard"
+    >
+      <div id="card_name" class="card_div">
+        <label class="card_label">Treść fiszki:</label>
+        <textarea
+          type="text"
+          placeholder="treść"
+          formControlName="cardText"
+          class="form-control"
+        ></textarea>
+      </div>
+
+      <div id="card_answer" class="card_div">
+        <label class="card_label">Odpowiedź:</label>
+        <textarea
+          type="text"
+          placeholder="odpowiedź do fiszki"
+          formControlName="cardAnswer"
+          class="form-control"
+        ></textarea>
+      </div>
+
+      <button type="submit" id="addCardBtn">Dodaj fiszke</button>
+    </form>
+  </main>
+
+  <footer>
+    <app-footer></app-footer>
+  </footer>
+</div>

@@ -1,0 +1,132 @@
+<div id="container">
+  <nav>
+    <app-navbar></app-navbar>
+  </nav>
+
+  <main>
+    <i
+      class="fa-solid fa-spinner fa-spin-pulse fa-2xl"
+      style="color: #ffbb00"
+      *ngIf="isLoading"
+      id="spinner"
+    ></i>
+
+    <ng-container *ngIf="!isLoading">
+      <button id="backBtn" routerLink="/notes">powrót</button>
+      <div id="cardsMenu">
+        <span>Fiszki do : {{ selectedNote.name }}</span>
+        <div id="cardsBtns">
+          <button
+            id="learnCards"
+            class="cardMenuBtns"
+            (click)="showLearnCards()"
+          >
+            ucz się z fiszek
+          </button>
+          <button
+            id="randomCards"
+            class="cardMenuBtns"
+            (click)="showRandomCards()"
+          >
+            losuj fiszki
+          </button>
+          <button id="myCards" class="cardMenuBtns" (click)="myCards()">
+            moje fiszki
+          </button>
+        </div>
+      </div>
+
+      <ng-container *ngIf="cardsToShow.length != 0">
+        <ng-container *ngIf="showLearnCardsContainer">
+          <div class="cardsContainer">
+            <span>Ucz się z fiszek</span>
+            <div class="cardsContent">
+              <button
+                id="prevBtn"
+                class="cardBtns"
+                (click)="previousCard()"
+                [disabled]="this.currentCardToShowIndex === 0"
+              >
+                poprzednia
+              </button>
+
+              <app-card-model
+                [cardContent]="cardDisplayedForUser"
+              ></app-card-model>
+
+              <button
+                id="nextBtn"
+                class="cardBtns"
+                (click)="nextCard()"
+                [disabled]="
+                  this.currentCardToShowIndex === this.cardsToShow.length - 1
+                "
+              >
+                następna
+              </button>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="showRandomCardsContainer">
+          <div class="cardsContainer">
+            <span>Losuj fiszkę</span>
+            <div id="randomCardsContent" class="cardsContent">
+              <app-card-model
+                [cardContent]="cardDisplayedForUser"
+              ></app-card-model>
+
+              <button id="randomBtn" class="cardBtns" (click)="randomCard()">
+                losuj
+              </button>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+
+      <ng-container
+        *ngIf="
+          cardsToShow.length === 0 &&
+          (showLearnCardsContainer || showRandomCardsContainer)
+        "
+      >
+        <span>Brak fiszek do nauki</span>
+      </ng-container>
+
+      <ng-container *ngIf="showMyCardsContainer">
+        <ng-container *ngIf="this.userCards.length != 0">
+          <p>Twoje fiszki:</p>
+          <div class="addCardContainer">
+            <!-- <span>Dodaj nową fiszkę</span> -->
+            <button
+              class="cardMenuBtns addCard"
+              routerLink="/card-add/{{ noteId }}"
+            >
+              dodaj fiszkę
+            </button>
+          </div>
+
+          <ng-container *ngFor="let card of userCardsToShow">
+            <app-card-model [cardContent]="card"></app-card-model>
+          </ng-container>
+        </ng-container>
+
+        <ng-container *ngIf="this.userCards.length === 0">
+          <p>Nie dodałeś żadnej fiszki</p>
+          <div class="addCardContainer" id="noCardContainer">
+            <button
+              class="cardMenuBtns addCard"
+              routerLink="/card-add/{{ noteId }}"
+            >
+              dodaj fiszkę
+            </button>
+          </div>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  </main>
+
+  <footer>
+    <app-footer></app-footer>
+  </footer>
+</div>
