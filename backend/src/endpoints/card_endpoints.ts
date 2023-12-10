@@ -141,11 +141,6 @@ export function insertCard(req: Request, res: Response) {
 	const questions = req.body.questions;
 	const answers = req.body.answers;
 
-	if(!Array.isArray(questions) || !Array.isArray(answers) || questions.length == 0 || answers.length == 0){
-		res.status(400).send("Error");
-		return false;
-	}
-
   const card: Card = new Card(
 		questions, 
 		answers,
@@ -210,11 +205,6 @@ export function insertMultipleCards(req: Request, res: Response) {
 	let answers = [];
   let counter = 0;
   cards.forEach((element: Card) => {
-	
-		if(!Array.isArray(element.questions) || !Array.isArray(element.answers) || element.questions.length == 0 || element.answers.length == 0){
-			res.status(400).send("Error");
-			return false;
-		}
 	
 		note_id = new ObjectId(element.note_id);
 		author_id = new ObjectId(element.author_id);
