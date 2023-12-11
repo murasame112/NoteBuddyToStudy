@@ -64,6 +64,26 @@
               >
                 następna
               </button>
+
+              <div id="secondPositonBtns">
+                <button
+                  class="cardBtns"
+                  (click)="previousCard()"
+                  [disabled]="this.currentCardToShowIndex === 0"
+                >
+                  poprzednia
+                </button>
+
+                <button
+                  class="cardBtns"
+                  (click)="nextCard()"
+                  [disabled]="
+                    this.currentCardToShowIndex === this.cardsToShow.length - 1
+                  "
+                >
+                  następna
+                </button>
+              </div>
             </div>
           </div>
         </ng-container>
@@ -106,9 +126,16 @@
             </button>
           </div>
 
-          <ng-container *ngFor="let card of userCardsToShow">
+          <!-- <ng-container *ngFor="let card of userCardsToShow">
             <app-card-model [cardContent]="card"></app-card-model>
+          </ng-container> -->
+
+          <!--! tu dodać ten model my-cards-model -->
+
+          <ng-container *ngFor="let card of userCardsToShow">
+            <app-card-my-cards-model></app-card-my-cards-model>
           </ng-container>
+          <!-- ! -->
         </ng-container>
 
         <ng-container *ngIf="this.userCards.length === 0">

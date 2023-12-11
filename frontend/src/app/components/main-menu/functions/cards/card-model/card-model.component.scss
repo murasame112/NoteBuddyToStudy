@@ -3,7 +3,7 @@
   min-height: 10rem;
   font-family: "poppins", sans-serif;
   font-weight: 400;
-  border: 1px solid red;
+  // border: 2px solid red;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,7 +17,7 @@
   justify-content: center;
   align-items: center;
   background-color: #dddddd;
-  // border: 1px solid green;
+  border: 1px solid #cacaca;
   border-radius: 1rem;
   gap: 2rem;
 }
@@ -25,7 +25,7 @@
 .contentSpan {
   width: 6rem;
   min-height: 8rem;
-  border: 1px solid blue;
+  // border: 1px solid blue;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -34,7 +34,7 @@
 .contentP {
   width: 30.5rem;
   min-height: 8rem;
-  border: 1px solid red;
+  // border: 1px solid red;
   margin: 0;
   display: flex;
   justify-content: flex-start;
@@ -44,4 +44,74 @@
 
 #answerContainer {
   display: none;
+}
+
+@media (max-width: 900px) {
+  #container {
+    width: 35rem;
+    min-height: 10rem;
+  }
+
+  .content {
+    //szare
+    width: 35rem;
+    min-height: 8rem;
+    gap: 1rem;
+  }
+
+  .contentSpan {
+    width: 6rem;
+    min-height: 8rem;
+  }
+
+  .contentP {
+    width: 25rem;
+    min-height: 8rem;
+  }
+}
+
+@media (max-width: 580px) {
+  #container {
+    width: 25rem;
+    min-height: 10rem;
+  }
+
+  .content {
+    width: 25rem;
+    min-height: 8rem;
+    gap: 1rem;
+  }
+
+  .contentSpan {
+    width: 6rem;
+    min-height: 8rem;
+  }
+
+  .contentP {
+    width: 17rem;
+    min-height: 8rem;
+  }
+}
+
+@media (max-width: 420px) {
+  #container {
+    width: 18rem;
+    min-height: 15rem;
+  }
+
+  .content {
+    width: 18rem;
+    min-height: 13rem;
+    gap: 1rem;
+  }
+
+  .contentSpan {
+    width: 6rem;
+    min-height: 13rem;
+  }
+
+  .contentP {
+    width: 10rem;
+    min-height: 13rem;
+  }
 }

@@ -15,12 +15,13 @@ import { Card } from 'src/app/models/card.model';
 export class CardAddComponent extends Unsubscribe implements OnInit {
   addCardForm!: FormGroup;
   noteId: string = '';
-  cardsOrigin: Card[] = [];
+  // cardsOrigin: Card[] = [];
+  cardsOrigin!: Card | undefined;
 
   //example ArthasMenethil
-  userId: string = '6571f1194eb34b255210866e';
+  // userId: string = '6571f1194eb34b255210866e';
   //sarahKerrigan ma fiszki
-  // userId: string = '65328d32a6bc723aa7284771';
+  userId: string = '65328d32a6bc723aa7284771';
 
   constructor(
     private cardService: CardsService,
@@ -49,7 +50,7 @@ export class CardAddComponent extends Unsubscribe implements OnInit {
       .getCards()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((cards) => {
-        this.cardsOrigin = cards.filter((card) => {
+        this.cardsOrigin = cards.find((card) => {
           if (card.note_id === noteId && card.author_id === this.userId) {
             return card;
           }
@@ -61,11 +62,11 @@ export class CardAddComponent extends Unsubscribe implements OnInit {
   }
 
   checkIfUserHasCollection() {
-    if (this.cardsOrigin.length === 0) {
+    if (this.cardsOrigin === undefined) {
       console.log(
         'Ten użytkownik musi mieć najpierw stworzoną kolekcje fiszek'
       );
-      this.addCardCollection();
+      // this.addNewCardCollection();
     } else {
       console.log(
         'Ten użytkownik ma już kolekcje więc musimy zrobic update jego kolekcji'
@@ -73,7 +74,7 @@ export class CardAddComponent extends Unsubscribe implements OnInit {
     }
   }
 
-  addCardCollection() {
+  addNewCardCollection() {
     let newCardCollection: Card = {
       questions: [],
       answers: [],
@@ -83,7 +84,7 @@ export class CardAddComponent extends Unsubscribe implements OnInit {
     };
 
     this.cardService
-      .addCard(newCardCollection)
+      .addCardCollection(newCardCollection)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((cardCollection) => {
         console.log('CardCollectionId:', cardCollection);
@@ -92,5 +93,28 @@ export class CardAddComponent extends Unsubscribe implements OnInit {
       });
   }
 
-  addCard(data: any) {}
+  addCard(data: any) {
+    console.log('kolekcja fiszek:', this.cardsOrigin);
+    console.log('id kolekcji:', this.cardsOrigin?._id);
+    let cardId = this.cardsOrigin?._id?.toString();
+
+    if (cardId) {
+      let updateCollection: Card = {
+        questions: [data.cardText],
+        answers: [data.cardAnswer],
+        note_id: this.noteId,
+        author_id: this.userId,
+        published: false,
+      };
+
+      this.cardService
+        .addCard(updateCollection, cardId)
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe((res) => {
+          console.log(res);
+          this.getCards(this.noteId);
+          console.log('aktualne dane kolekcji:', this.cardsOrigin);
+        });
+    }
+  }
 }

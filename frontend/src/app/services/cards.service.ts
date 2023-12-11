@@ -11,27 +11,38 @@ export class CardsService {
 
   constructor(private http: HttpClient) {}
 
-  addCard(card: Card): Observable<Card> {
+  //Dodawanie kolekcji fiszek użytkownika do bazy
+  addCardCollection(card: Card): Observable<Card> {
     const url = `${this.apiUrl}/card`;
     return this.http.post<Card>(url, card);
   }
 
+  //Dodawanie fiszki do kolekcji użytkownika
+  addCard(card: Card, cardId: string): Observable<Card> {
+    const url = `${this.apiUrl}/card/${cardId}`;
+    return this.http.patch<Card>(url, card);
+  }
+
+  //Pobieranie wszystkich kolekcji fiszek użytkowników
   getCards(): Observable<Card[]> {
     const url = `${this.apiUrl}/cards`;
     return this.http.get<Card[]>(url);
   }
 
+  //Pobieranie kolekcji fiszek użytkowników po id kolekcji
   getCardById(id: string): Observable<Card> {
     const url = `${this.apiUrl}/card/${id}`;
     return this.http.get<Card>(url);
   }
 
-  updateCard(card: Card): Observable<Card> {
+  //Usuwanie fiszki użytkownika z kolekcji poprzez update kolekcji
+  deleteCard(card: Card): Observable<Card> {
     const url = `${this.apiUrl}/card/${card._id}`;
     return this.http.put<Card>(url, card);
   }
 
-  deleteCard(id: string): Observable<{}> {
+  //Usuwanie kolekcji fiszek użytkownika w bazie
+  deleteCardCollection(id: string): Observable<{}> {
     const url = `${this.apiUrl}/card/${id}`;
     return this.http.delete(url);
   }
