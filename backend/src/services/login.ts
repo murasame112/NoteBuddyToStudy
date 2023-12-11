@@ -98,6 +98,17 @@ export async function logout(email: string, password: string) {
 	return token;
 }
 
+export function checkIfLogged(token: string){
+	const configJson =  JSON.parse(fs.readFileSync( path.resolve(__dirname, '../config.json'), 'utf8'));
+	const secret = configJson.secret;
+	try{
+		const payload = jwt.verify(token, secret);
+		return payload;
+	}catch (error){
+		return false;
+	}
+}
+
 // ==========================
 // const userEmail: string = req.body.email;
 // const userPassword: string = req.body.password;
