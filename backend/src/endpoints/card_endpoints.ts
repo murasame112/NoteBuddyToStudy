@@ -5,6 +5,7 @@ import e, { Request, Response } from "express";
 import { Card } from "../models/card_model";
 import * as global from "../global_database_functions";
 import * as globalTools from "../global_tools";
+import * as loginService from "../services/login"
 
 const table_name = "cards";
 
@@ -13,10 +14,17 @@ const table_name = "cards";
 // example:
 //  http://localhost:3000/cards
 export function getAllCards(req: Request, res: Response) {
-  const result = global.getAllItems(table_name);
-  result.then((value) => {
-    res.send(value);
-  });
+	const authData = req.headers.authorization
+	const token = authData?.split(' ')[1] ?? ''
+	if(!loginService.checkIfLogged(token)){
+		res.status(400).send("Error - user not logged");
+		return false;
+	}
+	const result = global.getAllItems(table_name);
+		result.then((value) => {
+			res.send(value);
+	});
+  
 }
 
 // finds card by id
