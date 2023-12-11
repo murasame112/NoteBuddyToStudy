@@ -189,8 +189,7 @@ main {
   display: flex;
   justify-content: right;
   align-items: center;
-  gap: 1rem;
-  border: 1px solid blue;
+  // border: 1px solid blue;
   width: 38rem;
   height: 3rem;
 }
@@ -246,6 +245,10 @@ footer {
   #cardsMenu {
     width: 30rem;
   }
+
+  .addCardContainer {
+    width: 28rem;
+  }
 }
 
 @media (max-width: 500px) {
@@ -263,6 +266,16 @@ footer {
   #cardsBtns {
     flex-direction: column;
     gap: 1rem;
+  }
+
+  .addCardContainer {
+    width: 18rem;
+  }
+}
+
+@media (max-width: 440px) {
+  .addCardContainer {
+    width: 16rem;
   }
 }
 
