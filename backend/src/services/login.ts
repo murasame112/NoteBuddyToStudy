@@ -47,11 +47,11 @@ export function verifyPassword(password: string, hash: string){
 	return passwordHash.verify(password, hash)
 }
 
-export async function login(email: string, password: string) {
+export async function login(login: string, password: string) {
 	const result = await global.getAllItems('users');
 	let user: User | undefined;
 	result.forEach(function (element){
-				if(element.email == email){
+				if(element.login == login){
 					user = element; 
 				}
 			});
@@ -66,7 +66,10 @@ export async function login(email: string, password: string) {
 	
 	const configJson =  JSON.parse(fs.readFileSync( path.resolve(__dirname, '../config.json'), 'utf8'));
 	const secret = configJson.secret;
-	const createdPayload = email + '.' + password; 
+	const createdPayload = {
+		"login": login,
+		"password": password
+	}
 	let token = jwt.sign(createdPayload, secret);
 	return token;
 }
