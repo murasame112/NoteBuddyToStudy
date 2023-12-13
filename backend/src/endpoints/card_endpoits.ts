@@ -37,8 +37,8 @@ export function getCardById(req: Request, res: Response) {
   let card: Card;
   result.then((value) => {
     card = new Card(
-			value.questions, 
-			value.answers,
+			value.question, 
+			value.answer,
 			value.note_id,
 			value.author_id,
 			value.published,
@@ -78,8 +78,8 @@ export function getCardsByQuery(req: Request, res: Response) {
   result.then((value) => {
     value.forEach((element: Card) => {
       card = new Card(
-				element.questions, 
-				element.answers,
+				element.question, 
+				element.answer,
 				element.note_id,
 				element.author_id,
 				element.published,
@@ -108,8 +108,8 @@ export function getCardsByQueriedId(req: Request, res: Response) {
   result.then((value) => {
     value.forEach((element: Card) => {
       card = new Card(
-				element.questions, 
-				element.answers,
+				element.question, 
+				element.answer,
 				element.note_id,
 				element.author_id,
 				element.published,
@@ -130,28 +130,20 @@ export function getCardsByQueriedId(req: Request, res: Response) {
 //  http://localhost:3000/card
 // example body:
 // {
-//     "questions":[
-//        "aaaaaa?",
-//        "bbbbbb?",
-//        "cccccc?"
-//     ],
-//     "answers":[
-//        "xxxxxxxxx",
-//        "yyyyyyyyy",
-//        "zzzzzzzzz"
-//     ],
+//     "question":"aaaaaa?"
+//     "answer":"xxxxxxxxx",
 // 		"note_id":"id",
 // 		"author_id":"id"
 //  }
 export function insertCard(req: Request, res: Response) {
 	const note_id = new ObjectId(req.body.note_id);
 	const author_id = new ObjectId(req.body.author_id);
-	const questions = req.body.questions;
-	const answers = req.body.answers;
+	const question= req.body.question;
+	const answer = req.body.answer;
 
   const card: Card = new Card(
-		questions, 
-		answers,
+		question, 
+		answer,
 		note_id,
 		author_id,
 		req.body.published
@@ -177,30 +169,14 @@ export function insertCard(req: Request, res: Response) {
 // example body:
 // [
 // {
-//     "questions":[
-//        "111111?",
-//        "2222?",
-//        "333333?"
-//     ],
-//     "answers":[
-//        "999999",
-//        "8888888",
-//        "7777777"
-//     ],
+//     "question":"111111?",
+//     "answer":"999999",
 //		"note_id":"id",
 //		"author_id":"id"
 //  },
 // {
-//     "questions":[
-//        "aaaaaa?",
-//        "bbbbbb?",
-//        "cccccc?"
-//     ],
-//     "answers":[
-//        "xxxxxxxxx",
-//        "yyyyyyyyy",
-//        "zzzzzzzzz"
-//     ],
+//     "question":"aaaaaa?",,
+//     "answer":"xxxxxxxxx",
 //		"note_id":"id",
 //		"author_id":"id"
 //  }
@@ -209,16 +185,16 @@ export function insertMultipleCards(req: Request, res: Response) {
   const cards = req.body;
   let note_id = new ObjectId();
   let author_id = new ObjectId();
-	let questions =[];
-	let answers = [];
+	let question =[];
+	let answer = [];
   let counter = 0;
   cards.forEach((element: Card) => {
 	
 		note_id = new ObjectId(element.note_id);
 		author_id = new ObjectId(element.author_id);
     const card: Card = new Card(
-			element.questions, 
-			element.answers,
+			element.question, 
+			element.answer,
 			note_id,
 			author_id,
 			element.published
@@ -344,16 +320,8 @@ export function deleteCardsByQueriedId(req: Request, res: Response) {
 //  http://localhost:3000/card/6490d3e5982efd2fe9136154
 // example body:
 // {
-//     "questions":[
-//        "aaaaaa?",
-//        "bbbbbb?",
-//        "cccccc?"
-//     ],
-//     "answers":[
-//        "xxxxxxxxx",
-//        "yyyyyyyyy",
-//        "zzzzzzzzz"
-//     ],
+//     "question":"aaaaaa?",
+//     "answer":"xxxxxxxxx",
 //		"note_id":"id",
 //		"author_id":"id"
 //  }
@@ -395,16 +363,8 @@ export function updateCard(req: Request, res: Response) {
 //      "6490d9fddfd298aad1e8f136"]
 //     ,
 //     "query":{
-//     "questions":[
-//        "aaaaaa?",
-//        "bbbbbb?",
-//        "cccccc?"
-//     ],
-//     "answers":[
-//        "xxxxxxxxx",
-//        "yyyyyyyyy",
-//        "zzzzzzzzz"
-//     ],
+//     "question":"aaaaaa?",
+//     "answer":"xxxxxxxxx",
 //		"note_id":"id",
 //		"author_id":"id"
 //  }
@@ -445,16 +405,8 @@ export function updateMultipleCards(req: Request, res: Response) {
 //  http://localhost:3000/cards/published&true
 // example body:
 // {
-//     "questions":[
-//        "aaaaaa?",
-//        "bbbbbb?",
-//        "cccccc?"
-//     ],
-//     "answers":[
-//        "xxxxxxxxx",
-//        "yyyyyyyyy",
-//        "zzzzzzzzz"
-//     ],
+//     "question":"aaaaaa?",
+//     "answer":"xxxxxxxxx",
 //		"note_id":"id",
 //		"author_id":"id"
 //  }
@@ -540,16 +492,8 @@ export function updateCardsByQueriedId(req: Request, res: Response) {
 //  http://localhost:3000/card/6490d3e5982efd2fe9136154
 // example body:
 // {
-//     "questions":[
-//        "aaaaaa?",
-//        "bbbbbb?",
-//        "cccccc?"
-//     ],
-//     "answers":[
-//        "xxxxxxxxx",
-//        "yyyyyyyyy",
-//        "zzzzzzzzz"
-//     ],
+//     "question":"aaaaaa?",
+//     "answer":"xxxxxxxxx",
 //		"note_id":"id",
 //		"author_id":"id"
 //  }
@@ -557,15 +501,15 @@ export function replaceCard(req: Request, res: Response) {
   const id = req.params.id;
   const query = req.body;
 
-	if(!Array.isArray(query.questions) || !Array.isArray(query.answers) || query.questions.length == 0 || query.answers.length == 0){
+	if(!Array.isArray(query.question) || !Array.isArray(query.answer) || query.question.length == 0 || query.answer.length == 0){
 		res.status(400).send("Error");
 		return false;
 	}
 
   let card: Card;
   card = new Card(
-		query.questions, 
-		query.answers,
+		query.question, 
+		query.answer,
 		query.note_id,
 		query.author_id,
 		query.published
@@ -591,8 +535,8 @@ export function stealCard(req: Request, res: Response) {
   result.then((value) => {
     let card: Card;
     card = new Card(
-			value.value.questions, 
-			value.value.answers,
+			value.value.question, 
+			value.value.answer,
 			value.value.note_id,
 			value.value.author_id,
 			value.value.published,
