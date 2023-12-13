@@ -1,5 +1,5 @@
 import { ObjectId } from "bson";
-export class Card {
+export class CardCollection {
   cards: Array<ObjectId>;
 
   constructor(

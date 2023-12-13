@@ -1,0 +1,548 @@
+import { Console } from "console";
+import { ObjectId } from "bson";
+import express from "express";
+import e, { Request, Response } from "express";
+import { CardCollection } from "../models/card-collection_model";
+import * as global from "../global_database_functions";
+import * as globalTools from "../global_tools";
+import * as loginService from "../services/login"
+
+const table_name = "cards";
+
+// finds all cards
+// /cards
+// example:
+//  http://localhost:3000/cards
+export function getAllCards(req: Request, res: Response) {
+	const authData = req.headers.authorization
+	const token = authData?.split(' ')[1] ?? ''
+	if(!loginService.checkIfLogged(token)){
+		res.status(400).send("Error - user not logged");
+		return false;
+	}
+	const result = global.getAllItems(table_name);
+		result.then((value) => {
+			res.send(value);
+	});
+  
+}
+
+// finds card by id
+// /card/{id}
+// example:
+//  http://localhost:3000/card/648c6400e388683aeb23d331
+export function getCardById(req: Request, res: Response) {
+  const id = req.params.id;
+  const result = global.getItemById(id, table_name);
+  let card: Card;
+  result.then((value) => {
+    card = new Card(
+			value.question, 
+			value.answer,
+			value.note_id,
+			value.author_id,
+			value.published,
+			value.shared_date,
+			value.last_edit_date
+			);
+    res.send(card);
+  });
+}
+
+// finds multiple cards by field and value
+// /cards/{field}&{value}
+// example:
+//  http://localhost:3000/cards/published&true
+export function getCardsByQuery(req: Request, res: Response) {
+  const field = req.params.field;
+  let value: any;
+	value = req.params.value;
+
+  try {
+    value = JSON.parse(value);
+  } catch (e: any) {
+    value = '"' + value + '"';
+    value = JSON.parse(value);
+  }
+	
+	if(field == 'shared_date' || field == 'last_edit_date'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
+
+  let query = { [field]: value };
+  const result = global.getItemsByField(query, table_name);
+  const cardArray: Card[] = [];
+  let card: Card;
+  result.then((value) => {
+    value.forEach((element: Card) => {
+      card = new Card(
+				element.question, 
+				element.answer,
+				element.note_id,
+				element.author_id,
+				element.published,
+				element.shared_date,
+				element.last_edit_date
+				);
+      cardArray.push(card);
+    });
+    res.send(cardArray);
+  });
+}
+
+// finds multiple cards by id_field and value of objectId
+// /cardsid/{field}&{value}
+// example:
+//  http://localhost:3000/cardsid/category_id&6490d9efdfd298aad1e8f134
+export function getCardsByQueriedId(req: Request, res: Response) {
+  const field = req.params.field;
+  const value = req.params.value;
+  const objValue = new ObjectId(value);
+
+  let query = { [field]: objValue };
+  const result = global.getItemsByField(query, table_name);
+  const cardArray: Card[] = [];
+  let card: Card;
+  result.then((value) => {
+    value.forEach((element: Card) => {
+      card = new Card(
+				element.question, 
+				element.answer,
+				element.note_id,
+				element.author_id,
+				element.published,
+				element.shared_date,
+				element.last_edit_date
+				);
+      cardArray.push(card);
+    });
+    res.send(cardArray);
+  });
+}
+
+// inserts card to database
+// /card
+// headers:
+//  Content-Type: application/json
+// example:
+//  http://localhost:3000/card
+// example body:
+// {
+//     "question":"aaaaaa?"
+//     "answer":"xxxxxxxxx",
+// 		"note_id":"id",
+// 		"author_id":"id"
+//  }
+export function insertCard(req: Request, res: Response) {
+	const note_id = new ObjectId(req.body.note_id);
+	const author_id = new ObjectId(req.body.author_id);
+	const question= req.body.question;
+	const answer = req.body.answer;
+
+  const card: Card = new Card(
+		question, 
+		answer,
+		note_id,
+		author_id,
+		req.body.published
+		);
+
+  const result = global.insertItem(card, table_name);
+  result.then((value) => {
+    if(value.acknowledged){
+			res.status(201).send(value.insertedId);
+		}else{
+			globalTools.logToDatabase("function insertCard failed", "error");
+			res.status(400).send("Error");
+		}
+  });
+}
+
+// inserts multiple cards to database
+// /cards
+// headers:
+//  Content-Type: application/json
+// example:
+//  http://localhost:3000/cards
+// example body:
+// [
+// {
+//     "question":"111111?",
+//     "answer":"999999",
+//		"note_id":"id",
+//		"author_id":"id"
+//  },
+// {
+//     "question":"aaaaaa?",,
+//     "answer":"xxxxxxxxx",
+//		"note_id":"id",
+//		"author_id":"id"
+//  }
+//  ]
+export function insertMultipleCards(req: Request, res: Response) {
+  const cards = req.body;
+  let note_id = new ObjectId();
+  let author_id = new ObjectId();
+	let question =[];
+	let answer = [];
+  let counter = 0;
+  cards.forEach((element: Card) => {
+	
+		note_id = new ObjectId(element.note_id);
+		author_id = new ObjectId(element.author_id);
+    const card: Card = new Card(
+			element.question, 
+			element.answer,
+			note_id,
+			author_id,
+			element.published
+			);
+
+    const result = global.insertItem(card, table_name);
+    result.then((value) => {
+      counter++;
+			if(counter == cards.length && value.acknowledged != false) {
+        res.status(201).send();
+      }else{
+				globalTools.logToDatabase("function insertMultipleCards failed", "error");
+				res.status(400).send("Error");
+			}
+    });
+  });
+}
+
+// deletes card by id
+// /card/{id}
+// example:
+//  http://localhost:3000/card/6490d3e5982efd2fe9136154
+export function deleteCard(req: Request, res: Response) {
+  const id = req.params.id;
+  const result = global.deleteItemById(id, table_name);
+  result.then((value) => {
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteCard failed", "error");
+			res.status(400).send("Error");
+		}
+  });
+}
+
+// deletes multiple cards by array of ids
+// /cards
+// headers:
+//  Content-Type: application/json
+// example:
+//  http://localhost:3000/cards
+// example body:
+//  ["6490d9efdfd298aad1e8f134",
+//  "6490d9f9dfd298aad1e8f135",
+//  "6490d9fddfd298aad1e8f136"]
+
+export function deleteMultipleCards(req: Request, res: Response) {
+  const ids = req.body;
+  let counter = 0;
+  ids.forEach((element: string) => {
+    const result = global.deleteItemById(element, table_name);
+    result.then((value) => {
+      counter++;
+      if(counter == ids.length && value.acknowledged != false){
+				res.status(204).send();
+      }else{
+				globalTools.logToDatabase("function deleteMultipleCards failed", "error");
+        res.status(400).send("Error");
+      }
+    });
+  });
+}
+
+// deletes multiple cards by field and value
+// /cards/{field}&{value}
+// example:
+//  http://localhost:3000/cards/published&true
+export function deleteCardsByQuery(req: Request, res: Response) {
+  const field = req.params.field;
+  let value: any;
+	value = req.params.value;
+  try {
+    value = JSON.parse(value);
+  } catch (e: any) {
+    value = '"' + value + '"';
+    value = JSON.parse(value);
+  }
+
+	if(field == 'shared_date' || field == 'last_edit_date'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
+
+  let query = { [field]: value };
+  const result = global.deleteItemsByField(query, table_name);
+  result.then((value) => {
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteCardsByQuery failed", "error");
+			res.status(400).send("Error");
+		}
+  });
+}
+
+// deletes multiple cards by id_field and value of objectId
+// /cardsid/{field}&{value}
+// example:
+//  http://localhost:3000/notesid/note_id&6490d9efdfd298aad1e8f134
+export function deleteCardsByQueriedId(req: Request, res: Response) {
+  const field = req.params.field;
+  const value = req.params.value;
+  const objValue = new ObjectId(value);
+
+  let query = { [field]: objValue };
+  const result = global.deleteItemsByField(query, table_name);
+  result.then((value) => {
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function deleteCardsByQueriedId failed", "error");
+			res.status(400).send("Error");
+		}
+  });
+}
+
+// updates card by id with values passed in request body
+// /card/{id}
+// headers:
+//  Content-Type: application/json
+// example:
+//  http://localhost:3000/card/6490d3e5982efd2fe9136154
+// example body:
+// {
+//     "question":"aaaaaa?",
+//     "answer":"xxxxxxxxx",
+//		"note_id":"id",
+//		"author_id":"id"
+//  }
+export function updateCard(req: Request, res: Response) {
+  const id = req.params.id;
+  const query = req.body;
+	if (typeof query.note_id !== "undefined") {
+    query.note_id = new ObjectId(query.note_id);
+  }
+	if (typeof query.author_id !== "undefined") {
+    query.author_id = new ObjectId(query.author_id);
+  }
+
+	
+	query.shared_date = globalTools.createDateFromString(query.shared_date);
+	query.last_edit_date = globalTools.createDateFromString(query.last_edit_date);
+  const result = global.updateItemById(id, table_name, query);
+  result.then((value) => {
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateCard failed", "error");
+			res.status(400).send("Error");
+		}
+  });
+}
+
+// updates multiple cards by array of ids
+// /cards
+// headers:
+//  Content-Type: application/json
+// example:
+//  http://localhost:3000/cards
+// example body:
+// {
+//     "ids":
+//      ["6490d9efdfd298aad1e8f134",
+//      "6490d9f9dfd298aad1e8f135",
+//      "6490d9fddfd298aad1e8f136"]
+//     ,
+//     "query":{
+//     "question":"aaaaaa?",
+//     "answer":"xxxxxxxxx",
+//		"note_id":"id",
+//		"author_id":"id"
+//  }
+//  }
+export function updateMultipleCards(req: Request, res: Response) {
+  const ids = req.body.ids;
+	let updateQuery = req.body.query;
+  if (typeof updateQuery.note_id !== "undefined") {
+    updateQuery.note_id = new ObjectId(updateQuery.note_id);
+  }
+  if (typeof updateQuery.author_id !== "undefined") {
+    updateQuery.author_id = new ObjectId(updateQuery.author_id);
+  }
+
+
+	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
+	updateQuery.last_edit_date = globalTools.createDateFromString(updateQuery.last_edit_date);
+  let counter = 0;
+  ids.forEach((element: string) => {
+    const result = global.updateItemById(element, table_name, updateQuery);
+    result.then((value) => {
+      counter++;
+      if(counter == ids.length && value.acknowledged != false) {
+        res.status(204).send();
+      }else{
+				globalTools.logToDatabase("function updateMultipleCards failed", "error");
+				res.status(400).send("Error");
+			}
+    });
+  });
+}
+
+// updates multiple cards by field and value
+// /cards/{field}&{value}
+// headers:
+//  Content-Type: application/json
+// example:
+//  http://localhost:3000/cards/published&true
+// example body:
+// {
+//     "question":"aaaaaa?",
+//     "answer":"xxxxxxxxx",
+//		"note_id":"id",
+//		"author_id":"id"
+//  }
+export function updateCardsByQuery(req: Request, res: Response) {
+  const field = req.params.field;
+	let value: any; 
+	value = req.params.value;
+
+  try {
+    value = JSON.parse(value);
+  } catch (e: any) {
+    value = '"' + value + '"';
+    value = JSON.parse(value);
+  }
+
+	if(field == 'shared_date' || field == 'last_edit_date'){
+		if(typeof value == 'string'){
+			value = new Date(value);
+		}
+	}
+
+  let updateQuery = req.body;
+  if (typeof updateQuery.note_id !== "undefined") {
+    updateQuery.note_id = new ObjectId(updateQuery.note_id);
+  }
+  if (typeof updateQuery.author_id !== "undefined") {
+    updateQuery.author_id = new ObjectId(updateQuery.author_id);
+  }
+
+
+	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
+	updateQuery.last_edit_date = globalTools.createDateFromString(updateQuery.last_edit_date);
+  let query = { [field]: value };
+  const result = global.updateItemsByField(query, table_name, updateQuery);
+  result.then((value) => {
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateCardsByQuery failed", "error");
+			res.status(400).send("Error");
+		}
+  });
+}
+
+// updates multiple cards by id_field and value of objectId
+// /cardsid/{field}&{value}
+// example:
+//  http://localhost:3000/cardsid/user_id&6490d9efdfd298aad1e8f134
+export function updateCardsByQueriedId(req: Request, res: Response) {
+  const field = req.params.field;
+  let value = req.params.value;
+  const objValue = new ObjectId(value);
+
+  let updateQuery = req.body;
+  if (typeof updateQuery.note_id !== "undefined") {
+    updateQuery.note_id = new ObjectId(updateQuery.note_id);
+  }
+  if (typeof updateQuery.author_id !== "undefined") {
+    updateQuery.author_id = new ObjectId(updateQuery.author_id);
+  }
+
+
+	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
+	updateQuery.last_edit_date = globalTools.createDateFromString(updateQuery.last_edit_date);
+  let query = { [field]: objValue };
+
+  const result = global.updateItemsByField(query, table_name, updateQuery);
+  result.then((value) => {
+		if(value.acknowledged){
+			res.status(204).send();
+		}else{
+			globalTools.logToDatabase("function updateCardsByQueriedId failed", "error");
+			res.status(400).send("Error");
+		}
+  });
+}
+
+// replaces card by id with new card passed in request body
+// /card/{id}
+// headers:
+//  Content-Type: application/json
+// example:
+//  http://localhost:3000/card/6490d3e5982efd2fe9136154
+// example body:
+// {
+//     "question":"aaaaaa?",
+//     "answer":"xxxxxxxxx",
+//		"note_id":"id",
+//		"author_id":"id"
+//  }
+export function replaceCard(req: Request, res: Response) {
+  const id = req.params.id;
+  const query = req.body;
+
+	if(!Array.isArray(query.question) || !Array.isArray(query.answer) || query.question.length == 0 || query.answer.length == 0){
+		res.status(400).send("Error");
+		return false;
+	}
+
+  let card: Card;
+  card = new Card(
+		query.question, 
+		query.answer,
+		query.note_id,
+		query.author_id,
+		query.published
+		);
+  const result = global.replaceItemById(id, table_name, card);
+  result.then((value) => {
+		if(value.acknowledged){
+			res.status(201).send();
+		}else{
+			globalTools.logToDatabase("function replaceCard failed", "error");
+			res.status(400).send("Error");
+		}
+  });
+}
+
+// steals (returns a card, but then deletes it from database) card by id
+// /stealcard/{id}
+// example:
+//  http://localhost:3000/stealcard/6490d3e5982efd2fe9136154
+export function stealCard(req: Request, res: Response) {
+  const id = req.params.id;
+  const result = global.stealItemById(id, table_name);
+  result.then((value) => {
+    let card: Card;
+    card = new Card(
+			value.value.question, 
+			value.value.answer,
+			value.value.note_id,
+			value.value.author_id,
+			value.value.published,
+			value.value.shared_date,
+			value.value.last_edit_date
+			);
+    res.status(201).send(card);
+  });
+}
