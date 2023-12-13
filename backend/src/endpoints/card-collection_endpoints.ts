@@ -1,3 +1,5 @@
+// there are no ByQuery endpoints here, as there's no possible way (check model)
+
 import { Console } from "console";
 import { ObjectId } from "bson";
 import express from "express";
@@ -7,19 +9,13 @@ import * as global from "../global_database_functions";
 import * as globalTools from "../global_tools";
 import * as loginService from "../services/login"
 
-const table_name = "cards";
+const table_name = "card_collections";
 
-// finds all cards
-// /cards
+// finds all cardcollections
+// /cardcollections
 // example:
-//  http://localhost:3000/cards
-export function getAllCards(req: Request, res: Response) {
-	const authData = req.headers.authorization
-	const token = authData?.split(' ')[1] ?? ''
-	if(!loginService.checkIfLogged(token)){
-		res.status(400).send("Error - user not logged");
-		return false;
-	}
+//  http://localhost:3000/cardcollections
+export function getAllCardCollections(req: Request, res: Response) {
 	const result = global.getAllItems(table_name);
 		result.then((value) => {
 			res.send(value);
@@ -27,221 +23,164 @@ export function getAllCards(req: Request, res: Response) {
   
 }
 
-// finds card by id
-// /card/{id}
+// finds cardcollection by id
+// /cardcollection/{id}
 // example:
-//  http://localhost:3000/card/648c6400e388683aeb23d331
-export function getCardById(req: Request, res: Response) {
+//  http://localhost:3000/cardcollection/648c6400e388683aeb23d331
+export function getCardCollectionById(req: Request, res: Response) {
   const id = req.params.id;
   const result = global.getItemById(id, table_name);
-  let card: Card;
+  let cardcollection: CardCollection;
   result.then((value) => {
-    card = new Card(
-			value.question, 
-			value.answer,
-			value.note_id,
-			value.author_id,
-			value.published,
-			value.shared_date,
-			value.last_edit_date
+    cardcollection = new CardCollection(
+			value.cards
 			);
-    res.send(card);
+    res.send(cardcollection);
   });
 }
 
-// finds multiple cards by field and value
-// /cards/{field}&{value}
+// finds multiple cardcollections by id_field and value of objectId
+// /cardcollectionsid/{field}&{value}
 // example:
-//  http://localhost:3000/cards/published&true
-export function getCardsByQuery(req: Request, res: Response) {
-  const field = req.params.field;
-  let value: any;
-	value = req.params.value;
-
-  try {
-    value = JSON.parse(value);
-  } catch (e: any) {
-    value = '"' + value + '"';
-    value = JSON.parse(value);
-  }
-	
-	if(field == 'shared_date' || field == 'last_edit_date'){
-		if(typeof value == 'string'){
-			value = new Date(value);
-		}
-	}
-
-  let query = { [field]: value };
-  const result = global.getItemsByField(query, table_name);
-  const cardArray: Card[] = [];
-  let card: Card;
-  result.then((value) => {
-    value.forEach((element: Card) => {
-      card = new Card(
-				element.question, 
-				element.answer,
-				element.note_id,
-				element.author_id,
-				element.published,
-				element.shared_date,
-				element.last_edit_date
-				);
-      cardArray.push(card);
-    });
-    res.send(cardArray);
-  });
-}
-
-// finds multiple cards by id_field and value of objectId
-// /cardsid/{field}&{value}
-// example:
-//  http://localhost:3000/cardsid/category_id&6490d9efdfd298aad1e8f134
-export function getCardsByQueriedId(req: Request, res: Response) {
+//  http://localhost:3000/cardcollectionsid/cards&6490d9efdfd298aad1e8f134
+export function getCardCollectionsByQueriedId(req: Request, res: Response) {
   const field = req.params.field;
   const value = req.params.value;
   const objValue = new ObjectId(value);
 
   let query = { [field]: objValue };
   const result = global.getItemsByField(query, table_name);
-  const cardArray: Card[] = [];
-  let card: Card;
+  const cardcollectionArray: CardCollection[] = [];
+  let cardcollection: CardCollection;
   result.then((value) => {
-    value.forEach((element: Card) => {
-      card = new Card(
-				element.question, 
-				element.answer,
-				element.note_id,
-				element.author_id,
-				element.published,
-				element.shared_date,
-				element.last_edit_date
+    value.forEach((element: CardCollection) => {
+      cardcollection = new CardCollection(
+				element.cards
 				);
-      cardArray.push(card);
+      cardcollectionArray.push(cardcollection);
     });
-    res.send(cardArray);
+    res.send(cardcollectionArray);
   });
 }
 
-// inserts card to database
-// /card
+// inserts cardcollection to database
+// /cardcollection
 // headers:
 //  Content-Type: application/json
 // example:
-//  http://localhost:3000/card
+//  http://localhost:3000/cardcollection
 // example body:
 // {
-//     "question":"aaaaaa?"
-//     "answer":"xxxxxxxxx",
-// 		"note_id":"id",
-// 		"author_id":"id"
+// "cards":[
+//    "64a49ff9a1caf26fbfaa2dbb",
+//		"64a49ff9a1caf26fbfaa2faf",
+// ]
 //  }
-export function insertCard(req: Request, res: Response) {
-	const note_id = new ObjectId(req.body.note_id);
-	const author_id = new ObjectId(req.body.author_id);
-	const question= req.body.question;
-	const answer = req.body.answer;
+export function insertCardCollection(req: Request, res: Response) {
 
-  const card: Card = new Card(
-		question, 
-		answer,
-		note_id,
-		author_id,
-		req.body.published
+	let cards: ObjectId[] = [];
+
+	req.body.cards.forEach((element: string) => {
+    let card = new ObjectId(element);
+    cards.push(card);
+  });
+  const cardcollection: CardCollection = new CardCollection(
+			cards
 		);
 
-  const result = global.insertItem(card, table_name);
+  const result = global.insertItem(cardcollection, table_name);
   result.then((value) => {
     if(value.acknowledged){
 			res.status(201).send(value.insertedId);
 		}else{
-			globalTools.logToDatabase("function insertCard failed", "error");
+			globalTools.logToDatabase("function insertCardCollection failed", "error");
 			res.status(400).send("Error");
 		}
   });
 }
 
-// inserts multiple cards to database
-// /cards
+// inserts multiple cardcollections to database
+// /cardcollections
 // headers:
 //  Content-Type: application/json
 // example:
-//  http://localhost:3000/cards
+//  http://localhost:3000/cardcollections
 // example body:
 // [
 // {
-//     "question":"111111?",
-//     "answer":"999999",
-//		"note_id":"id",
-//		"author_id":"id"
+// "cards":[
+//    "64a49ff9a1caf26fbfaa2dbb",
+//		"64a49ff9a1caf26fbfaa2faf",
+// ]
 //  },
 // {
-//     "question":"aaaaaa?",,
-//     "answer":"xxxxxxxxx",
-//		"note_id":"id",
-//		"author_id":"id"
+// "cards":[
+//    "64a49ff9a1csadd3dwwqdwqd2",
+//		"64a49ff9a1caf2sdfaaki23",
+// ]
 //  }
 //  ]
-export function insertMultipleCards(req: Request, res: Response) {
-  const cards = req.body;
-  let note_id = new ObjectId();
-  let author_id = new ObjectId();
-	let question =[];
-	let answer = [];
+export function insertMultipleCardCollections(req: Request, res: Response) {
+  const cardcollections = req.body;
   let counter = 0;
-  cards.forEach((element: Card) => {
 	
-		note_id = new ObjectId(element.note_id);
-		author_id = new ObjectId(element.author_id);
-    const card: Card = new Card(
-			element.question, 
-			element.answer,
-			note_id,
-			author_id,
-			element.published
+  cardcollections.forEach((element: any) => {
+    // TODO: przemyśleć, czy tu powinno byc any?
+    let cardsIds: ObjectId[] = [];
+		if(!Array.isArray(element.cards) || element.cards.length == 0){
+			res.status(400).send("Error");
+			return false;
+		}
+    element.cards.forEach((elem: string) => {
+      let card = new ObjectId(elem);
+      cardsIds.push(card);
+    });
+		const cardcollection: CardCollection = new CardCollection(
+				cardsIds
 			);
 
-    const result = global.insertItem(card, table_name);
+    const result = global.insertItem(cardcollection, table_name);
     result.then((value) => {
       counter++;
-			if(counter == cards.length && value.acknowledged != false) {
+			if(counter == cardcollections.length && value.acknowledged != false) {
         res.status(201).send();
       }else{
-				globalTools.logToDatabase("function insertMultipleCards failed", "error");
+				globalTools.logToDatabase("function insertMultipleCardCollections failed", "error");
 				res.status(400).send("Error");
 			}
     });
   });
 }
 
-// deletes card by id
-// /card/{id}
+// deletes cardcollection by id
+// /cardcollection/{id}
 // example:
-//  http://localhost:3000/card/6490d3e5982efd2fe9136154
-export function deleteCard(req: Request, res: Response) {
+//  http://localhost:3000/cardcollection/6490d3e5982efd2fe9136154
+export function deleteCardCollection(req: Request, res: Response) {
   const id = req.params.id;
   const result = global.deleteItemById(id, table_name);
   result.then((value) => {
 		if(value.acknowledged){
 			res.status(204).send();
 		}else{
-			globalTools.logToDatabase("function deleteCard failed", "error");
+			globalTools.logToDatabase("function deleteCardCollection failed", "error");
 			res.status(400).send("Error");
 		}
   });
 }
 
-// deletes multiple cards by array of ids
-// /cards
+// deletes multiple cardcollections by array of ids
+// /cardcollections
 // headers:
 //  Content-Type: application/json
 // example:
-//  http://localhost:3000/cards
+//  http://localhost:3000/cardcollections
 // example body:
 //  ["6490d9efdfd298aad1e8f134",
 //  "6490d9f9dfd298aad1e8f135",
 //  "6490d9fddfd298aad1e8f136"]
 
-export function deleteMultipleCards(req: Request, res: Response) {
+export function deleteMultipleCardCollections(req: Request, res: Response) {
   const ids = req.body;
   let counter = 0;
   ids.forEach((element: string) => {
@@ -251,51 +190,19 @@ export function deleteMultipleCards(req: Request, res: Response) {
       if(counter == ids.length && value.acknowledged != false){
 				res.status(204).send();
       }else{
-				globalTools.logToDatabase("function deleteMultipleCards failed", "error");
+				globalTools.logToDatabase("function deleteMultipleCardCollections failed", "error");
         res.status(400).send("Error");
       }
     });
   });
 }
 
-// deletes multiple cards by field and value
-// /cards/{field}&{value}
+
+// deletes multiple cardcollections by id_field and value of objectId
+// /cardcollectionsid/{field}&{value}
 // example:
-//  http://localhost:3000/cards/published&true
-export function deleteCardsByQuery(req: Request, res: Response) {
-  const field = req.params.field;
-  let value: any;
-	value = req.params.value;
-  try {
-    value = JSON.parse(value);
-  } catch (e: any) {
-    value = '"' + value + '"';
-    value = JSON.parse(value);
-  }
-
-	if(field == 'shared_date' || field == 'last_edit_date'){
-		if(typeof value == 'string'){
-			value = new Date(value);
-		}
-	}
-
-  let query = { [field]: value };
-  const result = global.deleteItemsByField(query, table_name);
-  result.then((value) => {
-		if(value.acknowledged){
-			res.status(204).send();
-		}else{
-			globalTools.logToDatabase("function deleteCardsByQuery failed", "error");
-			res.status(400).send("Error");
-		}
-  });
-}
-
-// deletes multiple cards by id_field and value of objectId
-// /cardsid/{field}&{value}
-// example:
-//  http://localhost:3000/notesid/note_id&6490d9efdfd298aad1e8f134
-export function deleteCardsByQueriedId(req: Request, res: Response) {
+//  http://localhost:3000/cardcollectionsid/note_id&6490d9efdfd298aad1e8f134
+export function deleteCardCollectionsByQueriedId(req: Request, res: Response) {
   const field = req.params.field;
   const value = req.params.value;
   const objValue = new ObjectId(value);
@@ -306,55 +213,58 @@ export function deleteCardsByQueriedId(req: Request, res: Response) {
 		if(value.acknowledged){
 			res.status(204).send();
 		}else{
-			globalTools.logToDatabase("function deleteCardsByQueriedId failed", "error");
+			globalTools.logToDatabase("function deleteCardCollectionsByQueriedId failed", "error");
 			res.status(400).send("Error");
 		}
   });
 }
 
-// updates card by id with values passed in request body
-// /card/{id}
+// updates cardcollection by id with values passed in request body
+// /cardcollection/{id}
 // headers:
 //  Content-Type: application/json
 // example:
-//  http://localhost:3000/card/6490d3e5982efd2fe9136154
+//  http://localhost:3000/cardcollection/6490d3e5982efd2fe9136154
 // example body:
 // {
-//     "question":"aaaaaa?",
-//     "answer":"xxxxxxxxx",
-//		"note_id":"id",
-//		"author_id":"id"
+// "cards":[
+//    "64a49ff9a1caf26fbfaa2dbb",
+//		"64a49ff9a1caf26fbfaa2faf",
+// ]
 //  }
-export function updateCard(req: Request, res: Response) {
+export function updateCardCollection(req: Request, res: Response) {
   const id = req.params.id;
   const query = req.body;
-	if (typeof query.note_id !== "undefined") {
-    query.note_id = new ObjectId(query.note_id);
-  }
-	if (typeof query.author_id !== "undefined") {
-    query.author_id = new ObjectId(query.author_id);
+
+	let card: ObjectId;
+  if (typeof query.cards !== "undefined") {
+    let cardsIds: ObjectId[] = [];
+
+    query.cards.forEach((elem: string) => {
+      card = new ObjectId(elem);
+      cardsIds.push(card);
+    });
+
+    query.users = cardsIds;
   }
 
-	
-	query.shared_date = globalTools.createDateFromString(query.shared_date);
-	query.last_edit_date = globalTools.createDateFromString(query.last_edit_date);
   const result = global.updateItemById(id, table_name, query);
   result.then((value) => {
 		if(value.acknowledged){
 			res.status(204).send();
 		}else{
-			globalTools.logToDatabase("function updateCard failed", "error");
+			globalTools.logToDatabase("function updateCardCollection failed", "error");
 			res.status(400).send("Error");
 		}
   });
 }
 
-// updates multiple cards by array of ids
-// /cards
+// updates multiple cardcollections by array of ids
+// /cardcollections
 // headers:
 //  Content-Type: application/json
 // example:
-//  http://localhost:3000/cards
+//  http://localhost:3000/cardcollections
 // example body:
 // {
 //     "ids":
@@ -362,26 +272,28 @@ export function updateCard(req: Request, res: Response) {
 //      "6490d9f9dfd298aad1e8f135",
 //      "6490d9fddfd298aad1e8f136"]
 //     ,
-//     "query":{
-//     "question":"aaaaaa?",
-//     "answer":"xxxxxxxxx",
-//		"note_id":"id",
-//		"author_id":"id"
+// 	"cards":[
+//    "64a49ff9a1caf26fbfaa2dbb",
+//		"64a49ff9a1caf26fbfaa2faf",
+// ]
 //  }
 //  }
-export function updateMultipleCards(req: Request, res: Response) {
+export function updateMultipleCardCollections(req: Request, res: Response) {
   const ids = req.body.ids;
 	let updateQuery = req.body.query;
-  if (typeof updateQuery.note_id !== "undefined") {
-    updateQuery.note_id = new ObjectId(updateQuery.note_id);
-  }
-  if (typeof updateQuery.author_id !== "undefined") {
-    updateQuery.author_id = new ObjectId(updateQuery.author_id);
-  }
 
+	let card: ObjectId;
 
-	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
-	updateQuery.last_edit_date = globalTools.createDateFromString(updateQuery.last_edit_date);
+  if (typeof updateQuery.cards !== "undefined") {
+    let cardsIds: ObjectId[] = [];
+
+    updateQuery.cards.forEach((elem: string) => {
+      card = new ObjectId(elem);
+      cardsIds.push(card);
+    });
+
+    updateQuery.cards = cardsIds;
+  }
   let counter = 0;
   ids.forEach((element: string) => {
     const result = global.updateItemById(element, table_name, updateQuery);
@@ -390,87 +302,43 @@ export function updateMultipleCards(req: Request, res: Response) {
       if(counter == ids.length && value.acknowledged != false) {
         res.status(204).send();
       }else{
-				globalTools.logToDatabase("function updateMultipleCards failed", "error");
+				globalTools.logToDatabase("function updateMultipleCardCollections failed", "error");
 				res.status(400).send("Error");
 			}
     });
   });
 }
 
-// updates multiple cards by field and value
-// /cards/{field}&{value}
-// headers:
-//  Content-Type: application/json
+// updates multiple cardcollections by id_field and value of objectId
+// /cardcollectionsid/{field}&{value}
 // example:
-//  http://localhost:3000/cards/published&true
+//  http://localhost:3000/cardcollectionsid/cards&6490d9efdfd298aad1e8f134
 // example body:
 // {
-//     "question":"aaaaaa?",
-//     "answer":"xxxxxxxxx",
-//		"note_id":"id",
-//		"author_id":"id"
+// "cards":[
+//    "64a49ff9a1caf26fbfaa2dbb",
+//		"64a49ff9a1caf26fbfaa2faf",
+// ]
 //  }
-export function updateCardsByQuery(req: Request, res: Response) {
-  const field = req.params.field;
-	let value: any; 
-	value = req.params.value;
-
-  try {
-    value = JSON.parse(value);
-  } catch (e: any) {
-    value = '"' + value + '"';
-    value = JSON.parse(value);
-  }
-
-	if(field == 'shared_date' || field == 'last_edit_date'){
-		if(typeof value == 'string'){
-			value = new Date(value);
-		}
-	}
-
-  let updateQuery = req.body;
-  if (typeof updateQuery.note_id !== "undefined") {
-    updateQuery.note_id = new ObjectId(updateQuery.note_id);
-  }
-  if (typeof updateQuery.author_id !== "undefined") {
-    updateQuery.author_id = new ObjectId(updateQuery.author_id);
-  }
-
-
-	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
-	updateQuery.last_edit_date = globalTools.createDateFromString(updateQuery.last_edit_date);
-  let query = { [field]: value };
-  const result = global.updateItemsByField(query, table_name, updateQuery);
-  result.then((value) => {
-		if(value.acknowledged){
-			res.status(204).send();
-		}else{
-			globalTools.logToDatabase("function updateCardsByQuery failed", "error");
-			res.status(400).send("Error");
-		}
-  });
-}
-
-// updates multiple cards by id_field and value of objectId
-// /cardsid/{field}&{value}
-// example:
-//  http://localhost:3000/cardsid/user_id&6490d9efdfd298aad1e8f134
-export function updateCardsByQueriedId(req: Request, res: Response) {
+export function updateCardCollectionsByQueriedId(req: Request, res: Response) {
   const field = req.params.field;
   let value = req.params.value;
   const objValue = new ObjectId(value);
 
   let updateQuery = req.body;
-  if (typeof updateQuery.note_id !== "undefined") {
-    updateQuery.note_id = new ObjectId(updateQuery.note_id);
-  }
-  if (typeof updateQuery.author_id !== "undefined") {
-    updateQuery.author_id = new ObjectId(updateQuery.author_id);
+ 
+	let card: ObjectId;
+	if (typeof updateQuery.cards !== "undefined") {
+    let cardsIds: ObjectId[] = [];
+
+    updateQuery.cards.forEach((elem: string) => {
+      card = new ObjectId(elem);
+      cardsIds.push(card);
+    });
+
+    updateQuery.cards = cardsIds;
   }
 
-
-	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
-	updateQuery.last_edit_date = globalTools.createDateFromString(updateQuery.last_edit_date);
   let query = { [field]: objValue };
 
   const result = global.updateItemsByField(query, table_name, updateQuery);
@@ -478,71 +346,61 @@ export function updateCardsByQueriedId(req: Request, res: Response) {
 		if(value.acknowledged){
 			res.status(204).send();
 		}else{
-			globalTools.logToDatabase("function updateCardsByQueriedId failed", "error");
+			globalTools.logToDatabase("function updateCardCollectionsByQueriedId failed", "error");
 			res.status(400).send("Error");
 		}
   });
 }
 
-// replaces card by id with new card passed in request body
-// /card/{id}
+// replaces cardcollection by id with new cardcollection passed in request body
+// /cardcollection/{id}
 // headers:
 //  Content-Type: application/json
 // example:
-//  http://localhost:3000/card/6490d3e5982efd2fe9136154
+//  http://localhost:3000/cardcollection/6490d3e5982efd2fe9136154
 // example body:
 // {
-//     "question":"aaaaaa?",
-//     "answer":"xxxxxxxxx",
-//		"note_id":"id",
-//		"author_id":"id"
+// "cards":[
+//    "64a49ff9a1caf26fbfaa2dbb",
+//		"64a49ff9a1caf26fbfaa2faf",
+// ]
 //  }
-export function replaceCard(req: Request, res: Response) {
+export function replaceCardCollection(req: Request, res: Response) {
   const id = req.params.id;
   const query = req.body;
 
-	if(!Array.isArray(query.question) || !Array.isArray(query.answer) || query.question.length == 0 || query.answer.length == 0){
-		res.status(400).send("Error");
-		return false;
-	}
-
-  let card: Card;
-  card = new Card(
-		query.question, 
-		query.answer,
-		query.note_id,
-		query.author_id,
-		query.published
+	let cards: ObjectId[] = [];
+	req.body.cards.forEach((element: string) => {
+    let card = new ObjectId(element);
+    cards.push(card);
+  });
+  const cardcollection: CardCollection = new CardCollection(
+			cards
 		);
-  const result = global.replaceItemById(id, table_name, card);
+  
+		const result = global.replaceItemById(id, table_name, cardcollection);
   result.then((value) => {
 		if(value.acknowledged){
 			res.status(201).send();
 		}else{
-			globalTools.logToDatabase("function replaceCard failed", "error");
+			globalTools.logToDatabase("function replaceCardCollection failed", "error");
 			res.status(400).send("Error");
 		}
   });
 }
 
-// steals (returns a card, but then deletes it from database) card by id
-// /stealcard/{id}
+// steals (returns a cardcollection, but then deletes it from database) cardcollection by id
+// /stealcardcollection/{id}
 // example:
-//  http://localhost:3000/stealcard/6490d3e5982efd2fe9136154
-export function stealCard(req: Request, res: Response) {
+//  http://localhost:3000/stealcardcollection/6490d3e5982efd2fe9136154
+export function stealCardCollection(req: Request, res: Response) {
   const id = req.params.id;
   const result = global.stealItemById(id, table_name);
   result.then((value) => {
-    let card: Card;
-    card = new Card(
-			value.value.question, 
-			value.value.answer,
-			value.value.note_id,
-			value.value.author_id,
-			value.value.published,
-			value.value.shared_date,
-			value.value.last_edit_date
+    let cardcollection: CardCollection;
+    cardcollection = new CardCollection(
+			value.value.cards
 			);
-    res.status(201).send(card);
+    res.status(201).send(cardcollection);
   });
 }

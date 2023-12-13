@@ -294,7 +294,7 @@ export function deleteCardsByQuery(req: Request, res: Response) {
 // deletes multiple cards by id_field and value of objectId
 // /cardsid/{field}&{value}
 // example:
-//  http://localhost:3000/notesid/note_id&6490d9efdfd298aad1e8f134
+//  http://localhost:3000/cardid/note_id&6490d9efdfd298aad1e8f134
 export function deleteCardsByQueriedId(req: Request, res: Response) {
   const field = req.params.field;
   const value = req.params.value;
