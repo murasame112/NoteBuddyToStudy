@@ -9,7 +9,7 @@ import * as global from "../global_database_functions";
 import * as globalTools from "../global_tools";
 import * as loginService from "../services/login"
 
-const table_name = "card_collections";
+const table_name = "card-collections";
 
 // finds all cardcollections
 // /cardcollections

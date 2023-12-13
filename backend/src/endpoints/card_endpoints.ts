@@ -501,11 +501,6 @@ export function replaceCard(req: Request, res: Response) {
   const id = req.params.id;
   const query = req.body;
 
-	if(!Array.isArray(query.question) || !Array.isArray(query.answer) || query.question.length == 0 || query.answer.length == 0){
-		res.status(400).send("Error");
-		return false;
-	}
-
   let card: Card;
   card = new Card(
 		query.question, 
