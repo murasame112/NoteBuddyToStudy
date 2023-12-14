@@ -145,7 +145,7 @@ export function getUsersByQueriedId(req: Request, res: Response) {
 // }
 export function insertUser(req: Request, res: Response) {
 
-	loginService.checkIfUserExists(req.body.email).then((value) => {
+	loginService.checkIfUserExists(req.body.login).then((value) => {
 		if(value == true){
 			res.status(400).send("Error - user already exists");
 			return false;
