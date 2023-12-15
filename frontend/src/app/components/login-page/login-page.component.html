@@ -1,46 +1,132 @@
 <main>
-<div id="leftSide">
-  <img src="../../../assets/login_ellipse.png" alt="" id="login-img">
-  <img src="../../../assets/login_Ellipse_small.png" alt="" id="login-img-small">
-  <img src="../../../assets/login_Ellipse_mobile.png" alt="" id="login-img-mobile">
-  <span id="logo" routerLink="/landing">NoteBuddy<br><span id="logo2">To</span>Study</span>
-</div>
+  <div id="leftSide">
+    <img src="../../../assets/login_ellipse.png" alt="" id="login-img" />
+    <img
+      src="../../../assets/login_Ellipse_small.png"
+      alt=""
+      id="login-img-small"
+    />
+    <img
+      src="../../../assets/login_Ellipse_mobile.png"
+      alt=""
+      id="login-img-mobile"
+    />
+    <span id="logo" routerLink="/landing"
+      >NoteBuddy<br /><span id="logo2">To</span>Study</span
+    >
+  </div>
 
+  <div id="page-name">Logowanie</div>
+  <div id="login-form">
+    <form [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)">
+      <label class="form-labels">Login</label><br />
+      <input
+        type="text"
+        formControlName="login"
+        placeholder="wpisz login"
+        class="form-inputs"
+      />
+      <ng-container
+        *ngIf="
+          loginForm.get('login')!.hasError('required') &&
+          loginForm.get('login')!.touched
+        "
+      >
+        <div class="validators">
+          <span>&#x2022; To pole nie może być puste</span>
+        </div>
+      </ng-container>
 
-<div id="page-name">Logowanie</div>
-<div id="login-form">
-  <form [formGroup]="loginForm">
-    <label class="form-labels">Login</label><br>
-    <input type="text" placeholder="wpisz login" class="form-inputs"><br><br>
-    <label class="form-labels">Hasło</label><br>
-    <input type="password" placeholder="wpisz swoje hasło" class="form-inputs"><br><br>
-    <input type="submit" value="Zaloguj się" id="login-btn">
-  </form>
+      <ng-container
+        *ngIf="
+          loginForm.get('login')!.hasError('spaceValidator') &&
+          loginForm.get('login')!.touched &&
+          !loginForm.get('login')!.hasError('required')
+        "
+      >
+        <div class="validators">
+          <span>&#x2022; To pole nie może mieć spacji </span>
+        </div>
+      </ng-container>
 
-</div>
+      <ng-container
+        *ngIf="
+          loginForm.get('login')!.hasError('loginSpecialCharacterError') &&
+          loginForm.get('login')!.touched &&
+          !loginForm.get('login')!.hasError('required')
+        "
+      >
+        <div class="validators">
+          <span>&#x2022; To pole nie może mieć znaków specjalnych </span>
+        </div>
+      </ng-container>
 
-<div id="forgot-password-div">
-  <span id="forgot-password">zapomniałem hasło</span>
-</div>
+      <br /><br />
+      <label class="form-labels">Hasło</label><br />
+      <input
+        type="password"
+        formControlName="password"
+        placeholder="wpisz swoje hasło"
+        class="form-inputs"
+      />
+      <ng-container
+        *ngIf="
+          loginForm.get('password')!.hasError('required') &&
+          loginForm.get('password')!.touched
+        "
+      >
+        <div class="validators">
+          <span>&#x2022; To pole nie może być puste</span>
+        </div>
+      </ng-container>
 
+      <ng-container
+        *ngIf="
+          loginForm.get('password')!.hasError('spaceValidator') &&
+          loginForm.get('password')!.touched &&
+          !loginForm.get('password')!.hasError('required')
+        "
+      >
+        <div class="validators">
+          <span>&#x2022; To pole nie może mieć spacji </span>
+        </div>
+      </ng-container>
 
-<div id="orDiv">
-  <div class="orLine-line"></div>
-  <span id="orSpan" class="form-labels">lub</span>
-  <div class="orLine-line"></div>
-</div>
+      <br /><br />
+      <input
+        type="submit"
+        value="Zaloguj się"
+        id="login-btn"
+        [disabled]="!loginForm.valid"
+      />
+    </form>
+  </div>
 
-<div class="LoginWithPlatformBtn" id="loginByPlatformG">
-  <img src="../../../assets/login_google_logo.png" alt="" class="img-platform">
-  <span class="LoginWithPlatformSpan">Zaloguj się przez google</span>
-</div>
+  <div id="forgot-password-div">
+    <span id="forgot-password">zapomniałem hasło</span>
+  </div>
 
-<div class="LoginWithPlatformBtn" id="loginByPlatformF">
-  <img src="../../../assets/login_facebook_logo.png" alt="" class="img-platform">
-  <span class="LoginWithPlatformSpan">Zaloguj się przez facebook</span>
-</div>
+  <div id="orDiv">
+    <div class="orLine-line"></div>
+    <span id="orSpan" class="form-labels">lub</span>
+    <div class="orLine-line"></div>
+  </div>
 
+  <div class="LoginWithPlatformBtn" id="loginByPlatformG">
+    <img
+      src="../../../assets/login_google_logo.png"
+      alt=""
+      class="img-platform"
+    />
+    <span class="LoginWithPlatformSpan">Zaloguj się przez google</span>
+  </div>
 
-
-
+  <div class="LoginWithPlatformBtn" id="loginByPlatformF">
+    <img
+      src="../../../assets/login_facebook_logo.png"
+      alt=""
+      class="img-platform"
+    />
+    <span class="LoginWithPlatformSpan">Zaloguj się przez facebook</span>
+  </div>
 </main>

@@ -29,6 +29,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  user-select: none;
 }
 
 .contentP {
@@ -40,6 +41,7 @@
   justify-content: flex-start;
   align-items: center;
   padding: 0.5rem;
+  user-select: none;
 }
 
 #answerContainer {

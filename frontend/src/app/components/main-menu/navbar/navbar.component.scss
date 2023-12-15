@@ -1,7 +1,9 @@
 #containerNav {
   display: grid;
-  grid-template-columns: 0.5fr 0.5fr 1fr 1fr 0.5fr 0.5fr 0.5fr 0.1fr;
+  // grid-template-columns: 0.5fr 0.5fr 1fr 1fr 0.5fr 0.5fr 0.5fr 0.1fr;
+  grid-template-columns: 0.5fr 0.5fr 1fr 1fr 0.5fr 0.5fr auto 0.1fr;
   grid-template-rows: 1fr;
+  // grid-template-areas: "logo notes advices learnTogether chat followers  user-menu .";
   grid-template-areas: "logo notes advices learnTogether chat followers  user-menu .";
   background-color: #310b61;
   align-items: center;
@@ -128,9 +130,11 @@
   height: 100%;
   grid-area: user-menu;
   display: flex;
-  justify-content: flex-end;
+  // justify-content: flex-end;
+  justify-content: center;
   align-items: center;
   gap: 1rem;
+  // border: 1px solid red;
 }
 
 #avatar {
@@ -140,6 +144,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  // border: 1px solid yellowgreen;
 }
 
 #avatar-img {
@@ -155,7 +160,7 @@
   height: 1.2rem;
   font-family: "poppins", sans-serif;
   font-weight: 400;
-  font-size: 0.9rem;
+  font-size: 0.6rem;
   // background-color: paleturquoise;
   color: white;
 }
@@ -215,8 +220,6 @@
 
   #avatar-login-name {
     width: 4rem;
-    height: 1.2rem;
-    font-size: 0.8rem;
   }
 }
 
