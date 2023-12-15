@@ -1,7 +1,7 @@
 import { ObjectId } from "bson";
 export class Card {
-  question: string;
-  answer: string;
+  questions: Array<string>;
+  answers: Array<string>;
   note_id: ObjectId;
   author_id: ObjectId;
   published?: boolean;
@@ -9,16 +9,16 @@ export class Card {
   last_edit_date?: Date;
 
   constructor(
-    question: string,
-    answer: string,
+    questions: Array<string>,
+    answers: Array<string>,
     note_id: ObjectId,
     author_id: ObjectId,
     published?: boolean,
     shared_date?: Date,
     last_edit_date?: Date
   ) {
-    this.question = question;
-    this.answer = answer;
+    this.questions = questions;
+    this.answers = answers;
     this.note_id = note_id;
     this.author_id = author_id;
     this.published = published ? published : false;

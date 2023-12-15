@@ -11,32 +11,19 @@ import fs from 'fs';
 import path from 'path';
 
 /* TODO:
-4 - funkcja do wylogowywania
 5 - edycja endpointow zeby przyjmowaly token (czy to powinno byc na backu?)
 6 - czasowe tokeny
-7 - poprawa funkcji checkIfUserExists (powinno byc inne zapytanie do bazy niz get all users, bardziej cos jak sql'owe "like")
 8 - udokumentować wszystko
 9 - przerobic pozostale InsertUser (multiple etc)?
 
 */
-export async function checkIfUserExists(userEmail: string){
-	const result = await global.getAllItems('users');
+export async function checkIfUserExists(userLogin: string){
+	const result = await global.getItemsByField({"login": userLogin}, 'users');
 	let check = false;
-	result.forEach(function (element){
-				if(element.email == userEmail){
-					check = true;
-				}
-			});
-			return check;
-  // result.then((value) => {
-  //   value.forEach(function (element){
-	// 		if(element.email == userEmail){
-	// 			check = true;
-	// 			return check;
-	// 		}
-	// 	});		
-  // });
-	
+	if(result.length > 0){
+		check = true;
+	}
+	return check;
 }
 
 export function hashPassword(password: string){
@@ -47,11 +34,11 @@ export function verifyPassword(password: string, hash: string){
 	return passwordHash.verify(password, hash)
 }
 
-export async function login(email: string, password: string) {
+export async function login(login: string, password: string) {
 	const result = await global.getAllItems('users');
 	let user: User | undefined;
 	result.forEach(function (element){
-				if(element.email == email){
+				if(element.login == login){
 					user = element; 
 				}
 			});
@@ -66,33 +53,24 @@ export async function login(email: string, password: string) {
 	
 	const configJson =  JSON.parse(fs.readFileSync( path.resolve(__dirname, '../config.json'), 'utf8'));
 	const secret = configJson.secret;
-	const createdPayload = email + '.' + password; 
+	const createdPayload = {
+		"login": login,
+		"password": password
+	}
 	let token = jwt.sign(createdPayload, secret);
 	return token;
 }
 
-export async function logout(email: string, password: string) {
-	const result = await global.getAllItems('users');
-	let user: User | undefined;
-	result.forEach(function (element){
-				if(element.email == email){
-					user = element; 
-				}
-			});
-	if(user == undefined){
-		return false;
-	}
 
-	let check = verifyPassword(password, user.password);
-	if(check == false){
-		return false;
-	}
-	
+export function checkIfLogged(token: string){
 	const configJson =  JSON.parse(fs.readFileSync( path.resolve(__dirname, '../config.json'), 'utf8'));
 	const secret = configJson.secret;
-	const createdPayload = email + '.' + password; 
-	let token = jwt.sign(createdPayload, secret);
-	return token;
+	try{
+		const payload = jwt.verify(token, secret);
+		return payload;
+	}catch (error){
+		return false;
+	}
 }
 
 // ==========================

@@ -1,3 +1,5 @@
+//Zostawiam jakbyśmy jednak do tego wrócili, wystarczy odkomentować
+/*
 import { Console } from "console";
 import { ObjectId } from "bson";
 import express from "express";
@@ -37,8 +39,8 @@ export function getCardById(req: Request, res: Response) {
   let card: Card;
   result.then((value) => {
     card = new Card(
-			value.question, 
-			value.answer,
+			value.questions, 
+			value.answers,
 			value.note_id,
 			value.author_id,
 			value.published,
@@ -78,8 +80,8 @@ export function getCardsByQuery(req: Request, res: Response) {
   result.then((value) => {
     value.forEach((element: Card) => {
       card = new Card(
-				element.question, 
-				element.answer,
+				element.questions, 
+				element.answers,
 				element.note_id,
 				element.author_id,
 				element.published,
@@ -108,8 +110,8 @@ export function getCardsByQueriedId(req: Request, res: Response) {
   result.then((value) => {
     value.forEach((element: Card) => {
       card = new Card(
-				element.question, 
-				element.answer,
+				element.questions, 
+				element.answers,
 				element.note_id,
 				element.author_id,
 				element.published,
@@ -130,20 +132,28 @@ export function getCardsByQueriedId(req: Request, res: Response) {
 //  http://localhost:3000/card
 // example body:
 // {
-//     "question":"aaaaaa?"
-//     "answer":"xxxxxxxxx",
+//     "questions":[
+//        "aaaaaa?",
+//        "bbbbbb?",
+//        "cccccc?"
+//     ],
+//     "answers":[
+//        "xxxxxxxxx",
+//        "yyyyyyyyy",
+//        "zzzzzzzzz"
+//     ],
 // 		"note_id":"id",
 // 		"author_id":"id"
 //  }
 export function insertCard(req: Request, res: Response) {
 	const note_id = new ObjectId(req.body.note_id);
 	const author_id = new ObjectId(req.body.author_id);
-	const question= req.body.question;
-	const answer = req.body.answer;
+	const questions = req.body.questions;
+	const answers = req.body.answers;
 
   const card: Card = new Card(
-		question, 
-		answer,
+		questions, 
+		answers,
 		note_id,
 		author_id,
 		req.body.published
@@ -169,14 +179,30 @@ export function insertCard(req: Request, res: Response) {
 // example body:
 // [
 // {
-//     "question":"111111?",
-//     "answer":"999999",
+//     "questions":[
+//        "111111?",
+//        "2222?",
+//        "333333?"
+//     ],
+//     "answers":[
+//        "999999",
+//        "8888888",
+//        "7777777"
+//     ],
 //		"note_id":"id",
 //		"author_id":"id"
 //  },
 // {
-//     "question":"aaaaaa?",,
-//     "answer":"xxxxxxxxx",
+//     "questions":[
+//        "aaaaaa?",
+//        "bbbbbb?",
+//        "cccccc?"
+//     ],
+//     "answers":[
+//        "xxxxxxxxx",
+//        "yyyyyyyyy",
+//        "zzzzzzzzz"
+//     ],
 //		"note_id":"id",
 //		"author_id":"id"
 //  }
@@ -185,16 +211,16 @@ export function insertMultipleCards(req: Request, res: Response) {
   const cards = req.body;
   let note_id = new ObjectId();
   let author_id = new ObjectId();
-	let question =[];
-	let answer = [];
+	let questions =[];
+	let answers = [];
   let counter = 0;
   cards.forEach((element: Card) => {
 	
 		note_id = new ObjectId(element.note_id);
 		author_id = new ObjectId(element.author_id);
     const card: Card = new Card(
-			element.question, 
-			element.answer,
+			element.questions, 
+			element.answers,
 			note_id,
 			author_id,
 			element.published
@@ -294,7 +320,7 @@ export function deleteCardsByQuery(req: Request, res: Response) {
 // deletes multiple cards by id_field and value of objectId
 // /cardsid/{field}&{value}
 // example:
-//  http://localhost:3000/cardid/note_id&6490d9efdfd298aad1e8f134
+//  http://localhost:3000/notesid/note_id&6490d9efdfd298aad1e8f134
 export function deleteCardsByQueriedId(req: Request, res: Response) {
   const field = req.params.field;
   const value = req.params.value;
@@ -320,8 +346,16 @@ export function deleteCardsByQueriedId(req: Request, res: Response) {
 //  http://localhost:3000/card/6490d3e5982efd2fe9136154
 // example body:
 // {
-//     "question":"aaaaaa?",
-//     "answer":"xxxxxxxxx",
+//     "questions":[
+//        "aaaaaa?",
+//        "bbbbbb?",
+//        "cccccc?"
+//     ],
+//     "answers":[
+//        "xxxxxxxxx",
+//        "yyyyyyyyy",
+//        "zzzzzzzzz"
+//     ],
 //		"note_id":"id",
 //		"author_id":"id"
 //  }
@@ -363,8 +397,16 @@ export function updateCard(req: Request, res: Response) {
 //      "6490d9fddfd298aad1e8f136"]
 //     ,
 //     "query":{
-//     "question":"aaaaaa?",
-//     "answer":"xxxxxxxxx",
+//     "questions":[
+//        "aaaaaa?",
+//        "bbbbbb?",
+//        "cccccc?"
+//     ],
+//     "answers":[
+//        "xxxxxxxxx",
+//        "yyyyyyyyy",
+//        "zzzzzzzzz"
+//     ],
 //		"note_id":"id",
 //		"author_id":"id"
 //  }
@@ -405,8 +447,16 @@ export function updateMultipleCards(req: Request, res: Response) {
 //  http://localhost:3000/cards/published&true
 // example body:
 // {
-//     "question":"aaaaaa?",
-//     "answer":"xxxxxxxxx",
+//     "questions":[
+//        "aaaaaa?",
+//        "bbbbbb?",
+//        "cccccc?"
+//     ],
+//     "answers":[
+//        "xxxxxxxxx",
+//        "yyyyyyyyy",
+//        "zzzzzzzzz"
+//     ],
 //		"note_id":"id",
 //		"author_id":"id"
 //  }
@@ -492,8 +542,16 @@ export function updateCardsByQueriedId(req: Request, res: Response) {
 //  http://localhost:3000/card/6490d3e5982efd2fe9136154
 // example body:
 // {
-//     "question":"aaaaaa?",
-//     "answer":"xxxxxxxxx",
+//     "questions":[
+//        "aaaaaa?",
+//        "bbbbbb?",
+//        "cccccc?"
+//     ],
+//     "answers":[
+//        "xxxxxxxxx",
+//        "yyyyyyyyy",
+//        "zzzzzzzzz"
+//     ],
 //		"note_id":"id",
 //		"author_id":"id"
 //  }
@@ -501,10 +559,15 @@ export function replaceCard(req: Request, res: Response) {
   const id = req.params.id;
   const query = req.body;
 
+	if(!Array.isArray(query.questions) || !Array.isArray(query.answers) || query.questions.length == 0 || query.answers.length == 0){
+		res.status(400).send("Error");
+		return false;
+	}
+
   let card: Card;
   card = new Card(
-		query.question, 
-		query.answer,
+		query.questions, 
+		query.answers,
 		query.note_id,
 		query.author_id,
 		query.published
@@ -530,8 +593,8 @@ export function stealCard(req: Request, res: Response) {
   result.then((value) => {
     let card: Card;
     card = new Card(
-			value.value.question, 
-			value.value.answer,
+			value.value.questions, 
+			value.value.answers,
 			value.value.note_id,
 			value.value.author_id,
 			value.value.published,
@@ -541,3 +604,4 @@ export function stealCard(req: Request, res: Response) {
     res.status(201).send(card);
   });
 }
+*/
