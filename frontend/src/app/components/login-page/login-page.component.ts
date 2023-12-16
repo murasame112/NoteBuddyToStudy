@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { takeUntil } from 'rxjs';
 import { CustomValidators } from 'src/app/helpers/custom-validators';
 import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
 import { Login } from 'src/app/models/login.model';
-import { UsersService } from 'src/app/services/users.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login-page',
@@ -14,7 +15,7 @@ import { UsersService } from 'src/app/services/users.service';
 export class LoginPageComponent extends Unsubscribe implements OnInit {
   loginForm!: FormGroup;
 
-  constructor(private usersService: UsersService) {
+  constructor(private authService: AuthService, private router: Router) {
     super();
   }
 
@@ -36,23 +37,31 @@ export class LoginPageComponent extends Unsubscribe implements OnInit {
   login(data: Login) {
     console.log(`login: ${data.login} hasło: ${data.password}`);
 
-    let login: any = {
-      email: data.login,
+    let login: Login = {
+      login: data.login,
       password: data.password,
     };
 
     if (this.loginForm.valid) {
-      console.log('logujemy');
-    } else {
-      console.log('nie logujemy');
-    }
+      console.log(login);
+      this.authService
+        .loginUser(login)
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe((result: any) => {
+          if (result != 'false') {
+            console.log('login result:', result);
+            localStorage.setItem('Token', result);
 
-    // console.log(login);
-    // this.usersService
-    //   .loginUser(login)
-    //   .pipe(takeUntil(this.unsubscribe$))
-    //   .subscribe((result: any) => {
-    //     console.log('login result:', result);
-    //   });
+            setTimeout(() => {
+              this.router.navigateByUrl('/notes');
+            }, 1000);
+          } else {
+            console.log('Błędny login lub hasło');
+            this.loginForm
+              .get('password')
+              ?.setErrors({ wrongLoginOrPassword: true });
+          }
+        });
+    }
   }
 }

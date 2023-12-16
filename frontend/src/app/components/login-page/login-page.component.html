@@ -92,6 +92,14 @@
         </div>
       </ng-container>
 
+      <ng-container
+        *ngIf="loginForm.get('password')!.hasError('wrongLoginOrPassword')"
+      >
+        <div class="validators">
+          <span>&#x2022; Login lub hasło jest niepoprawne</span>
+        </div>
+      </ng-container>
+
       <br /><br />
       <input
         type="submit"

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { QuillModule } from 'ngx-quill';
@@ -32,6 +32,7 @@ import { HintModelComponent } from './components/main-menu/functions/hints/hint-
 import { CardsComponent } from './components/main-menu/functions/cards/cards.component';
 import { CardModelComponent } from './components/main-menu/functions/cards/card-model/card-model.component';
 import { CardMyCardsModelComponent } from './components/main-menu/functions/cards/card-my-cards-model/card-my-cards-model.component';
+import { AuthInterceptor } from './services/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,13 @@ import { CardMyCardsModelComponent } from './components/main-menu/functions/card
     QuillModule.forRoot(),
     FormsModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

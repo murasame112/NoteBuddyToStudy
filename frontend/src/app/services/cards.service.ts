@@ -46,4 +46,9 @@ export class CardsService {
     const url = `${this.apiUrl}/card/${id}`;
     return this.http.delete(url);
   }
+
+  getNewCardsVersion(): Observable<any[]> {
+    const url = `${this.apiUrl}/cards`;
+    return this.http.get<any[]>(url);
+  }
 }

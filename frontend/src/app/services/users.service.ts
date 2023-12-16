@@ -54,9 +54,4 @@ export class UsersService {
       })
     );
   }
-
-  loginUser(loginData: any): Observable<string> {
-    const url = `${this.apiUrl}/login`;
-    return this.http.post(url, loginData, { responseType: 'text' });
-  }
 }

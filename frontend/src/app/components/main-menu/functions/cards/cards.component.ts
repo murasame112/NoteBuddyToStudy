@@ -54,13 +54,16 @@ export class CardsComponent extends Unsubscribe implements OnInit {
   }
 
   ngOnInit(): void {
-    this.activatedRoute.params
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((param) => {
-        this.noteId = param['id'];
-        this.getCards(this.noteId);
-      });
-    this.findNoteById(this.noteId);
+    // this.activatedRoute.params
+    //   .pipe(takeUntil(this.unsubscribe$))
+    //   .subscribe((param) => {
+    //     this.noteId = param['id'];
+    //     this.getCards(this.noteId);
+    //   });
+    // this.findNoteById(this.noteId);
+
+    //?
+    this.getNewVCards();
   }
 
   findNoteById(id: string) {
@@ -210,5 +213,17 @@ export class CardsComponent extends Unsubscribe implements OnInit {
       this.transformUserCardsToShowCards(this.userCards);
       console.log(this.userCardsToShow);
     }
+  }
+
+  //? Test nowej wersji fiszek
+
+  getNewVCards() {
+    this.cardService
+      .getNewCardsVersion()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((cards) => {
+        console.log('te nowe fiszki', cards);
+        this.isLoading = false;
+      });
   }
 }
