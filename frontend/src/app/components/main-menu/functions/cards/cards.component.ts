@@ -29,9 +29,9 @@ export class CardsComponent extends Unsubscribe implements OnInit {
   cardsToShow: CardsToShow[] = [];
   isLoading: boolean = true;
   //example ArthasMenethil
-  userId: string = '6571f1194eb34b255210866e';
+  // userId: string = '6571f1194eb34b255210866e';
   //sarahKerrigan ma fiszki
-  // userId: string = '65328d32a6bc723aa7284771';
+  userId: string = '65328d32a6bc723aa7284771';
   //fiszki które naleza do użytkownika
   userCards: Card[] = [];
   //zmienione fiszki ktore naleza do  uzytkownika i moga zostać wyswietlone na stronie

@@ -1,0 +1,211 @@
+#container {
+  width: 40rem;
+  height: 14rem;
+  // border: 2px solid orange;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#editCardForm {
+  width: 40rem;
+  height: 12rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #dddddd;
+  border: 1px solid #cccbcb;
+  border-radius: 1rem;
+  gap: 2rem;
+}
+
+#cardContent {
+  width: 30rem;
+  height: 12rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  // gap: 1rem;
+  // border: 1px solid yellowgreen;
+}
+
+.questionAndAnswerContainer {
+  // border: 1px solid red;
+  width: 30rem;
+  height: 6rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+}
+
+.cardSpan {
+  // border: 1px solid rgb(241, 154, 169);
+  width: 7rem;
+}
+
+.cardTextarea {
+  background-color: #d1d1d1;
+  border: 1px solid #bdbcbc;
+  border-radius: 0.5rem;
+  height: 4rem;
+  transition: 60ms ease-in;
+  width: 21rem;
+  resize: none;
+  padding: 0.5rem;
+}
+
+.cardTextarea:focus {
+  border: 1px solid #310b61;
+  background-color: #cfcece;
+  outline: 1px solid #310b61;
+  caret-color: #310b61;
+}
+
+#cardBtnsContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  // border: 1px solid red;
+}
+
+.cardBtns {
+  text-decoration: none;
+  color: white;
+  border-radius: 2rem;
+  width: 5rem;
+  height: 2rem;
+  font-size: 0.8rem;
+}
+
+#editCardBtn {
+  background-color: #f89e30;
+  border: 0.1rem solid #f3a749;
+}
+
+#editCardBtn:hover {
+  background-color: #f39d34;
+  border: 0.1rem solid #f3a749;
+}
+
+#deleteCardBtn {
+  background-color: rgba(218, 70, 96, 1);
+  border: 0.1rem solid rgba(218, 70, 96, 1);
+}
+
+#deleteCardBtn:hover {
+  background-color: rgb(221, 75, 102);
+  border: rgb(221, 75, 102);
+}
+
+.invalid {
+  border: 1px solid rgb(255, 0, 0);
+  border-radius: 0.4rem;
+}
+
+select.invalid {
+  outline: 1px solid rgb(255, 0, 0);
+  border-radius: 0.4rem;
+}
+
+@media (max-width: 700px) {
+  #container {
+    width: 30rem;
+    height: 18rem;
+  }
+
+  #editCardForm {
+    width: 30rem;
+    height: 16rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  #cardContent {
+    width: 30rem;
+    height: 11rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .questionAndAnswerContainer {
+    width: 30rem;
+    height: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .cardTextarea {
+    width: 20rem;
+  }
+
+  #cardBtnsContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@media (max-width: 500px) {
+  #container {
+    width: 25rem;
+    height: 18rem;
+  }
+
+  #editCardForm {
+    width: 25rem;
+    height: 16rem;
+  }
+
+  #cardContent {
+    width: 25rem;
+    height: 11rem;
+  }
+
+  .questionAndAnswerContainer {
+    width: 25rem;
+    height: 5rem;
+  }
+
+  .cardTextarea {
+    width: 15rem;
+  }
+}
+
+@media (max-width: 440px) {
+  #container {
+    width: 18rem;
+    height: 18rem;
+  }
+
+  #editCardForm {
+    width: 18rem;
+    height: 16rem;
+  }
+
+  #cardContent {
+    width: 18rem;
+    height: 11rem;
+  }
+
+  .questionAndAnswerContainer {
+    width: 18rem;
+    height: 5rem;
+    gap: 0;
+  }
+
+  .cardTextarea {
+    width: 10rem;
+  }
+}

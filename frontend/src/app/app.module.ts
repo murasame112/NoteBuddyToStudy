@@ -31,6 +31,7 @@ import { HintsComponent } from './components/main-menu/functions/hints/hints.com
 import { HintModelComponent } from './components/main-menu/functions/hints/hint-model/hint-model.component';
 import { CardsComponent } from './components/main-menu/functions/cards/cards.component';
 import { CardModelComponent } from './components/main-menu/functions/cards/card-model/card-model.component';
+import { CardMyCardsModelComponent } from './components/main-menu/functions/cards/card-my-cards-model/card-my-cards-model.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { CardModelComponent } from './components/main-menu/functions/cards/card-
     HintModelComponent,
     CardsComponent,
     CardModelComponent,
+    CardMyCardsModelComponent,
   ],
   imports: [
     BrowserModule,
