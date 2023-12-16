@@ -683,13 +683,13 @@ export function stealUser(req: Request, res: Response) {
 // /login
 // example body:
 //   {
-    //  "email":"custom email",
+    //  "login":"custom login",
     //  "password":"custom password",
 // }
 // example:
 //  http://localhost:3000/login
 export function loginUser(req: Request, res: Response) {
-  const result = loginService.login(req.body.email, req.body.password);
+  const result = loginService.login(req.body.login, req.body.password);
 	result.then((value) => {
     res.send(value);
   });
