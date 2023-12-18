@@ -5,6 +5,7 @@ import e, { Request, Response } from "express";
 import { MetaNotification } from "../models/meta-notification_model";
 import * as global from "../global_database_functions";
 import * as globalTools from "../global_tools";
+import * as loginService from "../services/login"
 
 const table_name = "meta-notifications";
 
@@ -13,6 +14,13 @@ const table_name = "meta-notifications";
 // example:
 //  http://localhost:3000/metanotifcations
 export function getAllMetaNotifications(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const result = global.getAllItems(table_name);
   result.then((value) => {
     res.send(value);
@@ -24,6 +32,13 @@ export function getAllMetaNotifications(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/metanotifcation/648c6400e388683aeb23d331
 export function getMetaNotificationById(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const id = req.params.id;
   const result = global.getItemById(id, table_name);
   let metanotifcation: MetaNotification;
@@ -44,6 +59,13 @@ export function getMetaNotificationById(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/metanotifcations/published&true
 export function getMetaNotificationsByQuery(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const field = req.params.field;
   let value: any;
 	value = req.params.value;
@@ -86,6 +108,13 @@ export function getMetaNotificationsByQuery(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/metanotifcationsid/category_id&6490d9efdfd298aad1e8f134
 export function getMetaNotificationsByQueriedId(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const field = req.params.field;
   const value = req.params.value;
   const objValue = new ObjectId(value);
@@ -122,6 +151,13 @@ export function getMetaNotificationsByQueriedId(req: Request, res: Response) {
 	// "value":"newUser"
 // }
 export function insertMetaNotification(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const notification_id = new ObjectId(req.body.notification_id);
   const user_id = new ObjectId(req.body.user_id);
 
@@ -162,6 +198,13 @@ export function insertMetaNotification(req: Request, res: Response) {
 // }
 //  ]
 export function insertMultipleMetaNotifications(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const metanotifcations = req.body;
   let counter = 0;
   let notification_id = new ObjectId();
@@ -194,6 +237,13 @@ export function insertMultipleMetaNotifications(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/metanotifcation/6490d3e5982efd2fe9136154
 export function deleteMetaNotification(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const id = req.params.id;
   const result = global.deleteItemById(id, table_name);
   result.then((value) => {
@@ -218,6 +268,13 @@ export function deleteMetaNotification(req: Request, res: Response) {
 //  "6490d9fddfd298aad1e8f136"]
 
 export function deleteMultipleMetaNotifications(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const ids = req.body;
   let counter = 0;
   ids.forEach((element: string) => {
@@ -239,6 +296,13 @@ export function deleteMultipleMetaNotifications(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/metanotifcations/published&true
 export function deleteMetaNotificationsByQuery(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const field = req.params.field;
   let value: any;
 	value = req.params.value;
@@ -273,6 +337,13 @@ export function deleteMetaNotificationsByQuery(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/metanotificationsid/user_id&6490d9efdfd298aad1e8f134
 export function deleteMetaNotificationsByQueriedId(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const field = req.params.field;
   const value = req.params.value;
   const objValue = new ObjectId(value);
@@ -291,6 +362,13 @@ export function deleteMetaNotificationsByQueriedId(req: Request, res: Response) 
 
 
 export function updateMetaNotification(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const id = req.params.id;
   let query = req.body;
   if (typeof query.notification_id !== "undefined") {
@@ -330,6 +408,13 @@ export function updateMetaNotification(req: Request, res: Response) {
 //     }
 //  }
 export function updateMultipleMetaNotifications(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const ids = req.body.ids;
   let updateQuery = req.body.query;
   if (typeof updateQuery.notification_id !== "undefined") {
@@ -366,6 +451,13 @@ export function updateMultipleMetaNotifications(req: Request, res: Response) {
 	// "value":"newUser"
 // }
 export function updateMetaNotificationsByQuery(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const field = req.params.field;
   let value: any;
 	value = req.params.value;
@@ -409,6 +501,13 @@ export function updateMetaNotificationsByQuery(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/metanotificationsid/user_id&6490d9efdfd298aad1e8f134
 export function updateMetaNotificationsByQueriedId(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const field = req.params.field;
   let value = req.params.value;
   const objValue = new ObjectId(value);
@@ -445,6 +544,13 @@ export function updateMetaNotificationsByQueriedId(req: Request, res: Response) 
 	// "value":"newUser"
 // }
 export function replaceMetaNotification(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const id = req.params.id;
   const query = req.body;
   let metanotifcation: MetaNotification;
@@ -471,6 +577,13 @@ export function replaceMetaNotification(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/stealmetanotifcation/6490d3e5982efd2fe9136154
 export function stealMetaNotification(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const id = req.params.id;
   const result = global.stealItemById(id, table_name);
   result.then((value) => {
