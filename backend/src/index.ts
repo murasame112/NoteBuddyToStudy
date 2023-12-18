@@ -16,8 +16,7 @@ import * as hintEndpoints from "./endpoints/hint_endpoints";
 import * as logEndpoints from "./endpoints/log_endpoints";
 
 const app = express();
-app.use(express.json());
-
+app.use(express.json({ limit: '100mb' }));
 //===============================CORS===============================
 
 const cors = require("cors");
@@ -29,7 +28,6 @@ app.use(cors());
 
 //   })
 // )
-
 
 // ============== NOTE ENDPOINTS ==============
 
@@ -58,7 +56,7 @@ app.get("/stealuser/:id", userEndpoints.stealUser);
 app.get("/users", userEndpoints.getAllUsers);
 app.get("/users/:field&:value", userEndpoints.getUsersByQuery);
 app.get("/usersid/:field&:value", userEndpoints.getUsersByQueriedId);
-app.post("/user", userEndpoints.insertUser);
+app.post("/user",  userEndpoints.insertUser);
 app.post("/users", userEndpoints.insertMultipleUsers);
 app.delete("/user/:id", userEndpoints.deleteUser);
 app.delete("/users", userEndpoints.deleteMultipleUsers);
