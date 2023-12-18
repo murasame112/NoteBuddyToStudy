@@ -4,6 +4,7 @@ import e, { Request, Response } from "express";
 import { Category } from "../models/category_model";
 import * as global from "../global_database_functions";
 import * as globalTools from "../global_tools";
+import * as loginService from "../services/login"
 
 const table_name = "categories";
 
@@ -12,6 +13,13 @@ const table_name = "categories";
 // example:
 //  http://localhost:3000/category/648c6400e388683aeb23d331
 export function getCategoryById(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const id = req.params.id;
   const result = global.getItemById(id, table_name);
   let cat: Category;
@@ -26,6 +34,13 @@ export function getCategoryById(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/categories
 export function getAllCategories(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const result = global.getAllItems(table_name);
   result.then((value) => {
     res.send(value);
@@ -37,6 +52,13 @@ export function getAllCategories(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/categories/name&custom_name
 export function getCategoriesByQuery(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const field = req.params.field;
   let value = req.params.value;
 
@@ -71,6 +93,13 @@ export function getCategoriesByQuery(req: Request, res: Response) {
 //      "name":"custom name",
 // }
 export function insertCategory(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const cat: Category = new Category(req.body.name);
   const result = global.insertItem(cat, table_name);
   result.then((value) => {
@@ -99,6 +128,13 @@ export function insertCategory(req: Request, res: Response) {
 // }
 //  ]
 export function insertMultipleCategories(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const categories = req.body;
   let counter = 0;
   categories.forEach((element: Category) => {
@@ -122,6 +158,13 @@ export function insertMultipleCategories(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/category/6490d3e5982efd2fe9136154
 export function deleteCategory(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const id = req.params.id;
   const result = global.deleteItemById(id, table_name);
   result.then((value) => {
@@ -146,6 +189,13 @@ export function deleteCategory(req: Request, res: Response) {
 //  "6490d9fddfd298aad1e8f136"]
 
 export function deleteMultipleCategories(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const ids = req.body;
   let counter = 0;
   ids.forEach((element: string) => {
@@ -167,6 +217,13 @@ export function deleteMultipleCategories(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/categories/name&custom_name
 export function deleteCategoriesByQuery(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const field = req.params.field;
   let value = req.params.value;
 
@@ -200,6 +257,13 @@ export function deleteCategoriesByQuery(req: Request, res: Response) {
 //      "name":"custom name"
 // }
 export function updateCategory(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const id = req.params.id;
   const query = req.body;
   const result = global.updateItemById(id, table_name, query);
@@ -231,6 +295,13 @@ export function updateCategory(req: Request, res: Response) {
 //     }
 //  }
 export function updateMultipleCategories(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const ids = req.body.ids;
   const updateQuery = req.body.query;
   let counter = 0;
@@ -259,6 +330,13 @@ export function updateMultipleCategories(req: Request, res: Response) {
 //      "name":"custom name"
 // }
 export function updateCategoriesByQuery(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const field = req.params.field;
   let value = req.params.value;
 
@@ -293,6 +371,13 @@ export function updateCategoriesByQuery(req: Request, res: Response) {
 //      "name":"custom name"
 // }
 export function replaceCategory(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const id = req.params.id;
   const query = req.body;
   let category: Category;
@@ -313,6 +398,13 @@ export function replaceCategory(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/stealcategory/6490d3e5982efd2fe9136154
 export function stealCategory(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const id = req.params.id;
   const result = global.stealItemById(id, table_name);
   result.then((value) => {
