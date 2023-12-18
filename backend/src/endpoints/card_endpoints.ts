@@ -14,10 +14,10 @@ const table_name = "cards";
 // example:
 //  http://localhost:3000/cards
 export function getAllCards(req: Request, res: Response) {
-	const authData = req.headers.authorization
-	const token = authData?.split(' ')[1] ?? ''
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
 	if(!loginService.checkIfLogged(token)){
-		res.status(400).send("Error - user not logged");
+		res.status(401).send("Error - unauthorized");
 		return false;
 	}
 	const result = global.getAllItems(table_name);

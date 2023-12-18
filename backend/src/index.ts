@@ -5,6 +5,7 @@ import { ObjectId } from "bson";
 
 import * as noteEndpoints from "./endpoints/note_endpoints";
 import * as userEndpoints from "./endpoints/user_endpoints";
+import * as loginEndpoints from "./endpoints/login_endpoints";
 import * as categoryEndpoints from "./endpoints/category_endpoints";
 import * as subcategoryEndpoints from "./endpoints/subcategory_endpoints";
 import * as notificationEndpoints from "./endpoints/notification_endpoints";
@@ -14,6 +15,7 @@ import * as cardCollectionEndpoints from "./endpoints/card-collection_endpoints"
 import * as groupEndpoints from "./endpoints/group_endpoints";
 import * as hintEndpoints from "./endpoints/hint_endpoints";
 import * as logEndpoints from "./endpoints/log_endpoints";
+
 
 const app = express();
 app.use(express.json({ limit: '100mb' }));
@@ -50,7 +52,6 @@ app.put("/note/:id", noteEndpoints.replaceNote);
 
 // ============== USER ENDPOINTS ==============
 
-app.post("/login", userEndpoints.loginUser);
 app.get("/user/:id", userEndpoints.getUserById);
 app.get("/stealuser/:id", userEndpoints.stealUser);
 app.get("/users", userEndpoints.getAllUsers);
@@ -67,6 +68,11 @@ app.patch("/users/:field&:value", userEndpoints.updateUsersByQuery);
 app.patch("/users", userEndpoints.updateMultipleUsers);
 app.patch("/usersid/:field&:value", userEndpoints.updateUsersByQueriedId);
 app.put("/user/:id", userEndpoints.replaceUser);
+
+// ============== LOGIN ENDPOINTS ==============
+
+app.post("/login", loginEndpoints.loginUser);
+app.get("/extract", loginEndpoints.extractUser);
 
 // ============== CATEGORY ENDPOINTS ==============
 

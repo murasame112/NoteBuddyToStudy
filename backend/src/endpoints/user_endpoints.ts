@@ -676,21 +676,3 @@ export function stealUser(req: Request, res: Response) {
     res.status(201).send(user);
   });
 }
-
-// === login endpoints ============
-
-// logs user in. returns token if successful, otherwise false
-// /login
-// example body:
-//   {
-    //  "login":"custom login",
-    //  "password":"custom password",
-// }
-// example:
-//  http://localhost:3000/login
-export function loginUser(req: Request, res: Response) {
-  const result = loginService.login(req.body.login, req.body.password);
-	result.then((value) => {
-    res.send(value);
-  });
-}
