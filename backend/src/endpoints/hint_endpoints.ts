@@ -5,6 +5,7 @@ import e, { Request, Response } from "express";
 import { Hint } from "../models/hint_model";
 import * as global from "../global_database_functions";
 import * as globalTools from "../global_tools";
+import * as loginService from "../services/login"
 
 const table_name = "hints";
 
@@ -13,6 +14,13 @@ const table_name = "hints";
 // example:
 //  http://localhost:3000/hints
 export function getAllHints(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const result = global.getAllItems(table_name);
   result.then((value) => {
     res.send(value);
@@ -24,6 +32,13 @@ export function getAllHints(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/hint/648c6400e388683aeb23d331
 export function getHintById(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const id = req.params.id;
   const result = global.getItemById(id, table_name);
   let hint: Hint;
@@ -38,6 +53,13 @@ export function getHintById(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/hints/published&true
 export function getHintsByQuery(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const field = req.params.field;
   let value = req.params.value;
 
@@ -72,6 +94,13 @@ export function getHintsByQuery(req: Request, res: Response) {
 //      "content":"Wyłącz wszystkie urządzenia, które przeszkadzają ci podczas nauki."
 // }
 export function insertHint(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const hint: Hint = new Hint(req.body.content);
   const result = global.insertItem(hint, table_name);
   result.then((value) => {
@@ -100,6 +129,13 @@ export function insertHint(req: Request, res: Response) {
 // }
 //  ]
 export function insertMultipleHints(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const hints = req.body;
   let counter = 0;
   hints.forEach((element: Hint) => {
@@ -123,6 +159,13 @@ export function insertMultipleHints(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/hint/6490d3e5982efd2fe9136154
 export function deleteHint(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const id = req.params.id;
   const result = global.deleteItemById(id, table_name);
   result.then((value) => {
@@ -147,6 +190,13 @@ export function deleteHint(req: Request, res: Response) {
 //  "6490d9fddfd298aad1e8f136"]
 
 export function deleteMultipleHints(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const ids = req.body;
   let counter = 0;
   ids.forEach((element: string) => {
@@ -168,6 +218,13 @@ export function deleteMultipleHints(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/hints/published&true
 export function deleteHintsByQuery(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const field = req.params.field;
   let value = req.params.value;
 
@@ -201,6 +258,13 @@ export function deleteHintsByQuery(req: Request, res: Response) {
 //      "content":"Wyłącz wszystkie urządzenia, które przeszkadzają ci podczas nauki."
 // }
 export function updateHint(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const id = req.params.id;
   const query = req.body;
   const result = global.updateItemById(id, table_name, query);
@@ -232,6 +296,13 @@ export function updateHint(req: Request, res: Response) {
 //     }
 //  }
 export function updateMultipleHints(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const ids = req.body.ids;
   const updateQuery = req.body.query;
   let counter = 0;
@@ -260,6 +331,13 @@ export function updateMultipleHints(req: Request, res: Response) {
 //      "content":"Wyłącz wszystkie urządzenia, które przeszkadzają ci podczas nauki."
 // }
 export function updateHintsByQuery(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const field = req.params.field;
   let value = req.params.value;
 	
@@ -294,6 +372,13 @@ export function updateHintsByQuery(req: Request, res: Response) {
 //      "content":"Wyłącz wszystkie urządzenia, które przeszkadzają ci podczas nauki."
 // }
 export function replaceHint(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const id = req.params.id;
   const query = req.body;
   let hint: Hint;
@@ -314,6 +399,13 @@ export function replaceHint(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/stealhint/6490d3e5982efd2fe9136154
 export function stealHint(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const id = req.params.id;
   const result = global.stealItemById(id, table_name);
   result.then((value) => {
