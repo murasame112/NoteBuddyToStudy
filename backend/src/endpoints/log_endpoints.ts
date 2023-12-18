@@ -6,6 +6,7 @@ import { Log } from "../models/log_model";
 import * as global from "../global_database_functions";
 import { Type } from "../enums/log_type_enum";
 import * as globalTools from "../global_tools";
+import * as loginService from "../services/login"
 
 const table_name = "logs";
 
@@ -14,6 +15,13 @@ const table_name = "logs";
 // example:
 //  http://localhost:3000/logs
 export function getAllLogs(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const result = global.getAllItems(table_name);
   result.then((value) => {
     res.send(value);
@@ -25,6 +33,13 @@ export function getAllLogs(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/log/648c6400e388683aeb23d331
 export function getLogById(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const id = req.params.id;
   const result = global.getItemById(id, table_name);
   let log: Log;
@@ -39,6 +54,13 @@ export function getLogById(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/logs/published&true
 export function getLogsByQuery(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const field = req.params.field;
   let value: any; 
 	value = req.params.value;
@@ -81,6 +103,13 @@ export function getLogsByQuery(req: Request, res: Response) {
 //      "content":"Serce przestało działać"
 // }
 export function insertLog(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const log: Log = new Log(req.body.type, req.body.content);
   const result = global.insertItem(log, table_name);
   result.then((value) => {
@@ -111,6 +140,13 @@ export function insertLog(req: Request, res: Response) {
 // }
 //  ]
 export function insertMultipleLogs(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const logs = req.body;
   let counter = 0;
   logs.forEach((element: Log) => {
@@ -134,6 +170,13 @@ export function insertMultipleLogs(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/log/6490d3e5982efd2fe9136154
 export function deleteLog(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const id = req.params.id;
   const result = global.deleteItemById(id, table_name);
   result.then((value) => {
@@ -158,6 +201,13 @@ export function deleteLog(req: Request, res: Response) {
 //  "6490d9fddfd298aad1e8f136"]
 
 export function deleteMultipleLogs(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const ids = req.body;
   let counter = 0;
   ids.forEach((element: string) => {
@@ -179,6 +229,13 @@ export function deleteMultipleLogs(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/logs/published&true
 export function deleteLogsByQuery(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const field = req.params.field;
   let value: any; 
 	value = req.params.value;
@@ -220,6 +277,13 @@ export function deleteLogsByQuery(req: Request, res: Response) {
 //      "content":"Serce przestało działać"
 // }
 export function updateLog(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const id = req.params.id;
   const query = req.body;
 	query.date = globalTools.createDateFromString(query.date);
@@ -253,6 +317,13 @@ export function updateLog(req: Request, res: Response) {
 //     }
 //  }
 export function updateMultipleLogs(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const ids = req.body.ids;
   const updateQuery = req.body.query;
 	updateQuery.date = globalTools.createDateFromString(updateQuery.date);
@@ -283,6 +354,13 @@ export function updateMultipleLogs(req: Request, res: Response) {
 //      "content":"Serce przestało działać"
 // }
 export function updateLogsByQuery(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const field = req.params.field;
   let value: any; 
 	value = req.params.value;
@@ -326,6 +404,13 @@ export function updateLogsByQuery(req: Request, res: Response) {
 //      "content":"Serce przestało działać",
 // }
 export function replaceLog(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const id = req.params.id;
   const query = req.body;
   let log: Log;
@@ -346,6 +431,13 @@ export function replaceLog(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/steallog/6490d3e5982efd2fe9136154
 export function stealLog(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const id = req.params.id;
   const result = global.stealItemById(id, table_name);
   result.then((value) => {
