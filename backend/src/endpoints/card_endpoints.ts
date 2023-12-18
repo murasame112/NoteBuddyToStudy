@@ -20,6 +20,7 @@ export function getAllCards(req: Request, res: Response) {
 		res.status(401).send("Error - unauthorized");
 		return false;
 	}
+
 	const result = global.getAllItems(table_name);
 		result.then((value) => {
 			res.send(value);
@@ -32,6 +33,13 @@ export function getAllCards(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/card/648c6400e388683aeb23d331
 export function getCardById(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const id = req.params.id;
   const result = global.getItemById(id, table_name);
   let card: Card;
@@ -54,6 +62,13 @@ export function getCardById(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/cards/published&true
 export function getCardsByQuery(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const field = req.params.field;
   let value: any;
 	value = req.params.value;
@@ -97,6 +112,13 @@ export function getCardsByQuery(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/cardsid/category_id&6490d9efdfd298aad1e8f134
 export function getCardsByQueriedId(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const field = req.params.field;
   const value = req.params.value;
   const objValue = new ObjectId(value);
@@ -136,6 +158,13 @@ export function getCardsByQueriedId(req: Request, res: Response) {
 // 		"author_id":"id"
 //  }
 export function insertCard(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
 	const note_id = new ObjectId(req.body.note_id);
 	const author_id = new ObjectId(req.body.author_id);
 	const question= req.body.question;
@@ -182,6 +211,13 @@ export function insertCard(req: Request, res: Response) {
 //  }
 //  ]
 export function insertMultipleCards(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const cards = req.body;
   let note_id = new ObjectId();
   let author_id = new ObjectId();
@@ -218,6 +254,13 @@ export function insertMultipleCards(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/card/6490d3e5982efd2fe9136154
 export function deleteCard(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const id = req.params.id;
   const result = global.deleteItemById(id, table_name);
   result.then((value) => {
@@ -242,6 +285,13 @@ export function deleteCard(req: Request, res: Response) {
 //  "6490d9fddfd298aad1e8f136"]
 
 export function deleteMultipleCards(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const ids = req.body;
   let counter = 0;
   ids.forEach((element: string) => {
@@ -263,6 +313,13 @@ export function deleteMultipleCards(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/cards/published&true
 export function deleteCardsByQuery(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const field = req.params.field;
   let value: any;
 	value = req.params.value;
@@ -296,6 +353,13 @@ export function deleteCardsByQuery(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/cardid/note_id&6490d9efdfd298aad1e8f134
 export function deleteCardsByQueriedId(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const field = req.params.field;
   const value = req.params.value;
   const objValue = new ObjectId(value);
@@ -326,6 +390,13 @@ export function deleteCardsByQueriedId(req: Request, res: Response) {
 //		"author_id":"id"
 //  }
 export function updateCard(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const id = req.params.id;
   const query = req.body;
 	if (typeof query.note_id !== "undefined") {
@@ -370,6 +441,13 @@ export function updateCard(req: Request, res: Response) {
 //  }
 //  }
 export function updateMultipleCards(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const ids = req.body.ids;
 	let updateQuery = req.body.query;
   if (typeof updateQuery.note_id !== "undefined") {
@@ -411,6 +489,13 @@ export function updateMultipleCards(req: Request, res: Response) {
 //		"author_id":"id"
 //  }
 export function updateCardsByQuery(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const field = req.params.field;
 	let value: any; 
 	value = req.params.value;
@@ -456,6 +541,13 @@ export function updateCardsByQuery(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/cardsid/user_id&6490d9efdfd298aad1e8f134
 export function updateCardsByQueriedId(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const field = req.params.field;
   let value = req.params.value;
   const objValue = new ObjectId(value);
@@ -498,6 +590,13 @@ export function updateCardsByQueriedId(req: Request, res: Response) {
 //		"author_id":"id"
 //  }
 export function replaceCard(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const id = req.params.id;
   const query = req.body;
 
@@ -525,6 +624,13 @@ export function replaceCard(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/stealcard/6490d3e5982efd2fe9136154
 export function stealCard(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const id = req.params.id;
   const result = global.stealItemById(id, table_name);
   result.then((value) => {
