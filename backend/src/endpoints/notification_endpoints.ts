@@ -4,6 +4,7 @@ import e, { Request, Response } from "express";
 import { Notification } from "../models/notification_model";
 import * as global from "../global_database_functions";
 import * as globalTools from "../global_tools";
+import * as loginService from "../services/login"
 
 const table_name = "notifications";
 
@@ -12,6 +13,13 @@ const table_name = "notifications";
 // example:
 //  http://localhost:3000/notifications
 export function getAllNotifications(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const result = global.getAllItems(table_name);
   result.then((value) => {
     res.send(value);
@@ -23,6 +31,13 @@ export function getAllNotifications(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/notification/648c6400e388683aeb23d331
 export function getNotificationById(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const id = req.params.id;
   const result = global.getItemById(id, table_name);
   let notification: Notification;
@@ -37,6 +52,13 @@ export function getNotificationById(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/notifications/published&true
 export function getNotificationsByQuery(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const field = req.params.field;
   let value = req.params.value;
 
@@ -71,6 +93,13 @@ export function getNotificationsByQuery(req: Request, res: Response) {
 //      "content":"custom content"
 // }
 export function insertNotification(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const notification: Notification = new Notification(
     req.body.content
   );
@@ -98,6 +127,13 @@ export function insertNotification(req: Request, res: Response) {
 // }
 //  ]
 export function insertMultipleNotifications(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const notifications = req.body;
   let counter = 0;
   notifications.forEach((element: Notification) => {
@@ -123,6 +159,13 @@ export function insertMultipleNotifications(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/notification/6490d3e5982efd2fe9136154
 export function deleteNotification(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const id = req.params.id;
   const result = global.deleteItemById(id, table_name);
   result.then((value) => {
@@ -147,6 +190,13 @@ export function deleteNotification(req: Request, res: Response) {
 //  "6490d9fddfd298aad1e8f136"]
 
 export function deleteMultipleNotifications(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const ids = req.body;
   let counter = 0;
   ids.forEach((element: string) => {
@@ -168,6 +218,13 @@ export function deleteMultipleNotifications(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/notifications/published&true
 export function deleteNotificationsByQuery(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const field = req.params.field;
   let value = req.params.value;
 
@@ -201,6 +258,13 @@ export function deleteNotificationsByQuery(req: Request, res: Response) {
 //      "content":"custom content"
 // }
 export function updateNotification(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const id = req.params.id;
   const query = req.body;
   const result = global.updateItemById(id, table_name, query);
@@ -232,6 +296,13 @@ export function updateNotification(req: Request, res: Response) {
 //     }
 //  }
 export function updateMultipleNotifications(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const ids = req.body.ids;
   const updateQuery = req.body.query;
   let counter = 0;
@@ -260,6 +331,13 @@ export function updateMultipleNotifications(req: Request, res: Response) {
 //      "content":"custom content"
 // }
 export function updateNotificationsByQuery(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const field = req.params.field;
   let value = req.params.value;
 
@@ -294,6 +372,13 @@ export function updateNotificationsByQuery(req: Request, res: Response) {
 //      "content":"custom content"
 // }
 export function replaceNotification(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const id = req.params.id;
   const query = req.body;
   let notification: Notification;
@@ -314,6 +399,13 @@ export function replaceNotification(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/stealnotification/6490d3e5982efd2fe9136154
 export function stealNotification(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const id = req.params.id;
   const result = global.stealItemById(id, table_name);
   result.then((value) => {
