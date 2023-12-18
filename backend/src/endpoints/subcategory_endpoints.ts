@@ -5,6 +5,7 @@ import e, { Request, Response } from "express";
 import { Subcategory } from "../models/subcategory_model";
 import * as global from "../global_database_functions";
 import * as globalTools from "../global_tools";
+import * as loginService from "../services/login"
 
 const table_name = "subcategories";
 
@@ -13,6 +14,13 @@ const table_name = "subcategories";
 // example:
 //  http://localhost:3000/subcategories
 export function getAllSubcategories(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const result = global.getAllItems(table_name);
   result.then((value) => {
     res.send(value);
@@ -24,6 +32,13 @@ export function getAllSubcategories(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/subcategory/648c6400e388683aeb23d331
 export function getSubcategoryById(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const id = req.params.id;
   const result = global.getItemById(id, table_name);
   let subcategory: Subcategory;
@@ -43,6 +58,13 @@ export function getSubcategoryById(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/subcategories/published&true
 export function getSubcategoriesByQuery(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const field = req.params.field;
   let value = req.params.value;
   try {
@@ -69,6 +91,13 @@ export function getSubcategoriesByQuery(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/subcategoriesid/note&6490d9efdfd298aad1e8f134
 export function getSubcategoriesByQueriedId(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const field = req.params.field;
   const value = req.params.value;
   const objValue = new ObjectId(value);
@@ -98,6 +127,13 @@ export function getSubcategoriesByQueriedId(req: Request, res: Response) {
 //      "category_id":"some id"
 // }
 export function insertSubcategory(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const category_id = new ObjectId(req.body.category_id);
   const subcategory: Subcategory = new Subcategory(category_id, req.body.name);
   const result = global.insertItem(subcategory, table_name);
@@ -129,6 +165,13 @@ export function insertSubcategory(req: Request, res: Response) {
 // }
 //  ]
 export function insertMultipleSubcategories(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const subcategories = req.body;
   let counter = 0;
   let category_id = new ObjectId();
@@ -154,6 +197,13 @@ export function insertMultipleSubcategories(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/subcategory/6490d3e5982efd2fe9136154
 export function deleteSubcategory(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const id = req.params.id;
   const result = global.deleteItemById(id, table_name);
   result.then((value) => {
@@ -178,6 +228,13 @@ export function deleteSubcategory(req: Request, res: Response) {
 //  "6490d9fddfd298aad1e8f136"]
 
 export function deleteMultipleSubcategories(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const ids = req.body;
   let counter = 0;
   ids.forEach((element: string) => {
@@ -199,6 +256,13 @@ export function deleteMultipleSubcategories(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/subcategories/published&true
 export function deleteSubcategoriesByQuery(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const field = req.params.field;
   let value = req.params.value;
   try {
@@ -224,6 +288,13 @@ export function deleteSubcategoriesByQuery(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/subcategoriesid/category_id&6490d9efdfd298aad1e8f134
 export function deleteSubcategoriesByQueriedId(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const field = req.params.field;
   const value = req.params.value;
   const objValue = new ObjectId(value);
@@ -251,6 +322,13 @@ export function deleteSubcategoriesByQueriedId(req: Request, res: Response) {
 //      "name":"custom name"
 // }
 export function updateSubcategory(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const id = req.params.id;
   let query = req.body;
   if (typeof query.category_id !== "undefined") {
@@ -285,6 +363,13 @@ export function updateSubcategory(req: Request, res: Response) {
 //     }
 //  }
 export function updateMultipleSubcategories(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const ids = req.body.ids;
   let updateQuery = req.body.query;
   if (typeof updateQuery.category_id !== "undefined") {
@@ -316,6 +401,13 @@ export function updateMultipleSubcategories(req: Request, res: Response) {
 //      "name":"custom name"
 // }
 export function updateSubcategoriesByQuery(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const field = req.params.field;
   let value = req.params.value;
 
@@ -347,6 +439,13 @@ export function updateSubcategoriesByQuery(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/subcategoriesid/user_id&6490d9efdfd298aad1e8f134
 export function updateSubcategoriesByQueriedId(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const field = req.params.field;
   let value = req.params.value;
   const objValue = new ObjectId(value);
@@ -381,6 +480,13 @@ export function updateSubcategoriesByQueriedId(req: Request, res: Response) {
 //      "category_id":"some id"
 // }
 export function replaceSubcategory(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const id = req.params.id;
   const query = req.body;
   let subcategory: Subcategory;
@@ -401,6 +507,13 @@ export function replaceSubcategory(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/stealsubcategory/6490d3e5982efd2fe9136154
 export function stealSubcategory(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const id = req.params.id;
   const result = global.stealItemById(id, table_name);
   result.then((value) => {
