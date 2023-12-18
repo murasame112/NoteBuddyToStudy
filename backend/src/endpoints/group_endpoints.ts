@@ -6,6 +6,7 @@ import { Group } from "../models/group_model";
 import * as global from "../global_database_functions";
 import { Type } from "../enums/group_type_enum";
 import * as globalTools from "../global_tools";
+import * as loginService from "../services/login"
 
 const table_name = "groups";
 
@@ -14,6 +15,13 @@ const table_name = "groups";
 // example:
 //  http://localhost:3000/groups
 export function getAllGroups(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const result = global.getAllItems(table_name);
   result.then((value) => {
     res.send(value);
@@ -25,6 +33,13 @@ export function getAllGroups(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/group/648c6400e388683aeb23d331
 export function getGroupById(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const id = req.params.id;
   const result = global.getItemById(id, table_name);
   let group: Group;
@@ -39,6 +54,13 @@ export function getGroupById(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/groups/published&true
 export function getGroupsByQuery(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const field = req.params.field;
   let value: any; 
 	value = req.params.value;
@@ -74,6 +96,13 @@ export function getGroupsByQuery(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/groupsid/users&64e9be29c7f3fc97903dfdde
 export function getGroupsByQueriedId(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const field = req.params.field;
   const value = req.params.value;
   const objValue = new ObjectId(value);
@@ -105,6 +134,13 @@ export function getGroupsByQueriedId(req: Request, res: Response) {
 // ]
 // }
 export function insertGroup(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   let users: ObjectId[] = [];
 
 	if(!Array.isArray(req.body.users) || req.body.users.length == 0){
@@ -150,6 +186,13 @@ export function insertGroup(req: Request, res: Response) {
 // }
 //  ]
 export function insertMultipleGroups(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const groups = req.body;
   let counter = 0;
 
@@ -184,6 +227,13 @@ export function insertMultipleGroups(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/group/6490d3e5982efd2fe9136154
 export function deleteGroup(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const id = req.params.id;
   const result = global.deleteItemById(id, table_name);
   result.then((value) => {
@@ -208,6 +258,13 @@ export function deleteGroup(req: Request, res: Response) {
 //  "6490d9fddfd298aad1e8f136"]
 
 export function deleteMultipleGroups(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const ids = req.body;
   let counter = 0;
   ids.forEach((element: string) => {
@@ -229,6 +286,13 @@ export function deleteMultipleGroups(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/groups/published&true
 export function deleteGroupsByQuery(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const field = req.params.field;
   let value: any; 
 	value = req.params.value;
@@ -263,6 +327,13 @@ export function deleteGroupsByQuery(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/groupsid/users&64a49ff9a1caf26fbfaa2dbb
 export function deleteGroupsByQueriedId(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const field = req.params.field;
   const value = req.params.value;
   const objValue = new ObjectId(value);
@@ -293,6 +364,13 @@ export function deleteGroupsByQueriedId(req: Request, res: Response) {
 // ]
 // }
 export function updateGroup(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const id = req.params.id;
   let query = req.body;
 
@@ -342,6 +420,13 @@ export function updateGroup(req: Request, res: Response) {
 //     }
 //  }
 export function updateMultipleGroups(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const ids = req.body.ids;
   let updateQuery = req.body.query;
 
@@ -387,6 +472,13 @@ export function updateMultipleGroups(req: Request, res: Response) {
 // ]
 // }
 export function updateGroupsByQuery(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const field = req.params.field;
   let value: any;
 	value = req.params.value;
@@ -443,6 +535,13 @@ export function updateGroupsByQuery(req: Request, res: Response) {
 // ]
 // }
 export function updateGroupsByQueriedId(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const field = req.params.field;
   let value = req.params.value;
   const objValue = new ObjectId(value);
@@ -489,6 +588,13 @@ export function updateGroupsByQueriedId(req: Request, res: Response) {
 // ]
 // }
 export function replaceGroup(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
   const id = req.params.id;
   const query = req.body;
 
@@ -515,6 +621,13 @@ export function replaceGroup(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/stealgroup/6490d3e5982efd2fe9136154
 export function stealGroup(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const id = req.params.id;
   const result = global.stealItemById(id, table_name);
   result.then((value) => {
