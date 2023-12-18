@@ -5,7 +5,6 @@ import e, { Request, Response } from "express";
 import { Note } from "../models/note_model";
 import * as global from "../global_database_functions";
 import * as globalTools from "../global_tools";
-
 import * as loginService from "../services/login";
 
 const table_name = "notes";
@@ -15,6 +14,13 @@ const table_name = "notes";
 // example:
 //  http://localhost:3000/notes
 export function getAllNotes(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
 	loginService.hashPassword("haslo321");
   const result = global.getAllItems(table_name);
   result.then((value) => {
@@ -29,6 +35,13 @@ export function getAllNotes(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/note/648c6400e388683aeb23d331
 export function getNoteById(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const id = req.params.id;
   const result = global.getItemById(id, table_name);
   let note: Note;
@@ -61,6 +74,13 @@ export function getNoteById(req: Request, res: Response) {
 //  "6490d9f9dfd298aad1e8f135",
 //  "6490d9fddfd298aad1e8f136"]
 export function getMultipleNotes(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const ids = req.body;
   console.log(ids);
   let counter = 0;
@@ -94,6 +114,13 @@ export function getMultipleNotes(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/notes/published&true
 export function getNotesByQuery(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const field = req.params.field;
   let value: any; 
 	value = req.params.value;
@@ -140,6 +167,13 @@ export function getNotesByQuery(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/notesid/category_id&6490d9efdfd298aad1e8f134
 export function getNotesByQueriedId(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const field = req.params.field;
   const value = req.params.value;
   const objValue = new ObjectId(value);
@@ -182,6 +216,13 @@ export function getNotesByQueriedId(req: Request, res: Response) {
 //      "content":"custom content"
 // }
 export function insertNote(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const category_id = new ObjectId(req.body.category_id);
   const subcategory_id = new ObjectId(req.body.subcategory_id);
   const author_id = new ObjectId(req.body.author_id);
@@ -232,6 +273,13 @@ export function insertNote(req: Request, res: Response) {
 // }
 //  ]
 export function insertMultipleNotes(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const notes = req.body;
   let counter = 0;
   let category_id = new ObjectId();
@@ -270,6 +318,13 @@ export function insertMultipleNotes(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/note/6490d3e5982efd2fe9136154
 export function deleteNote(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const id = req.params.id;
   const result = global.deleteItemById(id, table_name);
   result.then((value) => {
@@ -294,6 +349,13 @@ export function deleteNote(req: Request, res: Response) {
 //  "6490d9fddfd298aad1e8f136"]
 
 export function deleteMultipleNotes(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const ids = req.body;
   let counter = 0;
   ids.forEach((element: string) => {
@@ -315,6 +377,13 @@ export function deleteMultipleNotes(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/notes/published&true
 export function deleteNotesByQuery(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const field = req.params.field;
   let value: any;
 	value = req.params.value;
@@ -349,6 +418,13 @@ export function deleteNotesByQuery(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/notesid/category_id&6490d9efdfd298aad1e8f134
 export function deleteNotesByQueriedId(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const field = req.params.field;
   const value = req.params.value;
   const objValue = new ObjectId(value);
@@ -377,6 +453,13 @@ export function deleteNotesByQueriedId(req: Request, res: Response) {
 //      "content":"custom content"
 // }
 export function updateNote(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const id = req.params.id;
   let query = req.body;
   if (typeof query.category_id !== "undefined") {
@@ -421,6 +504,13 @@ export function updateNote(req: Request, res: Response) {
 //     }
 //  }
 export function updateMultipleNotes(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const ids = req.body.ids;
   let updateQuery = req.body.query;
   if (typeof updateQuery.category_id !== "undefined") {
@@ -461,6 +551,13 @@ export function updateMultipleNotes(req: Request, res: Response) {
 //      "content":"custom content"
 // }
 export function updateNotesByQuery(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const field = req.params.field;
   let value: any;
 	value = req.params.value;
@@ -507,6 +604,13 @@ export function updateNotesByQuery(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/notesid/category_id&6490d9efdfd298aad1e8f134
 export function updateNotesByQueriedId(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const field = req.params.field;
   let value = req.params.value;
   const objValue = new ObjectId(value);
@@ -550,6 +654,13 @@ export function updateNotesByQueriedId(req: Request, res: Response) {
 //      "content":"custom content"
 // }
 export function replaceNote(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const id = req.params.id;
   const query = req.body;
   let note: Note;
@@ -579,6 +690,13 @@ export function replaceNote(req: Request, res: Response) {
 // example:
 //  http://localhost:3000/stealnote/6490d3e5982efd2fe9136154
 export function stealNote(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+	
   const id = req.params.id;
   const result = global.stealItemById(id, table_name);
   result.then((value) => {
