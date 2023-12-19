@@ -1,0 +1,264 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+#container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto auto;
+  grid-template-areas:
+    "nav"
+    "main"
+    "footer";
+  row-gap: 0;
+  background-color: #eaeaed;
+  font-family: "poppins", sans-serif;
+}
+
+nav {
+  grid-area: nav;
+  width: 100%;
+  height: 100%;
+}
+
+main {
+  grid-area: main;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 50rem;
+}
+
+#content {
+  margin-top: 5rem;
+  // border: 1px solid red;
+  width: 40rem;
+  height: 20rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
+#settings {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  // border: 1px solid blue;
+}
+
+#imgSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+#imgAndUsername {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+#imgContainer {
+  width: 8rem;
+  height: 8rem;
+  border: 0.5rem solid #f89e30;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#imgBase64 {
+  width: 7.5rem;
+  height: 7.5rem;
+  border-radius: 100%;
+  user-select: none;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+}
+
+#login {
+  color: #310b61;
+}
+
+.settingsBtns {
+  text-decoration: none;
+  background-color: #f89e30;
+  color: white;
+  border: 0.1rem solid #f3a749;
+  border-radius: 2rem;
+  width: 8rem;
+  height: 2.5rem;
+}
+
+.settingsBtns:hover {
+  background-color: #f39d34;
+  border: 0.1rem solid #f3a749;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+#imgBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #87ca52;
+  border: 0.1rem solid #80c04f;
+  border-radius: 2rem;
+  width: 9rem;
+  height: 2.5rem;
+}
+
+#imgBtn:hover {
+  background-color: #89cf54;
+  border: 0.1rem solid #83c551;
+  cursor: pointer;
+}
+
+#imgInputLabel:hover {
+  cursor: pointer;
+}
+
+#emailAndPasswordContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+#emailContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.settingsInputs {
+  background-color: #d1d1d1;
+  border: 1px solid #c0bfbf;
+  border-radius: 0.5rem;
+  height: 2rem;
+  padding-left: 1rem;
+  transition: 60ms ease-in;
+  width: 15rem;
+}
+
+.settingsInputs:focus {
+  border: 1px solid #310b61;
+  background-color: #cfcece;
+  outline: 1px solid #310b61;
+  caret-color: #310b61;
+}
+
+#emailBtn {
+}
+
+#passwordContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+#spinner {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+}
+
+#backBtn {
+  position: absolute;
+  right: 1rem;
+  top: 5rem;
+  text-decoration: none;
+  background-color: rgba(218, 70, 96, 1);
+  color: white;
+  border: 0.1rem solid rgba(218, 70, 96, 1);
+  border-radius: 2rem;
+  width: 8rem;
+  height: 2.5rem;
+  align-self: flex-start;
+}
+
+footer {
+  grid-area: footer;
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 970px) {
+  #backBtn {
+    width: 6rem;
+    height: 2.5rem;
+  }
+}
+
+@media (max-width: 700px) {
+  #content {
+    width: 28rem;
+    height: 30rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  #settings {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #imgSection {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  #imgAndUsername {
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #content {
+    width: 25rem;
+  }
+}
+
+@media (max-width: 420px) {
+  #content {
+    width: 19rem;
+  }
+
+  #emailContainer {
+    flex-direction: column;
+  }
+
+  #passwordContainer {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,85 @@
+<div id="container">
+  <nav>
+    <app-navbar></app-navbar>
+  </nav>
+
+  <main>
+    <button id="backBtn" routerLink="/notes">powrót</button>
+
+    <i
+      class="fa-solid fa-spinner fa-spin-pulse fa-2xl"
+      style="color: #ffbb00"
+      *ngIf="isLoading"
+      id="spinner"
+    ></i>
+
+    <form
+      id="content"
+      [formGroup]="editUserForm"
+      (ngSubmit)="(editUserForm.value)"
+      *ngIf="!isLoading"
+    >
+      <h4>Ustawienia</h4>
+      <div id="settings">
+        <div id="imgSection">
+          <div id="imgAndUsername">
+            <div id="imgContainer">
+              <img
+                id="imgBase64"
+                [src]="userImg"
+                alt="Zdjęcie"
+                *ngIf="userImg"
+              />
+            </div>
+            <span id="login">{{ username }}</span>
+          </div>
+          <div id="imgBtn">
+            <label id="imgInputLabel" for="imgInput" class="custom-file-input"
+              >zmień awatar</label
+            >
+            <input
+              id="imgInput"
+              type="file"
+              accept="/image/*"
+              class="settingsBtns"
+              (change)="changeAvatar($event)"
+            />
+          </div>
+        </div>
+        <div id="emailAndPasswordContainer">
+          <div id="emailContainer">
+            <input
+              formControlName="email"
+              class="settingsInputs"
+              type="text"
+              placeholder="to jest email"
+            />
+            <button id="emailBtn" class="settingsBtns" (click)="changeEmail()">
+              zmień email
+            </button>
+          </div>
+
+          <div id="passwordContainer">
+            <input
+              formControlName="password"
+              class="settingsInputs"
+              type="password"
+              placeholder="podaj nowe hasło"
+            />
+            <button
+              id="passwordBtn"
+              class="settingsBtns"
+              (click)="changePassword()"
+            >
+              zmień hasło
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </main>
+
+  <footer>
+    <app-footer></app-footer>
+  </footer>
+</div>

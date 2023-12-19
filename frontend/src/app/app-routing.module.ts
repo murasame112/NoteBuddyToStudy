@@ -13,6 +13,7 @@ import { ShowNoteComponent } from './components/main-menu/functions/notes/show-n
 import { AdminPanelMainComponent } from './components/main-menu/functions/admin-panel/admin-panel-main/admin-panel-main.component';
 import { HintsComponent } from './components/main-menu/functions/hints/hints.component';
 import { CardsComponent } from './components/main-menu/functions/cards/cards.component';
+import { SettingsPageComponent } from './components/main-menu/functions/settings-page/settings-page.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'landing', pathMatch: 'full' },
@@ -28,6 +29,7 @@ const routes: Routes = [
   { path: 'search-for-buddy', component: SearchForBuddyComponent },
   { path: 'admin-panel', component: AdminPanelMainComponent },
   { path: 'hints', component: HintsComponent },
+  { path: 'settings', component: SettingsPageComponent },
   { path: '**', component: PageErrorComponent },
 ];
 

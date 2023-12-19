@@ -33,6 +33,7 @@ import { CardsComponent } from './components/main-menu/functions/cards/cards.com
 import { CardModelComponent } from './components/main-menu/functions/cards/card-model/card-model.component';
 import { CardMyCardsModelComponent } from './components/main-menu/functions/cards/card-my-cards-model/card-my-cards-model.component';
 import { AuthInterceptor } from './services/interceptors/auth.interceptor';
+import { SettingsPageComponent } from './components/main-menu/functions/settings-page/settings-page.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { AuthInterceptor } from './services/interceptors/auth.interceptor';
     CardsComponent,
     CardModelComponent,
     CardMyCardsModelComponent,
+    SettingsPageComponent,
   ],
   imports: [
     BrowserModule,

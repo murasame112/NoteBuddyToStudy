@@ -54,4 +54,9 @@ export class UsersService {
       })
     );
   }
+
+  updateUserQuery(id: string, queryAndValue: any): Observable<any> {
+    const url = `${this.apiUrl}/user/${id}`;
+    return this.http.patch(url, queryAndValue);
+  }
 }

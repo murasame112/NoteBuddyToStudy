@@ -1,0 +1,213 @@
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { read } from '@popperjs/core';
+import { takeUntil } from 'rxjs/operators';
+import { CustomValidators } from 'src/app/helpers/custom-validators';
+import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
+import { User } from 'src/app/models/user.model';
+
+import { AuthService } from 'src/app/services/auth.service';
+import { UsersService } from 'src/app/services/users.service';
+
+@Component({
+  selector: 'app-settings-page',
+  templateUrl: './settings-page.component.html',
+  styleUrls: ['./settings-page.component.scss'],
+})
+export class SettingsPageComponent extends Unsubscribe implements OnInit {
+  editUserForm!: FormGroup;
+  username: string = '';
+  userPass: string = '';
+  user!: User;
+  userImg: string | null = '';
+  isLoading: Boolean = true;
+
+  constructor(
+    private authService: AuthService,
+    private usersService: UsersService
+  ) {
+    super();
+  }
+  ngOnInit(): void {
+    this.username = this.authService.showUsername();
+    this.userPass = this.authService.getUserPass();
+    this.getUser();
+
+    this.editUserForm = new FormGroup({
+      img: new FormControl(''),
+      email: new FormControl('', Validators.required),
+      password: new FormControl('', [
+        Validators.required,
+        CustomValidators.passwordValidation(),
+      ]),
+    });
+  }
+
+  getUser() {
+    this.usersService
+      .getUsersByQuery('login', this.username)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((user) => {
+        this.user = user.find((us: User) => {
+          return true;
+        });
+
+        this.userImg = this.user.avatar_url;
+        this.editUserForm.patchValue({
+          email: this.user.email,
+          password: this.userPass,
+        });
+
+        console.log(this.user);
+        this.isLoading = false;
+      });
+  }
+
+  changeEmail() {
+    let email = this.editUserForm.get('email')?.value;
+    console.log(`czy form valid ${this.editUserForm.valid}`);
+    //hkerrigan
+    let userId = '657875db9470549a97c69a33';
+
+    let queryAndValue = {
+      email: email,
+    };
+
+    if (this.editUserForm.valid) {
+      if (userId) {
+        this.usersService
+          .updateUserQuery(userId, queryAndValue)
+          .pipe(takeUntil(this.unsubscribe$))
+          .subscribe((res) => {
+            console.log(`to jest res:`, res);
+          });
+      }
+    }
+  }
+
+  changePassword() {
+    let pass = this.editUserForm.get('password')?.value;
+    console.log(`czy form valid ${this.editUserForm.valid}`);
+    //hkerrigan
+    let userId = '657875db9470549a97c69a33';
+
+    let queryAndValue = {
+      password: pass,
+    };
+
+    if (this.editUserForm.valid) {
+      if (userId) {
+        this.usersService
+          .updateUserQuery(userId, queryAndValue)
+          .pipe(takeUntil(this.unsubscribe$))
+          .subscribe((res) => {
+            console.log(`to jest res:`, res);
+          });
+      }
+    }
+  }
+
+  changeAvatarApi() {
+    //jakisuser
+    let userId = '6580338a890932a991b6dced';
+
+    let queryAndValue = {
+      avatar_url: this.userImg,
+    };
+
+    if (userId) {
+      this.usersService
+        .updateUserQuery(userId, queryAndValue)
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe((res) => {
+          console.log(res);
+        });
+    }
+  }
+
+  changeAvatar(event: any) {
+    const image: File = event.target.files[0];
+
+    if (image) {
+      if (image.type.match(/image.*/)) {
+        const reader = new FileReader();
+        reader.onload = (element: any) => {
+          const img: string = element.target.result;
+
+          const newImg = new Image();
+          newImg.src = img;
+
+          newImg.onload = () => {
+            const width = newImg.width;
+            const height = newImg.height;
+
+            if (width > 640 || height > 640) {
+              alert('wybrane zdjęcie jest większe niż 640x640 pikseli');
+            } else {
+              if (image.size > 1024 * 1024) {
+                alert('wybrane zdjęcie jest większe niż 1MB');
+              }
+              this.userImg = img;
+              this.changeAvatarApi();
+            }
+          };
+        };
+        reader.readAsDataURL(image);
+      } else {
+        alert('Niepoprawny format pliku');
+      }
+    }
+  }
+
+  // changeAvatar(event: any) {
+  //   const image: File = event.target.files[0];
+
+  //   if (image) {
+  //     if (image.type.match(/image.*/)) {
+  //       const reader = new FileReader();
+  //       reader.onload = (element: any) => {
+  //         const img: string = element.target.result;
+  //         this.resizeAndSetImage(img, 512, 512);
+  //       };
+  //       reader.readAsDataURL(image);
+  //     } else {
+  //       alert('Niepoprawny format pliku');
+  //     }
+  //   }
+  // }
+
+  // resizeAndSetImage(img: string, maxWidth: number, maxHeight: number) {
+  //   const newImg = new Image();
+  //   newImg.src = img;
+  //   console.log(img);
+
+  //   newImg.onload = () => {
+  //     const canvas = document.createElement('canvas');
+  //     let width = newImg.width;
+  //     let height = newImg.height;
+
+  //     if (width > height) {
+  //       if (width > maxWidth) {
+  //         height *= maxWidth / width;
+  //       }
+  //     } else {
+  //       if (height > maxHeight) {
+  //         width *= maxHeight / height;
+  //         height = maxHeight;
+  //       }
+  //     }
+
+  //     canvas.width = width;
+  //     canvas.height = height;
+
+  //     const ctx = canvas.getContext('2d');
+  //     if (ctx) {
+  //       ctx.drawImage(newImg, 0, 0, width, height);
+  //       this.userImg = canvas.toDataURL('image/png', 0.5);
+  //       console.log(`IMG: ${this.userImg}`);
+
+  //       // this.changeAvatarApi();
+  //     }
+  //   };
+  // }
+}
