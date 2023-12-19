@@ -11,7 +11,6 @@ import * as subcategoryEndpoints from "./endpoints/subcategory_endpoints";
 import * as notificationEndpoints from "./endpoints/notification_endpoints";
 import * as metanotificationEndpoints from "./endpoints/meta-notification_endpoints";
 import * as cardEndpoints from "./endpoints/card_endpoints";
-import * as cardCollectionEndpoints from "./endpoints/card-collection_endpoints";
 import * as groupEndpoints from "./endpoints/group_endpoints";
 import * as hintEndpoints from "./endpoints/hint_endpoints";
 import * as logEndpoints from "./endpoints/log_endpoints";
@@ -162,22 +161,6 @@ app.patch("/cards/:field&:value", cardEndpoints.updateCardsByQuery);
 app.patch("/cards", cardEndpoints.updateMultipleCards);
 app.patch("/cardsid/:field&:value", cardEndpoints.updateCardsByQueriedId);
 app.put("/card/:id", cardEndpoints.replaceCard);
-
-// ============== CARD-COLLECTION ENDPOINTS ==============
-
-app.get("/cardcollection/:id", cardCollectionEndpoints.getCardCollectionById);
-app.get("/stealcardcollection/:id", cardCollectionEndpoints.stealCardCollection);
-app.get("/cardcollections", cardCollectionEndpoints.getAllCardCollections);
-app.get("/cardcollectionsid/:field&:value", cardCollectionEndpoints.getCardCollectionsByQueriedId);
-app.post("/cardcollection", cardCollectionEndpoints.insertCardCollection);
-app.post("/cardcollections", cardCollectionEndpoints.insertMultipleCardCollections);
-app.delete("/cardcollection/:id", cardCollectionEndpoints.deleteCardCollection);
-app.delete("/cardcollections", cardCollectionEndpoints.deleteMultipleCardCollections);
-app.delete("/cardcollectionsid/:field&:value", cardCollectionEndpoints.deleteCardCollectionsByQueriedId);
-app.patch("/cardcollection/:id", cardCollectionEndpoints.updateCardCollection);
-app.patch("/cardcollections", cardCollectionEndpoints.updateMultipleCardCollections);
-app.patch("/cardcollectionsid/:field&:value", cardCollectionEndpoints.updateCardCollectionsByQueriedId);
-app.put("/cardcollection/:id", cardCollectionEndpoints.replaceCardCollection);
 
 // ============== GROUP ENDPOINTS ==============
 
