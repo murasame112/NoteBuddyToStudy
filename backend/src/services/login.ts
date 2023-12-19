@@ -10,13 +10,6 @@ import { User } from "../models/user_model";
 import fs from 'fs';
 import path from 'path';
 
-/* TODO:
-5 - edycja endpointow zeby przyjmowaly token (czy to powinno byc na backu?)
-6 - czasowe tokeny
-8 - udokumentować wszystko
-9 - przerobic pozostale InsertUser (multiple etc)?
-
-*/
 export async function checkIfUserExists(userLogin: string){
 	const result = await global.getItemsByField({"login": userLogin}, 'users');
 	let check = false;
@@ -72,40 +65,3 @@ export function checkIfLogged(token: string){
 		return false;
 	}
 }
-
-// ==========================
-// const userEmail: string = req.body.email;
-// const userPassword: string = req.body.password;
-// let token = "";
-
-
-// const userExists = checkIfUserExists(userEmail);
-// if(userExists){
-// 		token = "User with that username already exists."
-// }else{
-// 	// TODO: Zmiana hasła na hashowane
-// 		let secret = "secret";
-// 		const createdPayload = userEmail + '.' + userPassword; 
-// 		token = jwt.sign(createdPayload, secret);
-// 	// to zwraca token i wtedy od razu leci rejestracja (chyba)
-		
-		
-// }
-
-// res.status(201).send(token)
-
-// =====================================
-
-// let secret = "secret";
-// const authData = req.headers.authorization
-// const token = authData?.split(' ')[1] ?? ''
-// const payload = jwt.verify(token, secret);
-
-// ========================================
-
-// export function logut(req: Request, res: Response){
-// 	document.cookie = 'token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-// 	localStorage.removeItem('token')
-// 	sessionStorage.removeItem('token')
-// 	res.status(201)
-// }
