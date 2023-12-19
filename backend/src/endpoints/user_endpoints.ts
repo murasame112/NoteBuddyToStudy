@@ -338,7 +338,8 @@ export function updateUser(req: Request, res: Response) {
 	let note_id: ObjectId;
 	if (typeof query.saved_notes !== "undefined") {
     let notesIds: ObjectId[] = [];
-
+		
+		
 		
     query.saved_notes.forEach((elem: string) => {
       note_id = new ObjectId(elem);
@@ -347,6 +348,10 @@ export function updateUser(req: Request, res: Response) {
 
     query.saved_notes = notesIds;
   }
+
+	if(typeof query.password !== "undefined"){
+		query.password = loginService.hashPassword(query.password);
+	}
 	
 	let user_id: ObjectId;
 	if (typeof query.followed_users !== "undefined") {
@@ -418,6 +423,10 @@ export function updateMultipleUsers(req: Request, res: Response) {
 
     updateQuery.saved_notes = notesIds;
   }
+
+	if(typeof updateQuery.password !== "undefined"){
+		updateQuery.password = loginService.hashPassword(updateQuery.password);
+	}
 	
 	let user_id: ObjectId;
 	if (typeof updateQuery.followed_users !== "undefined") {
@@ -502,6 +511,10 @@ export function updateUsersByQuery(req: Request, res: Response) {
 
     updateQuery.saved_notes = notesIds;
   }
+
+	if(typeof updateQuery.password !== "undefined"){
+		updateQuery.password = loginService.hashPassword(updateQuery.password);
+	}
 	
 	let user_id: ObjectId;
 	if (typeof updateQuery.followed_users !== "undefined") {
@@ -568,6 +581,10 @@ export function updateUsersByQueriedId(req: Request, res: Response) {
     updateQuery.saved_notes = notesIds;
   }
 
+	if(typeof updateQuery.password !== "undefined"){
+		updateQuery.password = loginService.hashPassword(updateQuery.password);
+	}
+
 	let user_id: ObjectId;
 	if (typeof updateQuery.followed_users !== "undefined") {
     let usersIds: ObjectId[] = [];
@@ -632,7 +649,7 @@ export function replaceUser(req: Request, res: Response) {
     query.login,
     query.avatar_url,
     query.email,
-    query.password,
+    loginService.hashPassword(query.password),
 		query.role,
     query.active,
 		query.untrusted,

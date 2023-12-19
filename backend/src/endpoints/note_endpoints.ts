@@ -20,8 +20,7 @@ export function getAllNotes(req: Request, res: Response) {
 		res.status(401).send("Error - unauthorized");
 		return false;
 	}
-	
-	loginService.hashPassword("haslo321");
+
   const result = global.getAllItems(table_name);
   result.then((value) => {
     res.send(value);
