@@ -204,7 +204,7 @@ export function insertMultipleUsers(req: Request, res: Response) {
       element.login,
       element.avatar_url,
       element.email,
-      element.password,
+      loginService.hashPassword(element.password),
 			element.role,
     );
 
@@ -643,7 +643,7 @@ export function updateUsersByQueriedId(req: Request, res: Response) {
 export function replaceUser(req: Request, res: Response) {
   const id = req.params.id;
   const query = req.body;
-	
+
   let user: User;
   user = new User(
     query.login,
