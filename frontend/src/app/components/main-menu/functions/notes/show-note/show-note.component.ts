@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { tap, delay, takeUntil } from 'rxjs/operators';
 import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-show-note',
@@ -14,7 +15,8 @@ import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
 export class ShowNoteComponent extends Unsubscribe implements OnInit {
   constructor(
     private noteService: NotesService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    public authService: AuthService
   ) {
     super();
   }

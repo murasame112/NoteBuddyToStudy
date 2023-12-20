@@ -35,8 +35,14 @@
 
   <div id="avatar-and-menu">
     <div id="avatar">
-      <img src="" alt="" id="avatar-img" />
-      <span id="avatar-login-name">{{ username }}</span>
+      <img
+        [src]="authService.currentUserSignal()?.avatar_url"
+        alt="img"
+        id="avatar-img"
+      />
+      <span id="avatar-login-name">{{
+        authService.currentUserSignal()?.login
+      }}</span>
     </div>
 
     <div id="hamburger-btn">

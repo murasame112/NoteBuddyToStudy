@@ -10,6 +10,7 @@ import { User } from 'src/app/models/user.model';
 import { NoteAndDetails } from 'src/app/models/noteAndDetails.model';
 import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
 import { FinalNote } from 'src/app/models/finalNote.model';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-notes',
@@ -17,7 +18,10 @@ import { FinalNote } from 'src/app/models/finalNote.model';
   styleUrls: ['./notes.component.scss'],
 })
 export class NotesComponent extends Unsubscribe implements OnInit {
-  constructor(private notesService: NotesService) {
+  constructor(
+    private notesService: NotesService,
+    public authService: AuthService
+  ) {
     super();
   }
   ngOnInit(): void {
@@ -168,7 +172,7 @@ export class NotesComponent extends Unsubscribe implements OnInit {
       .getAllNoteData()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((res) => {
-        console.log('note:', res);
+        // console.log('note:', res);
         this.finalNotesOrigin = res;
         this.finalNotesArray = this.finalNotesOrigin;
         this.defaultSort();
@@ -182,7 +186,7 @@ export class NotesComponent extends Unsubscribe implements OnInit {
       .getAllData()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((res) => {
-        console.log('notesArrays', res);
+        // console.log('notesArrays', res);
 
         this.notesOrigin = res[0];
         this.notesArray = this.notesOrigin;

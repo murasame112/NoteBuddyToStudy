@@ -5,6 +5,7 @@ import { takeUntil } from 'rxjs';
 import { CustomValidators } from 'src/app/helpers/custom-validators';
 import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
 import { Login } from 'src/app/models/login.model';
+import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -51,17 +52,33 @@ export class LoginPageComponent extends Unsubscribe implements OnInit {
           if (result != 'false') {
             console.log('login result:', result);
             localStorage.setItem('Token', result);
-
-            setTimeout(() => {
-              this.router.navigateByUrl('/notes');
-            }, 1000);
+            //!
+            this.isUserLogin();
+            //!
+            // setTimeout(() => {
+            //   this.router.navigateByUrl('/notes');
+            // }, 35000);
           } else {
+            this.authService.currentUserSignal.set(null);
+
             console.log('Błędny login lub hasło');
+            console.log('login fail result:', result);
             this.loginForm
               .get('password')
               ?.setErrors({ wrongLoginOrPassword: true });
           }
         });
     }
+  }
+
+  isUserLogin() {
+    this.authService
+      .isUserLogin()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((result) => {
+        console.log('Sprawdzanie /extract', result);
+        this.authService.currentUserSignal.set(result);
+        this.router.navigateByUrl('/notes');
+      });
   }
 }

@@ -5,6 +5,7 @@ import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
 import { Card } from 'src/app/models/card.model';
 import { CardsToShow } from 'src/app/models/cardToShow.model';
 import { Note } from 'src/app/models/note.model';
+import { AuthService } from 'src/app/services/auth.service';
 import { CardsService } from 'src/app/services/cards.service';
 import { NotesService } from 'src/app/services/notes.service';
 
@@ -48,7 +49,8 @@ export class CardsComponent extends Unsubscribe implements OnInit {
   constructor(
     private noteService: NotesService,
     private cardService: CardsService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    public authService: AuthService
   ) {
     super();
   }

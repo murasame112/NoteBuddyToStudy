@@ -1,18 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
+import { takeUntil } from 'rxjs';
+import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent extends Unsubscribe implements OnInit {
   username: string = '';
 
-  constructor(private authService: AuthService) {}
+  constructor(public authService: AuthService) {
+    super();
+  }
   ngOnInit(): void {
     this.Observers();
-    this.username = this.authService.showUsername();
+    // this.isUserLogin();
   }
 
   Observers() {

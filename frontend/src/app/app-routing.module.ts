@@ -14,6 +14,7 @@ import { AdminPanelMainComponent } from './components/main-menu/functions/admin-
 import { HintsComponent } from './components/main-menu/functions/hints/hints.component';
 import { CardsComponent } from './components/main-menu/functions/cards/cards.component';
 import { SettingsPageComponent } from './components/main-menu/functions/settings-page/settings-page.component';
+import { isAuthenticatedGuard } from './guards/is-authenticated.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'landing', pathMatch: 'full' },
@@ -21,15 +22,51 @@ const routes: Routes = [
   { path: 'login', component: LoginPageComponent },
   { path: 'register', component: RegisterPageComponent },
   { path: 'main', component: MainMenuComponent },
-  { path: 'notes', component: NotesComponent },
-  { path: 'note/:id', component: ShowNoteComponent },
-  { path: 'note-add', component: NoteAddComponent },
-  { path: 'card-add/:id', component: CardAddComponent },
-  { path: 'cards/:id', component: CardsComponent },
-  { path: 'search-for-buddy', component: SearchForBuddyComponent },
-  { path: 'admin-panel', component: AdminPanelMainComponent },
-  { path: 'hints', component: HintsComponent },
-  { path: 'settings', component: SettingsPageComponent },
+  {
+    path: 'notes',
+    component: NotesComponent,
+    canActivate: [isAuthenticatedGuard],
+  },
+  {
+    path: 'note/:id',
+    component: ShowNoteComponent,
+    canActivate: [isAuthenticatedGuard],
+  },
+  {
+    path: 'note-add',
+    component: NoteAddComponent,
+    canActivate: [isAuthenticatedGuard],
+  },
+  {
+    path: 'card-add/:id',
+    component: CardAddComponent,
+    canActivate: [isAuthenticatedGuard],
+  },
+  {
+    path: 'cards/:id',
+    component: CardsComponent,
+    canActivate: [isAuthenticatedGuard],
+  },
+  {
+    path: 'search-for-buddy',
+    component: SearchForBuddyComponent,
+    canActivate: [isAuthenticatedGuard],
+  },
+  {
+    path: 'admin-panel',
+    component: AdminPanelMainComponent,
+    canActivate: [isAuthenticatedGuard],
+  },
+  {
+    path: 'hints',
+    component: HintsComponent,
+    canActivate: [isAuthenticatedGuard],
+  },
+  {
+    path: 'settings',
+    component: SettingsPageComponent,
+    canActivate: [isAuthenticatedGuard],
+  },
   { path: '**', component: PageErrorComponent },
 ];
 

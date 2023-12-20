@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { takeUntil } from 'rxjs';
 import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
 import { Hint } from 'src/app/models/hint.model';
+import { AuthService } from 'src/app/services/auth.service';
 import { HintsService } from 'src/app/services/hints.service';
 
 @Component({
@@ -17,7 +18,10 @@ export class HintsComponent extends Unsubscribe implements OnInit {
     this.getHints();
   }
 
-  constructor(private hintsService: HintsService) {
+  constructor(
+    private hintsService: HintsService,
+    public authService: AuthService
+  ) {
     super();
   }
 

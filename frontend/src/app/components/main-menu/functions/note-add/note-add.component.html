@@ -1,4 +1,4 @@
-<div id="container">
+<div id="container" *ngIf="authService.currentUserSignal()">
   <nav>
     <app-navbar></app-navbar>
   </nav>
@@ -17,10 +17,12 @@
           placeholder="tytuł notatki"
           formControlName="noteName"
           class="form-control"
-          [class.invalid]="addNoteForm.get('noteName')?.invalid &&
-          (addNoteForm.get('noteName')?.touched ||
-          addNoteForm.get('noteName')?.dirty) ||
-          isSubmitted && addNoteForm.get('noteName')?.untouched"
+          [class.invalid]="
+            (addNoteForm.get('noteName')?.invalid &&
+              (addNoteForm.get('noteName')?.touched ||
+                addNoteForm.get('noteName')?.dirty)) ||
+            (isSubmitted && addNoteForm.get('noteName')?.untouched)
+          "
         />
       </div>
 
@@ -35,14 +37,15 @@
           class="quillEditor"
           id="quill"
           (onEditorCreated)="onEditorCreated($event)"
-
-          [class.invalid]="addNoteForm.get('noteDesc')?.invalid &&
-          (addNoteForm.get('noteDesc')?.touched ||
-          addNoteForm.get('noteDesc')?.dirty) ||
-          isSubmitted && addNoteForm.get('noteDesc')?.untouched"
+          [class.invalid]="
+            (addNoteForm.get('noteDesc')?.invalid &&
+              (addNoteForm.get('noteDesc')?.touched ||
+                addNoteForm.get('noteDesc')?.dirty)) ||
+            (isSubmitted && addNoteForm.get('noteDesc')?.untouched)
+          "
         >
-<!--  -->
-<!-- <div >
+          <!--  -->
+          <!-- <div >
   <span class="ql-formats">
     <select class="ql-font">
       <option selected value="arial">Arial</option>
@@ -57,8 +60,8 @@
     <select class="ql-background" [title]="'BackgroundColor'"></select>
   </span>
 </div> -->
-<!--  -->
-      </quill-editor>
+          <!--  -->
+        </quill-editor>
       </div>
 
       <div id="optionBox" class="displayClass">
@@ -68,11 +71,12 @@
             formControlName="courseName"
             class="form-select"
             (change)="filterSubcategories()"
-
-            [class.invalid]="addNoteForm.get('courseName')?.invalid &&
-          (addNoteForm.get('courseName')?.touched ||
-          addNoteForm.get('courseName')?.dirty) ||
-          isSubmitted && addNoteForm.get('courseName')?.untouched"
+            [class.invalid]="
+              (addNoteForm.get('courseName')?.invalid &&
+                (addNoteForm.get('courseName')?.touched ||
+                  addNoteForm.get('courseName')?.dirty)) ||
+              (isSubmitted && addNoteForm.get('courseName')?.untouched)
+            "
           >
             <option value="" selected disabled hidden>Wybierz kierunek</option>
 
@@ -88,11 +92,12 @@
             formControlName="subjectName"
             class="form-select"
             id="subjectName"
-
-            [class.invalid]="addNoteForm.get('subjectName')?.invalid &&
-          (addNoteForm.get('subjectName')?.touched ||
-          addNoteForm.get('subjectName')?.dirty) ||
-          isSubmitted && addNoteForm.get('subjectName')?.untouched"
+            [class.invalid]="
+              (addNoteForm.get('subjectName')?.invalid &&
+                (addNoteForm.get('subjectName')?.touched ||
+                  addNoteForm.get('subjectName')?.dirty)) ||
+              (isSubmitted && addNoteForm.get('subjectName')?.untouched)
+            "
           >
             <option value="" selected disabled hidden>Wybierz temat</option>
 
