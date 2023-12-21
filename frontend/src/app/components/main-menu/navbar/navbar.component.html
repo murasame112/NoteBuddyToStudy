@@ -23,7 +23,11 @@
     <a id="logout-btn" class="menu-btn" (click)="logout()" routerLink="/login"
       >Wyloguj</a
     >
-    <a href="" id="admin-btn" class="menu-btn" routerLink="/admin-panel"
+    <a
+      id="admin-btn"
+      class="menu-btn"
+      routerLink="/admin-panel"
+      *ngIf="authService.currentUserSignal()?.role === 'admin'"
       >Panel Admina</a
     >
   </div>

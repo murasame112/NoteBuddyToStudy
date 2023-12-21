@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { takeUntil } from 'rxjs';
+import { skipWhile, take, takeUntil } from 'rxjs';
 import { CustomValidators } from 'src/app/helpers/custom-validators';
 import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
 import { Login } from 'src/app/models/login.model';
@@ -18,6 +19,15 @@ export class LoginPageComponent extends Unsubscribe implements OnInit {
 
   constructor(private authService: AuthService, private router: Router) {
     super();
+
+    // toObservable(this.authService.currentUserSignal)
+    //   .pipe(
+    //     skipWhile((status) => status === undefined),
+    //     take(10)
+    //   )
+    //   .subscribe((res) => {
+    //     console.log('Sygnał BZZ:', res);
+    //   });
   }
 
   ngOnInit(): void {

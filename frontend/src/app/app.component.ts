@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { AuthService } from './services/auth.service';
-import { takeUntil } from 'rxjs';
+import { catchError, takeUntil } from 'rxjs';
 import { Unsubscribe } from './helpers/unsubscribe.class';
 
 @Component({
@@ -16,9 +16,13 @@ export class AppComponent extends Unsubscribe implements OnInit {
     this.authService
       .isUserLogin()
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((result) => {
-        console.log('Sprawdzanie /extract w AppComponent', result);
-        this.authService.currentUserSignal.set(result);
-      });
+      .subscribe(
+        (result) => {
+          this.authService.currentUserSignal.set(result);
+        },
+        (err) => {
+          this.authService.currentUserSignal.set(null);
+        }
+      );
   }
 }

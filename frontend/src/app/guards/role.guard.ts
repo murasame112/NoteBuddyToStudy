@@ -1,24 +1,30 @@
-import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { filter, map } from 'rxjs';
 
-export const isAuthenticatedGuard: CanActivateFn = (route, state) => {
+export const roleGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
+
+  const isUserLogin = authService.currentUserSignal();
+
+  // if (isUserLogin?.role === 'admin') {
+  //   return true;
+  // } else {
+  //   router.navigateByUrl('error');
+  //   return false;
+  // }
 
   return toObservable(authService.currentUserSignal).pipe(
     filter((user) => user !== undefined),
     map((user) => {
-      if (!user) {
-        // console.log('guard false: ', user);
-        router.navigateByUrl('/login');
+      if (user?.role !== 'admin') {
+        router.navigateByUrl('error');
         return false;
-      } else {
-        // console.log('guard true: ', user);
-        return true;
       }
+      return true;
     })
   );
 };

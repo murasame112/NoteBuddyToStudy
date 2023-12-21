@@ -15,6 +15,7 @@ import { HintsComponent } from './components/main-menu/functions/hints/hints.com
 import { CardsComponent } from './components/main-menu/functions/cards/cards.component';
 import { SettingsPageComponent } from './components/main-menu/functions/settings-page/settings-page.component';
 import { isAuthenticatedGuard } from './guards/is-authenticated.guard';
+import { roleGuard } from './guards/role.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'landing', pathMatch: 'full' },
@@ -55,7 +56,7 @@ const routes: Routes = [
   {
     path: 'admin-panel',
     component: AdminPanelMainComponent,
-    canActivate: [isAuthenticatedGuard],
+    canActivate: [isAuthenticatedGuard, roleGuard],
   },
   {
     path: 'hints',
