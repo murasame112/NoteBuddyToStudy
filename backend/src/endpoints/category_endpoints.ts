@@ -1,4 +1,5 @@
 import { Console } from "console";
+import { ObjectId } from "bson";
 import express from "express";
 import e, { Request, Response } from "express";
 import { Category } from "../models/category_model";
@@ -24,7 +25,7 @@ export function getCategoryById(req: Request, res: Response) {
   const result = global.getItemById(id, table_name);
   let cat: Category;
   result.then((value) => {
-    cat = new Category(value.name);
+    cat = new Category(value.name, value._id);
     res.send(cat);
   });
 }
@@ -75,7 +76,7 @@ export function getCategoriesByQuery(req: Request, res: Response) {
   let cat: Category;
   result.then((value) => {
     value.forEach((element: Category) => {
-      cat = new Category(element.name);
+      cat = new Category(element.name, element._id);
       catArray.push(cat);
     });
     res.send(catArray);
@@ -266,6 +267,11 @@ export function updateCategory(req: Request, res: Response) {
 
   const id = req.params.id;
   const query = req.body;
+
+	if (typeof query._id !== "undefined") {
+    query._id = new ObjectId(query._id);
+  }
+
   const result = global.updateItemById(id, table_name, query);
   result.then((value) => {
 		if(value.acknowledged){
@@ -304,6 +310,11 @@ export function updateMultipleCategories(req: Request, res: Response) {
 
   const ids = req.body.ids;
   const updateQuery = req.body.query;
+
+	if (typeof updateQuery._id !== "undefined") {
+    updateQuery._id = new ObjectId(updateQuery._id);
+  }
+
   let counter = 0;
   ids.forEach((element: string) => {
     const result = global.updateItemById(element, table_name, updateQuery);
@@ -348,6 +359,11 @@ export function updateCategoriesByQuery(req: Request, res: Response) {
   }
 	
   const updateQuery = req.body;
+
+	if (typeof updateQuery._id !== "undefined") {
+    updateQuery._id = new ObjectId(updateQuery._id);
+  }
+
   let query = { [field]: JSON.parse(value) };
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
@@ -380,8 +396,15 @@ export function replaceCategory(req: Request, res: Response) {
 
   const id = req.params.id;
   const query = req.body;
+
+	if (typeof query._id !== "undefined") {
+    query._id = new ObjectId(query._id);
+  }else{
+		query._id = new ObjectId(id);
+	}
+
   let category: Category;
-  category = new Category(query.name);
+  category = new Category(query.name, query._id);
   const result = global.replaceItemById(id, table_name, category);
   result.then((value) => {
 		if(value.acknowledged){
@@ -409,7 +432,7 @@ export function stealCategory(req: Request, res: Response) {
   const result = global.stealItemById(id, table_name);
   result.then((value) => {
     let category: Category;
-    category = new Category(value.value.name);
+    category = new Category(value.value.name, value.value._id);
     res.status(201).send(category);
   });
 }
