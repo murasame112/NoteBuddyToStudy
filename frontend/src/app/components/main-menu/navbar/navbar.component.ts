@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { takeUntil } from 'rxjs';
 import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -11,7 +12,7 @@ import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
 export class NavbarComponent extends Unsubscribe implements OnInit {
   username: string = '';
 
-  constructor(public authService: AuthService) {
+  constructor(public authService: AuthService, private router: Router) {
     super();
   }
   ngOnInit(): void {

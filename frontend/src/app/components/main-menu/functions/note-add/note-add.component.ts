@@ -110,46 +110,50 @@ export class NoteAddComponent extends Unsubscribe implements OnInit {
   addNote(data: any) {
     console.log(data);
 
-    let author_id: string = '652d7b38f2c51e59e3c6241e';
-    let name: string = data.noteName;
-    let content: string = data.noteDesc;
-    let category_id: string = data.courseName;
-    let subcategory_id: string = data.subjectName;
-    this.isSubmitted = true;
+    if (this.authService.currentUserSignal()) {
+      let author_id: any = this.authService
+        .currentUserSignal()
+        ?._id?.toString();
+      let name: string = data.noteName;
+      let content: string = data.noteDesc;
+      let category_id: string = data.courseName;
+      let subcategory_id: string = data.subjectName;
+      this.isSubmitted = true;
 
-    if (
-      name != '' &&
-      content != '' &&
-      content != null &&
-      category_id != '' &&
-      subcategory_id != ''
-    ) {
-      let newNote: Note = {
-        name: name,
-        author_id: author_id,
-        category_id: category_id,
-        subcategory_id: subcategory_id,
-        content: content,
-      };
+      if (
+        name != '' &&
+        content != '' &&
+        content != null &&
+        category_id != '' &&
+        subcategory_id != ''
+      ) {
+        let newNote: Note = {
+          name: name,
+          author_id: author_id,
+          category_id: category_id,
+          subcategory_id: subcategory_id,
+          content: content,
+        };
 
-      this.notesService
-        .addNote(newNote)
-        .pipe(takeUntil(this.unsubscribe$))
-        .subscribe(
-          //! To jest do przerobienia response zwraca ID
-          (response) => {
-            console.log('ID:', response);
-          },
-          (error) => {
-            console.log('Bład:', error);
-          }
-        );
+        this.notesService
+          .addNote(newNote)
+          .pipe(takeUntil(this.unsubscribe$))
+          .subscribe(
+            //! To jest do przerobienia response zwraca ID
+            (response) => {
+              console.log('ID:', response);
+            },
+            (error) => {
+              console.log('Bład:', error);
+            }
+          );
 
-      setTimeout(() => {
-        this.router.navigate(['/notes']);
-      }, 1000);
-    } else {
-      alert('Nie wszystkie pola formularza zostały uzupełnione');
+        setTimeout(() => {
+          this.router.navigate(['/notes']);
+        }, 1000);
+      } else {
+        alert('Nie wszystkie pola formularza zostały uzupełnione');
+      }
     }
   }
 

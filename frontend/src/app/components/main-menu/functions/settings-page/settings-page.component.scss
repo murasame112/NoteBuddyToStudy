@@ -178,6 +178,12 @@ input[type="file"] {
   gap: 1rem;
 }
 
+.validators {
+  color: red;
+  width: 24rem;
+  text-align: center;
+}
+
 #spinner {
   position: fixed;
   left: 50%;
@@ -257,5 +263,10 @@ footer {
 
   #passwordContainer {
     flex-direction: column;
+  }
+
+  .validators {
+    color: red;
+    width: 15rem;
   }
 }

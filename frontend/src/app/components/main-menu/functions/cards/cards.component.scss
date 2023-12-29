@@ -36,7 +36,7 @@ main {
   justify-content: flex-start;
   align-items: center;
   min-height: 40rem;
-  border: 2px solid red;
+  // border: 2px solid red;
   padding-top: 5rem;
   padding-bottom: 5rem;
   gap: 1rem;
@@ -65,7 +65,7 @@ main {
 #cardsMenu {
   width: 40rem;
   height: 6rem;
-  border: 1px solid orange;
+  // border: 1px solid orange;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -192,6 +192,58 @@ main {
   // border: 1px solid blue;
   width: 38rem;
   height: 3rem;
+}
+
+.editCardContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.editMyCardBtn {
+  background-color: #f89e30;
+  border: 0.1rem solid #f3a749;
+}
+
+.editMyCardBtn:hover {
+  background-color: #f39d34;
+  border: 0.1rem solid #f3a749;
+}
+
+.deleteMyCardBtn {
+  background-color: rgba(218, 70, 96, 1);
+  border: 0.1rem solid rgba(218, 70, 96, 1);
+}
+
+.deleteMyCardBtn:hover {
+  background-color: rgb(211, 67, 94);
+}
+
+.editCardForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.form-control {
+  width: 15rem;
+  height: 5rem;
+  resize: none;
+  padding: 1rem;
+  background-color: #d1d1d1;
+  border: 1px solid #b3b3b3;
+  overflow: auto;
+  outline: none;
+  box-shadow: none;
+}
+
+.form-control:focus {
+  border-color: #861486;
+  box-shadow: 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.075) inset,
+    0rem 0px 0.2rem rgb(97, 6, 116);
 }
 
 #noCardContainer {

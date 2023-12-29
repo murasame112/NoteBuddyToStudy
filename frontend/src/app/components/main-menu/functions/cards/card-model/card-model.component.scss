@@ -3,7 +3,6 @@
   min-height: 10rem;
   font-family: "poppins", sans-serif;
   font-weight: 400;
-  // border: 2px solid red;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -20,6 +19,7 @@
   border: 1px solid #cacaca;
   border-radius: 1rem;
   gap: 2rem;
+  // background-color: blue;
 }
 
 .contentSpan {
@@ -42,10 +42,6 @@
   align-items: center;
   padding: 0.5rem;
   user-select: none;
-}
-
-#answerContainer {
-  display: none;
 }
 
 @media (max-width: 900px) {

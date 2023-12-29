@@ -9,29 +9,10 @@ import { CardsToShow } from 'src/app/models/cardToShow.model';
 })
 export class CardModelComponent {
   @Input() cardContent: CardsToShow | null = null;
+  @Input() myCardContent: Card | null = null;
+  questionVisible: boolean = true;
 
-  changeToAnswer() {
-    let answerContainer: HTMLElement | null =
-      document.querySelector('#questionContainer');
-
-    let questionContainer: HTMLElement | null =
-      document.querySelector('#answerContainer');
-
-    if (answerContainer && questionContainer) {
-      answerContainer.style.display = 'none';
-      questionContainer.style.display = 'flex';
-    }
-  }
-
-  changeToQuestion() {
-    let questionContainer: HTMLElement | null =
-      document.querySelector('#answerContainer');
-    let answerContainer: HTMLElement | null =
-      document.querySelector('#questionContainer');
-
-    if (questionContainer && answerContainer) {
-      questionContainer.style.display = 'none';
-      answerContainer.style.display = 'flex';
-    }
+  toggleCard() {
+    this.questionVisible = !this.questionVisible;
   }
 }

@@ -16,12 +16,21 @@ import { CardsComponent } from './components/main-menu/functions/cards/cards.com
 import { SettingsPageComponent } from './components/main-menu/functions/settings-page/settings-page.component';
 import { isAuthenticatedGuard } from './guards/is-authenticated.guard';
 import { roleGuard } from './guards/role.guard';
+import { showreglogGuard } from './guards/showreglog.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'landing', pathMatch: 'full' },
   { path: 'landing', component: LandingPageComponent },
-  { path: 'login', component: LoginPageComponent },
-  { path: 'register', component: RegisterPageComponent },
+  {
+    path: 'login',
+    component: LoginPageComponent,
+    canActivate: [showreglogGuard],
+  },
+  {
+    path: 'register',
+    component: RegisterPageComponent,
+    canActivate: [showreglogGuard],
+  },
   { path: 'main', component: MainMenuComponent },
   {
     path: 'notes',

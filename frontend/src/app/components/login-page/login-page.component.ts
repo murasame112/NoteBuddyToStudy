@@ -8,6 +8,7 @@ import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
 import { Login } from 'src/app/models/login.model';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
+declare let google: any;
 
 @Component({
   selector: 'app-login-page',
@@ -43,6 +44,27 @@ export class LoginPageComponent extends Unsubscribe implements OnInit {
         CustomValidators.passwordValidation(),
       ]),
     });
+
+    //google client_id- 939910674326-4ng45jmorirmuuiu9irh80ofqdokl51l.apps.googleusercontent.com
+
+    google.accounts.id.initialize({
+      client_id:
+        '939910674326-4ng45jmorirmuuiu9irh80ofqdokl51l.apps.googleusercontent.com',
+      callback: (res: any) => {
+        console.log(res.credential);
+        console.log('dane: ', this.authService.decodeToken(res.credential));
+      },
+    });
+
+    google.accounts.id.renderButton(
+      document.getElementById('loginByPlatformG'),
+      {
+        type: 'standard',
+        theme: 'outline',
+        shape: 'pill',
+        width: 200,
+      }
+    );
   }
 
   login(data: Login) {

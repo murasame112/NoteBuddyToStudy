@@ -74,6 +74,32 @@
               zmień hasło
             </button>
           </div>
+
+          <ng-container
+            *ngIf="
+              editUserForm.get('password')!.hasError('required') &&
+              editUserForm.get('password')!.touched
+            "
+          >
+            <div class="validators">
+              <span>&#x2022; To pole nie może być puste</span>
+            </div>
+          </ng-container>
+
+          <ng-container
+            *ngIf="
+              editUserForm.get('password')!.hasError('passwordInvalid') &&
+              editUserForm.get('password')!.touched &&
+              !editUserForm.get('password')!.hasError('required')
+            "
+          >
+            <div class="validators">
+              <span
+                >&#x2022; To pole musi zawierać 7 znaków (duże i małe litery,
+                liczby i znaki specjalne)
+              </span>
+            </div>
+          </ng-container>
         </div>
       </div>
     </form>

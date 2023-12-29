@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../models/user.model';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +10,7 @@ import { User } from '../models/user.model';
 export class AuthService {
   public apiUrl = 'http://localhost:3000';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   //logowanie uzytkownika zwraca token lub false
   loginUser(loginData: any): Observable<string> {
@@ -31,9 +32,16 @@ export class AuthService {
     return localStorage.getItem('Token') || null;
   }
 
+  decodeToken(token: string) {
+    const [header, payload, signature] = token.split('.');
+    return JSON.parse(atob(payload));
+  }
+
   //czysci localStorage
   logout() {
     localStorage.clear();
+    this.currentUserSignal.set(null);
+    this.router.navigateByUrl('/login');
   }
 
   //! Tylko chwilowo
