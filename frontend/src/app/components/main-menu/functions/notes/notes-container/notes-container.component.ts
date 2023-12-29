@@ -19,14 +19,10 @@ import { FinalNote } from 'src/app/models/finalNote.model';
   styleUrls: ['./notes-container.component.scss'],
 })
 export class NotesContainerComponent extends Unsubscribe implements OnInit {
-  //TODO sortowanie po dacie
-  //TODO tworzenie fiszek
-  //TODO poprawki z layoucie (addNote) i subcategory box gdy wymagany jest długi temat
-  //TODO addNote po dodaniu wraca do notes
-
   // @Input() data: Note | null = null;
   // @Input() notesAndDetails: NoteAndDetails[] | null = null;
   @Input() finalNote: FinalNote | null = null;
+  @Input() userRole: string | undefined = undefined;
   @Output() public deleteNoteEvent: EventEmitter<boolean> = new EventEmitter();
 
   isVisible: boolean = false;

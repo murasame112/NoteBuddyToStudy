@@ -15,6 +15,7 @@
 
     <div #container *ngIf="isVisible" id="hoverMenu">
       <i
+        *ngIf="userRole === 'admin'"
         class="fa-solid fa-trash fa-xl icons"
         (click)="deleteNote(finalNote?.note_id)"
       ></i>

@@ -252,8 +252,6 @@ export class CardsComponent extends Unsubscribe implements OnInit {
   }
 
   deleteCard(card_id: any) {
-    console.log('Delete:', card_id);
-
     const index = this.userCards.findIndex((c) => c._id === card_id);
     if (index !== -1) {
       this.userCards.splice(index, 1);
