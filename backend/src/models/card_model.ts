@@ -7,6 +7,7 @@ export class Card {
   published?: boolean;
   shared_date?: Date;
   last_edit_date?: Date;
+	_id?: ObjectId;
 
   constructor(
     question: string,
@@ -15,7 +16,8 @@ export class Card {
     author_id: ObjectId,
     published?: boolean,
     shared_date?: Date,
-    last_edit_date?: Date
+    last_edit_date?: Date,
+		_id?: ObjectId
   ) {
     this.question = question;
     this.answer = answer;
@@ -24,5 +26,6 @@ export class Card {
     this.published = published ? published : false;
     this.shared_date = shared_date ? shared_date : new Date();
     this.last_edit_date = last_edit_date ? last_edit_date : this.shared_date;
+		this._id = _id ? _id : undefined;
   }
 }

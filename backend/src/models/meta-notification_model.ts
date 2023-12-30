@@ -5,18 +5,21 @@ export class MetaNotification {
   value?: string;
 	active?: boolean;
   shared_date?: Date;
+	_id?: ObjectId;
 
   constructor(
     notification_id: ObjectId,
     user_id: ObjectId,
     value?: string,
 		active?: boolean,
-    shared_date?: Date
+    shared_date?: Date,
+		_id?: ObjectId
   ) {
     this.notification_id = notification_id;
     this.user_id = user_id;
     this.value = value ? value : "";
 		this.active = active ? active : true;
     this.shared_date = shared_date ? shared_date : new Date();
+		this._id = _id ? _id : undefined;
   }
 }

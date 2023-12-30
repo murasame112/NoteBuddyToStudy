@@ -13,6 +13,7 @@ export class User {
   followed_users: Array<ObjectId>;
   blocked_users: Array<ObjectId>;
 	created: Date;
+	_id?: ObjectId;
 
   constructor(
     login: string,
@@ -26,6 +27,7 @@ export class User {
     followed_users?: Array<ObjectId>,
     blocked_users?: Array<ObjectId>,
 		created?: Date,
+		_id?: ObjectId
   ) {
     this.login = login;
     this.avatar_url = avatar_url;
@@ -38,5 +40,6 @@ export class User {
     this.followed_users = followed_users ? followed_users : [];
     this.blocked_users = blocked_users ? blocked_users : [];
 		this.created = created ? created : new Date();
+		this._id = _id ? _id : undefined;
   }
 }

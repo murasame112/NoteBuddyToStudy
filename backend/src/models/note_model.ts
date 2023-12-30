@@ -10,6 +10,7 @@ export class Note {
   published?: boolean;
   positive_reviews?: number;
   negative_reviews?: number;
+	_id?: ObjectId;
 
   constructor(
     name: string,
@@ -22,6 +23,7 @@ export class Note {
     negative_reviews?: number,
 		shared_date?: Date,
     last_edit_date?: Date,
+		_id?: ObjectId
   ) {
     this.name = name;
     this.author_id = author_id;
@@ -33,5 +35,6 @@ export class Note {
     this.negative_reviews = negative_reviews ? negative_reviews : 0;
 		this.shared_date = shared_date ? shared_date : new Date();
     this.last_edit_date = last_edit_date ? last_edit_date : this.shared_date;
+		this._id = _id ? _id : undefined;
   }
 }
