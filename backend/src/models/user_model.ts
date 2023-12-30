@@ -35,7 +35,7 @@ export class User {
     this.password = password;
 		this.role = role ? role : Role.user;
     this.active = active ? active : true;
-    this.untrusted = untrusted ? untrusted : false;
+    this.untrusted = untrusted ? untrusted : true;
     this.saved_notes = saved_notes ? saved_notes : [];
     this.followed_users = followed_users ? followed_users : [];
     this.blocked_users = blocked_users ? blocked_users : [];
