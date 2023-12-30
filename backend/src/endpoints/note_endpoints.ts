@@ -55,7 +55,8 @@ export function getNoteById(req: Request, res: Response) {
       value.positive_reviews,
       value.negative_reviews,
 			value.shared_date,
-			value.last_edit_date
+			value.last_edit_date,
+			value._id
     );
     res.send(note);
   });
@@ -98,7 +99,8 @@ export function getMultipleNotes(req: Request, res: Response) {
         value.positive_reviews,
         value.negative_reviews,
         value.shared_date,
-        value.last_edit_date
+        value.last_edit_date,
+				value._id
       );
       noteArray.push(note);
       if (counter == ids.length) {
@@ -153,7 +155,8 @@ export function getNotesByQuery(req: Request, res: Response) {
         element.positive_reviews,
         element.negative_reviews,
 				element.shared_date,
-        element.last_edit_date
+        element.last_edit_date,
+				element._id
       );
       noteArray.push(note);
     });
@@ -193,7 +196,8 @@ export function getNotesByQueriedId(req: Request, res: Response) {
         element.positive_reviews,
         element.negative_reviews,
 				element.shared_date,
-        element.last_edit_date
+        element.last_edit_date,
+				element._id
       );
       noteArray.push(note);
     });
@@ -469,6 +473,9 @@ export function updateNote(req: Request, res: Response) {
   }
   if (typeof query.author_id !== "undefined") {
     query.author_id = new ObjectId(query.author_id);
+  }	
+	if (typeof query._id !== "undefined") {
+    query._id = new ObjectId(query._id);
   }
 	query.shared_date = globalTools.createDateFromString(query.shared_date);
 	query.last_edit_date = globalTools.createDateFromString(query.last_edit_date);
@@ -520,6 +527,9 @@ export function updateMultipleNotes(req: Request, res: Response) {
   }
   if (typeof updateQuery.author_id !== "undefined") {
     updateQuery.author_id = new ObjectId(updateQuery.author_id);
+  }
+	if (typeof updateQuery._id !== "undefined") {
+    updateQuery._id = new ObjectId(updateQuery._id);
   }
 	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
 	updateQuery.last_edit_date = globalTools.createDateFromString(updateQuery.last_edit_date);
@@ -584,6 +594,9 @@ export function updateNotesByQuery(req: Request, res: Response) {
   if (typeof updateQuery.author_id !== "undefined") {
     updateQuery.author_id = new ObjectId(updateQuery.author_id);
   }
+	if (typeof updateQuery._id !== "undefined") {
+    updateQuery._id = new ObjectId(updateQuery._id);
+  }
 	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
 	updateQuery.last_edit_date = globalTools.createDateFromString(updateQuery.last_edit_date);
   let query = { [field]: value };
@@ -624,6 +637,9 @@ export function updateNotesByQueriedId(req: Request, res: Response) {
   if (typeof updateQuery.author_id !== "undefined") {
     updateQuery.author_id = new ObjectId(updateQuery.author_id);
   }
+	if (typeof updateQuery._id !== "undefined") {
+    updateQuery._id = new ObjectId(updateQuery._id);
+  }
 	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
 	updateQuery.last_edit_date = globalTools.createDateFromString(updateQuery.last_edit_date);
   let query = { [field]: objValue };
@@ -662,6 +678,13 @@ export function replaceNote(req: Request, res: Response) {
 	
   const id = req.params.id;
   const query = req.body;
+
+	if (typeof query._id !== "undefined") {
+    query._id = new ObjectId(query._id);
+  }else{
+		query._id = new ObjectId(id);
+	}
+
   let note: Note;
   note = new Note(
     query.name,
@@ -671,7 +694,8 @@ export function replaceNote(req: Request, res: Response) {
     query.content,
     query.published,
     query.positive_reviews,
-    query.negative_reviews
+    query.negative_reviews,
+		query._id
   );
   const result = global.replaceItemById(id, table_name, note);
   result.then((value) => {
@@ -710,7 +734,8 @@ export function stealNote(req: Request, res: Response) {
       value.value.positive_reviews,
       value.value.negative_reviews,
 			value.value.shared_date,
-      value.value.last_edit_date
+      value.value.last_edit_date,
+			value.value._id
     );
     res.status(201).send(note);
   });

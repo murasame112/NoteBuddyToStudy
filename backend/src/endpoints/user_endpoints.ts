@@ -42,7 +42,8 @@ export function getUserById(req: Request, res: Response) {
 			value.saved_notes,
 			value.followed_users,
 			value.blocked_users,
-			value.created
+			value.created,
+			value._id
     );
     res.send(user);
   });
@@ -87,7 +88,8 @@ export function getUsersByQuery(req: Request, res: Response) {
 				element.saved_notes,
 				element.followed_users,
 				element.blocked_users,
-				element.created
+				element.created,
+				element._id
       );
       userArray.push(user);
     });
@@ -121,7 +123,8 @@ export function getUsersByQueriedId(req: Request, res: Response) {
 				element.saved_notes,
 				element.followed_users,
 				element.blocked_users,
-				element.created
+				element.created,
+				element._id
       );
       userArray.push(user);
     });
@@ -334,7 +337,11 @@ export function deleteUsersByQueriedId(req: Request, res: Response) {
 export function updateUser(req: Request, res: Response) {
   const id = req.params.id;
   const query = req.body;
-		
+
+	if (typeof query._id !== "undefined") {
+    query._id = new ObjectId(query._id);
+  }
+
 	let note_id: ObjectId;
 	if (typeof query.saved_notes !== "undefined") {
     let notesIds: ObjectId[] = [];
@@ -409,6 +416,9 @@ export function updateUser(req: Request, res: Response) {
 export function updateMultipleUsers(req: Request, res: Response) {
   const ids = req.body.ids;
   const updateQuery = req.body.query;
+	if (typeof updateQuery._id !== "undefined") {
+    updateQuery._id = new ObjectId(updateQuery._id);
+  }
 
 
 	let note_id: ObjectId;
@@ -497,6 +507,9 @@ export function updateUsersByQuery(req: Request, res: Response) {
 	}
 
   const updateQuery = req.body;
+	if (typeof updateQuery._id !== "undefined") {
+    updateQuery._id = new ObjectId(updateQuery._id);
+  }
 
 
 	let note_id: ObjectId;
@@ -567,6 +580,9 @@ export function updateUsersByQueriedId(req: Request, res: Response) {
   const objValue = new ObjectId(value);
 
   let updateQuery = req.body;
+	if (typeof updateQuery._id !== "undefined") {
+    updateQuery._id = new ObjectId(updateQuery._id);
+  }
 
 	let note_id: ObjectId;
 	if (typeof updateQuery.saved_notes !== "undefined") {
@@ -644,6 +660,12 @@ export function replaceUser(req: Request, res: Response) {
   const id = req.params.id;
   const query = req.body;
 
+	if (typeof query._id !== "undefined") {
+    query._id = new ObjectId(query._id);
+  }else{
+		query._id = new ObjectId(id);
+	}
+
   let user: User;
   user = new User(
     query.login,
@@ -655,7 +677,8 @@ export function replaceUser(req: Request, res: Response) {
 		query.untrusted,
 		query.saved_notes,
 		query.followed_users,
-		query.blocked_users
+		query.blocked_users,
+		query._id
   );
   const result = global.replaceItemById(id, table_name, user);
   result.then((value) => {
@@ -688,7 +711,8 @@ export function stealUser(req: Request, res: Response) {
 			value.value.saved_notes,
 			value.value.followed_users,
 			value.value.blocked_users,
-			value.value.created
+			value.value.created,
+			value.value._id
     );
     res.status(201).send(user);
   });

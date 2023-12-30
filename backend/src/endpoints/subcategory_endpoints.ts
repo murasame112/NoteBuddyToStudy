@@ -44,10 +44,9 @@ export function getSubcategoryById(req: Request, res: Response) {
   let subcategory: Subcategory;
   result.then((value) => {
     subcategory = new Subcategory(
-      // value.name,
-      // value.category_id
       value.category_id,
-      value.name
+      value.name,
+			value._id
     );
     res.send(subcategory);
   });
@@ -79,7 +78,7 @@ export function getSubcategoriesByQuery(req: Request, res: Response) {
   let subcategory: Subcategory;
   result.then((value) => {
     value.forEach((element: Subcategory) => {
-      subcategory = new Subcategory(element.category_id, element.name);
+      subcategory = new Subcategory(element.category_id, element.name, element._id);
       subcategoryArray.push(subcategory);
     });
     res.send(subcategoryArray);
@@ -108,7 +107,7 @@ export function getSubcategoriesByQueriedId(req: Request, res: Response) {
   let subcategory: Subcategory;
   result.then((value) => {
     value.forEach((element: Subcategory) => {
-      subcategory = new Subcategory(element.category_id, element.name);
+      subcategory = new Subcategory(element.category_id, element.name, element._id);
       subcategoryArray.push(subcategory);
     });
     res.send(subcategoryArray);
@@ -334,6 +333,9 @@ export function updateSubcategory(req: Request, res: Response) {
   if (typeof query.category_id !== "undefined") {
     query.category_id = new ObjectId(query.category_id);
   }
+	if (typeof query._id !== "undefined") {
+    query._id = new ObjectId(query._id);
+  }
   const result = global.updateItemById(id, table_name, query);
   result.then((value) => {
 		if(value.acknowledged){
@@ -374,6 +376,9 @@ export function updateMultipleSubcategories(req: Request, res: Response) {
   let updateQuery = req.body.query;
   if (typeof updateQuery.category_id !== "undefined") {
     updateQuery.category_id = new ObjectId(updateQuery.category_id);
+  }
+	if (typeof updateQuery._id !== "undefined") {
+    updateQuery._id = new ObjectId(updateQuery._id);
   }
   let counter = 0;
   ids.forEach((element: string) => {
@@ -422,6 +427,9 @@ export function updateSubcategoriesByQuery(req: Request, res: Response) {
   if (typeof updateQuery.category_id !== "undefined") {
     updateQuery.category_id = new ObjectId(updateQuery.category_id);
   }
+	if (typeof updateQuery._id !== "undefined") {
+    updateQuery._id = new ObjectId(updateQuery._id);
+  }
   let query = { [field]: value };
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
@@ -453,6 +461,9 @@ export function updateSubcategoriesByQueriedId(req: Request, res: Response) {
   let updateQuery = req.body;
   if (typeof updateQuery.category_id !== "undefined") {
     updateQuery.category_id = new ObjectId(updateQuery.category_id);
+  }
+	if (typeof updateQuery._id !== "undefined") {
+    updateQuery._id = new ObjectId(updateQuery._id);
   }
   let query = { [field]: objValue };
 
@@ -489,8 +500,15 @@ export function replaceSubcategory(req: Request, res: Response) {
 	
   const id = req.params.id;
   const query = req.body;
+
+	if (typeof query._id !== "undefined") {
+    query._id = new ObjectId(query._id);
+  }else{
+		query._id = new ObjectId(id);
+	}
+
   let subcategory: Subcategory;
-  subcategory = new Subcategory(query.category_id, query.name);
+  subcategory = new Subcategory(query.category_id, query.name, query._id);
   const result = global.replaceItemById(id, table_name, subcategory);
   result.then((value) => {
 		if(value.acknowledged){
@@ -518,7 +536,7 @@ export function stealSubcategory(req: Request, res: Response) {
   const result = global.stealItemById(id, table_name);
   result.then((value) => {
     let subcategory: Subcategory;
-    subcategory = new Subcategory(value.value.category_id, value.value.name);
+    subcategory = new Subcategory(value.value.category_id, value.value.name, value.value._id);
     res.status(201).send(subcategory);
   });
 }
