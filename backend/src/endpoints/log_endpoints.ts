@@ -44,7 +44,7 @@ export function getLogById(req: Request, res: Response) {
   const result = global.getItemById(id, table_name);
   let log: Log;
   result.then((value) => {
-    log = new Log(value.type, value.content, value.date);
+    log = new Log(value.type, value.content, value.date, value._id);
     res.send(log);
   });
 }
@@ -84,7 +84,7 @@ export function getLogsByQuery(req: Request, res: Response) {
   let log: Log;
   result.then((value) => {
     value.forEach((element: Log) => {
-      log = new Log(element.type, element.content, element.date);
+      log = new Log(element.type, element.content, element.date, element._id);
       logArray.push(log);
     });
     res.send(logArray);
@@ -286,6 +286,9 @@ export function updateLog(req: Request, res: Response) {
 
   const id = req.params.id;
   const query = req.body;
+	if (typeof query._id !== "undefined") {
+    query._id = new ObjectId(query._id);
+  }
 	query.date = globalTools.createDateFromString(query.date);
   const result = global.updateItemById(id, table_name, query);
   result.then((value) => {
@@ -326,6 +329,11 @@ export function updateMultipleLogs(req: Request, res: Response) {
 
   const ids = req.body.ids;
   const updateQuery = req.body.query;
+
+	if (typeof updateQuery._id !== "undefined") {
+    updateQuery._id = new ObjectId(updateQuery._id);
+  }
+
 	updateQuery.date = globalTools.createDateFromString(updateQuery.date);
   let counter = 0;
   ids.forEach((element: string) => {
@@ -379,6 +387,9 @@ export function updateLogsByQuery(req: Request, res: Response) {
 	}
 
   const updateQuery = req.body;
+	if (typeof updateQuery._id !== "undefined") {
+    updateQuery._id = new ObjectId(updateQuery._id);
+  }
 	updateQuery.date = globalTools.createDateFromString(updateQuery.date);
   let query = { [field]: JSON.parse(value) };
   const result = global.updateItemsByField(query, table_name, updateQuery);
@@ -413,8 +424,15 @@ export function replaceLog(req: Request, res: Response) {
 
   const id = req.params.id;
   const query = req.body;
+
+	if (typeof query._id !== "undefined") {
+    query._id = new ObjectId(query._id);
+  }else{
+		query._id = new ObjectId(id);
+	}
+
   let log: Log;
-  log = new Log(query.type, query.content);
+  log = new Log(query.type, query.content, query._id);
   const result = global.replaceItemById(id, table_name, log);
   result.then((value) => {
 		if(value.acknowledged){
@@ -442,7 +460,7 @@ export function stealLog(req: Request, res: Response) {
   const result = global.stealItemById(id, table_name);
   result.then((value) => {
     let log: Log;
-    log = new Log(value.value.type, value.value.content, value.value.date);
+    log = new Log(value.value.type, value.value.content, value.value.date, value.value._id);
     res.status(201).send(log);
   });
 }

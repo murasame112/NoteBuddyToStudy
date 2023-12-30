@@ -44,7 +44,7 @@ export function getGroupById(req: Request, res: Response) {
   const result = global.getItemById(id, table_name);
   let group: Group;
   result.then((value) => {
-    group = new Group(value.type, value.users, value.created);
+    group = new Group(value.type, value.users, value.created, value._id);
     res.send(group);
   });
 }
@@ -84,7 +84,7 @@ export function getGroupsByQuery(req: Request, res: Response) {
   let group: Group;
   result.then((value) => {
     value.forEach((element: Group) => {
-      group = new Group(element.type, element.users, element.created);
+      group = new Group(element.type, element.users, element.created, element._id);
       groupArray.push(group);
     });
     res.send(groupArray);
@@ -113,7 +113,7 @@ export function getGroupsByQueriedId(req: Request, res: Response) {
   let group: Group;
   result.then((value) => {
     value.forEach((element: Group) => {
-      group = new Group(element.type, element.users, element.created);
+      group = new Group(element.type, element.users, element.created, element._id);
       groupArray.push(group);
     });
     res.send(groupArray);
@@ -373,7 +373,9 @@ export function updateGroup(req: Request, res: Response) {
 
   const id = req.params.id;
   let query = req.body;
-
+	if (typeof query._id !== "undefined") {
+    query._id = new ObjectId(query._id);
+  }
 
 	let user_id: ObjectId;
 
@@ -429,6 +431,10 @@ export function updateMultipleGroups(req: Request, res: Response) {
 
   const ids = req.body.ids;
   let updateQuery = req.body.query;
+
+	if (typeof updateQuery._id !== "undefined") {
+    updateQuery._id = new ObjectId(updateQuery._id);
+  }
 
 	let user_id: ObjectId;
 
@@ -497,7 +503,9 @@ export function updateGroupsByQuery(req: Request, res: Response) {
 	}
 	
   let updateQuery = req.body;
-
+	if (typeof updateQuery._id !== "undefined") {
+    updateQuery._id = new ObjectId(updateQuery._id);
+  }
 
 	updateQuery.created = globalTools.createDateFromString(updateQuery.created);
 	
@@ -547,6 +555,9 @@ export function updateGroupsByQueriedId(req: Request, res: Response) {
   const objValue = new ObjectId(value);
 
   let updateQuery = req.body;
+	if (typeof updateQuery._id !== "undefined") {
+    updateQuery._id = new ObjectId(updateQuery._id);
+  }
 
 	let user_id: ObjectId;
 	if (typeof updateQuery.users !== "undefined") {
@@ -598,13 +609,19 @@ export function replaceGroup(req: Request, res: Response) {
   const id = req.params.id;
   const query = req.body;
 
+	if (typeof query._id !== "undefined") {
+    query._id = new ObjectId(query._id);
+  }else{
+		query._id = new ObjectId(id);
+	}
+
 	if(!Array.isArray(query.users) || query.users.length == 0){
 		res.status(400).send("Error");
 		return false;
 	}
 
   let group: Group;
-  group = new Group(query.type, query.users);
+  group = new Group(query.type, query.users, query._id);
   const result = global.replaceItemById(id, table_name, group);
   result.then((value) => {
 		if(value.acknowledged){
@@ -632,7 +649,7 @@ export function stealGroup(req: Request, res: Response) {
   const result = global.stealItemById(id, table_name);
   result.then((value) => {
     let group: Group;
-    group = new Group(value.value.type, value.value.users, value.value.created);
+    group = new Group(value.value.type, value.value.users, value.value.created,	value.value._id);
     res.status(201).send(group);
   });
 }

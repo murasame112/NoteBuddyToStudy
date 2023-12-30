@@ -43,7 +43,7 @@ export function getHintById(req: Request, res: Response) {
   const result = global.getItemById(id, table_name);
   let hint: Hint;
   result.then((value) => {
-    hint = new Hint(value.content);
+    hint = new Hint(value.content, value._id);
     res.send(hint);
   });
 }
@@ -76,7 +76,7 @@ export function getHintsByQuery(req: Request, res: Response) {
   let hint: Hint;
   result.then((value) => {
     value.forEach((element: Hint) => {
-      hint = new Hint(element.content);
+      hint = new Hint(element.content, element._id);
       hintArray.push(hint);
     });
     res.send(hintArray);
@@ -267,6 +267,11 @@ export function updateHint(req: Request, res: Response) {
 
   const id = req.params.id;
   const query = req.body;
+
+	if (typeof query._id !== "undefined") {
+    query._id = new ObjectId(query._id);
+  }
+
   const result = global.updateItemById(id, table_name, query);
   result.then((value) => {
 		if(value.acknowledged){
@@ -305,6 +310,11 @@ export function updateMultipleHints(req: Request, res: Response) {
 
   const ids = req.body.ids;
   const updateQuery = req.body.query;
+
+	if (typeof updateQuery._id !== "undefined") {
+    updateQuery._id = new ObjectId(updateQuery._id);
+  }
+
   let counter = 0;
   ids.forEach((element: string) => {
     const result = global.updateItemById(element, table_name, updateQuery);
@@ -349,6 +359,11 @@ export function updateHintsByQuery(req: Request, res: Response) {
   }
 
   const updateQuery = req.body;
+
+	if (typeof updateQuery._id !== "undefined") {
+    updateQuery._id = new ObjectId(updateQuery._id);
+  }
+
   let query = { [field]: JSON.parse(value) };
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
@@ -381,8 +396,16 @@ export function replaceHint(req: Request, res: Response) {
 
   const id = req.params.id;
   const query = req.body;
+
+	if (typeof query._id !== "undefined") {
+    query._id = new ObjectId(query._id);
+  }else{
+		query._id = new ObjectId(id);
+	}
+
+
   let hint: Hint;
-  hint = new Hint(query.content);
+  hint = new Hint(query.content, query._id);
   const result = global.replaceItemById(id, table_name, hint);
   result.then((value) => {
 		if(value.acknowledged){
@@ -410,7 +433,7 @@ export function stealHint(req: Request, res: Response) {
   const result = global.stealItemById(id, table_name);
   result.then((value) => {
     let hint: Hint;
-    hint = new Hint(value.value.content);
+    hint = new Hint(value.value.content, value.value._id);
     res.status(201).send(hint);
   });
 }
