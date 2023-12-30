@@ -9,6 +9,25 @@ import * as loginService from "../services/login"
 
 const table_name = "categories";
 
+
+// finds all categories
+// /categories
+// example:
+//  http://localhost:3000/categories
+export function getAllCategories(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
+  const result = global.getAllItems(table_name);
+  result.then((value) => {
+    res.send(value);
+  });
+}
+
 // finds category by id
 // /category/{id}
 // example:
@@ -27,24 +46,6 @@ export function getCategoryById(req: Request, res: Response) {
   result.then((value) => {
     cat = new Category(value.name, value._id);
     res.send(cat);
-  });
-}
-
-// finds all categories
-// /categories
-// example:
-//  http://localhost:3000/categories
-export function getAllCategories(req: Request, res: Response) {
-	const authData = req.headers.authorization;
-	const token = authData?.split(' ')[1] ?? '';
-	if(!loginService.checkIfLogged(token)){
-		res.status(401).send("Error - unauthorized");
-		return false;
-	}
-
-  const result = global.getAllItems(table_name);
-  result.then((value) => {
-    res.send(value);
   });
 }
 

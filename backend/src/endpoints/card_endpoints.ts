@@ -51,7 +51,8 @@ export function getCardById(req: Request, res: Response) {
 			value.author_id,
 			value.published,
 			value.shared_date,
-			value.last_edit_date
+			value.last_edit_date,
+			value._id
 			);
     res.send(card);
   });
@@ -99,7 +100,8 @@ export function getCardsByQuery(req: Request, res: Response) {
 				element.author_id,
 				element.published,
 				element.shared_date,
-				element.last_edit_date
+				element.last_edit_date,
+				element._id
 				);
       cardArray.push(card);
     });
@@ -136,7 +138,8 @@ export function getCardsByQueriedId(req: Request, res: Response) {
 				element.author_id,
 				element.published,
 				element.shared_date,
-				element.last_edit_date
+				element.last_edit_date,
+				element._id
 				);
       cardArray.push(card);
     });
@@ -405,6 +408,10 @@ export function updateCard(req: Request, res: Response) {
 	if (typeof query.author_id !== "undefined") {
     query.author_id = new ObjectId(query.author_id);
   }
+	if (typeof query._id !== "undefined") {
+    query._id = new ObjectId(query._id);
+  }
+
 
 	
 	query.shared_date = globalTools.createDateFromString(query.shared_date);
@@ -455,6 +462,9 @@ export function updateMultipleCards(req: Request, res: Response) {
   }
   if (typeof updateQuery.author_id !== "undefined") {
     updateQuery.author_id = new ObjectId(updateQuery.author_id);
+  }
+	if (typeof updateQuery._id !== "undefined") {
+    updateQuery._id = new ObjectId(updateQuery._id);
   }
 
 
@@ -520,6 +530,9 @@ export function updateCardsByQuery(req: Request, res: Response) {
   if (typeof updateQuery.author_id !== "undefined") {
     updateQuery.author_id = new ObjectId(updateQuery.author_id);
   }
+	if (typeof updateQuery._id !== "undefined") {
+    updateQuery._id = new ObjectId(updateQuery._id);
+  }
 
 
 	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
@@ -558,6 +571,9 @@ export function updateCardsByQueriedId(req: Request, res: Response) {
   }
   if (typeof updateQuery.author_id !== "undefined") {
     updateQuery.author_id = new ObjectId(updateQuery.author_id);
+  }
+	if (typeof updateQuery._id !== "undefined") {
+    updateQuery._id = new ObjectId(updateQuery._id);
   }
 
 
@@ -600,13 +616,20 @@ export function replaceCard(req: Request, res: Response) {
   const id = req.params.id;
   const query = req.body;
 
+	if (typeof query._id !== "undefined") {
+    query._id = new ObjectId(query._id);
+  }else{
+		query._id = new ObjectId(id);
+	}
+
   let card: Card;
   card = new Card(
 		query.question, 
 		query.answer,
 		query.note_id,
 		query.author_id,
-		query.published
+		query.published,
+		query._id
 		);
   const result = global.replaceItemById(id, table_name, card);
   result.then((value) => {
@@ -642,7 +665,8 @@ export function stealCard(req: Request, res: Response) {
 			value.value.author_id,
 			value.value.published,
 			value.value.shared_date,
-			value.value.last_edit_date
+			value.value.last_edit_date,
+			value.value._id
 			);
     res.status(201).send(card);
   });
