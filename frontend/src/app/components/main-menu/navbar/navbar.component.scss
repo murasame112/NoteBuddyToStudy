@@ -3,8 +3,8 @@
   // grid-template-columns: 0.5fr 0.5fr 1fr 1fr 0.5fr 0.5fr 0.5fr 0.1fr;
   grid-template-columns: 0.5fr 0.5fr 1fr 1fr 0.5fr 0.5fr auto 0.1fr;
   grid-template-rows: 1fr;
-  // grid-template-areas: "logo notes advices learnTogether chat followers  user-menu .";
-  grid-template-areas: "logo notes advices learnTogether chat followers  user-menu .";
+  // grid-template-areas: "logo notes advices learnTogether chat favorite  user-menu .";
+  grid-template-areas: "logo notes advices learnTogether chat favorite  user-menu .";
   background-color: #310b61;
   align-items: center;
   justify-items: center;
@@ -46,8 +46,8 @@
   grid-area: chat;
 }
 
-#followers-btn {
-  grid-area: followers;
+#favorite-btn {
+  grid-area: favorite;
 }
 
 .nav-btn {

@@ -17,6 +17,9 @@ import { SettingsPageComponent } from './components/main-menu/functions/settings
 import { isAuthenticatedGuard } from './guards/is-authenticated.guard';
 import { roleGuard } from './guards/role.guard';
 import { showreglogGuard } from './guards/showreglog.guard';
+import { FavoriteNotesComponent } from './components/main-menu/functions/favorite-notes/favorite-notes.component';
+import { MyNotesComponent } from './components/main-menu/functions/my-notes/my-notes.component';
+import { EditNoteComponent } from './components/main-menu/functions/edit-note/edit-note.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'landing', pathMatch: 'full' },
@@ -47,6 +50,13 @@ const routes: Routes = [
     component: NoteAddComponent,
     canActivate: [isAuthenticatedGuard],
   },
+
+  {
+    path: 'editNote/:id',
+    component: EditNoteComponent,
+    canActivate: [isAuthenticatedGuard],
+  },
+
   {
     path: 'card-add/:id',
     component: CardAddComponent,
@@ -77,6 +87,19 @@ const routes: Routes = [
     component: SettingsPageComponent,
     canActivate: [isAuthenticatedGuard],
   },
+
+  {
+    path: 'favorite',
+    component: FavoriteNotesComponent,
+    canActivate: [isAuthenticatedGuard],
+  },
+
+  {
+    path: 'mynotes',
+    component: MyNotesComponent,
+    canActivate: [isAuthenticatedGuard],
+  },
+
   { path: '**', component: PageErrorComponent },
 ];
 

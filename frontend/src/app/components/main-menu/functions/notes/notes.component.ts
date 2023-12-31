@@ -2,7 +2,7 @@ import { Component, OnInit, EventEmitter } from '@angular/core';
 import { NotesService } from '../../../../services/notes.service';
 import { Note } from '../../../../models/note.model';
 import { Observable, first, forkJoin } from 'rxjs';
-import { concatAll, finalize, map, takeUntil } from 'rxjs/operators';
+import { concatAll, finalize, map, take, takeUntil } from 'rxjs/operators';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Category } from 'src/app/models/category.model';
 import { Subcategory } from 'src/app/models/subcategory.model';
@@ -11,6 +11,7 @@ import { NoteAndDetails } from 'src/app/models/noteAndDetails.model';
 import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
 import { FinalNote } from 'src/app/models/finalNote.model';
 import { AuthService } from 'src/app/services/auth.service';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-notes',
@@ -20,13 +21,15 @@ import { AuthService } from 'src/app/services/auth.service';
 export class NotesComponent extends Unsubscribe implements OnInit {
   constructor(
     private notesService: NotesService,
-    public authService: AuthService
+    public authService: AuthService,
+    private usersService: UsersService
   ) {
     super();
   }
   ngOnInit(): void {
     this.getAllNotesArrays();
     this.getFinalNotes();
+    this.getUserFavNotes();
 
     this.FilterForm = new FormGroup({
       categoryName: new FormControl(''),
@@ -53,6 +56,11 @@ export class NotesComponent extends Unsubscribe implements OnInit {
   filteredsubcategories: Subcategory[] = [];
 
   allUsers: User[] = [];
+
+  currentUserId: string | undefined = this.authService.currentUserSignal()?._id;
+  currentUserRole: string | undefined =
+    this.authService.currentUserSignal()?.role;
+  userSavedNotes: Array<string> = [];
 
   FilterForm = new FormGroup({
     categoryName: new FormControl(''),
@@ -305,5 +313,21 @@ export class NotesComponent extends Unsubscribe implements OnInit {
     }
 
     this.finalNotesArray = this.filteredFinalNotes;
+  }
+
+  //Fav notes
+  getUserFavNotes() {
+    if (this.currentUserId) {
+      this.usersService
+        .getUserById(this.currentUserId)
+        .pipe(take(1))
+        .subscribe(
+          (user) => {
+            this.userSavedNotes = user.saved_notes;
+            console.log(user.saved_notes);
+          },
+          (error) => {}
+        );
+    }
   }
 }

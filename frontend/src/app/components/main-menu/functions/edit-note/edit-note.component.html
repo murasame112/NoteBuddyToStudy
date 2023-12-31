@@ -1,0 +1,108 @@
+<div id="container" *ngIf="authService.currentUserSignal()">
+  <nav>
+    <app-navbar></app-navbar>
+  </nav>
+
+  <main>
+    <i
+      class="fa-solid fa-spinner fa-spin-pulse fa-2xl"
+      id="spinner"
+      style="color: #ffbb00"
+      *ngIf="isLoading"
+    ></i>
+
+    <button id="backBtn" routerLink="/mynotes">powrót</button>
+    <ng-container *ngIf="!isLoading">
+      <form
+        [formGroup]="editNoteForm"
+        (ngSubmit)="editNote(editNoteForm.value)"
+        id="addForm1"
+      >
+        <div id="titleBox" class="displayClass">
+          <label>Tytuł: </label>
+          <input
+            type="text"
+            placeholder="tytuł notatki"
+            formControlName="noteName"
+            class="form-control"
+            [class.invalid]="
+              editNoteForm.get('noteName')?.invalid &&
+              (editNoteForm.get('noteName')?.touched ||
+                editNoteForm.get('noteName')?.dirty)
+            "
+          />
+        </div>
+
+        <div id="descBox" class="displayClass">
+          <label>Treść: </label>
+          <quill-editor
+            formControlName="noteDesc"
+            [modules]="quillModules"
+            [styles]="editorStyle"
+            [required]="true"
+            [placeholder]="quillPlaceholder"
+            class="quillEditor"
+            id="quill"
+            (onEditorCreated)="onEditorCreated($event)"
+            [class.invalid]="
+              editNoteForm.get('noteDesc')?.invalid &&
+              (editNoteForm.get('noteDesc')?.touched ||
+                editNoteForm.get('noteDesc')?.dirty)
+            "
+          >
+          </quill-editor>
+        </div>
+
+        <div id="optionBox" class="displayClass">
+          <div class="displayClass">
+            <label class="optLabel">Kierunek:</label>
+            <select
+              formControlName="courseName"
+              class="form-select"
+              (change)="filterSubcategories()"
+              [class.invalid]="
+                editNoteForm.get('courseName')?.invalid &&
+                (editNoteForm.get('courseName')?.touched ||
+                  editNoteForm.get('courseName')?.dirty)
+              "
+            >
+              <option value="" selected disabled hidden>
+                Wybierz kierunek
+              </option>
+
+              <ng-container *ngFor="let cat of categoryArray; let i = index">
+                <option [value]="cat._id">{{ cat.name }}</option>
+              </ng-container>
+            </select>
+          </div>
+
+          <div class="displayClass">
+            <label class="optLabel">Temat:</label>
+            <select
+              formControlName="subjectName"
+              class="form-select"
+              id="subjectName"
+              [class.invalid]="
+                editNoteForm.get('subjectName')?.invalid &&
+                (editNoteForm.get('subjectName')?.touched ||
+                  editNoteForm.get('subjectName')?.dirty)
+              "
+            >
+              <option value="" selected disabled hidden>Wybierz temat</option>
+
+              <ng-container *ngFor="let sub of subcategoriesArray">
+                <option [value]="sub._id">{{ sub.name }}</option>
+              </ng-container>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" id="editNoteBtn">edytuj notatkę</button>
+      </form>
+    </ng-container>
+  </main>
+
+  <footer>
+    <div id="footerContent"><app-footer></app-footer></div>
+  </footer>
+</div>

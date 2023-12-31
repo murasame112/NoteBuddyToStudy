@@ -10,8 +10,9 @@ import { NotesService } from '../../../../../services/notes.service';
 import { Note } from 'src/app/models/note.model';
 import { NoteAndDetails } from 'src/app/models/noteAndDetails.model';
 import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
-import { takeUntil } from 'rxjs';
+import { take, takeUntil } from 'rxjs';
 import { FinalNote } from 'src/app/models/finalNote.model';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-notes-container',
@@ -23,72 +24,34 @@ export class NotesContainerComponent extends Unsubscribe implements OnInit {
   // @Input() notesAndDetails: NoteAndDetails[] | null = null;
   @Input() finalNote: FinalNote | null = null;
   @Input() userRole: string | undefined = undefined;
+  @Input() userId: string | undefined = undefined;
+  @Input() userFavNotes: Array<string> | undefined = undefined;
   @Output() public deleteNoteEvent: EventEmitter<boolean> = new EventEmitter();
+  @Output() removeFromFavorites: EventEmitter<string> = new EventEmitter();
 
   isVisible: boolean = false;
   categoryName: string | undefined = this.finalNote?.categoryName;
   subCategoryName: string = '';
   userName: string = '';
   htmlText: any = '';
+  isFilled = false;
 
-  // noteID: string = '';
-  // noteName: string = '';
-  // noteCategory: string = '';
-  // noteSubcategory: string = '';
-  // author: string = '';
-
-  // currentNoteDetails: NoteAndDetails = {
-  //   noteID: this.noteID,
-  //   noteName: this.noteName,
-  //   categoryName: this.noteCategory,
-  //   subcategoryName: this.noteSubcategory,
-  //   author: this.author,
-  // };
-
-  constructor(private notesService: NotesService) {
+  constructor(
+    private notesService: NotesService,
+    private usersService: UsersService
+  ) {
     super();
   }
 
   ngOnInit(): void {
     this.htmlText = this.finalNote?.content;
-    // if (this.data != null) {
-    //TODO async all methods to load at the same time
-    // this.getAllData(
-    //   this.data.category_id,
-    //   this.data.subcategory_id,
-    //   this.data.author_id
-    // );
-    ///
-    // this.getCategory(this.data.category_id);
-    // this.getSubCategory(this.data.subcategory_id);
-    // this.getUser(this.data.author_id);
-    // this.getDetails()
-    // }
-    // console.log(this.finalNotes);
+
+    if (this.finalNote?.note_id !== undefined) {
+      this.isFilled = (this.userFavNotes ?? []).includes(
+        this.finalNote?.note_id
+      );
+    }
   }
-
-  // getAllData(categoryID: any, subcategoryID: any, userID: any) {
-  //   this.notesService
-  //     .getAllDataById(
-  //       categoryID.toString(),
-  //       subcategoryID.toString(),
-  //       userID.toString()
-  //     )
-  //     .pipe(takeUntil(this.unsubscribe$))
-  //     .subscribe((res) => {
-  //       // console.log(res);
-  //       this.categoryName = res[0].name;
-  //       this.subCategoryName = res[1].name;
-  //       this.userName = res[2].login;
-  //       this.untrustedUser = res[2].untrusted;
-  //     });
-  // }
-
-  // getDetails() {
-  //   if (this.data != null && this.notesAndDetails != null) {
-  //     console.log(this.notesAndDetails[0]);
-  //   }
-  // }
 
   getCategory(id: Object) {
     this.notesService
@@ -139,4 +102,104 @@ export class NotesContainerComponent extends Unsubscribe implements OnInit {
         this.deleteNoteEvent.emit();
       });
   }
+
+  toogleStar() {
+    this.isFilled = !this.isFilled;
+
+    if (this.isFilled) {
+      if (this.userId) {
+        console.log('dodano do ulubionych');
+
+        if (this.userId !== undefined) {
+          this.usersService
+            .getUserById(this.userId)
+            .pipe(take(1))
+            .subscribe(
+              (user) => {
+                const existingUserSavedNotes = new Set(user.saved_notes);
+
+                existingUserSavedNotes.add(this.finalNote?.note_id);
+
+                const updateUserSavedNotes: any[] = Array.from(
+                  existingUserSavedNotes
+                );
+
+                this.userFavNotes = updateUserSavedNotes;
+
+                let fieldValue = {
+                  saved_notes: updateUserSavedNotes,
+                };
+
+                if (this.userId) {
+                  this.usersService
+                    .updateUserField(this.userId, fieldValue)
+                    .pipe(take(1))
+                    .subscribe(
+                      (res) => {
+                        console.log('Udalo sie fav notes', this.userFavNotes);
+                      },
+                      (error) => {
+                        console.log('Nie udalo sie', error);
+                      }
+                    );
+                }
+              },
+              (error) => {
+                console.log('Nie udało się pobrać danych usera');
+              }
+            );
+        }
+      }
+    } else {
+      if (this.userId) {
+        console.log('usunięto z ulubionych');
+
+        this.removeFromFavorites.emit(this.finalNote?.note_id);
+
+        if (this.userId !== undefined) {
+          this.usersService
+            .getUserById(this.userId)
+            .pipe(take(1))
+            .subscribe(
+              (user) => {
+                const existingUserSavedNotes = new Set(user.saved_notes);
+
+                existingUserSavedNotes.delete(this.finalNote?.note_id);
+
+                const updateUserSavedNotes: any[] = Array.from(
+                  existingUserSavedNotes
+                );
+
+                this.userFavNotes = updateUserSavedNotes;
+
+                let fieldValue = {
+                  saved_notes: updateUserSavedNotes,
+                };
+
+                if (this.userId) {
+                  this.usersService
+                    .updateUserField(this.userId, fieldValue)
+                    .pipe(take(1))
+                    .subscribe(
+                      (res) => {
+                        console.log('Udalo się fav notes', this.userFavNotes);
+                      },
+                      (error) => {
+                        console.log('Nie udało się', error);
+                      }
+                    );
+                }
+              },
+              (error) => {
+                console.log('Nie udało się pobrać danych usera');
+              }
+            );
+        }
+      }
+    }
+  }
+
+  //? wyswietlanie zaznaczonej gwiazdy gdy notatka jest w ulu usera
+
+  //! To do wywalenia do notes nie ma po co uruchamiać się tyle razy ile jest notatek
 }

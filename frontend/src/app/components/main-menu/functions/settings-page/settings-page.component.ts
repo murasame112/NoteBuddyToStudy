@@ -97,7 +97,7 @@ export class SettingsPageComponent extends Unsubscribe implements OnInit {
     if (this.editUserForm.valid) {
       if (userId) {
         this.usersService
-          .updateUserQuery(userId, queryAndValue)
+          .updateUserField(userId, queryAndValue)
           .pipe(takeUntil(this.unsubscribe$))
           .subscribe((res) => {});
       }
@@ -116,7 +116,7 @@ export class SettingsPageComponent extends Unsubscribe implements OnInit {
     if (this.editUserForm.valid) {
       if (userId) {
         this.usersService
-          .updateUserQuery(userId, queryAndValue)
+          .updateUserField(userId, queryAndValue)
           .pipe(takeUntil(this.unsubscribe$))
           .subscribe((res) => {});
       }
@@ -132,7 +132,7 @@ export class SettingsPageComponent extends Unsubscribe implements OnInit {
 
     if (userId) {
       this.usersService
-        .updateUserQuery(userId, queryAndValue)
+        .updateUserField(userId, queryAndValue)
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe((res) => {});
     }

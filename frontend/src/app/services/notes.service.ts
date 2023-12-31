@@ -47,15 +47,6 @@ export class NotesService {
     );
   }
 
-  deleteNote(id: string) {
-    const url = `${this.apiUrl}/note/${id}`;
-    return this.http.delete<string>(url).pipe(
-      map((response: any) => {
-        return response;
-      })
-    );
-  }
-
   getCategories() {
     const url = `${this.apiUrl}/categories`;
     return this.http.get(url).pipe(
@@ -189,6 +180,20 @@ export class NotesService {
         });
 
         return finalNotes;
+      })
+    );
+  }
+
+  updateNote(note: Note, noteId: string): Observable<Note> {
+    const url = `${this.apiUrl}/note/${noteId}`;
+    return this.http.patch<Note>(url, note);
+  }
+
+  deleteNote(id: string) {
+    const url = `${this.apiUrl}/note/${id}`;
+    return this.http.delete<string>(url).pipe(
+      map((response: any) => {
+        return response;
       })
     );
   }
