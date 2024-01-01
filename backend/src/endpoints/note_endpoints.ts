@@ -3,6 +3,9 @@ import { ObjectId } from "bson";
 import express from "express";
 import e, { Request, Response } from "express";
 import { Note } from "../models/note_model";
+import { Rate } from "../enums/rate_enum";
+import { NoteRate } from "../models/note-rate_model";
+import { User } from "../models/user_model";
 import * as global from "../global_database_functions";
 import * as globalTools from "../global_tools";
 import * as loginService from "../services/login";
@@ -752,4 +755,104 @@ export function stealNote(req: Request, res: Response) {
     );
     res.status(201).send(note);
   });
+}
+
+// adds user's rate to note (and updates user's rated_notes array)
+// /ratenote/id
+// headers:
+//  Content-Type: application/json
+// example:
+//  http://localhost:3000/ratenote/6490d3e5982efd2fe9136154
+// example body:
+//   {
+//      "user_id":"some id",
+//			"rate":"positive"
+// }
+export function rateNote(req: Request, res: Response) {
+	// const authData = req.headers.authorization;
+	// const token = authData?.split(' ')[1] ?? '';
+	// if(!loginService.checkIfLogged(token)){
+	// 	res.status(401).send("Error - unauthorized");
+	// 	return false;
+	// }
+
+	const id = req.params.id;
+  let query = req.body;
+	let user_id = new ObjectId(query.user_id); 
+	let note_id = new ObjectId(id);
+  let note: Note;
+	let user: User;
+
+	const getUserResult = global.getItemById(query.user_id, "users");
+
+	getUserResult.then((value) => {
+		user = new User(
+      value.login,
+      value.avatar_url,
+      value.email,
+      value.password,
+			value.role,
+      value.active,
+			value.untrusted,
+			value.saved_notes,
+			value.rated_notes,
+			value.followed_users,
+			value.blocked_users,
+			value.created,
+			value._id
+    );
+
+		if (user.rated_notes.find((e) => e.note_id.toString() == id)) {
+			res.status(401).send("Error - user already rated this note");
+			return false;
+		}
+
+		const getNoteResult = global.getItemById(id, table_name);
+
+		getNoteResult.then((value) => {
+			note = new Note(
+				value.name,
+				value.author_id,
+				value.category_id,
+				value.subcategory_id,
+				value.content,
+				value.published,
+				value.positive_reviews,
+				value.negative_reviews,
+				value.shared_date,
+				value.last_edit_date,
+				value._id
+			);
+			if(query.rate == "positive"){
+				if(typeof note.positive_reviews == "undefined"){
+					note.positive_reviews = 0;
+				}
+				note.positive_reviews++;
+			}else if(query.rate == "negative"){
+				if(typeof note.negative_reviews == "undefined"){
+					note.negative_reviews = 0;
+				}
+				note.negative_reviews++;
+			}
+
+			const updateResult = global.updateItemById(id, table_name, note);
+			updateResult.then((value) => {
+				
+
+				let noteRate: NoteRate = new NoteRate(query.rate, note_id);
+				user.rated_notes.push(noteRate); 
+
+				const userUpdateResult = global.updateItemById(query.user_id, "users", user);
+				userUpdateResult.then((value) => {
+					if(value.acknowledged){
+					res.status(204).send();
+				}else{
+					globalTools.logToDatabase("function rateNote failed", "error");
+					res.status(400).send("Error");
+				}
+				});
+			});
+
+		});
+	});
 }

@@ -48,6 +48,8 @@ app.patch("/notes/:field&:value", noteEndpoints.updateNotesByQuery);
 app.patch("/notes", noteEndpoints.updateMultipleNotes);
 app.patch("/notesid/:field&:value", noteEndpoints.updateNotesByQueriedId);
 app.put("/note/:id", noteEndpoints.replaceNote);
+app.patch("/ratenote/:id", noteEndpoints.rateNote);
+
 
 // ============== USER ENDPOINTS ==============
 

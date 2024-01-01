@@ -507,7 +507,7 @@ export function updateMultipleUsers(req: Request, res: Response) {
 // headers:
 //  Content-Type: application/json
 // example:
-//  http://localhost:3000/users/published&true
+//  http://localhost:3000/users/active&true
 // example body:
 //   {
 //      "login":"custom login"
