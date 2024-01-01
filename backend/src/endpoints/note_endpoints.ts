@@ -477,8 +477,12 @@ export function updateNote(req: Request, res: Response) {
 	if (typeof query._id !== "undefined") {
     query._id = new ObjectId(query._id);
   }
-	query.shared_date = globalTools.createDateFromString(query.shared_date);
-	query.last_edit_date = globalTools.createDateFromString(query.last_edit_date);
+	if (typeof query.shared_date !== "undefined") {
+    query.shared_date = globalTools.createDateFromString(query.shared_date);
+  }
+
+
+	query.last_edit_date = new Date();
 	
   const result = global.updateItemById(id, table_name, query);
   result.then((value) => {
@@ -531,8 +535,11 @@ export function updateMultipleNotes(req: Request, res: Response) {
 	if (typeof updateQuery._id !== "undefined") {
     updateQuery._id = new ObjectId(updateQuery._id);
   }
-	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
-	updateQuery.last_edit_date = globalTools.createDateFromString(updateQuery.last_edit_date);
+	if (typeof updateQuery.shared_date !== "undefined") {
+    updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
+  }
+
+	updateQuery.last_edit_date = new Date();
   let counter = 0;
   ids.forEach((element: string) => {
     const result = global.updateItemById(element, table_name, updateQuery);
@@ -596,9 +603,12 @@ export function updateNotesByQuery(req: Request, res: Response) {
   }
 	if (typeof updateQuery._id !== "undefined") {
     updateQuery._id = new ObjectId(updateQuery._id);
+  }	
+	if (typeof updateQuery.shared_date !== "undefined") {
+    updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
   }
-	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
-	updateQuery.last_edit_date = globalTools.createDateFromString(updateQuery.last_edit_date);
+
+	updateQuery.last_edit_date = new Date();
   let query = { [field]: value };
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
@@ -640,8 +650,11 @@ export function updateNotesByQueriedId(req: Request, res: Response) {
 	if (typeof updateQuery._id !== "undefined") {
     updateQuery._id = new ObjectId(updateQuery._id);
   }
-	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
-	updateQuery.last_edit_date = globalTools.createDateFromString(updateQuery.last_edit_date);
+	if (typeof updateQuery.shared_date !== "undefined") {
+    updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
+  }
+
+	updateQuery.last_edit_date = new Date();
   let query = { [field]: objValue };
 
   const result = global.updateItemsByField(query, table_name, updateQuery);

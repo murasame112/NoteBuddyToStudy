@@ -393,12 +393,12 @@ export function deleteCardsByQueriedId(req: Request, res: Response) {
 //		"author_id":"id"
 //  }
 export function updateCard(req: Request, res: Response) {
-	const authData = req.headers.authorization;
-	const token = authData?.split(' ')[1] ?? '';
-	if(!loginService.checkIfLogged(token)){
-		res.status(401).send("Error - unauthorized");
-		return false;
-	}
+	// const authData = req.headers.authorization;
+	// const token = authData?.split(' ')[1] ?? '';
+	// if(!loginService.checkIfLogged(token)){
+	// 	res.status(401).send("Error - unauthorized");
+	// 	return false;
+	// }
 
   const id = req.params.id;
   const query = req.body;
@@ -411,11 +411,12 @@ export function updateCard(req: Request, res: Response) {
 	if (typeof query._id !== "undefined") {
     query._id = new ObjectId(query._id);
   }
-
-
+	if (typeof query.shared_date !== "undefined") {
+    query.shared_date = globalTools.createDateFromString(query.shared_date);
+  }
 	
-	query.shared_date = globalTools.createDateFromString(query.shared_date);
-	query.last_edit_date = globalTools.createDateFromString(query.last_edit_date);
+	
+	query.last_edit_date = new Date();
   const result = global.updateItemById(id, table_name, query);
   result.then((value) => {
 		if(value.acknowledged){
@@ -466,10 +467,11 @@ export function updateMultipleCards(req: Request, res: Response) {
 	if (typeof updateQuery._id !== "undefined") {
     updateQuery._id = new ObjectId(updateQuery._id);
   }
+	if (typeof updateQuery.shared_date  !== "undefined") {
+    updateQuery.shared_date  = globalTools.createDateFromString(updateQuery.shared_date );
+  }
 
-
-	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
-	updateQuery.last_edit_date = globalTools.createDateFromString(updateQuery.last_edit_date);
+	updateQuery.last_edit_date = new Date();
   let counter = 0;
   ids.forEach((element: string) => {
     const result = global.updateItemById(element, table_name, updateQuery);
@@ -533,10 +535,11 @@ export function updateCardsByQuery(req: Request, res: Response) {
 	if (typeof updateQuery._id !== "undefined") {
     updateQuery._id = new ObjectId(updateQuery._id);
   }
+	if (typeof updateQuery.shared_date  !== "undefined") {
+    updateQuery.shared_date  = globalTools.createDateFromString(updateQuery.shared_date );
+  }
 
-
-	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
-	updateQuery.last_edit_date = globalTools.createDateFromString(updateQuery.last_edit_date);
+	updateQuery.last_edit_date = new Date();
   let query = { [field]: value };
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
@@ -575,10 +578,11 @@ export function updateCardsByQueriedId(req: Request, res: Response) {
 	if (typeof updateQuery._id !== "undefined") {
     updateQuery._id = new ObjectId(updateQuery._id);
   }
+	if (typeof updateQuery.shared_date  !== "undefined") {
+    updateQuery.shared_date  = globalTools.createDateFromString(updateQuery.shared_date );
+  }
 
-
-	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
-	updateQuery.last_edit_date = globalTools.createDateFromString(updateQuery.last_edit_date);
+	updateQuery.last_edit_date = new Date();
   let query = { [field]: objValue };
 
   const result = global.updateItemsByField(query, table_name, updateQuery);
