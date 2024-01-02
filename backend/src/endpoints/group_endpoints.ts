@@ -44,7 +44,7 @@ export function getGroupById(req: Request, res: Response) {
   const result = global.getItemById(id, table_name);
   let group: Group;
   result.then((value) => {
-    group = new Group(value.type, value.users, value.created, value._id);
+    group = new Group(value.type, value.users, value.subcategory_id, value.created, value._id);
     res.send(group);
   });
 }
@@ -84,7 +84,7 @@ export function getGroupsByQuery(req: Request, res: Response) {
   let group: Group;
   result.then((value) => {
     value.forEach((element: Group) => {
-      group = new Group(element.type, element.users, element.created, element._id);
+      group = new Group(element.type, element.users, element.subcategory_id, element.created, element._id);
       groupArray.push(group);
     });
     res.send(groupArray);
@@ -113,7 +113,7 @@ export function getGroupsByQueriedId(req: Request, res: Response) {
   let group: Group;
   result.then((value) => {
     value.forEach((element: Group) => {
-      group = new Group(element.type, element.users, element.created, element._id);
+      group = new Group(element.type, element.users, element.subcategory_id, element.created, element._id);
       groupArray.push(group);
     });
     res.send(groupArray);
@@ -142,6 +142,7 @@ export function insertGroup(req: Request, res: Response) {
 	}
 
   let users: ObjectId[] = [];
+	const subcategory_id = new ObjectId(req.body.subcategory_id);
 
 	if(!Array.isArray(req.body.users) || req.body.users.length == 0){
 		res.status(400).send("Error");
@@ -152,7 +153,7 @@ export function insertGroup(req: Request, res: Response) {
     let user_id = new ObjectId(element);
     users.push(user_id);
   });
-  const group: Group = new Group(req.body.type, users);
+  const group: Group = new Group(req.body.type, users, subcategory_id);
   const result = global.insertItem(group, table_name);
   result.then((value) => {
     if(value.acknowledged){
@@ -197,6 +198,7 @@ export function insertMultipleGroups(req: Request, res: Response) {
   let counter = 0;
 
   groups.forEach((element: any) => {
+
     // TODO: przemyśleć, czy tu powinno byc any?
     let usersIds: ObjectId[] = [];
 		if(!Array.isArray(element.users) || element.users.length == 0){
@@ -207,7 +209,8 @@ export function insertMultipleGroups(req: Request, res: Response) {
       let user_id = new ObjectId(elem);
       usersIds.push(user_id);
     });
-    const group: Group = new Group(element.type, usersIds);
+		let subcategory_id = new ObjectId(req.body.subcategory_id);
+    const group: Group = new Group(element.type, usersIds, subcategory_id);
 
     const result = global.insertItem(group, table_name);
     result.then((value) => {
@@ -376,10 +379,16 @@ export function updateGroup(req: Request, res: Response) {
 	if (typeof query._id !== "undefined") {
     query._id = new ObjectId(query._id);
   }
+	if (typeof query.subcategory_id !== "undefined") {
+    query.subcategory_id = new ObjectId(query.subcategory_id);
+  }
+	if (typeof query.created !== "undefined") {
+    query.created = globalTools.createDateFromString(query.created);
+  }
 
 	let user_id: ObjectId;
 
-	query.created = globalTools.createDateFromString(query.created);
+	
   if (typeof query.users !== "undefined") {
     let usersIds: ObjectId[] = [];
 
@@ -435,10 +444,16 @@ export function updateMultipleGroups(req: Request, res: Response) {
 	if (typeof updateQuery._id !== "undefined") {
     updateQuery._id = new ObjectId(updateQuery._id);
   }
+	if (typeof updateQuery.subcategory_id !== "undefined") {
+    updateQuery.subcategory_id = new ObjectId(updateQuery.subcategory_id);
+  }
+	if (typeof updateQuery.created !== "undefined") {
+    updateQuery.created = globalTools.createDateFromString(updateQuery.created);
+  }
 
 	let user_id: ObjectId;
 
-	updateQuery.created = globalTools.createDateFromString(updateQuery.created);
+	
   if (typeof updateQuery.users !== "undefined") {
     let usersIds: ObjectId[] = [];
 
@@ -506,8 +521,12 @@ export function updateGroupsByQuery(req: Request, res: Response) {
 	if (typeof updateQuery._id !== "undefined") {
     updateQuery._id = new ObjectId(updateQuery._id);
   }
-
-	updateQuery.created = globalTools.createDateFromString(updateQuery.created);
+	if (typeof updateQuery.subcategory_id !== "undefined") {
+    updateQuery.subcategory_id = new ObjectId(updateQuery.subcategory_id);
+  }
+	if (typeof updateQuery.created !== "undefined") {
+    updateQuery.created = globalTools.createDateFromString(updateQuery.created);
+  }
 	
 	let user_id: ObjectId;
   if (typeof updateQuery.users !== "undefined") {
@@ -558,6 +577,12 @@ export function updateGroupsByQueriedId(req: Request, res: Response) {
 	if (typeof updateQuery._id !== "undefined") {
     updateQuery._id = new ObjectId(updateQuery._id);
   }
+	if (typeof updateQuery.subcategory_id !== "undefined") {
+    updateQuery.subcategory_id = new ObjectId(updateQuery.subcategory_id);
+  }
+	if (typeof updateQuery.created !== "undefined") {
+    updateQuery.created = globalTools.createDateFromString(updateQuery.created);
+  }
 
 	let user_id: ObjectId;
 	if (typeof updateQuery.users !== "undefined") {
@@ -571,7 +596,7 @@ export function updateGroupsByQueriedId(req: Request, res: Response) {
     updateQuery.users = usersIds;
   }
 
-  updateQuery.created = globalTools.createDateFromString(updateQuery.created);
+	
   let query = { [field]: objValue };
 
   const result = global.updateItemsByField(query, table_name, updateQuery);
@@ -615,13 +640,20 @@ export function replaceGroup(req: Request, res: Response) {
 		query._id = new ObjectId(id);
 	}
 
+	if (typeof query.created !== "undefined") {
+    query.created = globalTools.createDateFromString(query.created);
+  }else{
+		query.created = new Date();
+	}
+
+
 	if(!Array.isArray(query.users) || query.users.length == 0){
 		res.status(400).send("Error");
 		return false;
 	}
 
   let group: Group;
-  group = new Group(query.type, query.users, query._id);
+  group = new Group(query.type, query.users, query.subcategory_id, query.created, query._id);
   const result = global.replaceItemById(id, table_name, group);
   result.then((value) => {
 		if(value.acknowledged){
@@ -649,7 +681,7 @@ export function stealGroup(req: Request, res: Response) {
   const result = global.stealItemById(id, table_name);
   result.then((value) => {
     let group: Group;
-    group = new Group(value.value.type, value.value.users, value.value.created,	value.value._id);
+    group = new Group(value.value.type, value.value.users, value.value.subcategory_id, value.value.created,	value.value._id);
     res.status(201).send(group);
   });
 }
