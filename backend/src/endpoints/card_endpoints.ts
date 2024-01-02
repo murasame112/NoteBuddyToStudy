@@ -393,12 +393,12 @@ export function deleteCardsByQueriedId(req: Request, res: Response) {
 //		"author_id":"id"
 //  }
 export function updateCard(req: Request, res: Response) {
-	// const authData = req.headers.authorization;
-	// const token = authData?.split(' ')[1] ?? '';
-	// if(!loginService.checkIfLogged(token)){
-	// 	res.status(401).send("Error - unauthorized");
-	// 	return false;
-	// }
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
 
   const id = req.params.id;
   const query = req.body;
