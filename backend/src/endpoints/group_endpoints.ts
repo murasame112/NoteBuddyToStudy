@@ -685,3 +685,67 @@ export function stealGroup(req: Request, res: Response) {
     res.status(201).send(group);
   });
 }
+
+// adds user to fitting group or creates one
+// /addtogroup
+// headers:
+//  Content-Type: application/json
+// example:
+//  http://localhost:3000/addtogroup
+// example body:
+//   {
+// "type":"two",
+// "user_id":"some id",
+// "subcategory_id":"some id"
+// }
+export function addUserToGroup(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
+	const user_id = new ObjectId(req.body.user_id);
+	const subcategory_id = new ObjectId(req.body.subcategory_id);
+	const type = req.body.type;
+	let group: Group;
+	let size: number;
+
+	if(type == "two"){
+		size = 1;
+	}else{
+		size = 4;
+	}
+	
+  let query = { ["subcategory_id"]: subcategory_id, ["type"]:type, ["users."+size+""]:{'$exists':false} };
+
+  const getResult = global.getItemsByField(query, table_name);
+	getResult.then((value) => {
+		let addResult: Promise<any>;
+		let group_id;
+		if(value.length == 0){
+			group = new Group(type, [user_id], subcategory_id);
+			addResult = global.insertItem(group, table_name);
+		}else{
+			let element = value[0];
+			element.users.push(user_id);
+			group = new Group(element.type, element.users, element.subcategory_id, element.created, element._id);
+			addResult = global.replaceItemById(value[0]._id, table_name, group);
+		}
+		
+    addResult.then((val) => {
+			if(val.acknowledged){
+				if(val.insertedId){
+					group_id = val.insertedId;
+				}else{
+					group_id = value[0]._id;
+				}
+				res.status(201).send(group_id);
+			}else{
+				globalTools.logToDatabase("function addUserToGroup failed", "error");
+				res.status(400).send("Error");
+			}
+		});
+  });
+}

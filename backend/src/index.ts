@@ -182,6 +182,7 @@ app.patch("/groups/:field&:value", groupEndpoints.updateGroupsByQuery);
 app.patch("/groups", groupEndpoints.updateMultipleGroups);
 app.patch("/groupsid/:field&:value", groupEndpoints.updateGroupsByQueriedId);
 app.put("/group/:id", groupEndpoints.replaceGroup);
+app.patch("/addtogroup", groupEndpoints.addUserToGroup);
 
 // ============== HINT ENDPOINTS ==============
 
