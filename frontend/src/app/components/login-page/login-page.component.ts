@@ -62,7 +62,7 @@ export class LoginPageComponent extends Unsubscribe implements OnInit {
         type: 'standard',
         theme: 'outline',
         shape: 'pill',
-        width: 200,
+        width: 250,
       }
     );
   }

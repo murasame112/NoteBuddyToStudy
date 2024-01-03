@@ -19,7 +19,9 @@
         class="fa-solid fa-trash fa-xl icons"
         (click)="deleteNote(finalNote?.note_id)"
       ></i>
-      <i class="fa-solid fa-download fa-xl icons"></i>
+      <div id="downloadBtn">
+        <i class="fa-solid fa-download fa-xl icons"></i>
+      </div>
 
       <svg
         width="27"
@@ -72,12 +74,12 @@
   </div>
 
   <span class="spans" id="name">{{ finalNote?.noteName }}</span>
-  <!-- <span class="spans" id="desc">{{ finalNote?.content }}</span> -->
   <quill-view-html
     class="spans"
     id="desc"
     [content]="htmlText"
     theme="snow"
+    #desc
   ></quill-view-html>
 
   <div id="categories">
@@ -89,12 +91,12 @@
 
   <div id="bottom">
     <div id="rates">
-      <button class="ratesBtns">
+      <button id="positiveReviews" class="ratesBtns">
         <span id="likeNumber">{{ finalNote?.positive_reviews }}</span>
         <i class="fa fa-solid fa-thumbs-up fa-lg"></i>
       </button>
 
-      <button class="ratesBtns">
+      <button id="negativeReviews" class="ratesBtns">
         <span id="dislikeNumber">{{ finalNote?.negative_reviews }}</span>
         <i class="fa-solid fa-thumbs-down fa-lg"></i>
       </button>

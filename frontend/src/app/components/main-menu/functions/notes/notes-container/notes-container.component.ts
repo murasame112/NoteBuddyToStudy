@@ -5,6 +5,7 @@ import {
   ViewChild,
   EventEmitter,
   Output,
+  ElementRef,
 } from '@angular/core';
 import { NotesService } from '../../../../../services/notes.service';
 import { Note } from 'src/app/models/note.model';
@@ -20,12 +21,11 @@ import { UsersService } from 'src/app/services/users.service';
   styleUrls: ['./notes-container.component.scss'],
 })
 export class NotesContainerComponent extends Unsubscribe implements OnInit {
-  // @Input() data: Note | null = null;
-  // @Input() notesAndDetails: NoteAndDetails[] | null = null;
   @Input() finalNote: FinalNote | null = null;
   @Input() userRole: string | undefined = undefined;
   @Input() userId: string | undefined = undefined;
   @Input() userFavNotes: Array<string> | undefined = undefined;
+  @Input() userNotesRates: Array<object> | undefined = undefined;
   @Output() public deleteNoteEvent: EventEmitter<boolean> = new EventEmitter();
   @Output() removeFromFavorites: EventEmitter<string> = new EventEmitter();
 
@@ -34,7 +34,8 @@ export class NotesContainerComponent extends Unsubscribe implements OnInit {
   subCategoryName: string = '';
   userName: string = '';
   htmlText: any = '';
-  isFilled = false;
+  isFilled: boolean = false;
+  isNoteRateFilled: boolean = false;
 
   constructor(
     private notesService: NotesService,
@@ -51,6 +52,8 @@ export class NotesContainerComponent extends Unsubscribe implements OnInit {
         this.finalNote?.note_id
       );
     }
+
+    console.log('oceny', this.userNotesRates);
   }
 
   getCategory(id: Object) {
@@ -198,8 +201,4 @@ export class NotesContainerComponent extends Unsubscribe implements OnInit {
       }
     }
   }
-
-  //? wyswietlanie zaznaczonej gwiazdy gdy notatka jest w ulu usera
-
-  //! To do wywalenia do notes nie ma po co uruchamiać się tyle razy ile jest notatek
 }

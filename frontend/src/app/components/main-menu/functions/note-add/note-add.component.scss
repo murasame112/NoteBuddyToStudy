@@ -389,32 +389,6 @@ footer {
     width: 8.5rem;
   }
 
-  // [quill-editor-toolbar] .ql-font span[data-label="Arial"]::before {
-  //   font-family: "Arial", "sans-serif";
-  // }
-
-  // [quill-editor-toolbar] .ql-font span[data-label="Verdana"]::before {
-  //   font-family: "Verdana", "serif";
-  // }
-
-  // [quill-editor-toolbar] .ql-font span[data-label="Times New Roman"]::before {
-  //   font-family: 'Times New Roman', "serif";
-  // }
-
-  // [quill-editor-toolbar] .ql-font span[data-label="Roboto"]::before {
-  //   font-family: "Roboto", "serif";
-  // }
-
-  // [quill-editor-toolbar] .ql-font span[data-label="Monospace"]::before {
-  //   font-family: "Courier New", "monospace";
-  // }
-
-  // [quill-editor-toolbar] .ql-font span[data-label="Poppins"]::before {
-  //   font-family: "Poppins", "serif";
-  // }
-
-  //TODO Druga Wersja fonts!!
-
   .ql-formats .ql-font span[data-value="arial"]::before {
     font-family: "Arial", "sans-serif" !important;
     content: "Arial" !important;
@@ -444,8 +418,6 @@ footer {
     font-family: "Poppins", "serif" !important;
     content: "Poppins" !important;
   }
-
-  //!TODO </>
 
   .ql-font-arial {
     font-family: "Arial", sans-serif;

@@ -31,6 +31,10 @@ export class NotesComponent extends Unsubscribe implements OnInit {
     this.getFinalNotes();
     this.getUserFavNotes();
 
+    this.userNotesReviews =
+      this.authService.currentUserSignal()?.rated_notes || [];
+    // console.log('reviews', this.userNotesReviews);
+
     this.FilterForm = new FormGroup({
       categoryName: new FormControl(''),
       subcategoryName: new FormControl({ value: '', disabled: true }),
@@ -61,6 +65,7 @@ export class NotesComponent extends Unsubscribe implements OnInit {
   currentUserRole: string | undefined =
     this.authService.currentUserSignal()?.role;
   userSavedNotes: Array<string> = [];
+  userNotesReviews: Array<object> = [];
 
   FilterForm = new FormGroup({
     categoryName: new FormControl(''),
@@ -324,7 +329,7 @@ export class NotesComponent extends Unsubscribe implements OnInit {
         .subscribe(
           (user) => {
             this.userSavedNotes = user.saved_notes;
-            console.log(user.saved_notes);
+            // console.log(user.saved_notes);
           },
           (error) => {}
         );
