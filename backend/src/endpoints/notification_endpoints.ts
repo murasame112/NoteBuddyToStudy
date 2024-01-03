@@ -1,4 +1,5 @@
 import { Console } from "console";
+import { ObjectId } from "bson";
 import express from "express";
 import e, { Request, Response } from "express";
 import { Notification } from "../models/notification_model";
@@ -42,7 +43,7 @@ export function getNotificationById(req: Request, res: Response) {
   const result = global.getItemById(id, table_name);
   let notification: Notification;
   result.then((value) => {
-    notification = new Notification(value.content);
+    notification = new Notification(value.content, value._id);
     res.send(notification);
   });
 }
@@ -75,7 +76,7 @@ export function getNotificationsByQuery(req: Request, res: Response) {
   let notification: Notification;
   result.then((value) => {
     value.forEach((element: Notification) => {
-      notification = new Notification(element.content);
+      notification = new Notification(element.content, element._id);
       notificationArray.push(notification);
     });
     res.send(notificationArray);
@@ -267,6 +268,11 @@ export function updateNotification(req: Request, res: Response) {
 	
   const id = req.params.id;
   const query = req.body;
+
+	if (typeof query._id !== "undefined") {
+    query._id = new ObjectId(query._id);
+  }
+
   const result = global.updateItemById(id, table_name, query);
   result.then((value) => {
 		if(value.acknowledged){
@@ -305,6 +311,11 @@ export function updateMultipleNotifications(req: Request, res: Response) {
 	
   const ids = req.body.ids;
   const updateQuery = req.body.query;
+
+	if (typeof updateQuery._id !== "undefined") {
+    updateQuery._id = new ObjectId(updateQuery._id);
+  }
+
   let counter = 0;
   ids.forEach((element: string) => {
     const result = global.updateItemById(element, table_name, updateQuery);
@@ -349,6 +360,11 @@ export function updateNotificationsByQuery(req: Request, res: Response) {
   }
 
   const updateQuery = req.body;
+	
+	if (typeof updateQuery._id !== "undefined") {
+    updateQuery._id = new ObjectId(updateQuery._id);
+  }
+
   let query = { [field]: JSON.parse(value) };
   const result = global.updateItemsByField(query, table_name, updateQuery);
   result.then((value) => {
@@ -381,6 +397,13 @@ export function replaceNotification(req: Request, res: Response) {
 	
   const id = req.params.id;
   const query = req.body;
+
+	if (typeof query._id !== "undefined") {
+    query._id = new ObjectId(query._id);
+  }else{
+		query._id = new ObjectId(id);
+	}
+
   let notification: Notification;
   notification = new Notification(query.content);
   const result = global.replaceItemById(id, table_name, notification);
@@ -411,7 +434,7 @@ export function stealNotification(req: Request, res: Response) {
   result.then((value) => {
     let notification: Notification;
     notification = new Notification(
-      value.value.content
+      value.value.content, value.value._id
     );
     res.status(201).send(notification);
   });

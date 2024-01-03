@@ -1,8 +1,10 @@
 import { ObjectId } from "bson";
 export class Category {
+	_id?: ObjectId;
   name: string;
 
-  constructor(name: string) {
+  constructor(name: string, _id?: ObjectId) {
     this.name = name;
+		this._id = _id ? _id : undefined;
   }
 }

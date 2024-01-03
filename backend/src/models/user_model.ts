@@ -1,5 +1,5 @@
 import { ObjectId } from "bson";
-import { Notification } from "./notification_model";
+import { NoteRate } from "./note-rate_model";
 import { Role } from "../enums/role_enum";
 export class User {
   login: string;
@@ -10,9 +10,11 @@ export class User {
   active: boolean; // false means banned
   untrusted: boolean;
   saved_notes: Array<ObjectId>;
+	rated_notes: Array<NoteRate>;
   followed_users: Array<ObjectId>;
   blocked_users: Array<ObjectId>;
 	created: Date;
+	_id?: ObjectId;
 
   constructor(
     login: string,
@@ -23,9 +25,11 @@ export class User {
     active?: boolean,
     untrusted?: boolean,
     saved_notes?: Array<ObjectId>,
+		rated_notes?: Array<NoteRate>,
     followed_users?: Array<ObjectId>,
     blocked_users?: Array<ObjectId>,
 		created?: Date,
+		_id?: ObjectId
   ) {
     this.login = login;
     this.avatar_url = avatar_url;
@@ -33,10 +37,12 @@ export class User {
     this.password = password;
 		this.role = role ? role : Role.user;
     this.active = active ? active : true;
-    this.untrusted = untrusted ? untrusted : false;
+    this.untrusted = untrusted ? untrusted : true;
     this.saved_notes = saved_notes ? saved_notes : [];
+		this.rated_notes = rated_notes ? rated_notes : [];
     this.followed_users = followed_users ? followed_users : [];
     this.blocked_users = blocked_users ? blocked_users : [];
 		this.created = created ? created : new Date();
+		this._id = _id ? _id : undefined;
   }
 }

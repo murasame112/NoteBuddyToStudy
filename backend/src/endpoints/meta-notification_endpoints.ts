@@ -48,7 +48,8 @@ export function getMetaNotificationById(req: Request, res: Response) {
 			value.user_id,
 			value.value,
 			value.active,
-			value.shared_date
+			value.shared_date,
+			value._id
     );
     res.send(metanotifcation);
   });
@@ -95,7 +96,8 @@ export function getMetaNotificationsByQuery(req: Request, res: Response) {
 				element.user_id,
 				element.value,
 				element.active,
-				element.shared_date
+				element.shared_date,
+				element._id
       );
       metanotifcationArray.push(metanotifcation);
     });
@@ -130,7 +132,8 @@ export function getMetaNotificationsByQueriedId(req: Request, res: Response) {
 				element.user_id,
 				element.value,
 				element.active,
-				element.shared_date
+				element.shared_date,
+				element._id
       );
       metanotifcationArray.push(metanotifcation);
     });
@@ -377,6 +380,9 @@ export function updateMetaNotification(req: Request, res: Response) {
   if (typeof query.user_id !== "undefined") {
     query.user_id = new ObjectId(query.user_id);
   }
+	if (typeof query._id !== "undefined") {
+    query._id = new ObjectId(query._id);
+  }
 	query.shared_date = globalTools.createDateFromString(query.shared_date);
 
   const result = global.updateItemById(id, table_name, query);
@@ -422,6 +428,9 @@ export function updateMultipleMetaNotifications(req: Request, res: Response) {
   }
   if (typeof updateQuery.user_id !== "undefined") {
     updateQuery.user_id = new ObjectId(updateQuery.user_id);
+  }
+	if (typeof updateQuery._id !== "undefined") {
+    updateQuery._id = new ObjectId(updateQuery._id);
   }
 	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
 
@@ -482,6 +491,9 @@ export function updateMetaNotificationsByQuery(req: Request, res: Response) {
   if (typeof updateQuery.user_id !== "undefined") {
     updateQuery.user_id = new ObjectId(updateQuery.user_id);
   }
+	if (typeof updateQuery._id !== "undefined") {
+    updateQuery._id = new ObjectId(updateQuery._id);
+  }
 	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
 
   let query = { [field]: value };
@@ -519,6 +531,9 @@ export function updateMetaNotificationsByQueriedId(req: Request, res: Response) 
   if (typeof updateQuery.user_id !== "undefined") {
     updateQuery.user_id = new ObjectId(updateQuery.user_id);
   }
+	if (typeof updateQuery._id !== "undefined") {
+    updateQuery._id = new ObjectId(updateQuery._id);
+  }
 	updateQuery.shared_date = globalTools.createDateFromString(updateQuery.shared_date);
   let query = { [field]: objValue };
 
@@ -553,13 +568,21 @@ export function replaceMetaNotification(req: Request, res: Response) {
 	
   const id = req.params.id;
   const query = req.body;
+
+	if (typeof query._id !== "undefined") {
+    query._id = new ObjectId(query._id);
+  }else{
+		query._id = new ObjectId(id);
+	}
+
   let metanotifcation: MetaNotification;
   metanotifcation = new MetaNotification(
 		query.notification_id,
 		query.user_id,
 		query.value,
 		query.active,
-		query.shared_date
+		query.shared_date,
+		query._id
   );
   const result = global.replaceItemById(id, table_name, metanotifcation);
   result.then((value) => {
@@ -593,7 +616,8 @@ export function stealMetaNotification(req: Request, res: Response) {
 		value.value.user_id,
 		value.value.value,
 		value.value.active,
-		value.value.shared_date
+		value.value.shared_date,
+		value.value._id
     );
     res.status(201).send(metanotifcation);
   });

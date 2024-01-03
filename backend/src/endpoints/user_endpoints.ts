@@ -5,6 +5,8 @@ import e, { Request, Response } from "express";
 import { User } from "../models/user_model";
 import * as global from "../global_database_functions";
 import { Role } from "../enums/role_enum";
+import { Rate } from "../enums/rate_enum";
+import { NoteRate } from "../models/note-rate_model";
 import * as loginService from "../services/login";
 import * as globalTools from "../global_tools";
 
@@ -40,9 +42,11 @@ export function getUserById(req: Request, res: Response) {
       value.active,
 			value.untrusted,
 			value.saved_notes,
+			value.rated_notes,
 			value.followed_users,
 			value.blocked_users,
-			value.created
+			value.created,
+			value._id
     );
     res.send(user);
   });
@@ -85,9 +89,11 @@ export function getUsersByQuery(req: Request, res: Response) {
         element.active,
 				element.untrusted,
 				element.saved_notes,
+				element.rated_notes,
 				element.followed_users,
 				element.blocked_users,
-				element.created
+				element.created,
+				element._id
       );
       userArray.push(user);
     });
@@ -119,9 +125,11 @@ export function getUsersByQueriedId(req: Request, res: Response) {
         element.active,
 				element.untrusted,
 				element.saved_notes,
+				element.rated_notes,
 				element.followed_users,
 				element.blocked_users,
-				element.created
+				element.created,
+				element._id
       );
       userArray.push(user);
     });
@@ -334,19 +342,32 @@ export function deleteUsersByQueriedId(req: Request, res: Response) {
 export function updateUser(req: Request, res: Response) {
   const id = req.params.id;
   const query = req.body;
-		
+
+	if (typeof query._id !== "undefined") {
+    query._id = new ObjectId(query._id);
+  }
+
 	let note_id: ObjectId;
 	if (typeof query.saved_notes !== "undefined") {
     let notesIds: ObjectId[] = [];
-		
-		
-		
     query.saved_notes.forEach((elem: string) => {
       note_id = new ObjectId(elem);
       notesIds.push(note_id);
     });
-
     query.saved_notes = notesIds;
+  }
+
+	let rated_note_id: ObjectId;
+	let rate: Rate;
+	if (typeof query.rated_notes !== "undefined") {
+    let ratedNotes: NoteRate[] = [];
+    query.rated_notes.forEach((elem: NoteRate) => {
+      rated_note_id = new ObjectId(elem.note_id);
+			rate = elem.rate;
+
+      ratedNotes.push(new NoteRate(rate, rated_note_id));
+    });
+    query.rated_notes = ratedNotes;
   }
 
 	if(typeof query.password !== "undefined"){
@@ -409,19 +430,32 @@ export function updateUser(req: Request, res: Response) {
 export function updateMultipleUsers(req: Request, res: Response) {
   const ids = req.body.ids;
   const updateQuery = req.body.query;
+	if (typeof updateQuery._id !== "undefined") {
+    updateQuery._id = new ObjectId(updateQuery._id);
+  }
 
 
 	let note_id: ObjectId;
 	if (typeof updateQuery.saved_notes !== "undefined") {
     let notesIds: ObjectId[] = [];
-
-		
     updateQuery.saved_notes.forEach((elem: string) => {
       note_id = new ObjectId(elem);
       notesIds.push(note_id);
     });
-
     updateQuery.saved_notes = notesIds;
+  }
+
+	let rated_note_id: ObjectId;
+	let rate: Rate;
+	if (typeof updateQuery.rated_notes !== "undefined") {
+    let ratedNotes: NoteRate[] = [];
+    updateQuery.rated_notes.forEach((elem: NoteRate) => {
+      rated_note_id = new ObjectId(elem.note_id);
+			rate = elem.rate;
+
+      ratedNotes.push(new NoteRate(rate, rated_note_id));
+    });
+    updateQuery.rated_notes = ratedNotes;
   }
 
 	if(typeof updateQuery.password !== "undefined"){
@@ -473,7 +507,7 @@ export function updateMultipleUsers(req: Request, res: Response) {
 // headers:
 //  Content-Type: application/json
 // example:
-//  http://localhost:3000/users/published&true
+//  http://localhost:3000/users/active&true
 // example body:
 //   {
 //      "login":"custom login"
@@ -497,19 +531,31 @@ export function updateUsersByQuery(req: Request, res: Response) {
 	}
 
   const updateQuery = req.body;
-
+	if (typeof updateQuery._id !== "undefined") {
+    updateQuery._id = new ObjectId(updateQuery._id);
+  }
 
 	let note_id: ObjectId;
 	if (typeof updateQuery.saved_notes !== "undefined") {
     let notesIds: ObjectId[] = [];
-
-		
     updateQuery.saved_notes.forEach((elem: string) => {
       note_id = new ObjectId(elem);
       notesIds.push(note_id);
     });
-
     updateQuery.saved_notes = notesIds;
+  }
+
+	let rated_note_id: ObjectId;
+	let rate: Rate;
+	if (typeof updateQuery.rated_notes !== "undefined") {
+    let ratedNotes: NoteRate[] = [];
+    updateQuery.rated_notes.forEach((elem: NoteRate) => {
+      rated_note_id = new ObjectId(elem.note_id);
+			rate = elem.rate;
+
+      ratedNotes.push(new NoteRate(rate, rated_note_id));
+    });
+    updateQuery.rated_notes = ratedNotes;
   }
 
 	if(typeof updateQuery.password !== "undefined"){
@@ -567,18 +613,31 @@ export function updateUsersByQueriedId(req: Request, res: Response) {
   const objValue = new ObjectId(value);
 
   let updateQuery = req.body;
+	if (typeof updateQuery._id !== "undefined") {
+    updateQuery._id = new ObjectId(updateQuery._id);
+  }
 
 	let note_id: ObjectId;
 	if (typeof updateQuery.saved_notes !== "undefined") {
     let notesIds: ObjectId[] = [];
-
-		
     updateQuery.saved_notes.forEach((elem: string) => {
       note_id = new ObjectId(elem);
       notesIds.push(note_id);
     });
-
     updateQuery.saved_notes = notesIds;
+  }
+
+	let rated_note_id: ObjectId;
+	let rate: Rate;
+	if (typeof updateQuery.rated_notes !== "undefined") {
+    let ratedNotes: NoteRate[] = [];
+    updateQuery.rated_notes.forEach((elem: NoteRate) => {
+      rated_note_id = new ObjectId(elem.note_id);
+			rate = elem.rate;
+
+      ratedNotes.push(new NoteRate(rate, rated_note_id));
+    });
+    updateQuery.rated_notes = ratedNotes;
   }
 
 	if(typeof updateQuery.password !== "undefined"){
@@ -644,6 +703,12 @@ export function replaceUser(req: Request, res: Response) {
   const id = req.params.id;
   const query = req.body;
 
+	if (typeof query._id !== "undefined") {
+    query._id = new ObjectId(query._id);
+  }else{
+		query._id = new ObjectId(id);
+	}
+
   let user: User;
   user = new User(
     query.login,
@@ -654,8 +719,10 @@ export function replaceUser(req: Request, res: Response) {
     query.active,
 		query.untrusted,
 		query.saved_notes,
+		query.rated_notes,
 		query.followed_users,
-		query.blocked_users
+		query.blocked_users,
+		query._id
   );
   const result = global.replaceItemById(id, table_name, user);
   result.then((value) => {
@@ -686,9 +753,11 @@ export function stealUser(req: Request, res: Response) {
       value.value.active,
 			value.value.untrusted,
 			value.value.saved_notes,
+			value.value.rated_notes,
 			value.value.followed_users,
 			value.value.blocked_users,
-			value.value.created
+			value.value.created,
+			value.value._id
     );
     res.status(201).send(user);
   });
