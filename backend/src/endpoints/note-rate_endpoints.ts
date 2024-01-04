@@ -12,7 +12,7 @@ const table_name = "note-rates";
 // finds all noteRates
 // /noteRates
 // example:
-//  http://localhost:3000/noteRates
+//  http://localhost:3000/noterates
 export function getAllNoteRates(req: Request, res: Response) {
 	const authData = req.headers.authorization;
 	const token = authData?.split(' ')[1] ?? '';
@@ -30,7 +30,7 @@ export function getAllNoteRates(req: Request, res: Response) {
 // finds noteRate by id
 // /noteRate/{id}
 // example:
-//  http://localhost:3000/noteRate/648c6400e388683aeb23d331
+//  http://localhost:3000/noterate/648c6400e388683aeb23d331
 export function getNoteRateById(req: Request, res: Response) {
 	const authData = req.headers.authorization;
 	const token = authData?.split(' ')[1] ?? '';
@@ -56,7 +56,7 @@ export function getNoteRateById(req: Request, res: Response) {
 // finds multiple noteRates by field and value
 // /noteRates/{field}&{value}
 // example:
-//  http://localhost:3000/noteRates/published&true
+//  http://localhost:3000/noterates/published&true
 export function getNoteRatesByQuery(req: Request, res: Response) {
 	const authData = req.headers.authorization;
 	const token = authData?.split(' ')[1] ?? '';
@@ -89,7 +89,7 @@ export function getNoteRatesByQuery(req: Request, res: Response) {
 // finds multiple noteRates by id_field and value of objectId
 // /noteRatesid/{field}&{value}
 // example:
-//  http://localhost:3000/noteRatesid/note&6490d9efdfd298aad1e8f134
+//  http://localhost:3000/noteratesid/note&6490d9efdfd298aad1e8f134
 export function getNoteRatesByQueriedId(req: Request, res: Response) {
 	const authData = req.headers.authorization;
 	const token = authData?.split(' ')[1] ?? '';
@@ -120,7 +120,7 @@ export function getNoteRatesByQueriedId(req: Request, res: Response) {
 // headers:
 //  Content-Type: application/json
 // example:
-//  http://localhost:3000/noteRate
+//  http://localhost:3000/noterate
 // example body:
 //   {
 //      "rate":"positive",
@@ -154,7 +154,7 @@ export function insertNoteRate(req: Request, res: Response) {
 // headers:
 //  Content-Type: application/json
 // example:
-//  http://localhost:3000/noteRates
+//  http://localhost:3000/noterates
 // example body:
 // [
 //     {
@@ -201,7 +201,7 @@ export function insertMultipleNoteRates(req: Request, res: Response) {
 // deletes noteRate by id
 // /noteRate/{id}
 // example:
-//  http://localhost:3000/noteRate/6490d3e5982efd2fe9136154
+//  http://localhost:3000/noterate/6490d3e5982efd2fe9136154
 export function deleteNoteRate(req: Request, res: Response) {
 	const authData = req.headers.authorization;
 	const token = authData?.split(' ')[1] ?? '';
@@ -227,7 +227,7 @@ export function deleteNoteRate(req: Request, res: Response) {
 // headers:
 //  Content-Type: application/json
 // example:
-//  http://localhost:3000/noteRates
+//  http://localhost:3000/noterates
 // example body:
 //  ["6490d9efdfd298aad1e8f134",
 //  "6490d9f9dfd298aad1e8f135",
@@ -260,7 +260,7 @@ export function deleteMultipleNoteRates(req: Request, res: Response) {
 // deletes multiple noteRates by field and value
 // /noteRates/{field}&{value}
 // example:
-//  http://localhost:3000/noteRates/published&true
+//  http://localhost:3000/noterates/published&true
 export function deleteNoteRatesByQuery(req: Request, res: Response) {
 	const authData = req.headers.authorization;
 	const token = authData?.split(' ')[1] ?? '';
@@ -292,7 +292,7 @@ export function deleteNoteRatesByQuery(req: Request, res: Response) {
 // deletes multiple noteRates by id_field and value of objectId
 // /noteRatesid/{field}&{value}
 // example:
-//  http://localhost:3000/noteRatesid/user_id&6490d9efdfd298aad1e8f134
+//  http://localhost:3000/noteratesid/user_id&6490d9efdfd298aad1e8f134
 export function deleteNoteRatesByQueriedId(req: Request, res: Response) {
 	const authData = req.headers.authorization;
 	const token = authData?.split(' ')[1] ?? '';
@@ -322,7 +322,7 @@ export function deleteNoteRatesByQueriedId(req: Request, res: Response) {
 // headers:
 //  Content-Type: application/json
 // example:
-//  http://localhost:3000/noteRate/6490d3e5982efd2fe9136154
+//  http://localhost:3000/noterate/6490d3e5982efd2fe9136154
 // example body:
 //   {
 //      "rate":"positive"
@@ -362,7 +362,7 @@ export function updateNoteRate(req: Request, res: Response) {
 // headers:
 //  Content-Type: application/json
 // example:
-//  http://localhost:3000/noteRates
+//  http://localhost:3000/noterates
 // example body:
 // {
 //     "ids":
@@ -413,7 +413,7 @@ export function updateMultipleNoteRates(req: Request, res: Response) {
 // headers:
 //  Content-Type: application/json
 // example:
-//  http://localhost:3000/noteRates/published&true
+//  http://localhost:3000/noterates/published&true
 // example body:
 //   {
 //      "rate":"positive"
@@ -461,7 +461,7 @@ export function updateNoteRatesByQuery(req: Request, res: Response) {
 // updates multiple noteRates by id_field and value of objectId
 // /noteRatesid/{field}&{value}
 // example:
-//  http://localhost:3000/noteRatesid/user_id&6490d9efdfd298aad1e8f134
+//  http://localhost:3000/noteratesid/user_id&6490d9efdfd298aad1e8f134
 export function updateNoteRatesByQueriedId(req: Request, res: Response) {
 	const authData = req.headers.authorization;
 	const token = authData?.split(' ')[1] ?? '';
