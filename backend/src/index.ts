@@ -5,6 +5,7 @@ import { ObjectId } from "bson";
 
 import * as noteEndpoints from "./endpoints/note_endpoints";
 import * as userEndpoints from "./endpoints/user_endpoints";
+import * as noterateEndpoints from "./endpoints/note-rate_endpoints";
 import * as loginEndpoints from "./endpoints/login_endpoints";
 import * as categoryEndpoints from "./endpoints/category_endpoints";
 import * as subcategoryEndpoints from "./endpoints/subcategory_endpoints";
@@ -69,6 +70,25 @@ app.patch("/users/:field&:value", userEndpoints.updateUsersByQuery);
 app.patch("/users", userEndpoints.updateMultipleUsers);
 app.patch("/usersid/:field&:value", userEndpoints.updateUsersByQueriedId);
 app.put("/user/:id", userEndpoints.replaceUser);
+
+// ============== NOTE-RATE ENDPOINTS ==============
+
+app.get("/noterate/:id", noterateEndpoints.getNoteRateById);
+app.get("/stealnoterate/:id", noterateEndpoints.stealNoteRate);
+app.get("/noterates", noterateEndpoints.getAllNoteRates);
+app.get("/noterates/:field&:value", noterateEndpoints.getNoteRatesByQuery);
+app.get("/noteratesid/:field&:value",noterateEndpoints.getNoteRatesByQueriedId);
+app.post("/noterate", noterateEndpoints.insertNoteRate);
+app.post("/noterates", noterateEndpoints.insertMultipleNoteRates);
+app.delete("/noterate/:id", noterateEndpoints.deleteNoteRate);
+app.delete("/noterates", noterateEndpoints.deleteMultipleNoteRates);
+app.delete("/noterates/:field&:value", noterateEndpoints.deleteNoteRatesByQuery);
+app.delete("/noteratesid/:field&:value", noterateEndpoints.deleteNoteRatesByQueriedId);
+app.patch("/noterate/:id", noterateEndpoints.updateNoteRate);
+app.patch("/noterates/:field&:value", noterateEndpoints.updateNoteRatesByQuery);
+app.patch("/noterates", noterateEndpoints.updateMultipleNoteRates);
+app.patch("/noteratesid/:field&:value", noterateEndpoints.updateNoteRatesByQueriedId);
+app.put("/noterate/:id", noterateEndpoints.replaceNoteRate);
 
 // ============== LOGIN ENDPOINTS ==============
 
