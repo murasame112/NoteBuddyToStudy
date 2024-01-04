@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
@@ -31,6 +31,9 @@ export class AdminFindUserNotesComponent extends Unsubscribe implements OnInit {
   currentPage = 0;
   maxPage!: number;
   //!
+  @Input() currentUserId: string | undefined = undefined;
+  @Input() currentUserRole: string | undefined = undefined;
+
   ngOnInit(): void {
     this.getUsersNotes();
     this.getData();

@@ -1,3 +1,4 @@
+import { UserRateNote } from './userRateNote.model';
 export interface User {
   _id?: string;
   login: string;
@@ -11,7 +12,7 @@ export interface User {
   saved_notes: Array<string>;
   followed_users: Array<string>;
   blocked_users: Array<string>;
-  rated_notes?: Array<object>;
+  rated_notes?: Array<UserRateNote>;
 }
 
 //! name to teraz login

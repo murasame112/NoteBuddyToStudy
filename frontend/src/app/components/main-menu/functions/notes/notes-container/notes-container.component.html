@@ -91,12 +91,22 @@
 
   <div id="bottom">
     <div id="rates">
-      <button id="positiveReviews" class="ratesBtns">
+      <button
+        id="positiveReviews"
+        class="ratesBtns"
+        [ngClass]="{ positiveRate: isNotePositiveRate }"
+        (click)="ratePositive()"
+      >
         <span id="likeNumber">{{ finalNote?.positive_reviews }}</span>
         <i class="fa fa-solid fa-thumbs-up fa-lg"></i>
       </button>
 
-      <button id="negativeReviews" class="ratesBtns">
+      <button
+        id="negativeReviews"
+        class="ratesBtns"
+        [ngClass]="{ negativeRate: isNoteNegativeRate }"
+        (click)="rateNegative()"
+      >
         <span id="dislikeNumber">{{ finalNote?.negative_reviews }}</span>
         <i class="fa-solid fa-thumbs-down fa-lg"></i>
       </button>

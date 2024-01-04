@@ -9,6 +9,7 @@ import { FinalNote } from '../models/finalNote.model';
 import { Category } from '../models/category.model';
 import { Subcategory } from '../models/subcategory.model';
 import { User } from '../models/user.model';
+import { rateNote } from '../models/rateNote.model';
 
 @Injectable({
   providedIn: 'root',
@@ -196,5 +197,10 @@ export class NotesService {
         return response;
       })
     );
+  }
+
+  rateNote(rate: rateNote, noteId: string): Observable<any> {
+    const url = `${this.apiUrl}/ratenote/${noteId}`;
+    return this.http.patch<any>(url, rate);
   }
 }

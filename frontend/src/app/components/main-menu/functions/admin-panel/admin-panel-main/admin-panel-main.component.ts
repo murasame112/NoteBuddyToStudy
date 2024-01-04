@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -6,6 +6,14 @@ import { AuthService } from 'src/app/services/auth.service';
   templateUrl: './admin-panel-main.component.html',
   styleUrls: ['./admin-panel-main.component.scss'],
 })
-export class AdminPanelMainComponent {
+export class AdminPanelMainComponent implements OnInit {
   constructor(public authService: AuthService) {}
+
+  userId: string | undefined = undefined;
+  userRole: string | undefined = undefined;
+
+  ngOnInit(): void {
+    this.userId = this.authService.currentUserSignal()?._id;
+    this.userRole = this.authService.currentUserSignal()?.role;
+  }
 }

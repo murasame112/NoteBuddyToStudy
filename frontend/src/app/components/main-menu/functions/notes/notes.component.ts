@@ -12,6 +12,7 @@ import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
 import { FinalNote } from 'src/app/models/finalNote.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { UsersService } from 'src/app/services/users.service';
+import { UserRateNote } from 'src/app/models/userRateNote.model';
 
 @Component({
   selector: 'app-notes',
@@ -65,7 +66,7 @@ export class NotesComponent extends Unsubscribe implements OnInit {
   currentUserRole: string | undefined =
     this.authService.currentUserSignal()?.role;
   userSavedNotes: Array<string> = [];
-  userNotesReviews: Array<object> = [];
+  userNotesReviews: Array<UserRateNote> = [];
 
   FilterForm = new FormGroup({
     categoryName: new FormControl(''),
