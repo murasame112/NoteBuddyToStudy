@@ -42,7 +42,6 @@ export function getUserById(req: Request, res: Response) {
       value.active,
 			value.untrusted,
 			value.saved_notes,
-			value.rated_notes,
 			value.followed_users,
 			value.blocked_users,
 			value.created,
@@ -89,7 +88,6 @@ export function getUsersByQuery(req: Request, res: Response) {
         element.active,
 				element.untrusted,
 				element.saved_notes,
-				element.rated_notes,
 				element.followed_users,
 				element.blocked_users,
 				element.created,
@@ -125,7 +123,6 @@ export function getUsersByQueriedId(req: Request, res: Response) {
         element.active,
 				element.untrusted,
 				element.saved_notes,
-				element.rated_notes,
 				element.followed_users,
 				element.blocked_users,
 				element.created,
@@ -359,16 +356,16 @@ export function updateUser(req: Request, res: Response) {
 
 	let rated_note_id: ObjectId;
 	let rate: Rate;
-	if (typeof query.rated_notes !== "undefined") {
-    let ratedNotes: NoteRate[] = [];
-    query.rated_notes.forEach((elem: NoteRate) => {
-      rated_note_id = new ObjectId(elem.note_id);
-			rate = elem.rate;
+	// if (typeof query.rated_notes !== "undefined") {
+  //   let ratedNotes: NoteRate[] = [];
+  //   query.rated_notes.forEach((elem: NoteRate) => {
+  //     rated_note_id = new ObjectId(elem.note_id);
+	// 		rate = elem.rate;
 
-      ratedNotes.push(new NoteRate(rate, rated_note_id));
-    });
-    query.rated_notes = ratedNotes;
-  }
+  //     ratedNotes.push(new NoteRate(rate, rated_note_id, query._id));
+  //   });
+  //   query.rated_notes = ratedNotes;
+  // }
 
 	if(typeof query.password !== "undefined"){
 		query.password = loginService.hashPassword(query.password);
@@ -447,16 +444,16 @@ export function updateMultipleUsers(req: Request, res: Response) {
 
 	let rated_note_id: ObjectId;
 	let rate: Rate;
-	if (typeof updateQuery.rated_notes !== "undefined") {
-    let ratedNotes: NoteRate[] = [];
-    updateQuery.rated_notes.forEach((elem: NoteRate) => {
-      rated_note_id = new ObjectId(elem.note_id);
-			rate = elem.rate;
+	// if (typeof updateQuery.rated_notes !== "undefined") {
+  //   let ratedNotes: NoteRate[] = [];
+  //   updateQuery.rated_notes.forEach((elem: NoteRate) => {
+  //     rated_note_id = new ObjectId(elem.note_id);
+	// 		rate = elem.rate;
 
-      ratedNotes.push(new NoteRate(rate, rated_note_id));
-    });
-    updateQuery.rated_notes = ratedNotes;
-  }
+  //     ratedNotes.push(new NoteRate(rate, rated_note_id, updateQuery._id));
+  //   });
+  //   updateQuery.rated_notes = ratedNotes;
+  // }
 
 	if(typeof updateQuery.password !== "undefined"){
 		updateQuery.password = loginService.hashPassword(updateQuery.password);
@@ -547,16 +544,16 @@ export function updateUsersByQuery(req: Request, res: Response) {
 
 	let rated_note_id: ObjectId;
 	let rate: Rate;
-	if (typeof updateQuery.rated_notes !== "undefined") {
-    let ratedNotes: NoteRate[] = [];
-    updateQuery.rated_notes.forEach((elem: NoteRate) => {
-      rated_note_id = new ObjectId(elem.note_id);
-			rate = elem.rate;
+	// if (typeof updateQuery.rated_notes !== "undefined") {
+  //   let ratedNotes: NoteRate[] = [];
+  //   updateQuery.rated_notes.forEach((elem: NoteRate) => {
+  //     rated_note_id = new ObjectId(elem.note_id);
+	// 		rate = elem.rate;
 
-      ratedNotes.push(new NoteRate(rate, rated_note_id));
-    });
-    updateQuery.rated_notes = ratedNotes;
-  }
+  //     ratedNotes.push(new NoteRate(rate, rated_note_id, updateQuery._id));
+  //   });
+  //   updateQuery.rated_notes = ratedNotes;
+  // }
 
 	if(typeof updateQuery.password !== "undefined"){
 		updateQuery.password = loginService.hashPassword(updateQuery.password);
@@ -629,16 +626,16 @@ export function updateUsersByQueriedId(req: Request, res: Response) {
 
 	let rated_note_id: ObjectId;
 	let rate: Rate;
-	if (typeof updateQuery.rated_notes !== "undefined") {
-    let ratedNotes: NoteRate[] = [];
-    updateQuery.rated_notes.forEach((elem: NoteRate) => {
-      rated_note_id = new ObjectId(elem.note_id);
-			rate = elem.rate;
+	// if (typeof updateQuery.rated_notes !== "undefined") {
+  //   let ratedNotes: NoteRate[] = [];
+  //   updateQuery.rated_notes.forEach((elem: NoteRate) => {
+  //     rated_note_id = new ObjectId(elem.note_id);
+	// 		rate = elem.rate;
 
-      ratedNotes.push(new NoteRate(rate, rated_note_id));
-    });
-    updateQuery.rated_notes = ratedNotes;
-  }
+  //     ratedNotes.push(new NoteRate(rate, rated_note_id, updateQuery._id));
+  //   });
+  //   updateQuery.rated_notes = ratedNotes;
+  // }
 
 	if(typeof updateQuery.password !== "undefined"){
 		updateQuery.password = loginService.hashPassword(updateQuery.password);
@@ -719,7 +716,6 @@ export function replaceUser(req: Request, res: Response) {
     query.active,
 		query.untrusted,
 		query.saved_notes,
-		query.rated_notes,
 		query.followed_users,
 		query.blocked_users,
 		query._id
@@ -753,7 +749,6 @@ export function stealUser(req: Request, res: Response) {
       value.value.active,
 			value.value.untrusted,
 			value.value.saved_notes,
-			value.value.rated_notes,
 			value.value.followed_users,
 			value.value.blocked_users,
 			value.value.created,

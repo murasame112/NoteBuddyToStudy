@@ -10,7 +10,6 @@ export class User {
   active: boolean; // false means banned
   untrusted: boolean;
   saved_notes: Array<ObjectId>;
-	rated_notes: Array<NoteRate>;
   followed_users: Array<ObjectId>;
   blocked_users: Array<ObjectId>;
 	created: Date;
@@ -25,7 +24,6 @@ export class User {
     active?: boolean,
     untrusted?: boolean,
     saved_notes?: Array<ObjectId>,
-		rated_notes?: Array<NoteRate>,
     followed_users?: Array<ObjectId>,
     blocked_users?: Array<ObjectId>,
 		created?: Date,
@@ -39,7 +37,6 @@ export class User {
     this.active = active ? active : true;
     this.untrusted = untrusted ? untrusted : true;
     this.saved_notes = saved_notes ? saved_notes : [];
-		this.rated_notes = rated_notes ? rated_notes : [];
     this.followed_users = followed_users ? followed_users : [];
     this.blocked_users = blocked_users ? blocked_users : [];
 		this.created = created ? created : new Date();
