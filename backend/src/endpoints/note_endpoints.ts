@@ -878,6 +878,8 @@ export function rateNote(req: Request, res: Response) {
 					}else if(query.rate == "negative"){
 						note.negative_reviews++;
 					}
+					noteRate = new NoteRate(query.rate, note_id, user_id);
+					let iResult = global.insertItem(noteRate, "note-rates");
 
 				}
 				
@@ -886,19 +888,19 @@ export function rateNote(req: Request, res: Response) {
 				updateResult.then((value) => {
 					
 
-					let noteRate: NoteRate = new NoteRate(query.rate, note_id, user_id);
-					//TODO: prezmyslec czy to co ponizej ma sens i nie bedzie robic syfu jesli jest juz ocenione wczesniej
-					user.rated_notes.push(noteRate); 
+					// let noteRate: NoteRate = new NoteRate(query.rate, note_id, user_id);
+					// //TODO: prezmyslec czy to co ponizej ma sens i nie bedzie robic syfu jesli jest juz ocenione wczesniej
+					// user.rated_notes.push(noteRate); 
 
-					const userUpdateResult = global.updateItemById(query.user_id, "users", user);
-					userUpdateResult.then((value) => {
+					// const userUpdateResult = global.updateItemById(query.user_id, "users", user);
+					// userUpdateResult.then((value) => {
 						if(value.acknowledged){
 						res.status(204).send();
 					}else{
 						globalTools.logToDatabase("function rateNote failed", "error");
 						res.status(400).send("Error");
 					}
-					});
+					// });
 				});
 
 			});
