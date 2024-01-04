@@ -766,15 +766,15 @@ export function stealNote(req: Request, res: Response) {
 // example body:
 //   {
 //      "user_id":"some id",
-//			"rate":"positive"
+// 			"rate":"positive"
 // }
 export function rateNote(req: Request, res: Response) {
-	const authData = req.headers.authorization;
-	const token = authData?.split(' ')[1] ?? '';
-	if(!loginService.checkIfLogged(token)){
-		res.status(401).send("Error - unauthorized");
-		return false;
-	}
+	// const authData = req.headers.authorization;
+	// const token = authData?.split(' ')[1] ?? '';
+	// if(!loginService.checkIfLogged(token)){
+	// 	res.status(401).send("Error - unauthorized");
+	// 	return false;
+	// }
 
 	const id = req.params.id;
   let query = req.body;
@@ -782,6 +782,12 @@ export function rateNote(req: Request, res: Response) {
 	let note_id = new ObjectId(id);
   let note: Note;
 	let user: User;
+	let alreadyRated: boolean = false;
+	let oldRate: Rate;
+	let noteRate: NoteRate;
+
+	let rateQuery = { ["user_id"]: user_id, ["note_id"]: note_id};
+	const getNoteRateResult = global.getItemsByField(rateQuery, "note-rates");
 
 	const getUserResult = global.getItemById(query.user_id, "users");
 
@@ -801,58 +807,101 @@ export function rateNote(req: Request, res: Response) {
 			value.created,
 			value._id
     );
+		getNoteRateResult.then((value: NoteRate[]) => {		
+			if(value.length != 0){
+				alreadyRated = true;
+				oldRate = value[0].rate;
+				noteRate = value[0];
+			}
 
-		if (user.rated_notes.find((e) => e.note_id.toString() == id)) {
-			res.status(401).send("Error - user already rated this note");
-			return false;
-		}
+			const getNoteResult = global.getItemById(id, table_name);
 
-		const getNoteResult = global.getItemById(id, table_name);
+			getNoteResult.then((value) => {
+				note = new Note(
+					value.name,
+					value.author_id,
+					value.category_id,
+					value.subcategory_id,
+					value.content,
+					value.published,
+					value.positive_reviews,
+					value.negative_reviews,
+					value.shared_date,
+					value.last_edit_date,
+					value._id
+				);
 
-		getNoteResult.then((value) => {
-			note = new Note(
-				value.name,
-				value.author_id,
-				value.category_id,
-				value.subcategory_id,
-				value.content,
-				value.published,
-				value.positive_reviews,
-				value.negative_reviews,
-				value.shared_date,
-				value.last_edit_date,
-				value._id
-			);
-			if(query.rate == "positive"){
+				
 				if(typeof note.positive_reviews == "undefined"){
 					note.positive_reviews = 0;
 				}
-				note.positive_reviews++;
-			}else if(query.rate == "negative"){
 				if(typeof note.negative_reviews == "undefined"){
 					note.negative_reviews = 0;
 				}
-				note.negative_reviews++;
-			}
 
-			const updateResult = global.updateItemById(id, table_name, note);
-			updateResult.then((value) => {
+				if(alreadyRated == true){
+
+					if(query.rate == oldRate){
+						if(query.rate == "positive"){
+							note.positive_reviews--;
+							// TODO: wymyślić co zrobić, żeby nie musieć używać tego if'a?
+							if(typeof noteRate._id !== "undefined"){
+								let dResult = global.deleteItemById(noteRate._id.toString(), "note-rates");
+							}
+							
+						}else if(query.rate == "negative"){
+							note.negative_reviews--;
+							if(typeof noteRate._id !== "undefined"){
+								let dResult = global.deleteItemById(noteRate._id.toString(), "note-rates");
+							}
+						}
+					}else{
+						if(query.rate == "positive"){
+							note.positive_reviews++;
+							note.negative_reviews--;
+							if(typeof noteRate._id !== "undefined"){
+								let uResult = global.updateItemById(noteRate._id.toString(), "note-rates", {["rate"]:"positive"});
+							}
+						}else if(query.rate == "negative"){
+							note.negative_reviews++;
+							note.positive_reviews--;
+							if(typeof noteRate._id !== "undefined"){
+								let uResult = global.updateItemById(noteRate._id.toString(), "note-rates", {["rate"]:"negative"});
+							}
+						}
+					}
+					// TODO: szukamy oceny usera w jego tabeli rated_notes i ją zmieniamy (XD!)
+				}else{
+
+					if(query.rate == "positive"){
+						note.positive_reviews++;
+					}else if(query.rate == "negative"){
+						note.negative_reviews++;
+					}
+
+				}
 				
 
-				let noteRate: NoteRate = new NoteRate(query.rate, note_id);
-				user.rated_notes.push(noteRate); 
+				const updateResult = global.updateItemById(id, table_name, note);
+				updateResult.then((value) => {
+					
 
-				const userUpdateResult = global.updateItemById(query.user_id, "users", user);
-				userUpdateResult.then((value) => {
-					if(value.acknowledged){
-					res.status(204).send();
-				}else{
-					globalTools.logToDatabase("function rateNote failed", "error");
-					res.status(400).send("Error");
-				}
+					let noteRate: NoteRate = new NoteRate(query.rate, note_id, user_id);
+					//TODO: prezmyslec czy to co ponizej ma sens i nie bedzie robic syfu jesli jest juz ocenione wczesniej
+					user.rated_notes.push(noteRate); 
+
+					const userUpdateResult = global.updateItemById(query.user_id, "users", user);
+					userUpdateResult.then((value) => {
+						if(value.acknowledged){
+						res.status(204).send();
+					}else{
+						globalTools.logToDatabase("function rateNote failed", "error");
+						res.status(400).send("Error");
+					}
+					});
 				});
-			});
 
+			});
 		});
 	});
 }

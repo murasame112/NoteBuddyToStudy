@@ -365,7 +365,7 @@ export function updateUser(req: Request, res: Response) {
       rated_note_id = new ObjectId(elem.note_id);
 			rate = elem.rate;
 
-      ratedNotes.push(new NoteRate(rate, rated_note_id));
+      ratedNotes.push(new NoteRate(rate, rated_note_id, query._id));
     });
     query.rated_notes = ratedNotes;
   }
@@ -453,7 +453,7 @@ export function updateMultipleUsers(req: Request, res: Response) {
       rated_note_id = new ObjectId(elem.note_id);
 			rate = elem.rate;
 
-      ratedNotes.push(new NoteRate(rate, rated_note_id));
+      ratedNotes.push(new NoteRate(rate, rated_note_id, updateQuery._id));
     });
     updateQuery.rated_notes = ratedNotes;
   }
@@ -553,7 +553,7 @@ export function updateUsersByQuery(req: Request, res: Response) {
       rated_note_id = new ObjectId(elem.note_id);
 			rate = elem.rate;
 
-      ratedNotes.push(new NoteRate(rate, rated_note_id));
+      ratedNotes.push(new NoteRate(rate, rated_note_id, updateQuery._id));
     });
     updateQuery.rated_notes = ratedNotes;
   }
@@ -635,7 +635,7 @@ export function updateUsersByQueriedId(req: Request, res: Response) {
       rated_note_id = new ObjectId(elem.note_id);
 			rate = elem.rate;
 
-      ratedNotes.push(new NoteRate(rate, rated_note_id));
+      ratedNotes.push(new NoteRate(rate, rated_note_id, updateQuery._id));
     });
     updateQuery.rated_notes = ratedNotes;
   }
