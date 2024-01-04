@@ -801,7 +801,6 @@ export function rateNote(req: Request, res: Response) {
       value.active,
 			value.untrusted,
 			value.saved_notes,
-			value.rated_notes,
 			value.followed_users,
 			value.blocked_users,
 			value.created,
