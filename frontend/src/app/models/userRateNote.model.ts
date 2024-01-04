@@ -1,4 +1,6 @@
 export interface UserRateNote {
-  note_id: string;
+  _id?: string;
   rate: 'positive' | 'negative';
+  note_id: string;
+  user_id?: string;
 }

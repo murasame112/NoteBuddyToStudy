@@ -201,6 +201,11 @@ export class NotesService {
 
   rateNote(rate: rateNote, noteId: string): Observable<any> {
     const url = `${this.apiUrl}/ratenote/${noteId}`;
-    return this.http.patch<any>(url, rate);
+    return this.http.put<any>(url, rate);
+  }
+
+  getNotesRatesByUserId(userId: string): Observable<any> {
+    const url = `${this.apiUrl}/noteratesid/user_id&${userId}`;
+    return this.http.get<any>(url);
   }
 }

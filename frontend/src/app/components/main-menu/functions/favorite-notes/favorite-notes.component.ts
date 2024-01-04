@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { takeUntil } from 'rxjs';
 import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
 import { FinalNote } from 'src/app/models/finalNote.model';
+import { UserRateNote } from 'src/app/models/userRateNote.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { NotesService } from 'src/app/services/notes.service';
 import { UsersService } from 'src/app/services/users.service';
@@ -16,6 +17,7 @@ export class FavoriteNotesComponent extends Unsubscribe implements OnInit {
 
   currentUserId: string | undefined = this.authService.currentUserSignal()?._id;
   userSavedNotesIds: Array<string> = [];
+  userNotesReviews: Array<UserRateNote> = [];
   notes: FinalNote[] = [];
 
   constructor(
@@ -28,6 +30,8 @@ export class FavoriteNotesComponent extends Unsubscribe implements OnInit {
 
   ngOnInit(): void {
     this.getUserFavNotesIds();
+    this.getUserNotesRates();
+
     this.getNotes();
   }
 
@@ -63,5 +67,22 @@ export class FavoriteNotesComponent extends Unsubscribe implements OnInit {
     this.userSavedNotesIds = this.userSavedNotesIds.filter(
       (id) => id !== noteId
     );
+  }
+
+  getUserNotesRates() {
+    if (this.currentUserId) {
+      this.notesService
+        .getNotesRatesByUserId(this.currentUserId)
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(
+          (userNotesRates) => {
+            this.userNotesReviews = userNotesRates;
+            // console.log(userNotesRates);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+    }
   }
 }

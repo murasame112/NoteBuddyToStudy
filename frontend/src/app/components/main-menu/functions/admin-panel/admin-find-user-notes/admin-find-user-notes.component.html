@@ -20,6 +20,8 @@
           [finalNote]="note"
           [userId]="currentUserId"
           [userRole]="currentUserRole"
+          [userFavNotes]="userSavedNotesIds"
+          [userNotesRates]="userNotesReviews"
           (deleteNoteEvent)="refreshNoteData()"
         ></app-notes-container>
       </ng-container>

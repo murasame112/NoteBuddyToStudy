@@ -32,9 +32,12 @@ export class NotesComponent extends Unsubscribe implements OnInit {
     this.getFinalNotes();
     this.getUserFavNotes();
 
-    this.userNotesReviews =
-      this.authService.currentUserSignal()?.rated_notes || [];
+    //! notesReviews
+
+    // this.userNotesReviews =
+    //   this.authService.currentUserSignal()?.rated_notes || [];
     // console.log('reviews', this.userNotesReviews);
+    this.getUserNotesRates();
 
     this.FilterForm = new FormGroup({
       categoryName: new FormControl(''),
@@ -333,6 +336,23 @@ export class NotesComponent extends Unsubscribe implements OnInit {
             // console.log(user.saved_notes);
           },
           (error) => {}
+        );
+    }
+  }
+
+  getUserNotesRates() {
+    if (this.currentUserId) {
+      this.notesService
+        .getNotesRatesByUserId(this.currentUserId)
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(
+          (userNotesRates) => {
+            this.userNotesReviews = userNotesRates;
+            // console.log(userNotesRates);
+          },
+          (error) => {
+            console.log(error);
+          }
         );
     }
   }

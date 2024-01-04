@@ -206,6 +206,10 @@
   min-height: 1.5rem;
 }
 
+.ratesBtns:disabled {
+  color: black;
+}
+
 #positiveReviews:hover {
   background-color: rgb(9, 201, 9);
   border: 0.1rem solid rgb(11, 182, 11);

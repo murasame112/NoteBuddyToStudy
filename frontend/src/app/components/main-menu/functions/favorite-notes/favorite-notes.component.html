@@ -20,6 +20,7 @@
             <app-notes-container
               [finalNote]="note"
               [userFavNotes]="userSavedNotesIds"
+              [userNotesRates]="userNotesReviews"
               [userId]="currentUserId"
               (removeFromFavorites)="removeFromFavorites($event)"
             ></app-notes-container>

@@ -40,6 +40,7 @@ export class NotesContainerComponent extends Unsubscribe implements OnInit {
   isNoteRateFilled: boolean = false;
   isNotePositiveRate: boolean = false;
   isNoteNegativeRate: boolean = false;
+  isRateButtonDisabled: boolean = false;
 
   constructor(
     private notesService: NotesService,
@@ -246,6 +247,7 @@ export class NotesContainerComponent extends Unsubscribe implements OnInit {
   ratePositive() {
     this.isNoteRateFilled = !this.isNoteRateFilled;
     this.isNotePositiveRate = !this.isNotePositiveRate;
+    this.isRateButtonDisabled = true;
 
     if (this.isNoteNegativeRate && this.finalNote) {
       this.finalNote!.negative_reviews = this.finalNote?.negative_reviews - 1;
@@ -285,24 +287,26 @@ export class NotesContainerComponent extends Unsubscribe implements OnInit {
       }
     }
 
-    // if (this.userId && this.finalNote?.note_id) {
-    //   let noteRate: rateNote = {
-    //     user_id: this.userId,
-    //     rate: 'positive',
-    //   };
+    if (this.userId && this.finalNote?.note_id) {
+      let noteRate: rateNote = {
+        user_id: this.userId,
+        rate: 'positive',
+      };
 
-    //   this.notesService
-    //     .rateNote(noteRate, this.finalNote?.note_id)
-    //     .pipe(takeUntil(this.unsubscribe$))
-    //     .subscribe(
-    //       (res) => {
-    //         console.log(res);
-    //       },
-    //       (error) => {
-    //         console.log(error);
-    //       }
-    //     );
-    // }
+      this.notesService
+        .rateNote(noteRate, this.finalNote?.note_id)
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(
+          (res) => {
+            console.log(res);
+            this.isRateButtonDisabled = false;
+          },
+          (error) => {
+            console.log(error);
+            this.isRateButtonDisabled = false;
+          }
+        );
+    }
 
     console.log('userRateArrayPos', this.userNotesRates);
   }
@@ -310,6 +314,7 @@ export class NotesContainerComponent extends Unsubscribe implements OnInit {
   rateNegative() {
     this.isNoteRateFilled = !this.isNoteRateFilled;
     this.isNoteNegativeRate = !this.isNoteNegativeRate;
+    this.isRateButtonDisabled = true;
 
     if (this.isNotePositiveRate && this.finalNote) {
       this.finalNote!.positive_reviews = this.finalNote?.positive_reviews - 1;
@@ -348,24 +353,26 @@ export class NotesContainerComponent extends Unsubscribe implements OnInit {
       }
     }
 
-    // if (this.userId && this.finalNote?.note_id) {
-    //   let noteRate: rateNote = {
-    //     user_id: this.userId,
-    //     rate: 'negative',
-    //   };
+    if (this.userId && this.finalNote?.note_id) {
+      let noteRate: rateNote = {
+        user_id: this.userId,
+        rate: 'negative',
+      };
 
-    //   this.notesService
-    //     .rateNote(noteRate, this.finalNote?.note_id)
-    //     .pipe(takeUntil(this.unsubscribe$))
-    //     .subscribe(
-    //       (res) => {
-    //         console.log(res);
-    //       },
-    //       (error) => {
-    //         console.log(error);
-    //       }
-    //     );
-    // }
+      this.notesService
+        .rateNote(noteRate, this.finalNote?.note_id)
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(
+          (res) => {
+            console.log(res);
+            this.isRateButtonDisabled = false;
+          },
+          (error) => {
+            console.log(error);
+            this.isRateButtonDisabled = false;
+          }
+        );
+    }
 
     console.log('actualRateArrayNeg', this.userNotesRates);
   }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { take, takeUntil } from 'rxjs';
 import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
 import { FinalNote } from 'src/app/models/finalNote.model';
+import { UserRateNote } from 'src/app/models/userRateNote.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { NotesService } from 'src/app/services/notes.service';
 import { UsersService } from 'src/app/services/users.service';
@@ -17,9 +18,13 @@ export class MyNotesComponent extends Unsubscribe implements OnInit {
   userId: string | undefined = undefined;
   myNotes: FinalNote[] = [];
   userSavedNotesIds: Array<string> = [];
+  userNotesReviews: Array<UserRateNote> = [];
 
   ngOnInit(): void {
     this.userId = this.authService.currentUserSignal()?._id;
+
+    this.getUserFavNotesIds();
+    this.getUserNotesRates();
 
     this.getMyNotes();
   }
@@ -73,5 +78,22 @@ export class MyNotesComponent extends Unsubscribe implements OnInit {
       );
 
     this.myNotes = this.myNotes.filter((note) => note.note_id !== noteId);
+  }
+
+  getUserNotesRates() {
+    if (this.userId) {
+      this.notesService
+        .getNotesRatesByUserId(this.userId)
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(
+          (userNotesRates) => {
+            this.userNotesReviews = userNotesRates;
+            // console.log(userNotesRates);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+    }
   }
 }

@@ -96,6 +96,7 @@
         class="ratesBtns"
         [ngClass]="{ positiveRate: isNotePositiveRate }"
         (click)="ratePositive()"
+        [disabled]="isRateButtonDisabled"
       >
         <span id="likeNumber">{{ finalNote?.positive_reviews }}</span>
         <i class="fa fa-solid fa-thumbs-up fa-lg"></i>
@@ -106,6 +107,7 @@
         class="ratesBtns"
         [ngClass]="{ negativeRate: isNoteNegativeRate }"
         (click)="rateNegative()"
+        [disabled]="isRateButtonDisabled"
       >
         <span id="dislikeNumber">{{ finalNote?.negative_reviews }}</span>
         <i class="fa-solid fa-thumbs-down fa-lg"></i>
