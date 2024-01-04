@@ -7,7 +7,7 @@ import * as global from "../global_database_functions";
 import * as globalTools from "../global_tools";
 import * as loginService from "../services/login"
 
-const table_name = "noteRates";
+const table_name = "note-rates";
 
 // finds all noteRates
 // /noteRates
