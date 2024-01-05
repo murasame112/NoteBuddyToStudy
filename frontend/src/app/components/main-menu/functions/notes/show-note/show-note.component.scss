@@ -43,7 +43,8 @@ main {
   // padding-top: 1rem;
   // padding-bottom: 4rem;
   // gap: 1rem;
-  min-height: 27cm;
+  // min-height: 27cm;
+  min-height: 60rem;
   // border: 2px solid blue;
 }
 
@@ -165,12 +166,6 @@ footer {
     right: 1rem;
     top: 4.5rem;
     width: 6rem;
-  }
-}
-
-@media (max-width: 600px) {
-  main {
-    min-height: 18cm;
   }
 }
 

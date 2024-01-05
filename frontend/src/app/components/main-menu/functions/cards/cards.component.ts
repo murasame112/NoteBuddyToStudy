@@ -9,6 +9,7 @@ import { Note } from 'src/app/models/note.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { CardsService } from 'src/app/services/cards.service';
 import { NotesService } from 'src/app/services/notes.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-cards',
@@ -56,7 +57,8 @@ export class CardsComponent extends Unsubscribe implements OnInit {
     private noteService: NotesService,
     private cardService: CardsService,
     private activatedRoute: ActivatedRoute,
-    public authService: AuthService
+    public authService: AuthService,
+    private location: Location
   ) {
     super();
   }
@@ -280,5 +282,9 @@ export class CardsComponent extends Unsubscribe implements OnInit {
           console.log(error);
         }
       );
+  }
+
+  back() {
+    this.location.back();
   }
 }

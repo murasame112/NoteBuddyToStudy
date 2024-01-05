@@ -27,6 +27,7 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-height: 60rem;
 }
 
 #spinner {
@@ -225,17 +226,6 @@ footer {
 
   #descBox textarea {
     width: 20rem;
-  }
-}
-
-@media (max-width: 650px) {
-  #backBtn {
-    right: 1rem;
-    top: 3rem;
-    border-radius: 2rem;
-    width: 8rem;
-    height: 2.5rem;
-    align-self: flex-start;
   }
 }
 

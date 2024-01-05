@@ -12,7 +12,7 @@
     ></i>
 
     <ng-container *ngIf="!isLoading">
-      <button id="backBtn" routerLink="/notes">powrót</button>
+      <button id="backBtn" (click)="back()">powrót</button>
       <div id="cardsMenu">
         <span>Fiszki do : {{ selectedNote.name }}</span>
         <div id="cardsBtns">
