@@ -10,8 +10,8 @@ import { User } from "../models/user_model";
 import fs from 'fs';
 import path from 'path';
 
-export async function checkIfUserExists(userLogin: string){
-	const result = await global.getItemsByField({"login": userLogin}, 'users');
+export async function checkIfUserExists(userEmail: string){
+	const result = await global.getItemsByField({"email": userEmail}, 'users');
 	let check = false;
 	if(result.length > 0){
 		check = true;

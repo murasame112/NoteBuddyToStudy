@@ -93,6 +93,7 @@ app.put("/noterate/:id", noterateEndpoints.replaceNoteRate);
 // ============== LOGIN ENDPOINTS ==============
 
 app.post("/login", loginEndpoints.loginUser);
+app.post("/logingoogle", loginEndpoints.loginGoogle);
 app.get("/extract", loginEndpoints.extractUser);
 
 // ============== CATEGORY ENDPOINTS ==============

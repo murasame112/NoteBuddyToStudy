@@ -5,7 +5,7 @@ export class User {
   login: string;
   avatar_url: string;
   email: string;
-  password: string | null;
+  password: string;
 	role: Role;
 	is_google: boolean;
   active: boolean; // false means banned
@@ -20,7 +20,7 @@ export class User {
     login: string,
     avatar_url: string,
     email: string,
-    password: string | null,
+    password: string,
 		role?: Role,
 		is_google?: boolean,
     active?: boolean,

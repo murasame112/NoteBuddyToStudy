@@ -153,7 +153,7 @@ export function getUsersByQueriedId(req: Request, res: Response) {
 // }
 export function insertUser(req: Request, res: Response) {
 
-	loginService.checkIfUserExists(req.body.login).then((value) => {
+	loginService.checkIfUserExists(req.body.email).then((value) => {
 		if(value == true){
 			res.status(400).send("Error - user already exists");
 			return false;
@@ -208,10 +208,6 @@ export function insertMultipleUsers(req: Request, res: Response) {
   const users = req.body;
   let counter = 0;
   users.forEach((element: User) => {
-		//TODO: przemyśleć jak się pozbyć tego if'a
-		if(element.password == null){
-			return false;
-		}
     const user: User = new User(
       element.login,
       element.avatar_url,
