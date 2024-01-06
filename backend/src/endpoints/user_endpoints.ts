@@ -208,6 +208,10 @@ export function insertMultipleUsers(req: Request, res: Response) {
   const users = req.body;
   let counter = 0;
   users.forEach((element: User) => {
+		//TODO: przemyśleć jak się pozbyć tego if'a
+		if(element.password == null){
+			return false;
+		}
     const user: User = new User(
       element.login,
       element.avatar_url,
