@@ -87,14 +87,14 @@ export function loginGoogle(req: Request, res: Response) {
 				login,
 				avatar,
 				req.body.email,
-				"null",
+				loginService.hashPassword("null"),
 				req.body.role,
 				true
 			);
 			const iresult = global.insertItem(user, 'users');
 			iresult.then((value) => {
 				if(value.acknowledged){
-					const lresult = loginService.login(user.login, user.password);
+					const lresult = loginService.login(user.login, "null");
 					lresult.then((val) => {
 						res.send(val);
 					});
