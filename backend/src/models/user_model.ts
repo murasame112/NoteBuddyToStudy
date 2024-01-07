@@ -7,6 +7,7 @@ export class User {
   email: string;
   password: string;
 	role: Role;
+	is_google: boolean;
   active: boolean; // false means banned
   untrusted: boolean;
   saved_notes: Array<ObjectId>;
@@ -21,6 +22,7 @@ export class User {
     email: string,
     password: string,
 		role?: Role,
+		is_google?: boolean,
     active?: boolean,
     untrusted?: boolean,
     saved_notes?: Array<ObjectId>,
@@ -34,6 +36,7 @@ export class User {
     this.email = email;
     this.password = password;
 		this.role = role ? role : Role.user;
+		this.is_google = is_google ? is_google : false;
     this.active = active ? active : true;
     this.untrusted = untrusted ? untrusted : true;
     this.saved_notes = saved_notes ? saved_notes : [];
