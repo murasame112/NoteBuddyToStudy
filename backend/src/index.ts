@@ -1,4 +1,5 @@
 import express from "express";
+import { Server } from "socket.io";
 import { Console } from "console";
 import { Request, Response } from "express";
 import { ObjectId } from "bson";
@@ -19,6 +20,7 @@ import * as logEndpoints from "./endpoints/log_endpoints";
 
 const app = express();
 app.use(express.json({ limit: '100mb' }));
+
 //===============================CORS===============================
 
 const cors = require("cors");
@@ -237,45 +239,12 @@ app.patch("/logs/:field&:value", logEndpoints.updateLogsByQuery);
 app.patch("/logs", logEndpoints.updateMultipleLogs);
 app.put("/log/:id", logEndpoints.replaceLog);
 
-// =============== ponizej notatki, do usuniecia potem ==============
-//app.get('/', function (req, res) {
 
-// const note = global.getItemById(2, 'notes');
-// note.then((value) => {
-//     console.log(value);
-//     res.send(value);
-//   });
+// ============== KONIEC ENDPOINTÓW ==============
 
-// let x = {
-//   "_category_id":2,
-//   "_name":"Pozytywizm"
-// }
-//   let y = global.insertItem(x, 'subcategories');
-// y.then((value) => {
-//   console.log(value);
-// });
+const server = app.listen(3000);
+const io = new Server(server);
 
-// global.deleteItemById('6489cd7a10bbfd842e98a8c1', 'subcategories');
-
-//global.deleteItemsByField({_name: "Pozytywizm"}, 'subcategories');
-
-//global.getItemsByField({_name: "Pozytywizm"}, 'subcategories');
-
-//global.updateItemById('6489d245bc3fef6296995f17', 'subcategories', {_name: "Antyk"});
-
-// global.updateItemsByField({_name: "Pozytywizm"}, 'subcategories', {_name: "Antyk"});
-
-// let replacement = {
-// _id: new ObjectId('6489dd484e5441e722db9aac'),
-//     '_category_id':2,
-//     '_name':'Pozytywizm'
-// }
-// global.replaceItemById('6489dd484e5441e722db9aac', 'subcategories', replacement);
-
-//global.stealItemById('648a3968510e8ee61572e748', 'subcategories');
-
-// res.send('hello world');
-
-//});
-
-app.listen(3000);
+io.on('connection', (socket) => {
+	console.log(socket.id);
+});
