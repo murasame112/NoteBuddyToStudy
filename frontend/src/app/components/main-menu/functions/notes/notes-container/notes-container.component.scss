@@ -67,15 +67,13 @@
   stroke: #320b61;
 }
 
-// .cardIcon1:hover
-// {
-// fill: #320b61;
-// }
+.starColor {
+  color: #320b61;
+}
 
-// .cardIcon2:hover
-// {
-//   stroke: #320b61;
-// }
+.starColor:hover {
+  color: #3b0d72;
+}
 
 #svg-icon {
   fill: blue;
@@ -208,8 +206,48 @@
   min-height: 1.5rem;
 }
 
+.ratesBtns:disabled {
+  color: black;
+}
+
+#positiveReviews:hover {
+  background-color: rgb(9, 201, 9);
+  border: 0.1rem solid rgb(11, 182, 11);
+
+  #likeNumber {
+    color: black;
+  }
+}
+
+.positiveRate {
+  background-color: rgb(9, 201, 9);
+  border: 0.1rem solid rgb(11, 182, 11);
+
+  #likeNumber {
+    color: black;
+  }
+}
+
 #likeNumber {
   color: #55bb05;
+}
+
+#negativeReviews:hover {
+  background-color: rgb(223, 54, 54);
+  border: 0.1rem solid rgb(207, 51, 51);
+
+  #dislikeNumber {
+    color: black;
+  }
+}
+
+.negativeRate {
+  background-color: rgb(223, 54, 54);
+  border: 0.1rem solid rgb(207, 51, 51);
+
+  #dislikeNumber {
+    color: black;
+  }
 }
 
 #dislikeNumber {

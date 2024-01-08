@@ -1,6 +1,6 @@
 <div id="container">
   <div id="findUserSection">
-    <h5>Notatki i fiszki użytkownika</h5>
+    <h5>Notatki użytkownika</h5>
     <form id="findUserNote" [formGroup]="findUserNotesForm">
       <span>Podaj nazwę użytkownika:</span>
       <input
@@ -18,6 +18,10 @@
       <ng-container *ngFor="let note of notesDisplayedForUser">
         <app-notes-container
           [finalNote]="note"
+          [userId]="currentUserId"
+          [userRole]="currentUserRole"
+          [userFavNotes]="userSavedNotesIds"
+          [userNotesRates]="userNotesReviews"
           (deleteNoteEvent)="refreshNoteData()"
         ></app-notes-container>
       </ng-container>

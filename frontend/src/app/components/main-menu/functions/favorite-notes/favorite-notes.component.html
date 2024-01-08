@@ -1,0 +1,40 @@
+<div id="container" *ngIf="authService.currentUserSignal()">
+  <nav>
+    <app-navbar></app-navbar>
+  </nav>
+
+  <main>
+    <i
+      class="fa-solid fa-spinner fa-spin-pulse fa-2xl"
+      style="color: #ffbb00"
+      *ngIf="isLoading"
+      id="spinner"
+    ></i>
+    <button id="backBtn" routerLink="/notes">powrót</button>
+    <div id="favorite">
+      <p id="title">Ulubione:</p>
+
+      <div id="favNotesContainer" *ngIf="!isLoading">
+        <ng-container *ngIf="notes.length != 0">
+          <ng-container *ngFor="let note of notes">
+            <app-notes-container
+              [finalNote]="note"
+              [userFavNotes]="userSavedNotesIds"
+              [userNotesRates]="userNotesReviews"
+              [userId]="currentUserId"
+              (removeFromFavorites)="removeFromFavorites($event)"
+            ></app-notes-container>
+          </ng-container>
+        </ng-container>
+
+        <ng-container *ngIf="notes.length === 0">
+          <span>Brak ulubionych notatek</span>
+        </ng-container>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <app-footer></app-footer>
+  </footer>
+</div>

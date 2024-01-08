@@ -34,6 +34,10 @@ import { CardModelComponent } from './components/main-menu/functions/cards/card-
 import { CardMyCardsModelComponent } from './components/main-menu/functions/cards/card-my-cards-model/card-my-cards-model.component';
 import { AuthInterceptor } from './services/interceptors/auth.interceptor';
 import { SettingsPageComponent } from './components/main-menu/functions/settings-page/settings-page.component';
+import { FavoriteNotesComponent } from './components/main-menu/functions/favorite-notes/favorite-notes.component';
+import { MyNotesComponent } from './components/main-menu/functions/my-notes/my-notes.component';
+import { EditNoteComponent } from './components/main-menu/functions/edit-note/edit-note.component';
+import { ChatApiTestComponent } from './components/main-menu/functions/chat-api-test/chat-api-test.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +67,10 @@ import { SettingsPageComponent } from './components/main-menu/functions/settings
     CardModelComponent,
     CardMyCardsModelComponent,
     SettingsPageComponent,
+    FavoriteNotesComponent,
+    MyNotesComponent,
+    EditNoteComponent,
+    ChatApiTestComponent,
   ],
   imports: [
     BrowserModule,

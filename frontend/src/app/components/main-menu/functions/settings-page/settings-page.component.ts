@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { read } from '@popperjs/core';
 import { takeUntil } from 'rxjs/operators';
 import { CustomValidators } from 'src/app/helpers/custom-validators';
 import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
@@ -16,22 +15,23 @@ import { UsersService } from 'src/app/services/users.service';
 })
 export class SettingsPageComponent extends Unsubscribe implements OnInit {
   editUserForm!: FormGroup;
-  username: string = '';
-  userPass: string = '';
+  username: string | undefined = '';
+  userPass: string | undefined = '';
+  userEmail: string | undefined = '';
   user!: User;
-  userImg: string | null = '';
+  userImg: string | undefined = '';
   isLoading: Boolean = true;
+  isGoogleUser: boolean | undefined = undefined;
 
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private usersService: UsersService
   ) {
     super();
   }
   ngOnInit(): void {
-    this.username = this.authService.showUsername();
-    this.userPass = this.authService.getUserPass();
-    this.getUser();
+    // this.getUser();
+    this.userSettings();
 
     this.editUserForm = new FormGroup({
       img: new FormControl(''),
@@ -41,24 +41,49 @@ export class SettingsPageComponent extends Unsubscribe implements OnInit {
         CustomValidators.passwordValidation(),
       ]),
     });
+
+    this.isGoogleUser = this.authService.currentUserSignal()?.is_google;
   }
 
-  getUser() {
-    this.usersService
-      .getUsersByQuery('login', this.username)
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe((user) => {
-        this.user = user.find((us: User) => {
-          return true;
-        });
+  // getUser() {
+  //   if (this.username) {
+  //     this.usersService
+  //       .getUsersByQuery('login', this.username)
+  //       .pipe(takeUntil(this.unsubscribe$))
+  //       .subscribe((user) => {
+  //         this.user = user.find((us: User) => {
+  //           return true;
+  //         });
 
-        this.userImg = this.user.avatar_url;
+  //         this.userImg = this.user.avatar_url;
+  //         this.editUserForm.patchValue({
+  //           email: this.user.email,
+  //           password: this.userPass,
+  //         });
+
+  //         console.log(this.user);
+  //         this.isLoading = false;
+  //       });
+  //   }
+  // }
+
+  userSettings() {
+    this.authService
+      .isUserLogin()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((result) => {
+        // console.log('Sprawdzanie /extract w Settings', result);
+        this.authService.currentUserSignal.set(result);
+        this.username = this.authService.currentUserSignal()?.login;
+        this.userPass = this.authService.getUserPass();
+        this.userImg = this.authService.currentUserSignal()?.avatar_url;
+        this.userEmail = this.authService.currentUserSignal()?.email;
+
         this.editUserForm.patchValue({
-          email: this.user.email,
+          email: this.userEmail,
           password: this.userPass,
         });
 
-        console.log(this.user);
         this.isLoading = false;
       });
   }
@@ -66,8 +91,7 @@ export class SettingsPageComponent extends Unsubscribe implements OnInit {
   changeEmail() {
     let email = this.editUserForm.get('email')?.value;
     console.log(`czy form valid ${this.editUserForm.valid}`);
-    //hkerrigan
-    let userId = '657875db9470549a97c69a33';
+    let userId = this.authService.currentUserSignal()?._id;
 
     let queryAndValue = {
       email: email,
@@ -76,11 +100,9 @@ export class SettingsPageComponent extends Unsubscribe implements OnInit {
     if (this.editUserForm.valid) {
       if (userId) {
         this.usersService
-          .updateUserQuery(userId, queryAndValue)
+          .updateUserField(userId, queryAndValue)
           .pipe(takeUntil(this.unsubscribe$))
-          .subscribe((res) => {
-            console.log(`to jest res:`, res);
-          });
+          .subscribe((res) => {});
       }
     }
   }
@@ -88,8 +110,7 @@ export class SettingsPageComponent extends Unsubscribe implements OnInit {
   changePassword() {
     let pass = this.editUserForm.get('password')?.value;
     console.log(`czy form valid ${this.editUserForm.valid}`);
-    //hkerrigan
-    let userId = '657875db9470549a97c69a33';
+    let userId = this.authService.currentUserSignal()?._id;
 
     let queryAndValue = {
       password: pass,
@@ -98,18 +119,15 @@ export class SettingsPageComponent extends Unsubscribe implements OnInit {
     if (this.editUserForm.valid) {
       if (userId) {
         this.usersService
-          .updateUserQuery(userId, queryAndValue)
+          .updateUserField(userId, queryAndValue)
           .pipe(takeUntil(this.unsubscribe$))
-          .subscribe((res) => {
-            console.log(`to jest res:`, res);
-          });
+          .subscribe((res) => {});
       }
     }
   }
 
   changeAvatarApi() {
-    //jakisuser
-    let userId = '6580338a890932a991b6dced';
+    let userId = this.authService.currentUserSignal()?._id;
 
     let queryAndValue = {
       avatar_url: this.userImg,
@@ -117,11 +135,9 @@ export class SettingsPageComponent extends Unsubscribe implements OnInit {
 
     if (userId) {
       this.usersService
-        .updateUserQuery(userId, queryAndValue)
+        .updateUserField(userId, queryAndValue)
         .pipe(takeUntil(this.unsubscribe$))
-        .subscribe((res) => {
-          console.log(res);
-        });
+        .subscribe((res) => {});
     }
   }
 

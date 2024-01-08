@@ -1,4 +1,4 @@
-<div id="container">
+<div id="container" *ngIf="authService.currentUserSignal()">
   <nav>
     <app-navbar></app-navbar>
   </nav>
@@ -14,10 +14,10 @@
       <div id="nav">
         <span id="title">{{ note.name }}</span>
       </div>
-      <button id="backBtn" routerLink="/notes">powrót</button>
+      <!-- <button id="backBtn" routerLink="/notes">powrót</button> -->
+      <button id="backBtn" (click)="back()">powrót</button>
     </div>
 
-    <!-- <p id="text" *ngIf="!isLoading">{{ note.content }}</p> -->
     <quill-view-html
       *ngIf="!isLoading"
       id="text"

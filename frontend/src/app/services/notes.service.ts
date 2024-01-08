@@ -9,6 +9,7 @@ import { FinalNote } from '../models/finalNote.model';
 import { Category } from '../models/category.model';
 import { Subcategory } from '../models/subcategory.model';
 import { User } from '../models/user.model';
+import { rateNote } from '../models/rateNote.model';
 
 @Injectable({
   providedIn: 'root',
@@ -41,15 +42,6 @@ export class NotesService {
   getNoteById(id: string) {
     const url = `${this.apiUrl}/note/${id}`;
     return this.http.get<string>(url).pipe(
-      map((response: any) => {
-        return response;
-      })
-    );
-  }
-
-  deleteNote(id: string) {
-    const url = `${this.apiUrl}/note/${id}`;
-    return this.http.delete<string>(url).pipe(
       map((response: any) => {
         return response;
       })
@@ -191,5 +183,29 @@ export class NotesService {
         return finalNotes;
       })
     );
+  }
+
+  updateNote(note: Note, noteId: string): Observable<Note> {
+    const url = `${this.apiUrl}/note/${noteId}`;
+    return this.http.patch<Note>(url, note);
+  }
+
+  deleteNote(id: string) {
+    const url = `${this.apiUrl}/note/${id}`;
+    return this.http.delete<string>(url).pipe(
+      map((response: any) => {
+        return response;
+      })
+    );
+  }
+
+  rateNote(rate: rateNote, noteId: string): Observable<any> {
+    const url = `${this.apiUrl}/ratenote/${noteId}`;
+    return this.http.put<any>(url, rate);
+  }
+
+  getNotesRatesByUserId(userId: string): Observable<any> {
+    const url = `${this.apiUrl}/noteratesid/user_id&${userId}`;
+    return this.http.get<any>(url);
   }
 }

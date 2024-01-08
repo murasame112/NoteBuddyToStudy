@@ -12,25 +12,33 @@ import Quill from 'quill';
 import { CustomOption } from 'ngx-quill';
 import Parchment from 'parchment';
 
-
 //Rejestrowanie i dodawanie do listy wybranych czcionek
- const font = Quill.import('formats/font')
- font.whitelist = ['serif','arial', 'verdana', 'timesnewroman', 'roboto', 'monospace','poppins']
- Quill.register(font, true)
+const font = Quill.import('formats/font');
+font.whitelist = [
+  'serif',
+  'arial',
+  'verdana',
+  'timesnewroman',
+  'roboto',
+  'monospace',
+  'poppins',
+];
+Quill.register(font, true);
 
 //  Dodawanie wybranych protokółów do linków w edytorze
-const Link = Quill.import('formats/link')
-Link.PROTOCOL_WHITELIST = ['http', 'https']
-Link.sanitize = function(sanitizedUrl:string)
-{
-  if(!sanitizedUrl ||sanitizedUrl ==='about:blank') return sanitizedUrl;
+const Link = Quill.import('formats/link');
+Link.PROTOCOL_WHITELIST = ['http', 'https'];
+Link.sanitize = function (sanitizedUrl: string) {
+  if (!sanitizedUrl || sanitizedUrl === 'about:blank') return sanitizedUrl;
 
-  const hasWhitelistedProtocol = Link.PROTOCOL_WHITELIST.some(function(protocol:string){
+  const hasWhitelistedProtocol = Link.PROTOCOL_WHITELIST.some(function (
+    protocol: string
+  ) {
     return sanitizedUrl.startsWith(protocol);
-  })
+  });
 
-  return hasWhitelistedProtocol? sanitizedUrl:`http://${sanitizedUrl}`
-}
+  return hasWhitelistedProtocol ? sanitizedUrl : `http://${sanitizedUrl}`;
+};
 Quill.register(Link, true);
 
 //Dodawanie image-resizera
@@ -43,8 +51,8 @@ Quill.register('modules/blotFormatter', BlotFormatter);
 
 //kompresowanie zdjęć
 import ImageCompress from 'quill-image-compress';
+import { AuthService } from 'src/app/services/auth.service';
 Quill.register('modules/imageCompress', ImageCompress);
-
 
 @Component({
   selector: 'app-note-add',
@@ -52,7 +60,11 @@ Quill.register('modules/imageCompress', ImageCompress);
   styleUrls: ['./note-add.component.scss'],
 })
 export class NoteAddComponent extends Unsubscribe implements OnInit {
-  constructor(private notesService: NotesService, private router: Router) {
+  constructor(
+    private notesService: NotesService,
+    private router: Router,
+    public authService: AuthService
+  ) {
     super();
   }
 
@@ -63,7 +75,7 @@ export class NoteAddComponent extends Unsubscribe implements OnInit {
   subcategoriesArray: Subcategory[] = [];
   subcategoryFilteredArray: Subcategory[] = [];
 
-  isSubmitted:boolean = false;
+  isSubmitted: boolean = false;
 
   // editorModel = [{
   //   attributes: {
@@ -77,9 +89,7 @@ export class NoteAddComponent extends Unsubscribe implements OnInit {
     noteDesc: new FormControl('', Validators.required),
     courseName: new FormControl('', Validators.required),
     subjectName: new FormControl('', Validators.required),
-
   });
-
 
   ngOnInit(): void {
     this.getCategories();
@@ -89,59 +99,62 @@ export class NoteAddComponent extends Unsubscribe implements OnInit {
       noteName: new FormControl('', Validators.required),
       noteDesc: new FormControl('', Validators.required),
       courseName: new FormControl('', Validators.required),
-      subjectName: new FormControl({ value: '', disabled: true },Validators.required),
-
+      subjectName: new FormControl(
+        { value: '', disabled: true },
+        Validators.required
+      ),
     });
-
-
   }
 
   //Dodawanie notatki
   addNote(data: any) {
     console.log(data);
 
-    let author_id: string = '652d7b38f2c51e59e3c6241e';
-    let name: string = data.noteName;
-    let content: string = data.noteDesc;
-    let category_id: string = data.courseName;
-    let subcategory_id: string = data.subjectName;
-    this.isSubmitted = true;
+    if (this.authService.currentUserSignal()) {
+      let author_id: any = this.authService
+        .currentUserSignal()
+        ?._id?.toString();
+      let name: string = data.noteName;
+      let content: string = data.noteDesc;
+      let category_id: string = data.courseName;
+      let subcategory_id: string = data.subjectName;
+      this.isSubmitted = true;
 
+      if (
+        name != '' &&
+        content != '' &&
+        content != null &&
+        category_id != '' &&
+        subcategory_id != ''
+      ) {
+        let newNote: Note = {
+          name: name,
+          author_id: author_id,
+          category_id: category_id,
+          subcategory_id: subcategory_id,
+          content: content,
+        };
 
-    if(name !='' && content != ''&& content != null && category_id != '' && subcategory_id !='')
-    {
-      let newNote: Note = {
-        name: name,
-        author_id: author_id,
-        category_id: category_id,
-        subcategory_id: subcategory_id,
-        content: content,
-      };
+        this.notesService
+          .addNote(newNote)
+          .pipe(takeUntil(this.unsubscribe$))
+          .subscribe(
+            //! To jest do przerobienia response zwraca ID
+            (response) => {
+              console.log('ID:', response);
+            },
+            (error) => {
+              console.log('Bład:', error);
+            }
+          );
 
-      this.notesService
-        .addNote(newNote)
-        .pipe(takeUntil(this.unsubscribe$))
-        .subscribe(
-          //! To jest do przerobienia response zwraca ID
-          (response) => {
-            console.log('ID:', response);
-          },
-          (error) => {
-            console.log('Bład:', error);
-          }
-        );
-
-      setTimeout(() => {
-        this.router.navigate(['/notes']);
-      }, 1000);
-
-
-    }else
-    {
-      alert("Nie wszystkie pola formularza zostały uzupełnione");
+        setTimeout(() => {
+          this.router.navigate(['/notes']);
+        }, 1000);
+      } else {
+        alert('Nie wszystkie pola formularza zostały uzupełnione');
+      }
     }
-
-
   }
 
   getCategories() {
@@ -199,9 +212,7 @@ export class NoteAddComponent extends Unsubscribe implements OnInit {
     if (categoryName != null && categoryName != '') {
       this.addNoteForm.get('subjectName')?.enable();
     }
-
   }
-
 
   //! QUILL
 
@@ -210,23 +221,39 @@ export class NoteAddComponent extends Unsubscribe implements OnInit {
   quillModules = {
     toolbar: [
       [
-        {'header':[2, 3, false]},
-        {'size':['small', false, 'large']},
-        {'font':['serif','arial', 'verdana', 'timesnewroman', 'roboto', 'monospace','poppins']},
-      ],[],[],
-      ['bold', 'italic', 'underline', 'strike','clean'],
-      [ { 'indent': '-1'}, { 'indent': '+1' }],
+        { header: [2, 3, false] },
+        { size: ['small', false, 'large'] },
+        {
+          font: [
+            'serif',
+            'arial',
+            'verdana',
+            'timesnewroman',
+            'roboto',
+            'monospace',
+            'poppins',
+          ],
+        },
+      ],
+      [],
+      [],
+      ['bold', 'italic', 'underline', 'strike', 'clean'],
+      [{ indent: '-1' }, { indent: '+1' }],
       [{ color: [] }, { background: [] }],
       ['blockquote', 'code-block'],
       [{ list: 'ordered' }, { list: 'bullet' }],
-      [{'align':''},{'align':'center'},{'align':'right'},{'align':'justify'}],
+      [
+        { align: '' },
+        { align: 'center' },
+        { align: 'right' },
+        { align: 'justify' },
+      ],
       ['link', 'image'],
     ],
 
     // imageResize: {},
-    blotFormatter:{},
-    imageCompress:{}
-
+    blotFormatter: {},
+    imageCompress: {},
   };
 
   //Styles
@@ -236,20 +263,15 @@ export class NoteAddComponent extends Unsubscribe implements OnInit {
   };
 
   //CustomOptions
-  quillPlaceholder="Wpisz tekst";
+  quillPlaceholder = 'Wpisz tekst';
 
   //Quill output
-  onEditorCreated(editor:any)
-  {
-
+  onEditorCreated(editor: any) {
     //Zmiana placeholdera dla linków
     let tooltip = editor.theme.tooltip;
-    let input = tooltip.root.querySelector("input[data-link]");
+    let input = tooltip.root.querySelector('input[data-link]');
     input.dataset.link = 'https://www.twms.pl';
-
   }
 
-
   //! /QUILL
-
 }

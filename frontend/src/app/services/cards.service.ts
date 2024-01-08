@@ -11,44 +11,44 @@ export class CardsService {
 
   constructor(private http: HttpClient) {}
 
-  //Dodawanie kolekcji fiszek użytkownika do bazy
-  addCardCollection(card: Card): Observable<Card> {
+  //Dodawanie  fiszki użytkownika do bazy
+  addCard(card: Card): Observable<Card> {
     const url = `${this.apiUrl}/card`;
     return this.http.post<Card>(url, card);
   }
 
   //Dodawanie fiszki do kolekcji użytkownika
-  addCard(card: Card, cardId: string): Observable<Card> {
-    const url = `${this.apiUrl}/card/${cardId}`;
-    return this.http.patch<Card>(url, card);
-  }
+  // addCard(card: Card, cardId: string): Observable<Card> {
+  //   const url = `${this.apiUrl}/card/${cardId}`;
+  //   return this.http.patch<Card>(url, card);
+  // }
 
-  //Pobieranie wszystkich kolekcji fiszek użytkowników
+  //Pobieranie wszystkich fiszek użytkowników
   getCards(): Observable<Card[]> {
     const url = `${this.apiUrl}/cards`;
     return this.http.get<Card[]>(url);
   }
 
-  //Pobieranie kolekcji fiszek użytkowników po id kolekcji
+  //Pobieranie fiszek użytkowników po id
   getCardById(id: string): Observable<Card> {
     const url = `${this.apiUrl}/card/${id}`;
     return this.http.get<Card>(url);
   }
 
   //Usuwanie fiszki użytkownika z kolekcji poprzez update kolekcji
-  deleteCard(card: Card): Observable<Card> {
-    const url = `${this.apiUrl}/card/${card._id}`;
+  // deleteCard(card: Card): Observable<Card> {
+  //   const url = `${this.apiUrl}/card/${card._id}`;
+  //   return this.http.put<Card>(url, card);
+  // }
+
+  updateCategory(card: Card, card_id: string): Observable<Card> {
+    const url = `${this.apiUrl}/card/${card_id}`;
     return this.http.put<Card>(url, card);
   }
 
-  //Usuwanie kolekcji fiszek użytkownika w bazie
-  deleteCardCollection(id: string): Observable<{}> {
+  //Usuwanie fiszek użytkownika w bazie
+  deleteCard(id: string): Observable<{}> {
     const url = `${this.apiUrl}/card/${id}`;
     return this.http.delete(url);
-  }
-
-  getNewCardsVersion(): Observable<any[]> {
-    const url = `${this.apiUrl}/cards`;
-    return this.http.get<any[]>(url);
   }
 }

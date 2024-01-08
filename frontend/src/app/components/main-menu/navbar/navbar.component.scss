@@ -3,8 +3,8 @@
   // grid-template-columns: 0.5fr 0.5fr 1fr 1fr 0.5fr 0.5fr 0.5fr 0.1fr;
   grid-template-columns: 0.5fr 0.5fr 1fr 1fr 0.5fr 0.5fr auto 0.1fr;
   grid-template-rows: 1fr;
-  // grid-template-areas: "logo notes advices learnTogether chat followers  user-menu .";
-  grid-template-areas: "logo notes advices learnTogether chat followers  user-menu .";
+  // grid-template-areas: "logo notes advices learnTogether chat favorite  user-menu .";
+  grid-template-areas: "logo notes advices learnTogether chat favorite  user-menu .";
   background-color: #310b61;
   align-items: center;
   justify-items: center;
@@ -46,8 +46,8 @@
   grid-area: chat;
 }
 
-#followers-btn {
-  grid-area: followers;
+#favorite-btn {
+  grid-area: favorite;
 }
 
 .nav-btn {
@@ -151,7 +151,7 @@
   height: 2.5rem;
   width: 2.5rem;
   background-color: #f89e30;
-  border: 2px solid #f79825;
+  border: 0.14rem solid #f79825;
   border-radius: 50%;
 }
 
@@ -160,7 +160,7 @@
   height: 1.2rem;
   font-family: "poppins", sans-serif;
   font-weight: 400;
-  font-size: 0.6rem;
+  font-size: 0.7rem;
   // background-color: paleturquoise;
   color: white;
 }
@@ -178,7 +178,7 @@
 #hamburgerBar {
   display: none;
   background-color: #320b61;
-  height: 12rem;
+  height: 13rem;
   width: 15rem;
   position: absolute;
   right: 0;
@@ -246,7 +246,7 @@
   }
 
   #hamburger-menu {
-    height: 15rem;
+    height: 16.5rem;
     width: 14rem;
     right: 0;
     gap: 0.5rem;
@@ -265,7 +265,7 @@
   }
 
   #hamburgerBar {
-    height: 20rem;
+    height: 21.5rem;
     width: 15rem;
   }
 }

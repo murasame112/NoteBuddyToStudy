@@ -35,7 +35,7 @@ main {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  min-height: 50rem;
+  min-height: 60rem;
 }
 
 #content {
@@ -171,14 +171,17 @@ input[type="file"] {
   caret-color: #310b61;
 }
 
-#emailBtn {
-}
-
 #passwordContainer {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 1rem;
+}
+
+.validators {
+  color: red;
+  width: 24rem;
+  text-align: center;
 }
 
 #spinner {
@@ -260,5 +263,10 @@ footer {
 
   #passwordContainer {
     flex-direction: column;
+  }
+
+  .validators {
+    color: red;
+    width: 15rem;
   }
 }

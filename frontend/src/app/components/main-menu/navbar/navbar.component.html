@@ -5,25 +5,33 @@
 
   <a id="notes-btn" class="nav-btn" routerLink="/notes">Notatki</a>
   <a id="advices-btn" class="nav-btn" routerLink="/hints">Porady do nauki</a>
-  <a id="learnTogether-btn" class="nav-btn">Wyszukiwarka do wspólnej nauki</a>
+  <a id="learnTogether-btn" class="nav-btn" routerLink="/search-for-buddy"
+    >Wyszukiwarka do wspólnej nauki</a
+  >
   <a id="chat-btn" class="nav-btn">Czat</a>
-  <a id="followers-btn" class="nav-btn">Ulubione</a>
+  <a id="favorite-btn" class="nav-btn" routerLink="/favorite">Ulubione</a>
 
   <div id="hamburger-menu">
     <a class="menu-btn hamburger-nav-btns" routerLink="/notes">Notatki</a>
     <a class="menu-btn hamburger-nav-btns" routerLink="/hints"
       >Porady do nauki</a
     >
-    <a class="menu-btn hamburger-nav-btns">Wyszukiwarka do wspólnej nauki</a>
-    <a class="menu-btn hamburger-nav-btns">Czat</a>
-    <a class="menu-btn hamburger-nav-btns">Ulubione</a>
-
-    <a href="" id="profile-btn" class="menu-btn">Profil</a>
-    <a id="settings-btn" class="menu-btn" routerLink="/settings">Ustawienia</a>
-    <a id="logout-btn" class="menu-btn" (click)="logout()" routerLink="/login"
-      >Wyloguj</a
+    <a class="menu-btn hamburger-nav-btns" routerLink="/search-for-buddy"
+      >Wyszukiwarka do wspólnej nauki</a
     >
-    <a href="" id="admin-btn" class="menu-btn" routerLink="/admin-panel"
+    <a class="menu-btn hamburger-nav-btns">Czat</a>
+    <a class="menu-btn hamburger-nav-btns" routerLink="/favorite">Ulubione</a>
+
+    <a href="" id="myNotes-btn" class="menu-btn" routerLink="/mynotes"
+      >Moje notatki</a
+    >
+    <a id="settings-btn" class="menu-btn" routerLink="/settings">Ustawienia</a>
+    <a id="logout-btn" class="menu-btn" (click)="logout()">Wyloguj</a>
+    <a
+      id="admin-btn"
+      class="menu-btn"
+      routerLink="/admin-panel"
+      *ngIf="authService.currentUserSignal()?.role === 'admin'"
       >Panel Admina</a
     >
   </div>
@@ -35,8 +43,14 @@
 
   <div id="avatar-and-menu">
     <div id="avatar">
-      <img src="" alt="" id="avatar-img" />
-      <span id="avatar-login-name">{{ username }}</span>
+      <img
+        [src]="authService.currentUserSignal()?.avatar_url"
+        alt="img"
+        id="avatar-img"
+      />
+      <span id="avatar-login-name">{{
+        authService.currentUserSignal()?.login
+      }}</span>
     </div>
 
     <div id="hamburger-btn">

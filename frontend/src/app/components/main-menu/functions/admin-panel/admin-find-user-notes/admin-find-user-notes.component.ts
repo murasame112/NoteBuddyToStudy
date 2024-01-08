@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
@@ -8,6 +8,8 @@ import { Note } from 'src/app/models/note.model';
 import { Category } from 'src/app/models/category.model';
 import { Subcategory } from 'src/app/models/subcategory.model';
 import { User } from 'src/app/models/user.model';
+import { UserRateNote } from 'src/app/models/userRateNote.model';
+import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-admin-find-user-notes',
@@ -15,7 +17,10 @@ import { User } from 'src/app/models/user.model';
   styleUrls: ['./admin-find-user-notes.component.scss'],
 })
 export class AdminFindUserNotesComponent extends Unsubscribe implements OnInit {
-  constructor(private notesSerivice: NotesService) {
+  constructor(
+    private notesService: NotesService,
+    private usersService: UsersService
+  ) {
     super();
   }
 
@@ -31,7 +36,16 @@ export class AdminFindUserNotesComponent extends Unsubscribe implements OnInit {
   currentPage = 0;
   maxPage!: number;
   //!
+  @Input() currentUserId: string | undefined = undefined;
+  @Input() currentUserRole: string | undefined = undefined;
+
+  userSavedNotesIds: Array<string> = [];
+  userNotesReviews: Array<UserRateNote> = [];
+
   ngOnInit(): void {
+    this.getUserFavNotesIds();
+    this.getUserNotesRates();
+
     this.getUsersNotes();
     this.getData();
 
@@ -49,7 +63,7 @@ export class AdminFindUserNotesComponent extends Unsubscribe implements OnInit {
 
   //Pobieranie wszystkich tablic z bazy danych dotyczacych notatek
   getData() {
-    this.notesSerivice
+    this.notesService
       .getAllData()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((data) => {
@@ -62,7 +76,7 @@ export class AdminFindUserNotesComponent extends Unsubscribe implements OnInit {
   }
 
   getUsersNotes() {
-    this.notesSerivice
+    this.notesService
       .getAllNoteData()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((res) => {
@@ -122,13 +136,44 @@ export class AdminFindUserNotesComponent extends Unsubscribe implements OnInit {
   }
 
   refreshNoteData() {
-    this.notesSerivice
+    this.notesService
       .getAllNoteData()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((res) => {
         this.usersNotesOrigin = res;
         this.searchNotes();
       });
+  }
+
+  getUserFavNotesIds() {
+    if (this.currentUserId) {
+      this.usersService
+        .getUserById(this.currentUserId)
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(
+          (user) => {
+            this.userSavedNotesIds = user.saved_notes;
+          },
+          (error) => {}
+        );
+    }
+  }
+
+  getUserNotesRates() {
+    if (this.currentUserId) {
+      this.notesService
+        .getNotesRatesByUserId(this.currentUserId)
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(
+          (userNotesRates) => {
+            this.userNotesReviews = userNotesRates;
+            // console.log(userNotesRates);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+    }
   }
 
   //!

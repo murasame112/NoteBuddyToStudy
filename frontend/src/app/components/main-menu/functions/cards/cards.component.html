@@ -1,4 +1,4 @@
-<div id="container">
+<div id="container" *ngIf="authService.currentUserSignal()">
   <nav>
     <app-navbar></app-navbar>
   </nav>
@@ -12,7 +12,7 @@
     ></i>
 
     <ng-container *ngIf="!isLoading">
-      <button id="backBtn" routerLink="/notes">powrót</button>
+      <button id="backBtn" (click)="back()">powrót</button>
       <div id="cardsMenu">
         <span>Fiszki do : {{ selectedNote.name }}</span>
         <div id="cardsBtns">
@@ -96,7 +96,12 @@
                 [cardContent]="cardDisplayedForUser"
               ></app-card-model>
 
-              <button id="randomBtn" class="cardBtns" (click)="randomCard()">
+              <button
+                id="randomBtn"
+                class="cardBtns"
+                (click)="randomCard()"
+                [disabled]="isRandomButtonDisabled()"
+              >
                 losuj
               </button>
             </div>
@@ -126,15 +131,69 @@
             </button>
           </div>
 
-          <!-- <ng-container *ngFor="let card of userCardsToShow">
-            <app-card-model [cardContent]="card"></app-card-model>
-          </ng-container> -->
+          <ng-container *ngFor="let card of userCards; let i = index">
+            <app-card-model [myCardContent]="card"></app-card-model>
+            <div class="editCardContainer">
+              <button
+                class="cardMenuBtns editMyCardBtn"
+                (click)="showEditCard(card, i)"
+              >
+                edytuj
+              </button>
+              <button
+                class="cardMenuBtns deleteMyCardBtn"
+                (click)="deleteCard(card._id)"
+              >
+                usuń
+              </button>
+            </div>
+
+            <ng-container
+              *ngIf="currentCardToShowIndex === i && showEditCardContainer"
+            >
+              <form
+                [formGroup]="editCardForm"
+                (ngSubmit)="editCard(editCardForm.value, card)"
+                class="editCardForm"
+              >
+                <div class="editCard_Name">
+                  <label for="editCardQuestion" class="card_label"
+                    >Treść fiszki:</label
+                  >
+                  <textarea
+                    type="text"
+                    placeholder="treść"
+                    formControlName="cardText"
+                    class="form-control"
+                    id="editCardQuestion"
+                  ></textarea>
+                </div>
+
+                <div class="editCard_Answer" class="card_div">
+                  <label for="editCardAnswer" class="card_label"
+                    >Odpowiedź:</label
+                  >
+                  <textarea
+                    type="text"
+                    placeholder="odpowiedź do fiszki"
+                    formControlName="cardAnswer"
+                    class="form-control"
+                    id="editCardAnswer"
+                  ></textarea>
+                </div>
+
+                <button class="cardMenuBtns addCard" type="submit">
+                  zmień
+                </button>
+              </form>
+            </ng-container>
+          </ng-container>
 
           <!--! tu dodać ten model my-cards-model -->
 
-          <ng-container *ngFor="let card of userCardsToShow">
+          <!-- <ng-container *ngFor="let card of userCardsToShow">
             <app-card-my-cards-model></app-card-my-cards-model>
-          </ng-container>
+          </ng-container> -->
           <!-- ! -->
         </ng-container>
 

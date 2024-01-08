@@ -2,7 +2,7 @@ import { Component, OnInit, EventEmitter } from '@angular/core';
 import { NotesService } from '../../../../services/notes.service';
 import { Note } from '../../../../models/note.model';
 import { Observable, first, forkJoin } from 'rxjs';
-import { concatAll, finalize, map, takeUntil } from 'rxjs/operators';
+import { concatAll, finalize, map, take, takeUntil } from 'rxjs/operators';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Category } from 'src/app/models/category.model';
 import { Subcategory } from 'src/app/models/subcategory.model';
@@ -10,6 +10,9 @@ import { User } from 'src/app/models/user.model';
 import { NoteAndDetails } from 'src/app/models/noteAndDetails.model';
 import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
 import { FinalNote } from 'src/app/models/finalNote.model';
+import { AuthService } from 'src/app/services/auth.service';
+import { UsersService } from 'src/app/services/users.service';
+import { UserRateNote } from 'src/app/models/userRateNote.model';
 
 @Component({
   selector: 'app-notes',
@@ -17,12 +20,24 @@ import { FinalNote } from 'src/app/models/finalNote.model';
   styleUrls: ['./notes.component.scss'],
 })
 export class NotesComponent extends Unsubscribe implements OnInit {
-  constructor(private notesService: NotesService) {
+  constructor(
+    private notesService: NotesService,
+    public authService: AuthService,
+    private usersService: UsersService
+  ) {
     super();
   }
   ngOnInit(): void {
     this.getAllNotesArrays();
     this.getFinalNotes();
+    this.getUserFavNotes();
+
+    //! notesReviews
+
+    // this.userNotesReviews =
+    //   this.authService.currentUserSignal()?.rated_notes || [];
+    // console.log('reviews', this.userNotesReviews);
+    this.getUserNotesRates();
 
     this.FilterForm = new FormGroup({
       categoryName: new FormControl(''),
@@ -49,6 +64,12 @@ export class NotesComponent extends Unsubscribe implements OnInit {
   filteredsubcategories: Subcategory[] = [];
 
   allUsers: User[] = [];
+
+  currentUserId: string | undefined = this.authService.currentUserSignal()?._id;
+  currentUserRole: string | undefined =
+    this.authService.currentUserSignal()?.role;
+  userSavedNotes: Array<string> = [];
+  userNotesReviews: Array<UserRateNote> = [];
 
   FilterForm = new FormGroup({
     categoryName: new FormControl(''),
@@ -168,7 +189,7 @@ export class NotesComponent extends Unsubscribe implements OnInit {
       .getAllNoteData()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((res) => {
-        console.log('note:', res);
+        // console.log('note:', res);
         this.finalNotesOrigin = res;
         this.finalNotesArray = this.finalNotesOrigin;
         this.defaultSort();
@@ -182,7 +203,7 @@ export class NotesComponent extends Unsubscribe implements OnInit {
       .getAllData()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((res) => {
-        console.log('notesArrays', res);
+        // console.log('notesArrays', res);
 
         this.notesOrigin = res[0];
         this.notesArray = this.notesOrigin;
@@ -301,5 +322,38 @@ export class NotesComponent extends Unsubscribe implements OnInit {
     }
 
     this.finalNotesArray = this.filteredFinalNotes;
+  }
+
+  //Fav notes
+  getUserFavNotes() {
+    if (this.currentUserId) {
+      this.usersService
+        .getUserById(this.currentUserId)
+        .pipe(take(1))
+        .subscribe(
+          (user) => {
+            this.userSavedNotes = user.saved_notes;
+            // console.log(user.saved_notes);
+          },
+          (error) => {}
+        );
+    }
+  }
+
+  getUserNotesRates() {
+    if (this.currentUserId) {
+      this.notesService
+        .getNotesRatesByUserId(this.currentUserId)
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(
+          (userNotesRates) => {
+            this.userNotesReviews = userNotesRates;
+            // console.log(userNotesRates);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+    }
   }
 }

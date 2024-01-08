@@ -1,10 +1,12 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Note } from 'src/app/models/note.model';
 import { NotesService } from 'src/app/services/notes.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { tap, delay, takeUntil } from 'rxjs/operators';
 import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
+import { AuthService } from 'src/app/services/auth.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-show-note',
@@ -14,7 +16,9 @@ import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
 export class ShowNoteComponent extends Unsubscribe implements OnInit {
   constructor(
     private noteService: NotesService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    public authService: AuthService,
+    private location: Location
   ) {
     super();
   }
@@ -50,5 +54,9 @@ export class ShowNoteComponent extends Unsubscribe implements OnInit {
           console.log(error);
         }
       );
+  }
+
+  back() {
+    this.location.back();
   }
 }
