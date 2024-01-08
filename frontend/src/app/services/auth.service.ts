@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { User } from '../models/user.model';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
+declare let google: any;
 
 @Injectable({
   providedIn: 'root',
@@ -84,6 +85,7 @@ export class AuthService {
   logout() {
     localStorage.clear();
     this.currentUserSignal.set(null);
+    google.accounts.id.disableAutoSelect();
     this.router.navigateByUrl('/login');
   }
 

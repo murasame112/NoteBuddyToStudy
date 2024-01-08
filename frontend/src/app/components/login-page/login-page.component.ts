@@ -17,6 +17,7 @@ declare let google: any;
 })
 export class LoginPageComponent extends Unsubscribe implements OnInit {
   loginForm!: FormGroup;
+  observer: any;
 
   constructor(
     private authService: AuthService,
@@ -39,11 +40,14 @@ export class LoginPageComponent extends Unsubscribe implements OnInit {
     this.loginForm = new FormGroup({
       login: new FormControl('', [
         Validators.required,
+        Validators.maxLength(15),
+        CustomValidators.lowercaseValidator(),
         CustomValidators.spaceValidator(),
         CustomValidators.specialCharactersValidator(),
       ]),
       password: new FormControl('', [
         Validators.required,
+        Validators.maxLength(15),
         CustomValidators.spaceValidator(),
         CustomValidators.passwordValidation(),
       ]),
@@ -56,24 +60,7 @@ export class LoginPageComponent extends Unsubscribe implements OnInit {
         '939910674326-4ng45jmorirmuuiu9irh80ofqdokl51l.apps.googleusercontent.com',
       callback: (res: any) => {
         this.ngZone.run(() => {
-          // console.log('dane: ', this.authService.googleToken(res.credential));
-          let data = this.authService.googleToken(res.credential);
-
-          console.log(data);
-          this.authService
-            .loginGoogleUser(data)
-            .pipe(takeUntil(this.unsubscribe$))
-            .subscribe(
-              (token) => {
-                console.log(token);
-                localStorage.setItem('Token', token);
-                this.isUserLogin();
-              },
-              (error) => {
-                console.log(error);
-                this.authService.currentUserSignal.set(null);
-              }
-            );
+          this.googleLogin(res);
         });
       },
     });
@@ -83,10 +70,17 @@ export class LoginPageComponent extends Unsubscribe implements OnInit {
       {
         type: 'standard',
         theme: 'outline',
+        logo_alignment: 'center',
         shape: 'pill',
-        width: 250,
+        width: 400,
       }
     );
+
+    // console.log(document.getElementsByClassName('loginGoogle'));
+    // console.log(document.querySelector('.loginGoogle'));
+    // console.log(document.getElementById('loginByPlatformG'));
+
+    this.sizeObserver();
   }
 
   login(data: Login) {
@@ -119,6 +113,84 @@ export class LoginPageComponent extends Unsubscribe implements OnInit {
               ?.setErrors({ wrongLoginOrPassword: true });
           }
         });
+    }
+  }
+
+  googleLogin(result: any) {
+    // console.log('dane: ', this.authService.googleToken(res.credential));
+    let data = this.authService.googleToken(result.credential);
+
+    console.log(data);
+    this.authService
+      .loginGoogleUser(data)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(
+        (token) => {
+          console.log(token);
+          localStorage.setItem('Token', token);
+          this.stopSizeObserver();
+          this.isUserLogin();
+        },
+        (error) => {
+          console.log(error);
+          this.authService.currentUserSignal.set(null);
+        }
+      );
+  }
+
+  sizeObserver() {
+    const container: any = document.querySelector('#container');
+
+    this.observer = new ResizeObserver((entires) => {
+      if (entires[0].borderBoxSize[0].inlineSize >= 900) {
+        google.accounts.id.renderButton(
+          document.getElementById('loginByPlatformG'),
+          {
+            type: 'standard',
+            theme: 'outline',
+            logo_alignment: 'center',
+            shape: 'pill',
+            width: 400,
+          }
+        );
+      }
+
+      if (
+        entires[0].borderBoxSize[0].inlineSize <= 900 &&
+        entires[0].borderBoxSize[0].inlineSize > 560
+      ) {
+        google.accounts.id.renderButton(
+          document.getElementById('loginByPlatformG'),
+          {
+            type: 'standard',
+            theme: 'outline',
+            logo_alignment: 'center',
+            shape: 'pill',
+            width: 288,
+          }
+        );
+      }
+
+      if (entires[0].borderBoxSize[0].inlineSize <= 560) {
+        google.accounts.id.renderButton(
+          document.getElementById('loginByPlatformG'),
+          {
+            type: 'standard',
+            theme: 'outline',
+            logo_alignment: 'center',
+            shape: 'pill',
+            width: 224,
+          }
+        );
+      }
+    });
+
+    this.observer.observe(container);
+  }
+
+  stopSizeObserver() {
+    if (this.observer) {
+      this.observer.disconnect();
     }
   }
 

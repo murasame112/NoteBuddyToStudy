@@ -44,4 +44,17 @@ export class CustomValidators {
       return null;
     };
   }
+
+  static lowercaseValidator(): ValidatorFn {
+    const regex = new RegExp(/[a-z]/g);
+
+    return (control: AbstractControl): ValidationErrors | null => {
+      const isValid = regex.test(control.value);
+
+      if (!isValid) {
+        return { lowercaseInvalid: true };
+      }
+      return null;
+    };
+  }
 }

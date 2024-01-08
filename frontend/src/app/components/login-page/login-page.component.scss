@@ -142,7 +142,7 @@ main {
   background-color: #621ebbe7;
 }
 
-#forgot-password-div {
+#register-div {
   grid-area: forgot-Password;
   width: 25rem;
   height: 2rem;
@@ -150,7 +150,7 @@ main {
   align-self: start;
 }
 
-#forgot-password {
+#register {
   font-family: "poppins", sans-serif;
   font-size: 0.7rem;
   font-weight: 400;
@@ -160,7 +160,7 @@ main {
   margin-right: 2rem;
 }
 
-#forgot-password:hover {
+#register:hover {
   cursor: pointer;
 }
 
@@ -196,9 +196,13 @@ main {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  border: 1px dashed blue;
   border-radius: 1.2rem;
-  // align-self: start;
+}
+
+#loginByPlatformG {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .LoginWithPlatformBtn:hover {
@@ -215,7 +219,7 @@ main {
 
 #loginByPlatformG {
   grid-area: loginByPlatformG;
-  border: 0.125rem solid #e3e3e3;
+  // border: 0.125rem solid #e3e3e3;
 }
 
 #loginByPlatformF {
@@ -271,12 +275,12 @@ main {
     border-radius: 1.2rem;
   }
 
-  #forgot-password-div {
+  #register-div {
     width: 18rem;
     height: 2rem;
   }
 
-  #forgot-password {
+  #register {
     font-size: 0.7rem;
     font-weight: 400;
     margin-right: 2rem;
@@ -347,15 +351,15 @@ main {
     width: 14rem;
   }
 
-  #forgot-password-div {
+  #register-div {
     width: 14rem;
     align-items: center;
     justify-content: center;
   }
 
-  #forgot-password {
+  #register {
     font-size: 0.7rem;
-    margin-left: 2rem;
+    margin-right: 0;
   }
 
   #orDiv {

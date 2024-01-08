@@ -1,4 +1,4 @@
-<main>
+<main id="container">
   <div id="leftSide">
     <img src="../../../assets/login_ellipse.png" alt="" id="login-img" />
     <img
@@ -39,6 +39,29 @@
 
       <ng-container
         *ngIf="
+          loginForm.get('login')!.hasError('lowercaseInvalid') &&
+          loginForm.get('login')!.touched &&
+          !loginForm.get('login')!.hasError('required')
+        "
+      >
+        <div class="validators">
+          <span>&#x2022; login nie może mieć w sobie dużych liter</span>
+        </div>
+      </ng-container>
+
+      <ng-container
+        *ngIf="
+          loginForm.get('login')!.hasError('maxlength') &&
+          loginForm.get('login')!.touched
+        "
+      >
+        <div class="validators">
+          <span>&#x2022; To pole nie może mieć więcej niż 15 znaków</span>
+        </div>
+      </ng-container>
+
+      <ng-container
+        *ngIf="
           loginForm.get('login')!.hasError('spaceValidator') &&
           loginForm.get('login')!.touched &&
           !loginForm.get('login')!.hasError('required')
@@ -69,6 +92,7 @@
         placeholder="wpisz swoje hasło"
         class="form-inputs"
       />
+
       <ng-container
         *ngIf="
           loginForm.get('password')!.hasError('required') &&
@@ -77,6 +101,17 @@
       >
         <div class="validators">
           <span>&#x2022; To pole nie może być puste</span>
+        </div>
+      </ng-container>
+
+      <ng-container
+        *ngIf="
+          loginForm.get('password')!.hasError('maxlength') &&
+          loginForm.get('password')!.touched
+        "
+      >
+        <div class="validators">
+          <span>&#x2022; To pole nie może mieć więcej niż 15 znaków</span>
         </div>
       </ng-container>
 
@@ -110,8 +145,10 @@
     </form>
   </div>
 
-  <div id="forgot-password-div">
-    <span id="forgot-password">zapomniałem hasło</span>
+  <div id="register-div">
+    <span id="register" routerLink="/register"
+      >Nie masz konta? zarejestruj się</span
+    >
   </div>
 
   <div id="orDiv">
@@ -120,8 +157,7 @@
     <div class="orLine-line"></div>
   </div>
 
-  <div class="LoginWithPlatformBtn" id="loginByPlatformG">
-    <div id="google-btn"></div>
+  <div class="LoginWithPlatformBtn loginGoogle" id="loginByPlatformG">
     <!-- <img
       src="../../../assets/login_google_logo.png"
       alt=""
@@ -130,12 +166,12 @@
     <span class="LoginWithPlatformSpan">Zaloguj się przez google</span> -->
   </div>
 
-  <div class="LoginWithPlatformBtn" id="loginByPlatformF">
+  <!-- <div class="LoginWithPlatformBtn" id="loginByPlatformF">
     <img
       src="../../../assets/login_facebook_logo.png"
       alt=""
       class="img-platform"
     />
     <span class="LoginWithPlatformSpan">Zaloguj się przez facebook</span>
-  </div>
+  </div> -->
 </main>
