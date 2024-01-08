@@ -67,19 +67,21 @@ export function loginGoogle(req: Request, res: Response) {
 
 	const configJson =  JSON.parse(fs.readFileSync( path.resolve(__dirname, '../config.json'), 'utf8'));
 	const avatar = configJson.default_avatar;
+	
 	loginService.checkIfUserExists(req.body.email).then((value) => {
 		if(value == true){
 			const lresult = loginService.login(req.body.login, "null");
 			lresult.then((val) => {
     		res.send(val);
   		});
+			return true;
 		}
-
+		
 		let login = req.body.login;
 		const cresult = global.getItemsByField({"login": login}, 'users');
 		cresult.then((value) => {
 			if(value.length > 0 ){
-				login = login + value.length + "";					
+				login = login + value.length + "";				
 			}
 			const user: User = new User(
 				login,
@@ -92,7 +94,7 @@ export function loginGoogle(req: Request, res: Response) {
 			const iresult = global.insertItem(user, 'users');
 			iresult.then((value) => {
 				if(value.acknowledged){
-					const lresult = loginService.login(user.login, user.password);
+					const lresult = loginService.login(user.login, "null");
 					lresult.then((val) => {
 						res.send(val);
 					});
