@@ -24,6 +24,7 @@
     "bootstrap": "^5.2.3",
     "bson": "^5.4.0",
     "dependencies": "^0.0.1",
+    "jwt-decode": "^4.0.0",
     "mongoose": "^7.4.3",
     "ngx-quill": "^23.0.0",
     "of": "^1.0.0",

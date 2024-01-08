@@ -3,6 +3,7 @@ import { Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../models/user.model';
 import { Router } from '@angular/router';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root',
@@ -32,9 +33,51 @@ export class AuthService {
     return localStorage.getItem('Token') || null;
   }
 
-  decodeToken(token: string) {
-    const [header, payload, signature] = token.split('.');
-    return JSON.parse(atob(payload));
+  //zamienia polskie znaki
+  replacePolishChars(value: string) {
+    const polishChars: any = {
+      ą: 'a',
+      ć: 'c',
+      ę: 'e',
+      ł: 'l',
+      ń: 'n',
+      ó: 'o',
+      ś: 's',
+      ź: 'z',
+      ż: 'z',
+    };
+
+    return value.replace(
+      /[ąćęłńóśźż]/g,
+      (match) => polishChars[match] || match
+    );
+  }
+
+  googleToken(token: string) {
+    //? our api field_name : google_field_name
+    //! login: given_name + family_name
+    //! email:email
+
+    const decodedToken: any = jwtDecode(token);
+    const userName: string = this.replacePolishChars(decodedToken.given_name);
+    const userFamilyName: string = this.replacePolishChars(
+      decodedToken.family_name
+    );
+
+    const login: string =
+      userName.charAt(0).toLowerCase() + userFamilyName.toLowerCase();
+
+    let userData = {
+      login: login,
+      email: decodedToken.email,
+    };
+
+    return userData;
+  }
+
+  loginGoogleUser(loginData: any): Observable<string> {
+    const url = `${this.apiUrl}/logingoogle`;
+    return this.http.post(url, loginData, { responseType: 'text' });
   }
 
   //czysci localStorage
@@ -59,6 +102,15 @@ export class AuthService {
     const payload = JSON.parse(atob(payloadBase64));
 
     return payload.password;
+  }
+
+  getUserToken(token: string) {
+    const [headerBase64, payloadBase64, signature] = token.split('.');
+
+    const header = JSON.parse(atob(headerBase64));
+    const payload = JSON.parse(atob(payloadBase64));
+
+    return payload;
   }
 
   //!

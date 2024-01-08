@@ -13,6 +13,7 @@ export interface User {
   followed_users: Array<string>;
   blocked_users: Array<string>;
   rated_notes?: Array<UserRateNote>;
+  is_google?: boolean;
 }
 
 //! name to teraz login

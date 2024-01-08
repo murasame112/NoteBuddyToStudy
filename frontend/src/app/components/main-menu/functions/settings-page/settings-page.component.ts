@@ -21,6 +21,7 @@ export class SettingsPageComponent extends Unsubscribe implements OnInit {
   user!: User;
   userImg: string | undefined = '';
   isLoading: Boolean = true;
+  isGoogleUser: boolean | undefined = undefined;
 
   constructor(
     public authService: AuthService,
@@ -40,6 +41,8 @@ export class SettingsPageComponent extends Unsubscribe implements OnInit {
         CustomValidators.passwordValidation(),
       ]),
     });
+
+    this.isGoogleUser = this.authService.currentUserSignal()?.is_google;
   }
 
   // getUser() {

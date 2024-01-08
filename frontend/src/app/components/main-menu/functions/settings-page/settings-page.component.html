@@ -46,7 +46,7 @@
             />
           </div>
         </div>
-        <div id="emailAndPasswordContainer">
+        <div id="emailAndPasswordContainer" *ngIf="!isGoogleUser">
           <div id="emailContainer">
             <input
               formControlName="email"

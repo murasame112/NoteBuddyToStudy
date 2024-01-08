@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -18,7 +18,11 @@ declare let google: any;
 export class LoginPageComponent extends Unsubscribe implements OnInit {
   loginForm!: FormGroup;
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private ngZone: NgZone
+  ) {
     super();
 
     // toObservable(this.authService.currentUserSignal)
@@ -51,8 +55,26 @@ export class LoginPageComponent extends Unsubscribe implements OnInit {
       client_id:
         '939910674326-4ng45jmorirmuuiu9irh80ofqdokl51l.apps.googleusercontent.com',
       callback: (res: any) => {
-        console.log(res.credential);
-        console.log('dane: ', this.authService.decodeToken(res.credential));
+        this.ngZone.run(() => {
+          // console.log('dane: ', this.authService.googleToken(res.credential));
+          let data = this.authService.googleToken(res.credential);
+
+          console.log(data);
+          this.authService
+            .loginGoogleUser(data)
+            .pipe(takeUntil(this.unsubscribe$))
+            .subscribe(
+              (token) => {
+                console.log(token);
+                localStorage.setItem('Token', token);
+                this.isUserLogin();
+              },
+              (error) => {
+                console.log(error);
+                this.authService.currentUserSignal.set(null);
+              }
+            );
+        });
       },
     });
 
@@ -87,9 +109,6 @@ export class LoginPageComponent extends Unsubscribe implements OnInit {
             //!
             this.isUserLogin();
             //!
-            // setTimeout(() => {
-            //   this.router.navigateByUrl('/notes');
-            // }, 35000);
           } else {
             this.authService.currentUserSignal.set(null);
 

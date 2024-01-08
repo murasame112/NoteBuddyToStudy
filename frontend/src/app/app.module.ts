@@ -37,6 +37,7 @@ import { SettingsPageComponent } from './components/main-menu/functions/settings
 import { FavoriteNotesComponent } from './components/main-menu/functions/favorite-notes/favorite-notes.component';
 import { MyNotesComponent } from './components/main-menu/functions/my-notes/my-notes.component';
 import { EditNoteComponent } from './components/main-menu/functions/edit-note/edit-note.component';
+import { ChatApiTestComponent } from './components/main-menu/functions/chat-api-test/chat-api-test.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { EditNoteComponent } from './components/main-menu/functions/edit-note/ed
     FavoriteNotesComponent,
     MyNotesComponent,
     EditNoteComponent,
+    ChatApiTestComponent,
   ],
   imports: [
     BrowserModule,

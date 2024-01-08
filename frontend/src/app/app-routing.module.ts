@@ -20,6 +20,7 @@ import { showreglogGuard } from './guards/showreglog.guard';
 import { FavoriteNotesComponent } from './components/main-menu/functions/favorite-notes/favorite-notes.component';
 import { MyNotesComponent } from './components/main-menu/functions/my-notes/my-notes.component';
 import { EditNoteComponent } from './components/main-menu/functions/edit-note/edit-note.component';
+import { ChatApiTestComponent } from './components/main-menu/functions/chat-api-test/chat-api-test.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'landing', pathMatch: 'full' },
@@ -97,6 +98,12 @@ const routes: Routes = [
   {
     path: 'mynotes',
     component: MyNotesComponent,
+    canActivate: [isAuthenticatedGuard],
+  },
+
+  {
+    path: 'chattest',
+    component: ChatApiTestComponent,
     canActivate: [isAuthenticatedGuard],
   },
 
