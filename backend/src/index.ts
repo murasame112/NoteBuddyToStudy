@@ -1,8 +1,14 @@
 import express from "express";
+import { createServer } from 'node:http';
 import { Server } from "socket.io";
 import { Console } from "console";
 import { Request, Response } from "express";
 import { ObjectId } from "bson";
+import { fileURLToPath } from 'node:url';
+//import { dirname, join } from 'node:path';
+import cors from 'cors';
+import fs from 'fs';
+import path from 'path';
 
 import * as noteEndpoints from "./endpoints/note_endpoints";
 import * as userEndpoints from "./endpoints/user_endpoints";
@@ -22,8 +28,6 @@ const app = express();
 app.use(express.json({ limit: '100mb' }));
 
 //===============================CORS===============================
-
-const cors = require("cors");
 app.use(cors());
 
 // app.use(
@@ -241,10 +245,32 @@ app.put("/log/:id", logEndpoints.replaceLog);
 
 
 // ============== KONIEC ENDPOINTÓW ==============
+const { join } = require('node:path');
+const chatfile =  fs.readFileSync( path.resolve(__dirname, '../../frontend/src/app/components/main-menu/functions/chat-api-test/chat-api-test.component.html'), 'utf8');
 
-const server = app.listen(3000);
-const io = new Server(server);
+//
+app.get('/', (req, res) => {
+  res.sendFile(chatfile);
+});
+
+const server = createServer(app);
+const io = new Server(server,  {
+  cors: {origin : '*'}
+});
 
 io.on('connection', (socket) => {
-	console.log(socket.id);
+  console.log('a user connected');
+
+  socket.on('message', (message) => {
+    console.log(message);
+    io.emit('message', `${socket.id.substr(0, 2)}: ${message}`);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('a user disconnected!');
+  });
 });
+
+server.listen(3000);
+
+

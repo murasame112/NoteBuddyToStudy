@@ -149,6 +149,18 @@ body {
 	</style>
 </head>
 <body>
+	<div *ngFor="let message of messageList">
+		<li>
+				{{message}}
+		</li>
+	</div>
+	
+	<input
+		[(ngModel)]="newMessage"
+		(keyup)="$event.keyCode == 13 && sendMessage()"
+	/>
+	<button (click)="sendMessage()">Send Message</button>
+
 	<h1>chat</h1>
 	<div class="main">
 		<div class="name">
@@ -175,6 +187,8 @@ body {
 			<h3 class="clients-total" id="clients-total">Total clients: 2</h3>
 		</ul>
 	</div>
+	
+
 	
 </body>
 </html>
