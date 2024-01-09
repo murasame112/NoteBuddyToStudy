@@ -278,14 +278,15 @@ let socketsConnected = new Set();
 
 
 io.on('connection', async (socket) => {
-  console.log('a user connected');
-	console.log(socket.id);
-	console.log(io.engine.clientsCount);
+
+	let group_id = socket.handshake.auth.group_id;
+	socket.join(group_id);
 	const configJson =  JSON.parse(fs.readFileSync( path.resolve(__dirname, '../src/config.json'), 'utf8'));
 	const secret = configJson.secret;
 	
 	const payload = jwt.verify(socket.handshake.auth.token, secret);
 	let login = payload as JwtPayload;
+	
 	login = login.login;
 	
 	const query = { ["login"]: login };
@@ -293,8 +294,8 @@ io.on('connection', async (socket) => {
 	users.then((value) => {
 		const user: User = value[0];
 		socket.on('message', (message) => {
-			console.log(message);
-			io.emit('message', `${user.login}: ${message}`);
+
+			io.to(group_id).emit('message', `${user.login}: ${message}`);
 		});
 	
 		socket.on('disconnect', () => {
@@ -307,7 +308,6 @@ io.on('connection', async (socket) => {
 
 	//const getUser = await chatService.computeUserIdFromHeaders(socket.handshake.auth.token);	//const user: User
 	//getUser.then((value: any) => {
-	//console.log("po returnie: " + getUser);
 		// const users: any[] = [];
 		// for (let [id, socket] of io.of("/").sockets) {
 		// 	users.push({
