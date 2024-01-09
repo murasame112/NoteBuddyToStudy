@@ -6,9 +6,15 @@ import { Request, Response } from "express";
 import { ObjectId } from "bson";
 import { fileURLToPath } from 'node:url';
 //import { dirname, join } from 'node:path';
+import jwt from 'jsonwebtoken';
+import * as global from "./global_database_functions";
+import { JwtPayload } from "jsonwebtoken";
+import passwordHash from 'password-hash';
 import cors from 'cors';
 import fs from 'fs';
 import path from 'path';
+import * as chatService from "./services/chat_service";
+import { User } from "./models/user_model";
 
 import * as noteEndpoints from "./endpoints/note_endpoints";
 import * as userEndpoints from "./endpoints/user_endpoints";
@@ -270,37 +276,59 @@ let socketsConnected = new Set();
 //   next();
 // });
 
-io.on('connection', (socket) => {
+
+io.on('connection', async (socket) => {
   console.log('a user connected');
 	console.log(socket.id);
 	console.log(io.engine.clientsCount);
-	const users: any[] = [];
-  for (let [id, socket] of io.of("/").sockets) {
-    users.push({
-      userID: id,
-      username: socket.handshake.auth.username,
-    });
-  }
-  socket.emit("users", users);
-	socket.broadcast.emit("user connected", {
-    userID: socket.id,
-    username: socket.handshake.auth.username,
-  });
-	console.log(users);
-	socketsConnected.add(socket.id);
+	const configJson =  JSON.parse(fs.readFileSync( path.resolve(__dirname, '../src/config.json'), 'utf8'));
+	const secret = configJson.secret;
+	
+	const payload = jwt.verify(socket.handshake.auth.token, secret);
+	let login = payload as JwtPayload;
+	login = login.login;
+	
+	const query = { ["login"]: login };
+	const users = global.getItemsByField(query, "users");
+	users.then((value) => {
+		const user: User = value[0];
+		socket.on('message', (message) => {
+			console.log(message);
+			io.emit('message', `${user.login}: ${message}`);
+		});
+	
+		socket.on('disconnect', () => {
+			console.log('a user disconnected!');
+			socketsConnected.delete(socket.id);
+			io.emit('clients-total', socketsConnected.size);
+		});
+		
+	 });
 
-	io.emit('clients-total', socketsConnected.size);
+	//const getUser = await chatService.computeUserIdFromHeaders(socket.handshake.auth.token);	//const user: User
+	//getUser.then((value: any) => {
+	//console.log("po returnie: " + getUser);
+		// const users: any[] = [];
+		// for (let [id, socket] of io.of("/").sockets) {
+		// 	users.push({
+		// 		userID: id,
+		// 		username: value.login,
+		// 	});
+		// }
+		
+	//});
 
-  socket.on('message', (message) => {
-    console.log(message);
-    io.emit('message', `${socket.id.substr(0, 2)}: ${message}`);
-  });
+  // socket.emit("users", users);
+	// socket.broadcast.emit("user connected", {
+  //   userID: socket.id,
+  //   username: socket.handshake.auth.username,
+  // });
+	// console.log(users);
+	// socketsConnected.add(socket.id);
 
-  socket.on('disconnect', () => {
-    console.log('a user disconnected!');
-		socketsConnected.delete(socket.id);
-		io.emit('clients-total', socketsConnected.size);
-  });
+	// io.emit('clients-total', socketsConnected.size);
+
+  
 });
 
 server.listen(3000);

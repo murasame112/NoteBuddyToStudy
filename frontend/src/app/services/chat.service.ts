@@ -16,7 +16,8 @@ export class ChatService {
 		this.socket.onAny((event, ...args) => {
 			console.log(event, args);
 		});
-		this.socket.auth = { username:"jd" };
+		//TODO: tu powinien byc przysylany token z ciasteczek
+		this.socket.auth = { token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6Im5pZW5hd2lkemVwcm90b3Nzb3ciLCJwYXNzd29yZCI6Ik5pZW5hd2lkemVQcm90b3Nzb3cxISIsImlhdCI6MTcwNDcyOTg4OH0.OGIHScEUeQG468UlqxAbpf9vgZsPP4uze6oDpGjd7Jc" };
 
 		this.socket.on("users", (users) => {
 			users.forEach((user: any) => {
