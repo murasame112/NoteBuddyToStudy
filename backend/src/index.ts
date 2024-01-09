@@ -256,10 +256,40 @@ app.get('/', (req, res) => {
 const server = createServer(app);
 const io = new Server(server,  {
   cors: {origin : '*'}
+	// TODO: zmienić na localhost:3000 lub :4200
 });
+
+let socketsConnected = new Set();
+
+// io.use((socket: any, next) => {
+//   const username = socket.handshake.auth.username;
+//   if (!username) {
+//     return next(new Error("invalid username"));
+//   }
+//   socket.username = username;
+//   next();
+// });
 
 io.on('connection', (socket) => {
   console.log('a user connected');
+	console.log(socket.id);
+	console.log(io.engine.clientsCount);
+	const users: any[] = [];
+  for (let [id, socket] of io.of("/").sockets) {
+    users.push({
+      userID: id,
+      username: socket.handshake.auth.username,
+    });
+  }
+  socket.emit("users", users);
+	socket.broadcast.emit("user connected", {
+    userID: socket.id,
+    username: socket.handshake.auth.username,
+  });
+	console.log(users);
+	socketsConnected.add(socket.id);
+
+	io.emit('clients-total', socketsConnected.size);
 
   socket.on('message', (message) => {
     console.log(message);
@@ -268,6 +298,8 @@ io.on('connection', (socket) => {
 
   socket.on('disconnect', () => {
     console.log('a user disconnected!');
+		socketsConnected.delete(socket.id);
+		io.emit('clients-total', socketsConnected.size);
   });
 });
 
