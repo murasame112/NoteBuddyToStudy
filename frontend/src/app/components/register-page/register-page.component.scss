@@ -119,6 +119,7 @@ input.ng-invalid.ng-touched {
   align-items: center;
   gap: 1rem;
   width: 26rem;
+  // border: 2px solid red;
 }
 
 .registerFormItem {
@@ -128,6 +129,14 @@ input.ng-invalid.ng-touched {
   align-items: flex-start;
   gap: 0.1rem;
   width: 26rem;
+}
+
+.registerFormItem label {
+  padding-left: 1rem;
+}
+
+.registerFormItem input {
+  align-self: center;
 }
 
 .form-labels {
@@ -218,7 +227,6 @@ input.ng-invalid.ng-touched {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  border: 1px dashed blue;
   border-radius: 1.2rem;
   // align-self: start;
 }
@@ -237,7 +245,7 @@ input.ng-invalid.ng-touched {
 
 #loginByPlatformG {
   grid-area: loginByPlatformG;
-  border: 0.125rem solid #e3e3e3;
+  // border: 0.125rem solid #e3e3e3;
 }
 
 #loginByPlatformF {
@@ -439,7 +447,7 @@ input.ng-invalid.ng-touched {
       " loginByPlatformF"
       " empty2";
 
-    min-height: 65rem;
+    // min-height: 65rem;
   }
 
   #leftSide:nth-child(1) {

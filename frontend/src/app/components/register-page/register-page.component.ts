@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -13,6 +13,8 @@ import { CustomValidators } from 'src/app/helpers/custom-validators';
 import { Router } from '@angular/router';
 import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
 import { takeUntil } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
+declare let google: any;
 
 @Component({
   selector: 'app-register-page',
@@ -22,8 +24,14 @@ import { takeUntil } from 'rxjs';
 export class RegisterPageComponent extends Unsubscribe implements OnInit {
   public registerForm!: FormGroup;
   usersOrigin: User[] = [];
+  observer: any;
 
-  constructor(private usersService: UsersService, private router: Router) {
+  constructor(
+    private usersService: UsersService,
+    private router: Router,
+    private authService: AuthService,
+    private ngZone: NgZone
+  ) {
     super();
   }
 
@@ -31,6 +39,8 @@ export class RegisterPageComponent extends Unsubscribe implements OnInit {
     this.registerForm = new FormGroup({
       login: new FormControl('', [
         Validators.required,
+        Validators.maxLength(15),
+        CustomValidators.lowercaseValidator(),
         CustomValidators.spaceValidator(),
         CustomValidators.specialCharactersValidator(),
       ]),
@@ -41,12 +51,36 @@ export class RegisterPageComponent extends Unsubscribe implements OnInit {
       ]),
       password: new FormControl('', [
         Validators.required,
+        Validators.maxLength(15),
         CustomValidators.spaceValidator(),
         CustomValidators.passwordValidation(),
       ]),
     });
 
     this.getUsers();
+
+    google.accounts.id.initialize({
+      client_id:
+        '939910674326-4ng45jmorirmuuiu9irh80ofqdokl51l.apps.googleusercontent.com',
+      callback: (res: any) => {
+        this.ngZone.run(() => {
+          this.googleLogin(res);
+        });
+      },
+    });
+
+    // google.accounts.id.renderButton(
+    //   document.getElementById('loginByPlatformG'),
+    //   {
+    //     type: 'standard',
+    //     theme: 'outline',
+    //     logo_alignment: 'center',
+    //     shape: 'pill',
+    //     width: 400,
+    //   }
+    // );
+
+    this.sizeObserver();
   }
 
   isUserRegistered: boolean = false;
@@ -98,8 +132,6 @@ export class RegisterPageComponent extends Unsubscribe implements OnInit {
       );
   }
 
-  register() {}
-
   getUsers() {
     this.usersService
       .getUsers()
@@ -123,5 +155,94 @@ export class RegisterPageComponent extends Unsubscribe implements OnInit {
         this.registerForm.get('mail')?.setErrors({ emailExist: true });
       }
     });
+  }
+
+  googleLogin(result: any) {
+    // console.log('dane: ', this.authService.googleToken(res.credential));
+    let data = this.authService.googleToken(result.credential);
+
+    console.log(data);
+    this.authService
+      .loginGoogleUser(data)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(
+        (token) => {
+          console.log(token);
+          localStorage.setItem('Token', token);
+          this.stopSizeObserver();
+          this.isUserLogin();
+        },
+        (error) => {
+          console.log(error);
+          this.authService.currentUserSignal.set(null);
+        }
+      );
+  }
+
+  sizeObserver() {
+    const container: any = document.querySelector('#container');
+
+    this.observer = new ResizeObserver((entires) => {
+      if (entires[0].borderBoxSize[0].inlineSize >= 900) {
+        google.accounts.id.renderButton(
+          document.getElementById('loginByPlatformG'),
+          {
+            type: 'standard',
+            theme: 'outline',
+            logo_alignment: 'center',
+            shape: 'pill',
+            width: 400,
+          }
+        );
+      }
+
+      if (
+        entires[0].borderBoxSize[0].inlineSize <= 900 &&
+        entires[0].borderBoxSize[0].inlineSize > 560
+      ) {
+        google.accounts.id.renderButton(
+          document.getElementById('loginByPlatformG'),
+          {
+            type: 'standard',
+            theme: 'outline',
+            logo_alignment: 'center',
+            shape: 'pill',
+            width: 288,
+          }
+        );
+      }
+
+      if (entires[0].borderBoxSize[0].inlineSize <= 560) {
+        google.accounts.id.renderButton(
+          document.getElementById('loginByPlatformG'),
+          {
+            type: 'standard',
+            theme: 'outline',
+            logo_alignment: 'center',
+            shape: 'pill',
+            width: 224,
+          }
+        );
+      }
+    });
+
+    this.observer.observe(container);
+  }
+
+  stopSizeObserver() {
+    if (this.observer) {
+      this.observer.disconnect();
+    }
+  }
+
+  isUserLogin() {
+    this.authService
+      .isUserLogin()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((result) => {
+        console.log('Sprawdzanie /extract', result);
+        this.authService.currentUserSignal.set(result);
+        this.router.navigateByUrl('/notes');
+      });
   }
 }

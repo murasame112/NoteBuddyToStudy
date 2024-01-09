@@ -1,4 +1,4 @@
-<main>
+<main id="container">
   <div id="leftSide">
     <img src="../../../assets/login_ellipse.png" alt="" id="login-img" />
     <img
@@ -42,6 +42,29 @@
         >
           <div class="validators">
             <span>&#x2022; To pole nie może być puste</span>
+          </div>
+        </ng-container>
+
+        <ng-container
+          *ngIf="
+            registerForm.get('login')!.hasError('lowercaseInvalid') &&
+            registerForm.get('login')!.touched &&
+            !registerForm.get('login')!.hasError('required')
+          "
+        >
+          <div class="validators">
+            <span>&#x2022; login nie może mieć w sobie dużych liter</span>
+          </div>
+        </ng-container>
+
+        <ng-container
+          *ngIf="
+            registerForm.get('login')!.hasError('maxlength') &&
+            registerForm.get('login')!.touched
+          "
+        >
+          <div class="validators">
+            <span>&#x2022; To pole nie może mieć więcej niż 15 znaków</span>
           </div>
         </ng-container>
 
@@ -147,6 +170,17 @@
 
         <ng-container
           *ngIf="
+            registerForm.get('password')!.hasError('maxlength') &&
+            registerForm.get('password')!.touched
+          "
+        >
+          <div class="validators">
+            <span>&#x2022; To pole nie może mieć więcej niż 15 znaków</span>
+          </div>
+        </ng-container>
+
+        <ng-container
+          *ngIf="
             registerForm.get('password')!.hasError('passwordInvalid') &&
             registerForm.get('password')!.touched &&
             !registerForm.get('password')!.hasError('required')
@@ -197,15 +231,15 @@
     id="loginByPlatformG"
     *ngIf="!isUserRegistered"
   >
-    <img
+    <!-- <img
       src="../../../assets/login_google_logo.png"
       alt=""
       class="img-platform"
     />
-    <span class="LoginWithPlatformSpan">Zaloguj się przez google</span>
+    <span class="LoginWithPlatformSpan">Zaloguj się przez google</span> -->
   </div>
 
-  <div
+  <!-- <div
     class="LoginWithPlatformBtn"
     id="loginByPlatformF"
     *ngIf="!isUserRegistered"
@@ -216,7 +250,7 @@
       class="img-platform"
     />
     <span class="LoginWithPlatformSpan">Zaloguj się przez facebook</span>
-  </div>
+  </div> -->
 
   <ng-container *ngIf="isUserRegistered">
     <span id="registerSuccessText"

@@ -1,12 +1,12 @@
 main {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr 3fr 1fr 0.5fr repeat(3, 1fr);
+  grid-template-rows: 1fr 1fr 2.2fr 1fr 0.5fr repeat(3, 1fr);
   grid-template-areas:
     "one empty1"
     "one page-name"
     "one form"
-    "one forgot-Password"
+    "one register"
     "one or-btn"
     "one loginByPlatformG"
     "one loginByPlatformF"
@@ -143,7 +143,7 @@ main {
 }
 
 #register-div {
-  grid-area: forgot-Password;
+  grid-area: register;
   width: 25rem;
   height: 2rem;
   display: grid;
@@ -203,6 +203,7 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
+  // border: 1px solid red;
 }
 
 .LoginWithPlatformBtn:hover {
@@ -394,12 +395,12 @@ main {
       " empty1"
       " page-name"
       " form"
-      " forgot-Password"
+      " register"
       " or-btn"
       " loginByPlatformG"
       " loginByPlatformF"
       " empty2";
-    min-height: 50rem;
+    // min-height: 50rem;
   }
 
   #leftSide:nth-child(1) {
