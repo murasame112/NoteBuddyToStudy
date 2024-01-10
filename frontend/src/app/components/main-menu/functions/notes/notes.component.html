@@ -19,7 +19,7 @@
             <div class="categoryAndsubcatList">
               <select
                 class="categorySelect form-select"
-                id=""
+                id="categorySelectId"
                 formControlName="categoryName"
                 (change)="categorySelectionChangeFunc()"
               >
@@ -61,6 +61,7 @@
             <input
               type="text"
               placeholder="-"
+              id="noteAuthorInputId"
               class="categorySelect form-control"
               formControlName="author"
               (input)="applyFilters()"
@@ -71,6 +72,7 @@
             <input
               type="text"
               placeholder="-"
+              id="noteTitleInputId"
               class="categorySelect form-control"
               formControlName="noteTitle"
               (input)="applyFilters()"
