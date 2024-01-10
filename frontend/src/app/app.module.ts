@@ -38,6 +38,7 @@ import { FavoriteNotesComponent } from './components/main-menu/functions/favorit
 import { MyNotesComponent } from './components/main-menu/functions/my-notes/my-notes.component';
 import { EditNoteComponent } from './components/main-menu/functions/edit-note/edit-note.component';
 import { ChatApiTestComponent } from './components/main-menu/functions/chat-api-test/chat-api-test.component';
+import { ChatService } from './services/chat.service';
 
 @NgModule({
   declarations: [
@@ -86,7 +87,7 @@ import { ChatApiTestComponent } from './components/main-menu/functions/chat-api-
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true,
-    },
+    }, ChatService
   ],
   bootstrap: [AppComponent],
 })

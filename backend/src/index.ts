@@ -1,7 +1,20 @@
 import express from "express";
+import { createServer } from 'node:http';
+import { Server } from "socket.io";
 import { Console } from "console";
 import { Request, Response } from "express";
 import { ObjectId } from "bson";
+import { fileURLToPath } from 'node:url';
+//import { dirname, join } from 'node:path';
+import jwt from 'jsonwebtoken';
+import * as global from "./global_database_functions";
+import { JwtPayload } from "jsonwebtoken";
+import passwordHash from 'password-hash';
+import cors from 'cors';
+import fs from 'fs';
+import path from 'path';
+import * as chatService from "./services/chat_service";
+import { User } from "./models/user_model";
 
 import * as noteEndpoints from "./endpoints/note_endpoints";
 import * as userEndpoints from "./endpoints/user_endpoints";
@@ -19,9 +32,8 @@ import * as logEndpoints from "./endpoints/log_endpoints";
 
 const app = express();
 app.use(express.json({ limit: '100mb' }));
-//===============================CORS===============================
 
-const cors = require("cors");
+//===============================CORS===============================
 app.use(cors());
 
 // app.use(
@@ -237,45 +249,88 @@ app.patch("/logs/:field&:value", logEndpoints.updateLogsByQuery);
 app.patch("/logs", logEndpoints.updateMultipleLogs);
 app.put("/log/:id", logEndpoints.replaceLog);
 
-// =============== ponizej notatki, do usuniecia potem ==============
-//app.get('/', function (req, res) {
 
-// const note = global.getItemById(2, 'notes');
-// note.then((value) => {
-//     console.log(value);
-//     res.send(value);
-//   });
+// ============== KONIEC ENDPOINTÓW ==============
+const { join } = require('node:path');
+const chatfile =  fs.readFileSync( path.resolve(__dirname, '../../frontend/src/app/components/main-menu/functions/chat-api-test/chat-api-test.component.html'), 'utf8');
 
-// let x = {
-//   "_category_id":2,
-//   "_name":"Pozytywizm"
-// }
-//   let y = global.insertItem(x, 'subcategories');
-// y.then((value) => {
-//   console.log(value);
+//
+app.get('/', (req, res) => {
+  res.sendFile(chatfile);
+});
+
+const server = createServer(app);
+const io = new Server(server,  {
+  cors: {origin : '*'}
+	// TODO: zmienić na localhost:3000 lub :4200
+});
+
+let socketsConnected = new Set();
+
+// io.use((socket: any, next) => {
+//   const username = socket.handshake.auth.username;
+//   if (!username) {
+//     return next(new Error("invalid username"));
+//   }
+//   socket.username = username;
+//   next();
 // });
 
-// global.deleteItemById('6489cd7a10bbfd842e98a8c1', 'subcategories');
 
-//global.deleteItemsByField({_name: "Pozytywizm"}, 'subcategories');
+io.on('connection', async (socket) => {
 
-//global.getItemsByField({_name: "Pozytywizm"}, 'subcategories');
+	let group_id = socket.handshake.auth.group_id;
+	socket.join(group_id);
+	const configJson =  JSON.parse(fs.readFileSync( path.resolve(__dirname, '../src/config.json'), 'utf8'));
+	const secret = configJson.secret;
+	
+	const payload = jwt.verify(socket.handshake.auth.token, secret);
+	let login = payload as JwtPayload;
+	
+	login = login.login;
+	
+	const query = { ["login"]: login };
+	const users = global.getItemsByField(query, "users");
+	users.then((value) => {
+		const user: User = value[0];
+		socket.on('message', (message) => {
 
-//global.updateItemById('6489d245bc3fef6296995f17', 'subcategories', {_name: "Antyk"});
+			io.to(group_id).emit('message', `${user.login}: ${message}`);
+		});
+	
+		socket.on('disconnect', () => {
+			console.log('a user disconnected!');
+			socketsConnected.delete(socket.id);
+			io.emit('clients-total', socketsConnected.size);
+		});
+		
+	 });
 
-// global.updateItemsByField({_name: "Pozytywizm"}, 'subcategories', {_name: "Antyk"});
+	//const getUser = await chatService.computeUserIdFromHeaders(socket.handshake.auth.token);	//const user: User
+	//getUser.then((value: any) => {
+		// const users: any[] = [];
+		// for (let [id, socket] of io.of("/").sockets) {
+		// 	users.push({
+		// 		userID: id,
+		// 		username: value.login,
+		// 	});
+		// }
+		
+	//});
 
-// let replacement = {
-// _id: new ObjectId('6489dd484e5441e722db9aac'),
-//     '_category_id':2,
-//     '_name':'Pozytywizm'
-// }
-// global.replaceItemById('6489dd484e5441e722db9aac', 'subcategories', replacement);
+  // socket.emit("users", users);
+	// socket.broadcast.emit("user connected", {
+  //   userID: socket.id,
+  //   username: socket.handshake.auth.username,
+  // });
+	// console.log(users);
+	// socketsConnected.add(socket.id);
 
-//global.stealItemById('648a3968510e8ee61572e748', 'subcategories');
+	// io.emit('clients-total', socketsConnected.size);
 
-// res.send('hello world');
+  
+});
 
-//});
+server.listen(3000);
 
-app.listen(3000);
+
