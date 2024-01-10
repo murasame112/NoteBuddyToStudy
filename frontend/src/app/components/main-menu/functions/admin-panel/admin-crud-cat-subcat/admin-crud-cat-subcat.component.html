@@ -38,6 +38,7 @@
       <span class="editCategoryAddSubcatSpan">Edytuj wybrany kierunek:</span>
       <div class="editCategoryAddSubcatContent">
         <select
+          id="selectedCategoryNameId"
           class="categoryAndSubcatSelect"
           formControlName="selectedCategoryName"
           (change)="onEditCategoryChange()"
@@ -95,6 +96,7 @@
       <span class="editCategoryAddSubcatSpan">Dodaj nowy temat:</span>
       <div class="editCategoryAddSubcatContent">
         <select
+          id="categorySelectId"
           class="categoryAndSubcatSelect"
           formControlName="category_id"
           [class.invalid]="
@@ -142,6 +144,7 @@
       <span class="editCategoryAddSubcatSpan">Edytuj wybrany temat:</span>
       <div class="editCategoryAddSubcatContent">
         <select
+          id="editCategorySelect2Id"
           class="categoryAndSubcatSelect"
           formControlName="category_id"
           (change)="onEditSubcategoryCategorySelectChange()"
@@ -161,6 +164,7 @@
 
         <select
           class="categoryAndSubcatSelect"
+          id="editSubcategoryId"
           formControlName="_id"
           (change)="onEditSubcategoryChange()"
           [class.invalid]="
