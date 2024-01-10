@@ -11,11 +11,12 @@
       id="addForm1"
     >
       <div id="titleBox" class="displayClass">
-        <label>Tytuł: </label>
+        <label for="noteNameInputId">Tytuł: </label>
         <input
           type="text"
           placeholder="tytuł notatki"
           formControlName="noteName"
+          id="noteNameInputId"
           class="form-control"
           [class.invalid]="
             (addNoteForm.get('noteName')?.invalid &&
@@ -27,7 +28,7 @@
       </div>
 
       <div id="descBox" class="displayClass">
-        <label>Treść: </label>
+        <span>Treść: </span>
         <quill-editor
           formControlName="noteDesc"
           [modules]="quillModules"
@@ -44,31 +45,15 @@
             (isSubmitted && addNoteForm.get('noteDesc')?.untouched)
           "
         >
-          <!--  -->
-          <!-- <div >
-  <span class="ql-formats">
-    <select class="ql-font">
-      <option selected value="arial">Arial</option>
-      <option  value="verdana">Verdana</option>
-      <option  value="timesnewroman">Times New Roman</option>
-      <option  value="roboto">Roboto</option>
-      <option  value="monospace">Monospace</option>
-      <option  value="poppins">Poppins</option>
-    </select>
-
-    <select class="ql-color" [title]="'Color'"></select>
-    <select class="ql-background" [title]="'BackgroundColor'"></select>
-  </span>
-</div> -->
-          <!--  -->
         </quill-editor>
       </div>
 
       <div id="optionBox" class="displayClass">
         <div class="displayClass">
-          <label class="optLabel">Kierunek:</label>
+          <label for="courseNameSelectId" class="optLabel">Kierunek:</label>
           <select
             formControlName="courseName"
+            id="courseNameSelectId"
             class="form-select"
             (change)="filterSubcategories()"
             [class.invalid]="
@@ -87,7 +72,7 @@
         </div>
 
         <div class="displayClass">
-          <label class="optLabel">Temat:</label>
+          <label for="subjectName" class="optLabel">Temat:</label>
           <select
             formControlName="subjectName"
             class="form-select"

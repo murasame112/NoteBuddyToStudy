@@ -264,5 +264,24 @@ export class EditNoteComponent extends Unsubscribe implements OnInit {
     let tooltip = editor.theme.tooltip;
     let input = tooltip.root.querySelector('input[data-link]');
     input.dataset.link = 'https://www.twms.pl';
+
+    //Quill add names to selects
+
+    let qlHeader = document.querySelector('select.ql-header');
+    let qlSize = document.querySelector('select.ql-size');
+    let qlFont = document.querySelector('select.ql-font');
+    let qlColor = document.querySelector('select.ql-color');
+    let qlBackground = document.querySelector('select.ql-background');
+    qlHeader?.setAttribute('name', 'ql-header');
+    qlSize?.setAttribute('name', 'ql-size');
+    qlFont?.setAttribute('name', 'ql-font');
+    qlColor?.setAttribute('name', 'ql-color');
+    qlBackground?.setAttribute('name', 'ql-background');
+
+    //Quill set input name for ql-tooltip
+    let qlTooltipInput = document.querySelector(
+      '.ql-tooltip input[data-link="https://www.twms.pl"]'
+    );
+    qlTooltipInput?.setAttribute('name', 'ql-twms');
   }
 }

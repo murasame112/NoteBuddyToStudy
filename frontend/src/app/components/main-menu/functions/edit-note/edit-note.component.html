@@ -19,11 +19,12 @@
         id="addForm1"
       >
         <div id="titleBox" class="displayClass">
-          <label>Tytuł: </label>
+          <label for="noteNameInputId">Tytuł: </label>
           <input
             type="text"
             placeholder="tytuł notatki"
             formControlName="noteName"
+            id="noteNameInputId"
             class="form-control"
             [class.invalid]="
               editNoteForm.get('noteName')?.invalid &&
@@ -34,7 +35,7 @@
         </div>
 
         <div id="descBox" class="displayClass">
-          <label>Treść: </label>
+          <span>Treść: </span>
           <quill-editor
             formControlName="noteDesc"
             [modules]="quillModules"
@@ -55,9 +56,10 @@
 
         <div id="optionBox" class="displayClass">
           <div class="displayClass">
-            <label class="optLabel">Kierunek:</label>
+            <label for="courseNameSelectId" class="optLabel">Kierunek:</label>
             <select
               formControlName="courseName"
+              id="courseNameSelectId"
               class="form-select"
               (change)="filterSubcategories()"
               [class.invalid]="
@@ -77,7 +79,7 @@
           </div>
 
           <div class="displayClass">
-            <label class="optLabel">Temat:</label>
+            <label for="subjectName" class="optLabel">Temat:</label>
             <select
               formControlName="subjectName"
               class="form-select"
