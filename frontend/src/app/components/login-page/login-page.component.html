@@ -19,11 +19,12 @@
   <div id="page-name">Logowanie</div>
   <div id="login-form">
     <form [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)">
-      <label class="form-labels">Login</label><br />
+      <label for="loginInput" class="form-labels">Login</label><br />
       <input
         type="text"
         formControlName="login"
         placeholder="wpisz login"
+        id="loginInput"
         class="form-inputs"
       />
       <ng-container
@@ -85,11 +86,12 @@
       </ng-container>
 
       <br /><br />
-      <label class="form-labels">Hasło</label><br />
+      <label for="passwordInput" class="form-labels">Hasło</label><br />
       <input
         type="password"
         formControlName="password"
         placeholder="wpisz swoje hasło"
+        id="passwordInput"
         class="form-inputs"
       />
 

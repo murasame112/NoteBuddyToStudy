@@ -24,11 +24,12 @@
       id="registerForm"
     >
       <div class="registerFormItem">
-        <label class="form-labels">Login</label>
+        <label for="loginInput" class="form-labels">Login</label>
         <!-- <br> -->
         <input
           type="text"
           placeholder="wpisz login"
+          id="loginInput"
           class="form-inputs"
           formControlName="login"
         />
@@ -94,11 +95,12 @@
       </div>
 
       <div class="registerFormItem">
-        <label class="form-labels">Adres e-mail</label>
+        <label for="emailInput" class="form-labels">Adres e-mail</label>
         <!-- <br> -->
         <input
           type="text"
           placeholder="wpisz e-mail"
+          id="emailInput"
           class="form-inputs"
           formControlName="mail"
         />
@@ -148,11 +150,12 @@
       </div>
 
       <div class="registerFormItem">
-        <label class="form-labels">Hasło</label>
+        <label for="passwordInput" class="form-labels">Hasło</label>
 
         <input
           type="password"
           placeholder="minimum 7 znaków"
+          id="passwordInput"
           class="form-inputs"
           formControlName="password"
         />
