@@ -116,6 +116,8 @@ export class RegisterPageComponent extends Unsubscribe implements OnInit {
       };
       this.usersService.addUser(newUser).subscribe(
         (res) => {
+          this.stopSizeObserver();
+
           this.isUserRegistered = true;
           setTimeout(() => {
             this.router.navigate(['/login']);

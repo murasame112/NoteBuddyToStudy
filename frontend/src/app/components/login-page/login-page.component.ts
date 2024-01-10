@@ -101,6 +101,7 @@ export class LoginPageComponent extends Unsubscribe implements OnInit {
             console.log('login result:', result);
             localStorage.setItem('Token', result);
             //!
+            this.stopSizeObserver();
             this.isUserLogin();
             //!
           } else {
