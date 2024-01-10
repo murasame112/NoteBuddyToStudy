@@ -18,6 +18,7 @@ main {
   row-gap: 0;
   place-items: center;
   overflow: hidden;
+  min-height: 50rem;
 }
 
 #leftSide:nth-child(1) {
@@ -400,7 +401,7 @@ main {
       " loginByPlatformG"
       " loginByPlatformF"
       " empty2";
-    min-height: 50rem;
+    min-height: 65rem;
   }
 
   #leftSide:nth-child(1) {

@@ -18,6 +18,7 @@ main {
   row-gap: 0;
   place-items: center;
   overflow: hidden;
+  min-height: 50rem;
 }
 
 #leftSide:nth-child(1) {
