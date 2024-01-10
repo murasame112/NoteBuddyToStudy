@@ -13,21 +13,23 @@
       id="addCard"
     >
       <div id="card_name" class="card_div">
-        <label class="card_label">Treść fiszki:</label>
+        <label for="card_name_id" class="card_label">Treść fiszki:</label>
         <textarea
           type="text"
           placeholder="treść"
           formControlName="cardText"
+          id="card_name_id"
           class="form-control"
         ></textarea>
       </div>
 
       <div id="card_answer" class="card_div">
-        <label class="card_label">Odpowiedź:</label>
+        <label for="card_answer_id" class="card_label">Odpowiedź:</label>
         <textarea
           type="text"
           placeholder="odpowiedź do fiszki"
           formControlName="cardAnswer"
+          id="card_answer_id"
           class="form-control"
         ></textarea>
       </div>
