@@ -21,6 +21,7 @@ import { FavoriteNotesComponent } from './components/main-menu/functions/favorit
 import { MyNotesComponent } from './components/main-menu/functions/my-notes/my-notes.component';
 import { EditNoteComponent } from './components/main-menu/functions/edit-note/edit-note.component';
 import { ChatApiTestComponent } from './components/main-menu/functions/chat-api-test/chat-api-test.component';
+import { GroupsComponent } from './components/main-menu/functions/chat/groups/groups.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'landing', pathMatch: 'full' },
@@ -98,6 +99,12 @@ const routes: Routes = [
   {
     path: 'mynotes',
     component: MyNotesComponent,
+    canActivate: [isAuthenticatedGuard],
+  },
+
+  {
+    path: 'groups',
+    component: GroupsComponent,
     canActivate: [isAuthenticatedGuard],
   },
 

@@ -38,7 +38,10 @@ import { FavoriteNotesComponent } from './components/main-menu/functions/favorit
 import { MyNotesComponent } from './components/main-menu/functions/my-notes/my-notes.component';
 import { EditNoteComponent } from './components/main-menu/functions/edit-note/edit-note.component';
 import { ChatApiTestComponent } from './components/main-menu/functions/chat-api-test/chat-api-test.component';
-import { ChatService } from './services/chat.service';
+import { ChatTestService } from './services/chatTest.service';
+import { GroupsComponent } from './components/main-menu/functions/chat/groups/groups.component';
+import { ChatComponent } from './components/main-menu/functions/chat/chat/chat.component';
+import { GroupModelComponent } from './components/main-menu/functions/chat/groups/group-model/group-model.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +75,9 @@ import { ChatService } from './services/chat.service';
     MyNotesComponent,
     EditNoteComponent,
     ChatApiTestComponent,
+    GroupsComponent,
+    ChatComponent,
+    GroupModelComponent,
   ],
   imports: [
     BrowserModule,
@@ -87,7 +93,8 @@ import { ChatService } from './services/chat.service';
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true,
-    }, ChatService
+    },
+    ChatTestService,
   ],
   bootstrap: [AppComponent],
 })

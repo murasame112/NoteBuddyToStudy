@@ -20,22 +20,26 @@ export class AppComponent extends Unsubscribe implements OnInit {
   ngOnInit(): void {
     let path = this.location.path();
 
-    if (path === '/login' || path === '/register') {
-      this.authService.currentUserSignal.set(null);
-    } else {
-      this.authService
-        .isUserLogin()
-        .pipe(takeUntil(this.unsubscribe$))
-        .subscribe(
-          (result) => {
-            this.authService.currentUserSignal.set(result);
-            // console.log(this.authService.currentUserSignal());
-          },
-          (err) => {
-            // console.log(err);
-            this.authService.currentUserSignal.set(null);
-          }
-        );
-    }
+    // if (path === '/login' || path === '/register') {
+    //   this.authService.currentUserSignal.set(null);
+    // } else {
+
+    // }
+
+    //!coś pokombinowac z tym login i register żeby dzialalo
+
+    this.authService
+      .isUserLogin()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(
+        (result) => {
+          this.authService.currentUserSignal.set(result);
+          // console.log(this.authService.currentUserSignal());
+        },
+        (err) => {
+          // console.log(err);
+          this.authService.currentUserSignal.set(null);
+        }
+      );
   }
 }

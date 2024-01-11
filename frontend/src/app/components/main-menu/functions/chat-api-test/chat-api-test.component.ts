@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
 import { AuthService } from 'src/app/services/auth.service';
-import { ChatService } from 'src/app/services/chat.service';
 import * as moment from 'moment';
 import { from } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
@@ -9,6 +8,7 @@ import { filter } from 'rxjs/operators';
 import { skipWhile } from 'rxjs/operators';
 import { scan } from 'rxjs/operators';
 import { throttleTime } from 'rxjs/operators';
+import { ChatTestService } from 'src/app/services/chatTest.service';
 
 @Component({
   selector: 'app-chat-api-test',
@@ -19,34 +19,34 @@ export class ChatApiTestComponent extends Unsubscribe implements OnInit {
   current_user = this.authService.currentUserSignal();
   newMessage = '';
   messageList: string[] = [];
-  constructor(private authService: AuthService, private chatService: ChatService) {
+  constructor(
+    private authService: AuthService,
+    private chatService: ChatTestService
+  ) {
     super();
   }
-	
-	ngOnInit(){
+
+  ngOnInit() {
     this.chatService
-		.getNewMessage()
-		.pipe(
-		distinctUntilChanged(),
-		filter((message: any) => message.trim().length > 0),
-		throttleTime(1000)
-		)
-		
-		.subscribe((message: string) => {
-			const currentTime = moment().format('hh:mm:ss a');
-			const messageWithTimestamp = `${currentTime}: ${message}`;
-      this.messageList.push(messageWithTimestamp);
-    })
+      .getNewMessage()
+      .pipe(
+        distinctUntilChanged(),
+        filter((message: any) => message.trim().length > 0),
+        throttleTime(1000)
+      )
 
+      .subscribe((message: string) => {
+        const currentTime = moment().format('hh:mm:ss a');
+        const messageWithTimestamp = `${currentTime}: ${message}`;
+        this.messageList.push(messageWithTimestamp);
+      });
 
-		
-
+    console.log(this.current_user?._id);
   }
-	
 
   sendMessage() {
     this.chatService.sendMessage(this.newMessage);
     this.newMessage = '';
-		console.log(this.messageList);
+    console.log(this.messageList);
   }
 }

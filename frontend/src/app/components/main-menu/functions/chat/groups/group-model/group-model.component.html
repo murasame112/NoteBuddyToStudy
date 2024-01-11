@@ -1,0 +1,37 @@
+<div id="container">
+  <div id="subcategoryAndDate">
+    <span id="subcategory"
+      >kierunek: <span class="dataColor">{{ subcategoryName }}</span></span
+    >
+    <span id="createdDate"
+      >utworzony:
+      <span class="dataColor">{{
+        groupData?.created | date : "dd.MM.yyyy"
+      }}</span></span
+    >
+  </div>
+  <div id="avatarAndBtns">
+    <ng-container *ngIf="groupData?.type === 'two'">
+      <div id="avatarTypeTwo" class="avatarPosition">
+        <div class="avatarContainer"></div>
+        <div class="avatarContainer"></div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="groupData?.type === 'multiple'">
+      <div id="avatarTypeMultiple" class="avatarPosition">
+        <div class="avatarContainer"></div>
+        <div class="avatarContainer"></div>
+        <div class="avatarContainer"></div>
+        <div class="avatarContainer"></div>
+        <div class="avatarContainer"></div>
+      </div>
+    </ng-container>
+
+    <div id="chatBtns">
+      <button id="goToChat">napisz wiadomość</button>
+      <button id="leaveChat">opuść</button>
+    </div>
+  </div>
+  <div id="users">użytkownicy: <span class="dataColor"></span></div>
+</div>
