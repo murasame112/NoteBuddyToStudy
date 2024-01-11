@@ -70,6 +70,7 @@ app.patch("/users/:field&:value", userEndpoints.updateUsersByQuery);
 app.patch("/users", userEndpoints.updateMultipleUsers);
 app.patch("/usersid/:field&:value", userEndpoints.updateUsersByQueriedId);
 app.put("/user/:id", userEndpoints.replaceUser);
+app.get("/usersforchat/:id", userEndpoints.getMultipleUsersLoginsAndAvatarsByGroupId);
 
 // ============== NOTE-RATE ENDPOINTS ==============
 
