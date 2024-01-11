@@ -52,6 +52,37 @@ export function getUserById(req: Request, res: Response) {
   });
 }
 
+// finds multiple users by group_id, and returns their logins and avatar_urls
+// /usersforchat/{group_id}
+// example:
+//  http://localhost:3000/usersforchat/648c6400e388683aeb23d331
+export function getMultipleUsersLoginsAndAvatarsByGroupId(req: Request, res: Response) {
+
+	const id = req.params.id;
+	const result = global.getItemById(id, 'groups');
+
+  result.then((value) => {
+		let users_ids = value.users;
+		users_ids = users_ids.map((x: ObjectId) => x.toString());
+		
+		let counter = 0;
+  	const userArray: any[] = [];
+  	users_ids.forEach((element: string) => {
+    	const userResult = global.getItemById(element, table_name);
+   	 	userResult.then((value) => {
+      	counter++;
+      	let user = {['login']:value.login, ['avatar_url']:value.avatar_url};
+
+      	userArray.push(user);
+				if (counter == users_ids.length) {
+					res.send(userArray);
+				}
+    	});
+  	});
+  });
+}
+
+
 // finds multiple users by field and value
 // /users/{field}&{value}
 // example:
