@@ -59,4 +59,6 @@ export class UsersService {
     const url = `${this.apiUrl}/user/${id}`;
     return this.http.patch(url, queryAndValue);
   }
+
+  getMultipleUserByQueryId() {}
 }

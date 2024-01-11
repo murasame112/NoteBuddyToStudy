@@ -1,0 +1,101 @@
+#container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 40rem;
+  height: 12rem;
+  background-color: #d9d9d9;
+  border: 1px solid #cfcece;
+  border-radius: 1rem;
+  font-family: "poppins", sans-serif;
+}
+
+#subcategoryAndDate {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 38rem;
+  height: 3rem;
+  border: 1px solid black;
+  gap: 3rem;
+}
+
+.dataColor {
+  color: #3d1076;
+}
+
+#avatarAndBtns {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 38rem;
+  height: 5rem;
+  border: 1px solid blue;
+}
+
+.avatarPosition {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.avatarContainer {
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid black;
+  border-radius: 100%;
+  // position: relative;
+  // z-index: 1;
+  // margin: -2rem;
+}
+
+#chatBtns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  width: 20rem;
+  height: 5rem;
+  border: 1px solid orange;
+}
+
+#goToChat {
+  text-decoration: none;
+  background-color: #4678da;
+  color: white;
+  border: 0.1rem solid #4678da;
+  border-radius: 2rem;
+  width: 12rem;
+  height: 2.5rem;
+}
+
+#goToChat:hover {
+  background-color: #4b7ce0;
+  border: 0.1rem solid #4b7ce0;
+}
+
+#leaveChat {
+  text-decoration: none;
+  background-color: rgba(218, 70, 96, 1);
+  color: white;
+  border: 0.1rem solid rgba(218, 70, 96, 1);
+  border-radius: 2rem;
+  width: 5rem;
+  height: 2.5rem;
+}
+
+#leaveChat:hover {
+  background-color: rgb(226, 72, 101);
+  border: 0.1rem solid rgb(226, 72, 101);
+}
+
+#users {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 38rem;
+  height: 2.5rem;
+  border: 1px solid yellow;
+  font-size: 0.8rem;
+}

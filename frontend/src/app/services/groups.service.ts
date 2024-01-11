@@ -17,6 +17,11 @@ export class GroupsService {
     return this.http.patch<AddUserToGroup>(url, group);
   }
 
+  getGroupsByUserId(userId: string): Observable<any> {
+    const url = `${this.apiUrl}/groupsid/users&${userId}`;
+    return this.http.get<any>(url);
+  }
+
   // getHint(): Observable<Group[]> {
   //   const url = `${this.apiUrl}/hints`;
   //   return this.http.get<Group[]>(url);
