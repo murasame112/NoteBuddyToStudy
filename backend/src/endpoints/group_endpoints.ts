@@ -44,7 +44,7 @@ export function getGroupById(req: Request, res: Response) {
   const result = global.getItemById(id, table_name);
   let group: Group;
   result.then((value) => {
-    group = new Group(value.type, value.users, value.subcategory_id, value.created, value._id);
+    group = new Group(value.type, value.users, value.subcategory_id, value.messages, value.created, value._id);
     res.send(group);
   });
 }
@@ -84,7 +84,7 @@ export function getGroupsByQuery(req: Request, res: Response) {
   let group: Group;
   result.then((value) => {
     value.forEach((element: Group) => {
-      group = new Group(element.type, element.users, element.subcategory_id, element.created, element._id);
+      group = new Group(element.type, element.users, element.subcategory_id, element.messages, element.created, element._id);
       groupArray.push(group);
     });
     res.send(groupArray);
@@ -113,7 +113,7 @@ export function getGroupsByQueriedId(req: Request, res: Response) {
   let group: Group;
   result.then((value) => {
     value.forEach((element: Group) => {
-      group = new Group(element.type, element.users, element.subcategory_id, element.created, element._id);
+      group = new Group(element.type, element.users, element.subcategory_id, element.messages, element.created, element._id);
       groupArray.push(group);
     });
     res.send(groupArray);
@@ -653,7 +653,7 @@ export function replaceGroup(req: Request, res: Response) {
 	}
 
   let group: Group;
-  group = new Group(query.type, query.users, query.subcategory_id, query.created, query._id);
+  group = new Group(query.type, query.users, query.subcategory_id, query.messages, query.created, query._id);
   const result = global.replaceItemById(id, table_name, group);
   result.then((value) => {
 		if(value.acknowledged){
@@ -681,7 +681,7 @@ export function stealGroup(req: Request, res: Response) {
   const result = global.stealItemById(id, table_name);
   result.then((value) => {
     let group: Group;
-    group = new Group(value.value.type, value.value.users, value.value.subcategory_id, value.value.created,	value.value._id);
+    group = new Group(value.value.type, value.value.users, value.value.subcategory_id, value.value.message, value.value.created,	value.value._id);
     res.status(201).send(group);
   });
 }
@@ -734,7 +734,7 @@ export function addUserToGroup(req: Request, res: Response) {
 		else{
 			let element = value[0];
 			element.users.push(user_id);
-			group = new Group(element.type, element.users, element.subcategory_id, element.created, element._id);
+			group = new Group(element.type, element.users, element.subcategory_id, element.messages, element.created, element._id);
 			addResult = global.replaceItemById(value[0]._id, table_name, group);
 		}
 		
