@@ -3,6 +3,7 @@ import { ObjectId } from "bson";
 import express from "express";
 import e, { Request, Response } from "express";
 import { Group } from "../models/group_model";
+import { Message } from "../models/message_model";
 import * as global from "../global_database_functions";
 import { Type } from "../enums/group_type_enum";
 import * as globalTools from "../global_tools";
@@ -44,7 +45,7 @@ export function getGroupById(req: Request, res: Response) {
   const result = global.getItemById(id, table_name);
   let group: Group;
   result.then((value) => {
-    group = new Group(value.type, value.users, value.subcategory_id, value.created, value._id);
+    group = new Group(value.type, value.users, value.subcategory_id, value.messages, value.created, value._id);
     res.send(group);
   });
 }
@@ -84,7 +85,7 @@ export function getGroupsByQuery(req: Request, res: Response) {
   let group: Group;
   result.then((value) => {
     value.forEach((element: Group) => {
-      group = new Group(element.type, element.users, element.subcategory_id, element.created, element._id);
+      group = new Group(element.type, element.users, element.subcategory_id, element.messages, element.created, element._id);
       groupArray.push(group);
     });
     res.send(groupArray);
@@ -113,7 +114,7 @@ export function getGroupsByQueriedId(req: Request, res: Response) {
   let group: Group;
   result.then((value) => {
     value.forEach((element: Group) => {
-      group = new Group(element.type, element.users, element.subcategory_id, element.created, element._id);
+      group = new Group(element.type, element.users, element.subcategory_id, element.messages, element.created, element._id);
       groupArray.push(group);
     });
     res.send(groupArray);
@@ -653,7 +654,7 @@ export function replaceGroup(req: Request, res: Response) {
 	}
 
   let group: Group;
-  group = new Group(query.type, query.users, query.subcategory_id, query.created, query._id);
+  group = new Group(query.type, query.users, query.subcategory_id, query.messages, query.created, query._id);
   const result = global.replaceItemById(id, table_name, group);
   result.then((value) => {
 		if(value.acknowledged){
@@ -681,7 +682,7 @@ export function stealGroup(req: Request, res: Response) {
   const result = global.stealItemById(id, table_name);
   result.then((value) => {
     let group: Group;
-    group = new Group(value.value.type, value.value.users, value.value.subcategory_id, value.value.created,	value.value._id);
+    group = new Group(value.value.type, value.value.users, value.value.subcategory_id, value.value.message, value.value.created,	value.value._id);
     res.status(201).send(group);
   });
 }
@@ -734,7 +735,7 @@ export function addUserToGroup(req: Request, res: Response) {
 		else{
 			let element = value[0];
 			element.users.push(user_id);
-			group = new Group(element.type, element.users, element.subcategory_id, element.created, element._id);
+			group = new Group(element.type, element.users, element.subcategory_id, element.messages, element.created, element._id);
 			addResult = global.replaceItemById(value[0]._id, table_name, group);
 		}
 		
@@ -752,4 +753,51 @@ export function addUserToGroup(req: Request, res: Response) {
 			}
 		});
   });
+}
+
+// updates group by id with values passed in request body
+// /addmessagetogroup/{id}
+// headers:
+//  Content-Type: application/json
+// example:
+//  http://localhost:3000/addmessagetogroup/6490d3e5982efd2fe9136154
+// example body:
+//   {
+	// "message": {
+  //    "login":"abc",
+  //    "content":"one",
+  //    "date":"2024-01-12T17:06:55.332+00:00"
+  //   }
+// }
+export function addMessageToGroup(req: Request, res: Response) {
+	const authData = req.headers.authorization;
+	const token = authData?.split(' ')[1] ?? '';
+	if(!loginService.checkIfLogged(token)){
+		res.status(401).send("Error - unauthorized");
+		return false;
+	}
+
+  const id = req.params.id;
+  let query = req.body;
+
+	const getResult = global.getItemById(id, table_name);
+	getResult.then((val) => {
+
+    let messages: Message[] = val.messages;		
+		
+    messages.push(query.message);  
+		let message = {['messages']:messages};
+		console.log(messages);
+		const result = global.updateItemById(id, table_name, message);
+		result.then((value) => {
+			if(value.acknowledged){
+				res.status(204).send();
+			}else{
+				globalTools.logToDatabase("function addMessageToGroup failed", "error");
+				res.status(400).send("Error");
+			}
+		});
+
+	});
+  
 }
