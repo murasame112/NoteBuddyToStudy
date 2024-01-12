@@ -35,10 +35,14 @@ export class GroupsComponent extends Unsubscribe implements OnInit {
           (groups) => {
             this.isLoading = false;
             this.groups = groups;
-            console.log(groups);
+            // console.log(groups);
           },
           (error) => {}
         );
     }
+  }
+
+  leaveGroup(groupId: string) {
+    this.groups = this.groups.filter((group) => group._id !== groupId);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
 import { UsersService } from 'src/app/services/users.service';
 import { SubcategoriesService } from 'src/app/services/subcategories.service';
@@ -13,6 +13,7 @@ import { GroupData } from 'src/app/models/groupData.model';
 })
 export class GroupModelComponent extends Unsubscribe implements OnInit {
   @Input() groupData: Group | null = null;
+  @Output() leaveGroup: EventEmitter<string> = new EventEmitter<string>();
   subcategoryName: string = '';
   username: string = '';
   username2: string = '';
@@ -34,7 +35,7 @@ export class GroupModelComponent extends Unsubscribe implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('data', this.groupData);
+    // console.log('data', this.groupData);
     this.getSubcategory();
     this.getUsers();
   }
@@ -72,10 +73,6 @@ export class GroupModelComponent extends Unsubscribe implements OnInit {
 
   setGroupData() {
     if (this.groupData?.type === 'two') {
-      // this.username = this.users[0].login || '';
-      // this.username2 = this.users[1].login || '';
-      // this.userAvatar = this.users[0].avatar_url || '';
-      // this.userAvatar2 = this.users[1].avatar_url || '';
       this.checkData(0, this.username, this.userAvatar);
       this.checkData(1, this.username2, this.userAvatar2);
     } else {
@@ -84,16 +81,6 @@ export class GroupModelComponent extends Unsubscribe implements OnInit {
       this.checkData(2, this.username3, this.userAvatar3);
       this.checkData(3, this.username4, this.userAvatar4);
       this.checkData(4, this.username5, this.userAvatar5);
-      // this.username = this.users[0].login || '';
-      // this.username2 = this.users[1].login || '';
-      // this.username3 = this.users[2].login || '';
-      // this.username4 = this.users[3].login || '';
-      // this.username5 = this.users[4].login || '';
-      // this.userAvatar = this.users[0].avatar_url || '';
-      // this.userAvatar2 = this.users[1].avatar_url || '';
-      // this.userAvatar3 = this.users[2].avatar_url || '';
-      // this.userAvatar4 = this.users[3].avatar_url || '';
-      // this.userAvatar5 = this.users[4].avatar_url || '';
     }
   }
 
@@ -117,6 +104,12 @@ export class GroupModelComponent extends Unsubscribe implements OnInit {
     } else if (index === 4) {
       this.username5 = usernameValue;
       this.userAvatar5 = avatarValue;
+    }
+  }
+
+  removeGroup() {
+    if (this.groupData?._id) {
+      this.leaveGroup.emit(this.groupData._id);
     }
   }
 }
