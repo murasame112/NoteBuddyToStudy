@@ -60,5 +60,8 @@ export class UsersService {
     return this.http.patch(url, queryAndValue);
   }
 
-  getMultipleUserByQueryId() {}
+  getUsersFromGroupId(groupId: string): Observable<any> {
+    const url = `${this.apiUrl}/usersforchat/${groupId}`;
+    return this.http.get(url);
+  }
 }

@@ -1,7 +1,7 @@
-<div id="container">
+<div id="container" *ngIf="!isLoading">
   <div id="subcategoryAndDate">
     <span id="subcategory"
-      >kierunek: <span class="dataColor">{{ subcategoryName }}</span></span
+      >Temat: <span class="dataColor">{{ subcategoryName }}</span></span
     >
     <span id="createdDate"
       >utworzony:
@@ -13,18 +13,53 @@
   <div id="avatarAndBtns">
     <ng-container *ngIf="groupData?.type === 'two'">
       <div id="avatarTypeTwo" class="avatarPosition">
-        <div class="avatarContainer"></div>
-        <div class="avatarContainer"></div>
+        <img
+          [src]="userAvatar"
+          alt="img"
+          class="avatarContainer avatar1"
+          *ngIf="userAvatar != ''"
+        />
+        <img
+          [src]="userAvatar2"
+          alt="img"
+          class="avatarContainer avatar2"
+          *ngIf="userAvatar2 != ''"
+        />
       </div>
     </ng-container>
 
     <ng-container *ngIf="groupData?.type === 'multiple'">
       <div id="avatarTypeMultiple" class="avatarPosition">
-        <div class="avatarContainer"></div>
-        <div class="avatarContainer"></div>
-        <div class="avatarContainer"></div>
-        <div class="avatarContainer"></div>
-        <div class="avatarContainer"></div>
+        <img
+          [src]="userAvatar"
+          alt="img"
+          class="avatarContainer avatar1"
+          *ngIf="userAvatar != ''"
+        />
+        <img
+          [src]="userAvatar2"
+          alt="img"
+          class="avatarContainer avatar2"
+          *ngIf="userAvatar2 != ''"
+        />
+        <img
+          [src]="userAvatar3"
+          alt="img"
+          class="avatarContainer avatar3"
+          *ngIf="userAvatar3 != ''"
+        />
+        <img
+          [src]="userAvatar4"
+          alt="img"
+          class="avatarContainer avatar4"
+          *ngIf="userAvatar4 != ''"
+        />
+        <img
+          [src]="userAvatar5"
+          alt="img"
+          class="avatarContainer avatar5"
+          *ngIf="userAvatar5 != ''"
+        />
       </div>
     </ng-container>
 
@@ -33,5 +68,31 @@
       <button id="leaveChat">opuść</button>
     </div>
   </div>
-  <div id="users">użytkownicy: <span class="dataColor"></span></div>
+  <div id="users">
+    <span> użytkownicy: &nbsp; </span>
+    <span class="dataColor">
+      <ng-container *ngIf="groupData?.type === 'two'">
+        <ng-container *ngIf="username != ''"> {{ username }},</ng-container>
+        <ng-container *ngIf="username2 != ''"
+          >&nbsp; {{ username2 }}</ng-container
+        >
+      </ng-container>
+
+      <ng-container *ngIf="groupData?.type === 'multiple'">
+        <ng-container *ngIf="username != ''"> {{ username }},</ng-container>
+        <ng-container *ngIf="username2 != ''"
+          >&nbsp; {{ username2 }},</ng-container
+        >
+        <ng-container *ngIf="username3 != ''"
+          >&nbsp; {{ username3 }},</ng-container
+        >
+        <ng-container *ngIf="username4 != ''"
+          >&nbsp; {{ username4 }},</ng-container
+        >
+        <ng-container *ngIf="username5 != ''"
+          >&nbsp; {{ username5 }}</ng-container
+        >
+      </ng-container>
+    </span>
+  </div>
 </div>

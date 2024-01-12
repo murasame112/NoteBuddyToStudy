@@ -52,21 +52,20 @@ main {
   gap: 2rem;
   padding-top: 5rem;
   padding-bottom: 5rem;
-
-  border: 1px solid red;
 }
 
 #groupContainer {
-  // display: flex;
-  // justify-content: center;
-  // align-items: center;
-  // gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
   // flex-wrap: wrap;
 }
 
 #title {
-  max-width: 40rem;
-  height: 5rem;
+  width: 38rem;
+  height: 3rem;
   text-align: left;
   font-size: 1rem;
   font-weight: 600;
@@ -106,9 +105,15 @@ footer {
   }
 }
 
+@media (max-width: 500px) {
+  #title {
+    width: 22rem;
+  }
+}
+
 @media (max-width: 420px) {
   #title {
     // font-size: 1rem;
-    width: 18rem;
+    width: 16rem;
   }
 }
