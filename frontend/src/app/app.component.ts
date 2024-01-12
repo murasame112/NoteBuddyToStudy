@@ -12,34 +12,31 @@ import { Location } from '@angular/common';
 export class AppComponent extends Unsubscribe implements OnInit {
   title = 'frontend';
   authService = inject(AuthService);
+  token: string | null = this.authService.getToken();
 
-  constructor(private location: Location) {
+  constructor() {
     super();
   }
 
   ngOnInit(): void {
-    let path = this.location.path();
-
-    // if (path === '/login' || path === '/register') {
-    //   this.authService.currentUserSignal.set(null);
-    // } else {
-
-    // }
+    if (typeof this.token === 'string' && this.token !== '') {
+      this.authService
+        .isUserLogin()
+        .pipe(takeUntil(this.unsubscribe$))
+        .subscribe(
+          (result) => {
+            this.authService.currentUserSignal.set(result);
+            // console.log(this.authService.currentUserSignal());
+          },
+          (err) => {
+            // console.log(err);
+            this.authService.currentUserSignal.set(null);
+          }
+        );
+    } else {
+      this.authService.currentUserSignal.set(null);
+    }
 
     //!coś pokombinowac z tym login i register żeby dzialalo
-
-    this.authService
-      .isUserLogin()
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(
-        (result) => {
-          this.authService.currentUserSignal.set(result);
-          // console.log(this.authService.currentUserSignal());
-        },
-        (err) => {
-          // console.log(err);
-          this.authService.currentUserSignal.set(null);
-        }
-      );
   }
 }

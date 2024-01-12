@@ -22,6 +22,12 @@ export class GroupsService {
     return this.http.get<any>(url);
   }
 
+  //Send array of users without user who leave group
+  deleteUserFromGroup(groupId: string, users: any): Observable<any> {
+    const url = `${this.apiUrl}/group/${groupId}`;
+    return this.http.patch<any>(url, users);
+  }
+
   // getHint(): Observable<Group[]> {
   //   const url = `${this.apiUrl}/hints`;
   //   return this.http.get<Group[]>(url);

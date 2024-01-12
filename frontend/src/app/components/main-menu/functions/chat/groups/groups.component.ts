@@ -35,7 +35,6 @@ export class GroupsComponent extends Unsubscribe implements OnInit {
           (groups) => {
             this.isLoading = false;
             this.groups = groups;
-            // console.log(groups);
           },
           (error) => {}
         );
@@ -43,6 +42,24 @@ export class GroupsComponent extends Unsubscribe implements OnInit {
   }
 
   leaveGroup(groupId: string) {
+    let group: any = this.groups.filter((group) => group._id === groupId);
+
+    let groupWithoutCurrentUser: string[] = group[0].users.filter(
+      (user: any) => user !== this.userId
+    );
+
+    let updatedUsersGroup: any = {
+      users: groupWithoutCurrentUser,
+    };
+
+    this.groupsService
+      .deleteUserFromGroup(groupId, updatedUsersGroup)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(
+        (res) => {},
+        (error) => {}
+      );
+
     this.groups = this.groups.filter((group) => group._id !== groupId);
   }
 }
