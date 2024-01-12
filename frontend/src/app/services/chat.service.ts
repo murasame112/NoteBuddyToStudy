@@ -72,6 +72,7 @@ export class ChatService {
 		return Observable.create((observer: any) => {
 				this.socket.on('load_messages', (messages) => {
 						observer.next(messages);
+						observer.complete();
 				});
 		});
 	}

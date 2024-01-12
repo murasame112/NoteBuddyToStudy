@@ -214,8 +214,9 @@ app.patch("/group/:id", groupEndpoints.updateGroup);
 app.patch("/groups/:field&:value", groupEndpoints.updateGroupsByQuery);
 app.patch("/groups", groupEndpoints.updateMultipleGroups);
 app.patch("/groupsid/:field&:value", groupEndpoints.updateGroupsByQueriedId);
-//app.put("/group/:id", groupEndpoints.replaceGroup);
+app.put("/group/:id", groupEndpoints.replaceGroup);
 app.patch("/addtogroup", groupEndpoints.addUserToGroup);
+app.patch("/addmessagetogroup/:id", groupEndpoints.addMessageToGroup);
 
 // ============== HINT ENDPOINTS ==============
 
@@ -298,7 +299,7 @@ io.on('connection', async (socket) => {
 			const user: User = value[0];
 			socket.on('message', (message) => {
 
-				io.to(group_id).emit('message', `${user.login}: ${message}n`);
+				io.to(group_id).emit('message', `${message}`);
 			});
 		
 			socket.on('disconnect', () => {

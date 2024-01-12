@@ -3,6 +3,7 @@ import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
 import { AuthService } from 'src/app/services/auth.service';
 import { ChatService } from 'src/app/services/chat.service';
 import * as moment from 'moment';
+import { Message } from 'src/app/models/message.model'
 import { from } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { filter } from 'rxjs/operators';
@@ -30,8 +31,9 @@ export class ChatApiTestComponent extends Unsubscribe implements OnInit {
 		.subscribe((messages: any[]) => {
 			
 			let messageString = "";
-			messages.forEach((element) => {
-				messageString = element.login + ": " + element.content + " - " + element.date;
+			messages.forEach((element: Message) => {
+				let date = element.date.toLocaleString("en-GB");;
+				messageString = element.login + ": " + element.content + " - " + date;
 				this.messageList.push(messageString);
 				messageString = "";
 			});
@@ -47,13 +49,16 @@ export class ChatApiTestComponent extends Unsubscribe implements OnInit {
 		)
 		
 		.subscribe((message: string) => {
-			const currentTime = moment().format('hh:mm:ss a');
-			const messageWithTimestamp = `${currentTime}: ${message}`;
+			const currentTime = moment().format();
+			const date = new Date(currentTime);
+			const login = this.current_user ? this.current_user.login : "";
+			const msg: Message = {['login']: login, ['content']: message, ['date']:date};
+			// tu endpoint patch /addmessagetogroup/:id, przy czym :id to group_id.
+			// w body będzie {"message" : msg};
+			const messageWithTimestamp = `${date.toLocaleTimeString("en-GB")}: ${message}`;
       this.messageList.push(messageWithTimestamp);
     })
 
-
-		
 
   }
 	
