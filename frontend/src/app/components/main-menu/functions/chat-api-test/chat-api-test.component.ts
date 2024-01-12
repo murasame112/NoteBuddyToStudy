@@ -27,11 +27,13 @@ export class ChatApiTestComponent extends Unsubscribe implements OnInit {
 
 		this.chatService
 		.getMessages()
-		.subscribe((messages: string[]) => {
+		.subscribe((messages: any[]) => {
 			
-
+			let messageString = "";
 			messages.forEach((element) => {
-				this.messageList.push(element);
+				messageString = element.login + ": " + element.content + " - " + element.date;
+				this.messageList.push(messageString);
+				messageString = "";
 			});
 			
     });
