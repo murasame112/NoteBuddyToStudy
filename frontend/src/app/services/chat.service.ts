@@ -23,7 +23,7 @@ export class ChatService {
 	
 		let tkn = localStorage.getItem("Token");
 		// to ponizej jest do wyjebania zasadniczo, po prostu statycznie przypisywałem group_id zeby sprawdzić czy pokoje działają
-		let group_id = "65942d1959f68116a20cd941";
+		let group_id = "6594130916fd635a1a2b3c50";
 		if(tkn == "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImZ1bm55bWFuIiwicGFzc3dvcmQiOiJGdW5ueW1hbjEhIiwiaWF0IjoxNzA0ODIyOTYzfQ.ujuRIuxJ8XOjqAjjHqAZvte6BTFtd3upvB0rbFZSUMI"){
 			group_id = "65942be592d70a3c9d379ad1";
 		}
@@ -68,6 +68,14 @@ export class ChatService {
     this.socket.emit('message', message);
   }
 	
+	public getMessages = () => {
+		return Observable.create((observer: any) => {
+				this.socket.on('load_messages', (messages) => {
+						observer.next(messages);
+				});
+		});
+	}
+
 	public getNewMessage = () => {
 		return Observable.create((observer: any) => {
 				this.socket.on('message', (message) => {

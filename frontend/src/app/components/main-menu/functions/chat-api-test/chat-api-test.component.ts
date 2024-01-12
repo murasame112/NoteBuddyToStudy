@@ -24,6 +24,18 @@ export class ChatApiTestComponent extends Unsubscribe implements OnInit {
   }
 	
 	ngOnInit(){
+
+		this.chatService
+		.getMessages()
+		.subscribe((messages: string[]) => {
+			
+
+			messages.forEach((element) => {
+				this.messageList.push(element);
+			});
+			
+    });
+
     this.chatService
 		.getNewMessage()
 		.pipe(

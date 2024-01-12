@@ -280,32 +280,35 @@ let socketsConnected = new Set();
 io.on('connection', async (socket) => {
 
 	let group_id = socket.handshake.auth.group_id;
-	socket.join(group_id);
-	const configJson =  JSON.parse(fs.readFileSync( path.resolve(__dirname, '../src/config.json'), 'utf8'));
-	const secret = configJson.secret;
+	const grp = global.getItemById(group_id, 'groups');
+	grp.then((val) => {
+		socket.join(group_id);
+		io.to(group_id).emit('load_messages', val.messages);
+		const configJson =  JSON.parse(fs.readFileSync( path.resolve(__dirname, '../src/config.json'), 'utf8'));
+		const secret = configJson.secret;
+		
+		const payload = jwt.verify(socket.handshake.auth.token, secret);
+		let login = payload as JwtPayload;
+		
+		login = login.login;
 	
-	const payload = jwt.verify(socket.handshake.auth.token, secret);
-	let login = payload as JwtPayload;
-	
-	login = login.login;
-	
-	const query = { ["login"]: login };
-	const users = global.getItemsByField(query, "users");
-	users.then((value) => {
-		const user: User = value[0];
-		socket.on('message', (message) => {
+		const query = { ["login"]: login };
+		const users = global.getItemsByField(query, "users");
+		users.then((value) => {
+			const user: User = value[0];
+			socket.on('message', (message) => {
 
-			io.to(group_id).emit('message', `${user.login}: ${message}`);
-		});
-	
-		socket.on('disconnect', () => {
-			console.log('a user disconnected!');
-			socketsConnected.delete(socket.id);
-			io.emit('clients-total', socketsConnected.size);
-		});
+				io.to(group_id).emit('message', `${user.login}: ${message}n`);
+			});
+		
+			socket.on('disconnect', () => {
+				console.log('a user disconnected!');
+				socketsConnected.delete(socket.id);
+				io.emit('clients-total', socketsConnected.size);
+			});
 		
 	 });
-
+	});
 	//const getUser = await chatService.computeUserIdFromHeaders(socket.handshake.auth.token);	//const user: User
 	//getUser.then((value: any) => {
 		// const users: any[] = [];
