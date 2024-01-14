@@ -9,8 +9,8 @@ import { io } from "socket.io-client";
 })
 export class ChatService {
 	private socket;
-	private users: any;
-  public message$: BehaviorSubject<string> = new BehaviorSubject('');
+	// private users: any;
+  // public message$: BehaviorSubject<string> = new BehaviorSubject('');
   constructor() {
 		// ponizej (chyba xd) polaczenie z serwerem
 		this.socket = io('http://localhost:3000');

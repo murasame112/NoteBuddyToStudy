@@ -66,5 +66,6 @@ export class ChatApiTestComponent extends Unsubscribe implements OnInit {
   sendMessage() {
     this.chatService.sendMessage(this.newMessage);
     this.newMessage = '';
+		console.log(this.messageList);
   }
 }
