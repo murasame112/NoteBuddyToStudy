@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
 import { AuthService } from 'src/app/services/auth.service';
+import { ChatService } from 'src/app/services/chatTest.service';
 import * as moment from 'moment';
+import { Chat } from 'src/app/models/chat.model';
 import { from } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { filter } from 'rxjs/operators';
 import { skipWhile } from 'rxjs/operators';
 import { scan } from 'rxjs/operators';
 import { throttleTime } from 'rxjs/operators';
-import { ChatTestService } from 'src/app/services/chatTest.service';
 
 @Component({
   selector: 'app-chat-api-test',
@@ -21,12 +22,22 @@ export class ChatApiTestComponent extends Unsubscribe implements OnInit {
   messageList: string[] = [];
   constructor(
     private authService: AuthService,
-    private chatService: ChatTestService
+    private chatService: ChatService
   ) {
     super();
   }
 
   ngOnInit() {
+    this.chatService.getMessages().subscribe((messages: any[]) => {
+      let messageString = '';
+      messages.forEach((element: Chat) => {
+        let date = element.date.toLocaleString('en-GB');
+        messageString = element.login + ': ' + element.content + ' - ' + date;
+        this.messageList.push(messageString);
+        messageString = '';
+      });
+    });
+
     this.chatService
       .getNewMessage()
       .pipe(
@@ -36,17 +47,25 @@ export class ChatApiTestComponent extends Unsubscribe implements OnInit {
       )
 
       .subscribe((message: string) => {
-        const currentTime = moment().format('hh:mm:ss a');
-        const messageWithTimestamp = `${currentTime}: ${message}`;
+        const currentTime = moment().format();
+        const date = new Date(currentTime);
+        const login = this.current_user ? this.current_user.login : '';
+        const msg: Chat = {
+          ['login']: login,
+          ['content']: message,
+          ['date']: date,
+        };
+        // tu endpoint patch /addmessagetogroup/:id, przy czym :id to group_id.
+        // w body będzie {"message" : msg};
+        const messageWithTimestamp = `${date.toLocaleTimeString(
+          'en-GB'
+        )}: ${message}`;
         this.messageList.push(messageWithTimestamp);
       });
-
-    console.log(this.current_user?._id);
   }
 
   sendMessage() {
     this.chatService.sendMessage(this.newMessage);
     this.newMessage = '';
-    console.log(this.messageList);
   }
 }
