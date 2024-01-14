@@ -5,10 +5,10 @@ import { io } from 'socket.io-client';
 @Injectable({
   providedIn: 'root',
 })
-export class ChatTestService {
+export class ChatService {
   private socket;
-  // private users: any;
-  // public message$: BehaviorSubject<string> = new BehaviorSubject('');
+  private users: any;
+  public message$: BehaviorSubject<string> = new BehaviorSubject('');
   constructor() {
     // ponizej (chyba xd) polaczenie z serwerem
     this.socket = io('http://localhost:3000');
@@ -20,19 +20,14 @@ export class ChatTestService {
 
     let tkn = localStorage.getItem('Token');
     // to ponizej jest do wyjebania zasadniczo, po prostu statycznie przypisywałem group_id zeby sprawdzić czy pokoje działają
-    //?
-    // let group_id = '65942d1959f68116a20cd941';
-    // if (
-    //   tkn ==
-    //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImZ1bm55bWFuIiwicGFzc3dvcmQiOiJGdW5ueW1hbjEhIiwiaWF0IjoxNzA0ODIyOTYzfQ.ujuRIuxJ8XOjqAjjHqAZvte6BTFtd3upvB0rbFZSUMI'
-    // ) {
-    //   group_id = '65942be592d70a3c9d379ad1';
-    // }
-    //?</>
+    let group_id = '65a172294e20d5790e558469';
+    if (
+      tkn ==
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6ImZ1bm55bWFuIiwicGFzc3dvcmQiOiJGdW5ueW1hbjEhIiwiaWF0IjoxNzA0ODIyOTYzfQ.ujuRIuxJ8XOjqAjjHqAZvte6BTFtd3upvB0rbFZSUMI'
+    ) {
+      group_id = '65942be592d70a3c9d379ad1';
+    }
 
-    //!
-    let group_id: string = '659f1e82c1d3f825d9817eb2';
-    //!</>
     //tu powinien byc przysylany token z ciasteczek oraz id grupy którą otworzył sobie dany user
     this.socket.auth = {
       group_id: group_id,
@@ -68,6 +63,15 @@ export class ChatTestService {
   public sendMessage(message: any) {
     this.socket.emit('message', message);
   }
+
+  public getMessages = () => {
+    return Observable.create((observer: any) => {
+      this.socket.on('load_messages', (messages) => {
+        observer.next(messages);
+        observer.complete();
+      });
+    });
+  };
 
   public getNewMessage = () => {
     return Observable.create((observer: any) => {
