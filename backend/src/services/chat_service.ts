@@ -23,7 +23,6 @@ export async function computeUserIdFromHeaders(socket: string){
 	const users = global.getItemsByField(query, "users");
 	users.then((value) => {
 		const user: User = value[0]; 
-		console.log("tuz przed returnem");
 		return user;
 	});
 }

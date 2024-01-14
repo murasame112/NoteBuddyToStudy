@@ -5,6 +5,7 @@ import { Console } from "console";
 import { Request, Response } from "express";
 import { ObjectId } from "bson";
 import { fileURLToPath } from 'node:url';
+import { Message } from "./models/message_model";
 //import { dirname, join } from 'node:path';
 import jwt from 'jsonwebtoken';
 import * as global from "./global_database_functions";
@@ -14,7 +15,6 @@ import cors from 'cors';
 import fs from 'fs';
 import path from 'path';
 import * as chatService from "./services/chat_service";
-import { User } from "./models/user_model";
 
 import * as noteEndpoints from "./endpoints/note_endpoints";
 import * as userEndpoints from "./endpoints/user_endpoints";
@@ -28,6 +28,7 @@ import * as cardEndpoints from "./endpoints/card_endpoints";
 import * as groupEndpoints from "./endpoints/group_endpoints";
 import * as hintEndpoints from "./endpoints/hint_endpoints";
 import * as logEndpoints from "./endpoints/log_endpoints";
+
 
 
 const app = express();
@@ -284,6 +285,7 @@ io.on('connection', async (socket) => {
 	let group_id = socket.handshake.auth.group_id;
 	const grp = global.getItemById(group_id, 'groups');
 	grp.then((val) => {
+
 		socket.join(group_id);
 		io.to(group_id).emit('load_messages', val.messages);
 		const configJson =  JSON.parse(fs.readFileSync( path.resolve(__dirname, '../src/config.json'), 'utf8'));
@@ -291,25 +293,30 @@ io.on('connection', async (socket) => {
 		
 		const payload = jwt.verify(socket.handshake.auth.token, secret);
 		let login = payload as JwtPayload;
-		
 		login = login.login;
 	
-		const query = { ["login"]: login };
-		const users = global.getItemsByField(query, "users");
-		users.then((value) => {
-			const user: User = value[0];
-			socket.on('message', (message) => {
+		socket.on('message', (msg: Message) => {
 
-				io.to(group_id).emit('message', `${message}`);
-			});
+			const getGroupResult = global.getItemById(group_id, 'groups');
+			getGroupResult.then((group) => {
 		
-			socket.on('disconnect', () => {
-				console.log('a user disconnected!');
-				socketsConnected.delete(socket.id);
-				io.emit('clients-total', socketsConnected.size);
-			});
+				let messages: Message[] = group.messages;		
+				
+				messages.push(msg);  
+				let updateQuery = {['messages']:messages};
+				const updateGroupResult = global.updateItemById(group_id, 'group', updateQuery);
 		
-	 });
+			});
+			io.to(group_id).emit('message', msg);
+		});
+	
+		socket.on('disconnect', () => {
+			console.log('a user disconnected!');
+			socketsConnected.delete(socket.id);
+			io.emit('clients-total', socketsConnected.size);
+		});
+	
+
 	});
 	//const getUser = await chatService.computeUserIdFromHeaders(socket.handshake.auth.token);	//const user: User
 	//getUser.then((value: any) => {
