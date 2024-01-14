@@ -296,6 +296,7 @@ io.on('connection', async (socket) => {
 		login = login.login;
 	
 		socket.on('message', (msg: Message) => {
+			io.to(group_id).emit('message', msg);
 
 			const getGroupResult = global.getItemById(group_id, 'groups');
 			getGroupResult.then((group) => {
@@ -307,7 +308,7 @@ io.on('connection', async (socket) => {
 				const updateGroupResult = global.updateItemById(group_id, 'group', updateQuery);
 		
 			});
-			io.to(group_id).emit('message', msg);
+			
 		});
 	
 		socket.on('disconnect', () => {
