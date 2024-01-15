@@ -390,20 +390,15 @@ io.on("connection", async (socket) => {
 
     login = login.login;
 
-    const query = { ["login"]: login };
-    const users = global.getItemsByField(query, "users");
-    users.then((value) => {
-      const user: User = value[0];
       socket.on("message", (message) => {
         io.to(group_id).emit("message", message);
       });
 
       socket.on("disconnect", () => {
-        console.log("a user disconnected!");
         socketsConnected.delete(socket.id);
         io.emit("clients-total", socketsConnected.size);
       });
-    });
+    
   });
   //const getUser = await chatService.computeUserIdFromHeaders(socket.handshake.auth.token);	//const user: User
   //getUser.then((value: any) => {

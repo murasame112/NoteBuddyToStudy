@@ -787,7 +787,6 @@ export function addMessageToGroup(req: Request, res: Response) {
 		
     messages.push(query.message);  
 		let message = {['messages']:messages};
-		console.log(messages);
 		const result = global.updateItemById(id, table_name, message);
 		result.then((value) => {
 			if(value.acknowledged){
