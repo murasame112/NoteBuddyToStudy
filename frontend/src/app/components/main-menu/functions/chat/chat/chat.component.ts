@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs';
 import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
@@ -34,6 +40,9 @@ export class ChatComponent extends Unsubscribe implements OnInit {
 
   //!
   usersData: GroupData[] = [];
+  @ViewChild('chatInput') chatInput!: ElementRef;
+  showChat: boolean = false;
+  isLoading: boolean = true;
 
   ngOnInit(): void {
     this.activatedRoute.params.pipe(takeUntil(this.unsubscribe$)).subscribe(
@@ -107,6 +116,7 @@ export class ChatComponent extends Unsubscribe implements OnInit {
     }
 
     this.newMessage = '';
+    this.chatInput.nativeElement.focus();
   }
 
   getUsersData() {
@@ -117,6 +127,12 @@ export class ChatComponent extends Unsubscribe implements OnInit {
         (res) => {
           this.usersData = res;
           console.log(this.usersData);
+          this.showChat = true;
+          this.isLoading = false;
+
+          setTimeout(() => {
+            this.scrollToInput();
+          }, 500);
         },
         (error) => {}
       );
@@ -127,5 +143,10 @@ export class ChatComponent extends Unsubscribe implements OnInit {
       (user) => user.login === login
     );
     return userAvatar?.avatar_url;
+  }
+
+  scrollToInput() {
+    this.chatInput.nativeElement.scrollIntoView({ behavior: 'smooth' });
+    this.chatInput.nativeElement.focus();
   }
 }

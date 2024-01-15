@@ -9,4 +9,11 @@ import { Message } from 'src/app/models/message.model';
 export class MessageModelComponent {
   @Input() messageData: Message | null = null;
   @Input() userAvatar: any | null = null;
+  @Input() currUserLogin: any | null = null;
+
+  showDate: boolean = false;
+
+  showMessageDate() {
+    this.showDate = !this.showDate;
+  }
 }

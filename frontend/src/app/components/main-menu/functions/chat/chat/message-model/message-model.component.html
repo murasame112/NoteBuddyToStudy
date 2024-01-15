@@ -1,6 +1,31 @@
-<div id="container">
-  {{ messageData?.login }}:{{ messageData?.content }},{{
-    messageData?.date | date : "hh:mm"
-  }}
-  <img class="avatar" [src]="userAvatar" alt="img" />
+<div
+  class="direction"
+  [ngClass]="{ currentUsrDirection: currUserLogin === messageData?.login }"
+>
+  <div id="container">
+    <div
+      class="messageContainer"
+      [ngClass]="{ currentUsrAvatarPos: currUserLogin === messageData?.login }"
+    >
+      <div class="user">
+        <img
+          class="avatar"
+          [ngClass]="{
+            currentUsrAvatarColor: currUserLogin === messageData?.login
+          }"
+          [src]="userAvatar"
+          alt="img"
+        />
+        <span class="login"> {{ messageData?.login }}</span>
+      </div>
+
+      <div class="content" (click)="showMessageDate()">
+        <span class="contentSpan">{{ messageData?.content }}</span>
+      </div>
+    </div>
+
+    <span class="sendDate" *ngIf="showDate"
+      >Wysłano: {{ messageData?.date | date : "hh:mm" }}</span
+    >
+  </div>
 </div>

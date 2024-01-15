@@ -1,6 +1,90 @@
+.direction {
+  display: flex;
+  justify-content: left;
+  align-items: flex-end;
+  width: 36rem;
+  // height: 100%
+  min-height: 5rem;
+
+  // border: 1px solid blue;
+}
+
+.currentUsrDirection {
+  justify-content: right;
+}
+
+#container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  // border: 1px solid red;
+  padding: 0.4rem;
+  max-width: 35rem;
+  min-height: 5rem;
+}
+
+.messageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.currentUsrAvatarPos {
+  flex-direction: row-reverse;
+}
+
+.user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .avatar {
-  border: 0.1rem solid black;
+  border: 0.1rem solid rgb(11, 186, 255);
   border-radius: 100%;
   width: 2.5rem;
   height: 2.5rem;
+}
+
+.currentUsrAvatarColor {
+  border: 0.1rem solid orange;
+}
+
+.login {
+  font-size: 0.8rem;
+  color: rgb(77, 5, 77);
+}
+
+// .currentUsrLoginColor {
+//   color: orange;
+// }
+
+.content {
+  padding: 0.5rem;
+  background-color: white;
+  border: 0.1rem solid rgb(240, 238, 238);
+  border-radius: 1rem;
+  max-width: 30rem;
+  min-height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0.313rem 0.313rem 0.625rem 0rem rgba(0, 0, 0, 0.25);
+}
+
+.contentSpan {
+  max-width: 28rem;
+  word-wrap: break-word;
+}
+
+.content:hover {
+  cursor: pointer;
+}
+
+.sendDate {
+  font-size: 0.6rem;
+  text-align: center;
 }

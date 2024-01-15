@@ -4,17 +4,39 @@
   </nav>
 
   <main>
+    <i
+      class="fa-solid fa-spinner fa-spin-pulse fa-2xl"
+      style="color: #ffbb00"
+      *ngIf="isLoading"
+      id="spinner"
+    ></i>
+
     <button id="backBtn" routerLink="/groups">powrót</button>
     <div id="chat">
-      <!-- <ng-container *ngFor="let hint of hintsOrigin">
-        <app-hint-model [hintContent]="hint"></app-hint-model>
-      </ng-container> -->
-      <ng-container *ngFor="let message of messages">
-        <app-message-model
-          [messageData]="message"
-          [userAvatar]="getUsersAvatars(message.login)"
-        ></app-message-model>
+      <ng-container *ngIf="showChat">
+        <ng-container *ngFor="let message of messages">
+          <app-message-model
+            [messageData]="message"
+            [userAvatar]="getUsersAvatars(message.login)"
+            [currUserLogin]="currentUser?.login"
+          ></app-message-model>
+        </ng-container>
       </ng-container>
+    </div>
+
+    <div class="chatInputContainer">
+      <input
+        #chatInput
+        name="chatMessage"
+        [(ngModel)]="newMessage"
+        (keyup)="$event.keyCode === 13 && sendMessage()"
+        type="text"
+        placeholder="Aa"
+        class="chatInput"
+      />
+      <div class="chatBtn" (click)="sendMessage()">
+        <i class="fa-solid fa-chevron-right chevronBtn"></i>
+      </div>
     </div>
   </main>
 
