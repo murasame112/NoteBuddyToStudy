@@ -38,10 +38,11 @@ import { FavoriteNotesComponent } from './components/main-menu/functions/favorit
 import { MyNotesComponent } from './components/main-menu/functions/my-notes/my-notes.component';
 import { EditNoteComponent } from './components/main-menu/functions/edit-note/edit-note.component';
 import { ChatApiTestComponent } from './components/main-menu/functions/chat-api-test/chat-api-test.component';
-import { ChatTestService } from './services/chatTest.service';
 import { GroupsComponent } from './components/main-menu/functions/chat/groups/groups.component';
 import { ChatComponent } from './components/main-menu/functions/chat/chat/chat.component';
 import { GroupModelComponent } from './components/main-menu/functions/chat/groups/group-model/group-model.component';
+import { ChatTestService } from './services/chatTest.service';
+import { MessageModelComponent } from './components/main-menu/functions/chat/chat/message-model/message-model.component';
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ import { GroupModelComponent } from './components/main-menu/functions/chat/group
     GroupsComponent,
     ChatComponent,
     GroupModelComponent,
+    MessageModelComponent,
   ],
   imports: [
     BrowserModule,

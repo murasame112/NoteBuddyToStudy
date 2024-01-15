@@ -1,19 +1,18 @@
-import { Inject, Injectable, Optional, inject } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { io } from 'socket.io-client';
 import { Message } from '../models/message.model';
-import { HttpClient } from '@angular/common/http';
-import { ChatApiTestComponent } from '../components/main-menu/functions/chat-api-test/chat-api-test.component';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ChatTestService {
+export class ChatService {
+  constructor(private http: HttpClient) {}
+
   private socket: any;
   private users: any;
   public apiUrl = 'http://localhost:3000';
-
-  constructor(private http: HttpClient) {}
 
   startSocket(groupId: string) {
     this.socket = io(this.apiUrl);

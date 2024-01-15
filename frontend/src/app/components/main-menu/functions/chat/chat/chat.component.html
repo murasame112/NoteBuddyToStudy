@@ -1,1 +1,21 @@
-<p>chat works!</p>
+<div id="container" *ngIf="authService.currentUserSignal()">
+  <nav>
+    <app-navbar></app-navbar>
+  </nav>
+
+  <main>
+    <button id="backBtn" routerLink="/groups">powrót</button>
+    <div id="chat">
+      <!-- <ng-container *ngFor="let hint of hintsOrigin">
+        <app-hint-model [hintContent]="hint"></app-hint-model>
+      </ng-container> -->
+      <ng-container *ngFor="let message of messages">
+        <app-message-model [messageData]="message"></app-message-model>
+      </ng-container>
+    </div>
+  </main>
+
+  <footer>
+    <app-footer></app-footer>
+  </footer>
+</div>

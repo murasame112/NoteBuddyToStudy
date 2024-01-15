@@ -22,6 +22,7 @@ import { MyNotesComponent } from './components/main-menu/functions/my-notes/my-n
 import { EditNoteComponent } from './components/main-menu/functions/edit-note/edit-note.component';
 import { ChatApiTestComponent } from './components/main-menu/functions/chat-api-test/chat-api-test.component';
 import { GroupsComponent } from './components/main-menu/functions/chat/groups/groups.component';
+import { ChatComponent } from './components/main-menu/functions/chat/chat/chat.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'landing', pathMatch: 'full' },
@@ -111,6 +112,11 @@ const routes: Routes = [
   {
     path: 'chattest',
     component: ChatApiTestComponent,
+    canActivate: [isAuthenticatedGuard],
+  },
+  {
+    path: 'chat/:id',
+    component: ChatComponent,
     canActivate: [isAuthenticatedGuard],
   },
 
