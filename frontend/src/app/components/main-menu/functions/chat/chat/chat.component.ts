@@ -8,6 +8,9 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ChatService } from 'src/app/services/chat.service';
 import { take, throttleTime } from 'rxjs/operators';
 import * as moment from 'moment';
+import { GroupsService } from 'src/app/services/groups.service';
+import { UsersService } from 'src/app/services/users.service';
+import { GroupData } from 'src/app/models/groupData.model';
 
 @Component({
   selector: 'app-chat',
@@ -18,7 +21,8 @@ export class ChatComponent extends Unsubscribe implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     public authService: AuthService,
-    private chatService: ChatService
+    private chatService: ChatService,
+    private usersService: UsersService
   ) {
     super();
   }
@@ -27,6 +31,9 @@ export class ChatComponent extends Unsubscribe implements OnInit {
   currentUser: User | null | undefined = undefined;
   messages: Message[] = [];
   newMessage: string = '';
+
+  //!
+  usersData: GroupData[] = [];
 
   ngOnInit(): void {
     this.activatedRoute.params.pipe(takeUntil(this.unsubscribe$)).subscribe(
@@ -38,6 +45,8 @@ export class ChatComponent extends Unsubscribe implements OnInit {
 
     this.currentUser = this.authService.currentUserSignal();
     console.log(this.groupId);
+
+    this.getUsersData();
 
     this.chatService.startSocket(this.groupId);
     this.getMessages();
@@ -98,5 +107,25 @@ export class ChatComponent extends Unsubscribe implements OnInit {
     }
 
     this.newMessage = '';
+  }
+
+  getUsersData() {
+    this.usersService
+      .getUsersFromGroupId(this.groupId)
+      .pipe(take(1))
+      .subscribe(
+        (res) => {
+          this.usersData = res;
+          console.log(this.usersData);
+        },
+        (error) => {}
+      );
+  }
+
+  getUsersAvatars(login: string) {
+    let userAvatar: GroupData | undefined = this.usersData.find(
+      (user) => user.login === login
+    );
+    return userAvatar?.avatar_url;
   }
 }

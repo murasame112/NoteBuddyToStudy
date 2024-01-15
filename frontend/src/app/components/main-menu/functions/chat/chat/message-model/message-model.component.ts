@@ -8,4 +8,5 @@ import { Message } from 'src/app/models/message.model';
 })
 export class MessageModelComponent {
   @Input() messageData: Message | null = null;
+  @Input() userAvatar: any | null = null;
 }

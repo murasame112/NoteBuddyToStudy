@@ -28,6 +28,11 @@ export class GroupsService {
     return this.http.patch<any>(url, users);
   }
 
+  getGroupById(groupId: string): Observable<any> {
+    const url = `${this.apiUrl}/group/${groupId}`;
+    return this.http.get<any>(url);
+  }
+
   // getHint(): Observable<Group[]> {
   //   const url = `${this.apiUrl}/hints`;
   //   return this.http.get<Group[]>(url);

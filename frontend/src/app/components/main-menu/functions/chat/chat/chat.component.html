@@ -10,7 +10,10 @@
         <app-hint-model [hintContent]="hint"></app-hint-model>
       </ng-container> -->
       <ng-container *ngFor="let message of messages">
-        <app-message-model [messageData]="message"></app-message-model>
+        <app-message-model
+          [messageData]="message"
+          [userAvatar]="getUsersAvatars(message.login)"
+        ></app-message-model>
       </ng-container>
     </div>
   </main>
