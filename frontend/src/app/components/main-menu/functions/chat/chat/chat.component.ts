@@ -117,6 +117,7 @@ export class ChatComponent extends Unsubscribe implements OnInit {
 
     this.newMessage = '';
     this.chatInput.nativeElement.focus();
+    console.log(currentTime);
   }
 
   getUsersData() {

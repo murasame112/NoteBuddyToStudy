@@ -23,6 +23,7 @@ import { EditNoteComponent } from './components/main-menu/functions/edit-note/ed
 import { ChatApiTestComponent } from './components/main-menu/functions/chat-api-test/chat-api-test.component';
 import { GroupsComponent } from './components/main-menu/functions/chat/groups/groups.component';
 import { ChatComponent } from './components/main-menu/functions/chat/chat/chat.component';
+import { chatGuard } from './guards/chat.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'landing', pathMatch: 'full' },
@@ -117,7 +118,7 @@ const routes: Routes = [
   {
     path: 'chat/:id',
     component: ChatComponent,
-    canActivate: [isAuthenticatedGuard],
+    canActivate: [isAuthenticatedGuard, chatGuard],
   },
 
   { path: '**', component: PageErrorComponent },

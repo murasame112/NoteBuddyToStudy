@@ -25,7 +25,7 @@
     </div>
 
     <span class="sendDate" *ngIf="showDate"
-      >Wysłano: {{ messageData?.date | date : "hh:mm" }}</span
+      >Wysłano: {{ messageData?.date | date : "dd, MMM H:mm" : "pl" }}</span
     >
   </div>
 </div>
