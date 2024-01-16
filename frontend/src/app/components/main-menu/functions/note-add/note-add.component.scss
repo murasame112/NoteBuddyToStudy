@@ -44,26 +44,8 @@ main {
   align-self: flex-start;
 }
 
-// footer
-// {
-//   grid-area: footer;
-
-//   position: relative;
-//   width: 100%;
-//   height: 100%;
-//   background-color: #222;
-//   padding: 0;
-//   margin: 0;
-//   bottom: 0;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// }
-
 footer {
   grid-area: footer;
-
-  // position: relative;
   width: 100%;
   height: 100%;
   padding: 0;
@@ -121,8 +103,6 @@ footer {
   border-radius: 0.4rem;
 }
 
-#titleBox {
-}
 #titleBox input {
   width: 35rem;
   background-color: #f7f7f7;
@@ -140,40 +120,9 @@ footer {
     0rem 0px 0.2rem rgb(97, 6, 116);
 }
 
-#descBox {
-}
-
-// #descBox textarea
-// {
-//   width: 35rem;
-//   height: 20rem;
-//   resize: none;
-//   border: 1px solid #d8d7d7;
-//   background-color: #F7F7F7;
-//   overflow: auto;
-//   outline: none;
-//   box-shadow: none;
-
-// }
-
 #optionBox {
-  // width: 40rem;
-  // height: 2rem;
   gap: 2rem;
-  // background-color: pink;
 }
-
-// select
-// {
-//   border: none;
-//   outline: none;
-//   box-shadow: none;
-//   background-color: #eceaea;
-//   // border: 1px solid #d8d7d7;
-//   width: 10rem;
-//   height: 2rem;
-
-// }
 
 #addNoteBtn {
   width: 10rem;
@@ -326,7 +275,6 @@ footer {
     border-radius: 0.5rem 0.5rem 0 0 !important;
     border: none;
     width: 35rem;
-    // margin-bottom: 1rem;
     text-align: center;
   }
 
@@ -433,19 +381,14 @@ footer {
     font-family: "Poppins", "serif";
   }
 
-  ////!
+  //! TOOLTIPS
 
-  ////TODO TOOLTIPS
-
-  /** All toolbar buttons are inside of .ql-formats */
   .ql-formats button {
     position: relative;
 
-    /** Set a tooltip with css pseudo-elements, when buttons are hover, active or focus  */
     &:hover::after,
     &:active::after,
     &:focus::after {
-      // background: #0d1e42;
       background: #310b61;
       color: white;
       padding: 0.5em;
@@ -461,11 +404,9 @@ footer {
   .ql-formats .ql-picker {
     position: relative;
 
-    /** Set a tooltip with css pseudo-elements, when buttons are hover, active or focus  */
     &:hover::after,
     &:active::after,
     &:focus::after {
-      // background: #0d1e42;
       background: #310b61;
       color: white;
       padding: 0.5em;
@@ -478,7 +419,6 @@ footer {
     }
   }
 
-  /** Set tooltip content for bold button **/
   .ql-picker.ql-header {
     &:hover::after,
     &:active::after,
@@ -656,8 +596,6 @@ footer {
     }
   }
 
-  ////TODO </>
-
   @media (max-width: 810px) {
     .ql-toolbar.ql-snow {
       width: 25rem;
@@ -696,16 +634,3 @@ footer {
     }
   }
 }
-
-// @media(max-height:840px)
-// {
-
-//   #addForm1
-//   {
-//     width: 46rem;
-//     height: 35rem;
-//     gap: 1rem;
-//     margin: 1rem;
-
-//   }
-// }

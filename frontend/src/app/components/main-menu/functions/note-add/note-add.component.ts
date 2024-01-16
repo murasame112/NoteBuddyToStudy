@@ -77,13 +77,6 @@ export class NoteAddComponent extends Unsubscribe implements OnInit {
 
   isSubmitted: boolean = false;
 
-  // editorModel = [{
-  //   attributes: {
-  //     font: ['roboto']
-  //   }
-  // }]
-  //[(ngModel)]="editorModel" w html quillEditor
-
   addNoteForm = new FormGroup({
     noteName: new FormControl('', Validators.required),
     noteDesc: new FormControl('', Validators.required),
@@ -108,8 +101,6 @@ export class NoteAddComponent extends Unsubscribe implements OnInit {
 
   //Dodawanie notatki
   addNote(data: any) {
-    console.log(data);
-
     if (this.authService.currentUserSignal()) {
       let author_id: any = this.authService
         .currentUserSignal()
@@ -139,13 +130,8 @@ export class NoteAddComponent extends Unsubscribe implements OnInit {
           .addNote(newNote)
           .pipe(takeUntil(this.unsubscribe$))
           .subscribe(
-            //! To jest do przerobienia response zwraca ID
-            (response) => {
-              console.log('ID:', response);
-            },
-            (error) => {
-              console.log('Bład:', error);
-            }
+            (response) => {},
+            (error) => {}
           );
 
         setTimeout(() => {
@@ -175,7 +161,6 @@ export class NoteAddComponent extends Unsubscribe implements OnInit {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((res) => {
         res.forEach((e) => {
-          // this.subcategoryName.push(e.name);
           this.subcategoriesArray.push(e);
         });
 
@@ -196,8 +181,6 @@ export class NoteAddComponent extends Unsubscribe implements OnInit {
           return e.category_id === courseId;
         }
       );
-      // console.log('FilteredSubcategories', this.subcategoryFilteredArray);
-      // console.log('categoryNAME', this.categoryName);
       this.subcategoriesArray = this.subcategoryFilteredArray;
     }
 

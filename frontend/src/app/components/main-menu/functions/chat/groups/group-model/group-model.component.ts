@@ -35,7 +35,6 @@ export class GroupModelComponent extends Unsubscribe implements OnInit {
   }
 
   ngOnInit(): void {
-    // console.log('data', this.groupData);
     this.getSubcategory();
     this.getUsers();
   }
@@ -62,7 +61,6 @@ export class GroupModelComponent extends Unsubscribe implements OnInit {
         .subscribe(
           (users) => {
             this.users = users;
-            // console.log(this.users);
             this.setGroupData();
             this.isLoading = false;
           },

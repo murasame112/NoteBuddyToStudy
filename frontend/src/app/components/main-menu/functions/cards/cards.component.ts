@@ -111,7 +111,6 @@ export class CardsComponent extends Unsubscribe implements OnInit {
 
   //transformowanie tablicy Origin aby wyświetlić pojedynczo dostępne dla uzytkownika fiszki
   transformToShowCards(cardsOrigin: Card[]) {
-    //!
     cardsOrigin.forEach((card, index) => {
       const cards_id = `${index + 1}`;
       this.cardsToShow.push({
@@ -142,7 +141,7 @@ export class CardsComponent extends Unsubscribe implements OnInit {
     this.updateCardToShow();
   }
 
-  //! wyswietlanie fiszek po jednej
+  // wyswietlanie fiszek po jednej
   previousCard() {
     if (this.currentCardToShowIndex > 0) {
       this.currentCardToShowIndex--;
@@ -179,8 +178,6 @@ export class CardsComponent extends Unsubscribe implements OnInit {
     this.cardDisplayedForUser = this.cardsToShow[index];
   }
 
-  //!
-
   myCards() {
     this.showRandomCardsContainer = false;
     this.showLearnCardsContainer = false;
@@ -190,10 +187,6 @@ export class CardsComponent extends Unsubscribe implements OnInit {
       return card.author_id === this.userId;
     });
   }
-
-  //! NOWA WERSJA FISZEK
-
-  //? Test nowej wersji fiszek
 
   showEditCard(card: Card, index: number) {
     this.currentCardToShowIndex = index;
@@ -241,9 +234,7 @@ export class CardsComponent extends Unsubscribe implements OnInit {
             this.editCardForm.reset();
             this.showEditCardContainer = false;
           },
-          (error) => {
-            console.log(error);
-          }
+          (error) => {}
         );
 
       this.editCardForm.markAsPristine();
@@ -278,9 +269,7 @@ export class CardsComponent extends Unsubscribe implements OnInit {
       .pipe(take(1))
       .subscribe(
         (res) => {},
-        (error) => {
-          console.log(error);
-        }
+        (error) => {}
       );
   }
 

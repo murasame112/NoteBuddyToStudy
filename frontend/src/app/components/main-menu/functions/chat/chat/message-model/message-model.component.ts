@@ -1,5 +1,4 @@
 import { Component, Input, LOCALE_ID } from '@angular/core';
-import * as moment from 'moment';
 import { Message } from 'src/app/models/message.model';
 import '@angular/common/locales/global/pl';
 

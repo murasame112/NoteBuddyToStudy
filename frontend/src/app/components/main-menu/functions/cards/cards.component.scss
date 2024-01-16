@@ -36,7 +36,6 @@ main {
   justify-content: flex-start;
   align-items: center;
   min-height: 50rem;
-  // border: 2px solid red;
   padding-top: 5rem;
   padding-bottom: 5rem;
   gap: 1rem;
@@ -65,7 +64,6 @@ main {
 #cardsMenu {
   width: 40rem;
   height: 6rem;
-  // border: 1px solid orange;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -131,8 +129,6 @@ main {
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  // width: 60rem;
-  // border: 1px solid blue;
 }
 
 .cardBtns {
@@ -158,10 +154,6 @@ main {
 }
 
 #secondPositonBtns {
-  // display: flex;
-  // justify-content: center;
-  // align-items: center;
-  // gap: 1rem;
   display: none;
 }
 
@@ -189,7 +181,6 @@ main {
   display: flex;
   justify-content: right;
   align-items: center;
-  // border: 1px solid blue;
   width: 38rem;
   height: 3rem;
 }
@@ -285,7 +276,6 @@ footer {
     justify-content: center;
     align-items: center;
     gap: 1rem;
-    // display: none;
   }
 
   #randomCardsContent {

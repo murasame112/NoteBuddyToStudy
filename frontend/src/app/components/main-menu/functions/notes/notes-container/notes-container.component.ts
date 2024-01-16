@@ -59,12 +59,6 @@ export class NotesContainerComponent extends Unsubscribe implements OnInit {
     }
 
     this.checkIfNoteIsRated();
-
-    // console.log(
-    //   this.finalNote?.noteName,
-    //   this.isNotePositiveRate,
-    //   this.userNotesRates
-    // );
   }
 
   getCategory(id: Object) {
@@ -72,7 +66,6 @@ export class NotesContainerComponent extends Unsubscribe implements OnInit {
       .getCategoryById(id.toString())
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((res) => {
-        // console.log(res)
         this.categoryName = res.name;
       })
       .toString();
@@ -94,7 +87,6 @@ export class NotesContainerComponent extends Unsubscribe implements OnInit {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((res) => {
         this.userName = res.login;
-        // this.untrustedUser = res.untrusted;
       })
       .toString();
   }
@@ -104,7 +96,6 @@ export class NotesContainerComponent extends Unsubscribe implements OnInit {
   }
 
   hoverEventOff() {
-    // let icons:any = document.querySelectorAll('.icons');
     this.isVisible = false;
   }
 
@@ -122,8 +113,6 @@ export class NotesContainerComponent extends Unsubscribe implements OnInit {
 
     if (this.isFilled) {
       if (this.userId) {
-        console.log('dodano do ulubionych');
-
         if (this.userId !== undefined) {
           this.usersService
             .getUserById(this.userId)
@@ -149,25 +138,17 @@ export class NotesContainerComponent extends Unsubscribe implements OnInit {
                     .updateUserField(this.userId, fieldValue)
                     .pipe(take(1))
                     .subscribe(
-                      (res) => {
-                        console.log('Udalo sie fav notes', this.userFavNotes);
-                      },
-                      (error) => {
-                        console.log('Nie udalo sie', error);
-                      }
+                      (res) => {},
+                      (error) => {}
                     );
                 }
               },
-              (error) => {
-                console.log('Nie udało się pobrać danych usera');
-              }
+              (error) => {}
             );
         }
       }
     } else {
       if (this.userId) {
-        console.log('usunięto z ulubionych');
-
         this.removeFromFavorites.emit(this.finalNote?.note_id);
 
         if (this.userId !== undefined) {
@@ -195,24 +176,17 @@ export class NotesContainerComponent extends Unsubscribe implements OnInit {
                     .updateUserField(this.userId, fieldValue)
                     .pipe(take(1))
                     .subscribe(
-                      (res) => {
-                        console.log('Udalo się fav notes', this.userFavNotes);
-                      },
-                      (error) => {
-                        console.log('Nie udało się', error);
-                      }
+                      (res) => {},
+                      (error) => {}
                     );
                 }
               },
-              (error) => {
-                console.log('Nie udało się pobrać danych usera');
-              }
+              (error) => {}
             );
         }
       }
     }
   }
-  //
 
   checkIfNoteIsRated() {
     if (this.userNotesRates && this.finalNote?.note_id) {
@@ -241,8 +215,6 @@ export class NotesContainerComponent extends Unsubscribe implements OnInit {
       }
     }
   }
-
-  //TODO NEED API FIX then apply endpoint to change rate
 
   ratePositive() {
     this.isNoteRateFilled = !this.isNoteRateFilled;
@@ -298,17 +270,13 @@ export class NotesContainerComponent extends Unsubscribe implements OnInit {
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe(
           (res) => {
-            console.log(res);
             this.isRateButtonDisabled = false;
           },
           (error) => {
-            console.log(error);
             this.isRateButtonDisabled = false;
           }
         );
     }
-
-    console.log('userRateArrayPos', this.userNotesRates);
   }
 
   rateNegative() {
@@ -364,16 +332,12 @@ export class NotesContainerComponent extends Unsubscribe implements OnInit {
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe(
           (res) => {
-            console.log(res);
             this.isRateButtonDisabled = false;
           },
           (error) => {
-            console.log(error);
             this.isRateButtonDisabled = false;
           }
         );
     }
-
-    console.log('actualRateArrayNeg', this.userNotesRates);
   }
 }

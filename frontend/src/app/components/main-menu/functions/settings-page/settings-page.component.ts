@@ -30,7 +30,6 @@ export class SettingsPageComponent extends Unsubscribe implements OnInit {
     super();
   }
   ngOnInit(): void {
-    // this.getUser();
     this.userSettings();
 
     this.editUserForm = new FormGroup({
@@ -45,34 +44,11 @@ export class SettingsPageComponent extends Unsubscribe implements OnInit {
     this.isGoogleUser = this.authService.currentUserSignal()?.is_google;
   }
 
-  // getUser() {
-  //   if (this.username) {
-  //     this.usersService
-  //       .getUsersByQuery('login', this.username)
-  //       .pipe(takeUntil(this.unsubscribe$))
-  //       .subscribe((user) => {
-  //         this.user = user.find((us: User) => {
-  //           return true;
-  //         });
-
-  //         this.userImg = this.user.avatar_url;
-  //         this.editUserForm.patchValue({
-  //           email: this.user.email,
-  //           password: this.userPass,
-  //         });
-
-  //         console.log(this.user);
-  //         this.isLoading = false;
-  //       });
-  //   }
-  // }
-
   userSettings() {
     this.authService
       .isUserLogin()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((result) => {
-        // console.log('Sprawdzanie /extract w Settings', result);
         this.authService.currentUserSignal.set(result);
         this.username = this.authService.currentUserSignal()?.login;
         this.userPass = this.authService.getUserPass();
@@ -90,7 +66,6 @@ export class SettingsPageComponent extends Unsubscribe implements OnInit {
 
   changeEmail() {
     let email = this.editUserForm.get('email')?.value;
-    console.log(`czy form valid ${this.editUserForm.valid}`);
     let userId = this.authService.currentUserSignal()?._id;
 
     let queryAndValue = {
@@ -109,7 +84,6 @@ export class SettingsPageComponent extends Unsubscribe implements OnInit {
 
   changePassword() {
     let pass = this.editUserForm.get('password')?.value;
-    console.log(`czy form valid ${this.editUserForm.valid}`);
     let userId = this.authService.currentUserSignal()?._id;
 
     let queryAndValue = {
@@ -174,56 +148,4 @@ export class SettingsPageComponent extends Unsubscribe implements OnInit {
       }
     }
   }
-
-  // changeAvatar(event: any) {
-  //   const image: File = event.target.files[0];
-
-  //   if (image) {
-  //     if (image.type.match(/image.*/)) {
-  //       const reader = new FileReader();
-  //       reader.onload = (element: any) => {
-  //         const img: string = element.target.result;
-  //         this.resizeAndSetImage(img, 512, 512);
-  //       };
-  //       reader.readAsDataURL(image);
-  //     } else {
-  //       alert('Niepoprawny format pliku');
-  //     }
-  //   }
-  // }
-
-  // resizeAndSetImage(img: string, maxWidth: number, maxHeight: number) {
-  //   const newImg = new Image();
-  //   newImg.src = img;
-  //   console.log(img);
-
-  //   newImg.onload = () => {
-  //     const canvas = document.createElement('canvas');
-  //     let width = newImg.width;
-  //     let height = newImg.height;
-
-  //     if (width > height) {
-  //       if (width > maxWidth) {
-  //         height *= maxWidth / width;
-  //       }
-  //     } else {
-  //       if (height > maxHeight) {
-  //         width *= maxHeight / height;
-  //         height = maxHeight;
-  //       }
-  //     }
-
-  //     canvas.width = width;
-  //     canvas.height = height;
-
-  //     const ctx = canvas.getContext('2d');
-  //     if (ctx) {
-  //       ctx.drawImage(newImg, 0, 0, width, height);
-  //       this.userImg = canvas.toDataURL('image/png', 0.5);
-  //       console.log(`IMG: ${this.userImg}`);
-
-  //       // this.changeAvatarApi();
-  //     }
-  //   };
-  // }
 }

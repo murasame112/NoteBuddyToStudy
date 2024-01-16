@@ -3,10 +3,7 @@
   justify-content: left;
   align-items: flex-end;
   width: 36rem;
-  // height: 100%
   min-height: 5rem;
-
-  // border: 1px solid blue;
 }
 
 .currentUsrDirection {
@@ -18,7 +15,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  // border: 1px solid red;
   padding: 0.4rem;
   max-width: 35rem;
   min-height: 5rem;
@@ -57,10 +53,6 @@
   font-size: 0.8rem;
   color: rgb(77, 5, 77);
 }
-
-// .currentUsrLoginColor {
-//   color: orange;
-// }
 
 .content {
   padding: 0.5rem;

@@ -4,7 +4,6 @@ export interface Note {
   author_id: Object;
   category_id: Object;
   subcategory_id: Object;
-  // adress!: string;
   content?: string;
   shared_date?: Date;
   last_edit_date?: Date;

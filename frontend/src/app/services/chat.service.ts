@@ -26,10 +26,6 @@ export class ChatService {
 
     let localStorageToken: string | null = localStorage.getItem('Token');
 
-    // this.socket.onAny((event: any, ...args: any) => {
-    //   console.log(event, args);
-    // });
-
     this.socket.auth = {
       group_id: groupId,
       token: localStorageToken,

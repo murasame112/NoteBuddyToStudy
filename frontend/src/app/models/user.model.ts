@@ -15,6 +15,3 @@ export interface User {
   rated_notes?: Array<UserRateNote>;
   is_google?: boolean;
 }
-
-//! name to teraz login
-//! to co kiedys bylo loginem teraz jest email

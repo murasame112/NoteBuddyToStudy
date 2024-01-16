@@ -88,12 +88,8 @@ export class EditNoteComponent extends Unsubscribe implements OnInit {
           .updateNote(updateNote, this.NoteId)
           .pipe(takeUntil(this.unsubscribe$))
           .subscribe(
-            (response) => {
-              console.log('ID:', response);
-            },
-            (error) => {
-              console.log('Bład:', error);
-            }
+            (response) => {},
+            (error) => {}
           );
 
         setTimeout(() => {
@@ -112,7 +108,6 @@ export class EditNoteComponent extends Unsubscribe implements OnInit {
       .subscribe(
         (note) => {
           this.isLoading = false;
-          console.log(note);
           this.editedNote = note;
 
           this.editNoteForm.patchValue({
@@ -161,7 +156,6 @@ export class EditNoteComponent extends Unsubscribe implements OnInit {
   filterSubcategoriesOnInit() {
     let courseId = this.editNoteForm.get('courseName')?.value;
     this.subcategoryFilteredArray = this.subcategoryOrigin;
-    // console.log('course ID:', courseId);
 
     if (courseId != null && courseId != '') {
       this.subcategoryFilteredArray = this.subcategoryFilteredArray.filter(
@@ -170,7 +164,6 @@ export class EditNoteComponent extends Unsubscribe implements OnInit {
         }
       );
       this.subcategoriesArray = this.subcategoryFilteredArray;
-      // console.log('subArray', this.subcategoriesArray);
     }
   }
 
@@ -178,7 +171,6 @@ export class EditNoteComponent extends Unsubscribe implements OnInit {
   filterSubcategories() {
     let courseId = this.editNoteForm.get('courseName')?.value;
     this.subcategoryFilteredArray = this.subcategoryOrigin;
-    // console.log('course ID:', courseId);
 
     if (courseId != null && courseId != '') {
       this.subcategoryFilteredArray = this.subcategoryFilteredArray.filter(
@@ -187,7 +179,6 @@ export class EditNoteComponent extends Unsubscribe implements OnInit {
         }
       );
       this.subcategoriesArray = this.subcategoryFilteredArray;
-      // console.log('subArray', this.subcategoriesArray);
     }
 
     this.onCategoryChange();
@@ -197,13 +188,11 @@ export class EditNoteComponent extends Unsubscribe implements OnInit {
   onCategoryChange() {
     let categoryName = this.editNoteForm.get('courseName')?.value;
     this.editNoteForm.get('subjectName')?.setValue('');
-    // console.log(categoryName);
 
     if (categoryName != null && categoryName != '') {
       this.editNoteForm.get('subjectName')?.enable();
     } else {
       this.editNoteForm.get('subjectName')?.disable();
-      console.log('ttttttest');
     }
   }
 

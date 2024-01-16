@@ -33,10 +33,6 @@ export class NotesComponent extends Unsubscribe implements OnInit {
     this.getUserFavNotes();
 
     //! notesReviews
-
-    // this.userNotesReviews =
-    //   this.authService.currentUserSignal()?.rated_notes || [];
-    // console.log('reviews', this.userNotesReviews);
     this.getUserNotesRates();
 
     this.FilterForm = new FormGroup({
@@ -92,7 +88,6 @@ export class NotesComponent extends Unsubscribe implements OnInit {
 
     if (this.selectedCategory == '') {
       this.FilterForm.get('subcategoryName')?.setValue('');
-      console.log('default category value');
     }
 
     //CategoryFilter
@@ -145,7 +140,6 @@ export class NotesComponent extends Unsubscribe implements OnInit {
     }
 
     //Przypisywanie
-    // this.notesArray = this.filteredNotes;
     this.finalNotesArray = this.filteredFinalNotes;
   }
 
@@ -155,7 +149,6 @@ export class NotesComponent extends Unsubscribe implements OnInit {
 
     for (const word of words) {
       if (word.startsWith(actualInputTitle)) {
-        // console.log('pasujace slowo', word);
         return true;
       }
     }
@@ -189,7 +182,6 @@ export class NotesComponent extends Unsubscribe implements OnInit {
       .getAllNoteData()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((res) => {
-        // console.log('note:', res);
         this.finalNotesOrigin = res;
         this.finalNotesArray = this.finalNotesOrigin;
         this.defaultSort();
@@ -203,8 +195,6 @@ export class NotesComponent extends Unsubscribe implements OnInit {
       .getAllData()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((res) => {
-        // console.log('notesArrays', res);
-
         this.notesOrigin = res[0];
         this.notesArray = this.notesOrigin;
         this.categoriesOrigin = res[1];
@@ -219,7 +209,6 @@ export class NotesComponent extends Unsubscribe implements OnInit {
       .getNotes()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((res) => {
-        console.log(res);
         this.notesOrigin = res;
         this.notesArray = this.notesOrigin;
         // this.defaultSort();
@@ -231,7 +220,6 @@ export class NotesComponent extends Unsubscribe implements OnInit {
       .getCategories()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((res) => {
-        console.log(res);
         this.categoriesOrigin = res;
       });
   }
@@ -241,7 +229,6 @@ export class NotesComponent extends Unsubscribe implements OnInit {
       .getSubcategories()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((res) => {
-        console.log(res);
         this.subcategoriesOrigin = res;
         this.subcategoriesArray = this.subcategoriesOrigin;
       });
@@ -252,14 +239,11 @@ export class NotesComponent extends Unsubscribe implements OnInit {
       .getUsers()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((res) => {
-        console.log(res);
         this.allUsers = res;
       });
   }
 
   refreshNoteData() {
-    console.log('wykonane');
-    // this.getNotes();
     this.getAllNotesArrays();
     this.getFinalNotes();
   }
@@ -276,7 +260,6 @@ export class NotesComponent extends Unsubscribe implements OnInit {
   //sortowanie notatek
   sortNotes($event: any) {
     let value: string | null = $event.target.value;
-    console.log('wywolanie');
     this.applyFilters();
     this.filteredFinalNotes.reverse();
 
@@ -294,8 +277,6 @@ export class NotesComponent extends Unsubscribe implements OnInit {
       });
     } else if (value === 'bestRate') {
       this.filteredFinalNotes.sort((a, b) => {
-        // const rateA = a.positive_reviews - a.negative_reviews;
-        // const rateB = b.positive_reviews - b.negative_reviews;
         const rateA =
           (a.positive_reviews * 100) /
           (a.positive_reviews + a.negative_reviews);
@@ -307,8 +288,6 @@ export class NotesComponent extends Unsubscribe implements OnInit {
       });
     } else if (value === 'worstRate') {
       this.filteredFinalNotes.sort((a, b) => {
-        // const rateA = a.positive_reviews - a.negative_reviews;
-        // const rateB = b.positive_reviews - b.negative_reviews;
         const rateA =
           (a.positive_reviews * 100) /
           (a.positive_reviews + a.negative_reviews);
@@ -333,7 +312,6 @@ export class NotesComponent extends Unsubscribe implements OnInit {
         .subscribe(
           (user) => {
             this.userSavedNotes = user.saved_notes;
-            // console.log(user.saved_notes);
           },
           (error) => {}
         );
@@ -348,11 +326,8 @@ export class NotesComponent extends Unsubscribe implements OnInit {
         .subscribe(
           (userNotesRates) => {
             this.userNotesReviews = userNotesRates;
-            // console.log(userNotesRates);
           },
-          (error) => {
-            console.log(error);
-          }
+          (error) => {}
         );
     }
   }

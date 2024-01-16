@@ -1,23 +1,19 @@
-
 <div id="container">
-
   <nav>
-   <app-navbar></app-navbar>
+    <app-navbar></app-navbar>
   </nav>
 
   <main>
- <div id="textEditor">
-  <quill-editor [formControl]="quillContent" [modules]="quillConfig" [styles]="editorStyle" ></quill-editor>
-</div>
-
-<!-- <div [innerHTML]="quillContent.value"></div> -->
-
-
+    <div id="textEditor">
+      <quill-editor
+        [formControl]="quillContent"
+        [modules]="quillConfig"
+        [styles]="editorStyle"
+      ></quill-editor>
+    </div>
   </main>
 
   <footer>
     <app-footer></app-footer>
   </footer>
-
-
 </div>

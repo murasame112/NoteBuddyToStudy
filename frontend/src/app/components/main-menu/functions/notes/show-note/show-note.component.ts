@@ -46,12 +46,10 @@ export class ShowNoteComponent extends Unsubscribe implements OnInit {
         (res) => {
           this.isLoading = false;
           this.note = res;
-          console.log(this.note);
           this.htmlText = this.note.content;
         },
         (error) => {
           this.isLoading = false;
-          console.log(error);
         }
       );
   }

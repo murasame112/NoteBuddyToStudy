@@ -52,7 +52,6 @@ export class SearchForBuddyComponent extends Unsubscribe implements OnInit {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(
         (cat) => {
-          // console.log(cat);
           this.categoriesOrigin = cat;
           this.isLoading = false;
         },
@@ -66,7 +65,6 @@ export class SearchForBuddyComponent extends Unsubscribe implements OnInit {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(
         (subcat) => {
-          // console.log(subcat);
           this.subcategoriesOrigin = subcat;
         },
         (error) => {}
@@ -90,13 +88,10 @@ export class SearchForBuddyComponent extends Unsubscribe implements OnInit {
     }
 
     subcategoryControl?.updateValueAndValidity();
-
-    // console.log(selectedCategoryId);
   }
 
   searchBuddy(data: any) {
     if (this.searchBuddyForm.valid) {
-      // console.log(data);
       let group_type: 'two' | 'multiple' = data.searchValue;
       let subcategoryId: string = data.subcategoryId;
 
@@ -107,17 +102,12 @@ export class SearchForBuddyComponent extends Unsubscribe implements OnInit {
           subcategory_id: subcategoryId,
         };
 
-        console.log('Dodaj do grupy:', addToGroup);
-
         this.groupsService
           .addUserToGroup(addToGroup)
           .pipe(takeUntil(this.unsubscribe$))
           .subscribe(
             (res) => {
-              // console.log(res);
-              alert(
-                'Udało się! Gdy znajdziemy grupę znajdziesz ją w zakładce czat'
-              );
+              alert('Udało się! Grupę znajdziesz w zakładce czat');
 
               const subcategoryControl =
                 this.searchBuddyForm.get('subcategoryId');

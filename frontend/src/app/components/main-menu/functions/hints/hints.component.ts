@@ -30,7 +30,6 @@ export class HintsComponent extends Unsubscribe implements OnInit {
       .getHint()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((hints) => {
-        // console.log('Hints:', hints);
         this.hintsOrigin = hints;
         this.isLoading = false;
       });

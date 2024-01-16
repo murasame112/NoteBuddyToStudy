@@ -55,10 +55,6 @@ export class AuthService {
   }
 
   googleToken(token: string) {
-    //? our api field_name : google_field_name
-    //! login: given_name + family_name
-    //! email:email
-
     const decodedToken: any = jwtDecode(token);
     const userName: string = this.replacePolishChars(decodedToken.given_name);
     const userFamilyName: string = this.replacePolishChars(
@@ -89,8 +85,6 @@ export class AuthService {
     this.router.navigateByUrl('/login');
   }
 
-  //! Tylko chwilowo
-
   getUserPass() {
     const token = this.getToken() ?? '';
 
@@ -114,6 +108,4 @@ export class AuthService {
 
     return payload;
   }
-
-  //!
 }

@@ -53,8 +53,6 @@ main {
 
 footer {
   grid-area: footer;
-
-  // position: relative;
   width: 100%;
   height: 100%;
   padding: 0;
@@ -289,7 +287,6 @@ footer {
     border-radius: 0.5rem 0.5rem 0 0 !important;
     border: none;
     width: 35rem;
-    // margin-bottom: 1rem;
     text-align: center;
   }
 
@@ -336,37 +333,11 @@ footer {
     content: "Duża";
   }
 
-  ////! Quill Fonts
+  //! Quill Fonts
 
   .ql-font .ql-picker-label {
     width: 8.5rem;
   }
-
-  // [quill-editor-toolbar] .ql-font span[data-label="Arial"]::before {
-  //   font-family: "Arial", "sans-serif";
-  // }
-
-  // [quill-editor-toolbar] .ql-font span[data-label="Verdana"]::before {
-  //   font-family: "Verdana", "serif";
-  // }
-
-  // [quill-editor-toolbar] .ql-font span[data-label="Times New Roman"]::before {
-  //   font-family: 'Times New Roman', "serif";
-  // }
-
-  // [quill-editor-toolbar] .ql-font span[data-label="Roboto"]::before {
-  //   font-family: "Roboto", "serif";
-  // }
-
-  // [quill-editor-toolbar] .ql-font span[data-label="Monospace"]::before {
-  //   font-family: "Courier New", "monospace";
-  // }
-
-  // [quill-editor-toolbar] .ql-font span[data-label="Poppins"]::before {
-  //   font-family: "Poppins", "serif";
-  // }
-
-  //TODO Druga Wersja fonts!!
 
   .ql-formats .ql-font span[data-value="arial"]::before {
     font-family: "Arial", "sans-serif" !important;
@@ -398,8 +369,6 @@ footer {
     content: "Poppins" !important;
   }
 
-  //!TODO </>
-
   .ql-font-arial {
     font-family: "Arial", sans-serif;
   }
@@ -424,19 +393,14 @@ footer {
     font-family: "Poppins", "serif";
   }
 
-  ////!
+  //! TOOLTIPS
 
-  ////TODO TOOLTIPS
-
-  /** All toolbar buttons are inside of .ql-formats */
   .ql-formats button {
     position: relative;
 
-    /** Set a tooltip with css pseudo-elements, when buttons are hover, active or focus  */
     &:hover::after,
     &:active::after,
     &:focus::after {
-      // background: #0d1e42;
       background: #310b61;
       color: white;
       padding: 0.5em;
@@ -452,11 +416,9 @@ footer {
   .ql-formats .ql-picker {
     position: relative;
 
-    /** Set a tooltip with css pseudo-elements, when buttons are hover, active or focus  */
     &:hover::after,
     &:active::after,
     &:focus::after {
-      // background: #0d1e42;
       background: #310b61;
       color: white;
       padding: 0.5em;
@@ -469,7 +431,6 @@ footer {
     }
   }
 
-  /** Set tooltip content for bold button **/
   .ql-picker.ql-header {
     &:hover::after,
     &:active::after,
@@ -646,8 +607,6 @@ footer {
       content: "Dodaj zdjęcie";
     }
   }
-
-  ////TODO </>
 
   @media (max-width: 810px) {
     .ql-toolbar.ql-snow {

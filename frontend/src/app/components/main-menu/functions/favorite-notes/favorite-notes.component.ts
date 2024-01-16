@@ -77,11 +77,8 @@ export class FavoriteNotesComponent extends Unsubscribe implements OnInit {
         .subscribe(
           (userNotesRates) => {
             this.userNotesReviews = userNotesRates;
-            // console.log(userNotesRates);
           },
-          (error) => {
-            console.log(error);
-          }
+          (error) => {}
         );
     }
   }

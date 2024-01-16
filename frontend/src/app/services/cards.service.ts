@@ -17,12 +17,6 @@ export class CardsService {
     return this.http.post<Card>(url, card);
   }
 
-  //Dodawanie fiszki do kolekcji użytkownika
-  // addCard(card: Card, cardId: string): Observable<Card> {
-  //   const url = `${this.apiUrl}/card/${cardId}`;
-  //   return this.http.patch<Card>(url, card);
-  // }
-
   //Pobieranie wszystkich fiszek użytkowników
   getCards(): Observable<Card[]> {
     const url = `${this.apiUrl}/cards`;
@@ -34,12 +28,6 @@ export class CardsService {
     const url = `${this.apiUrl}/card/${id}`;
     return this.http.get<Card>(url);
   }
-
-  //Usuwanie fiszki użytkownika z kolekcji poprzez update kolekcji
-  // deleteCard(card: Card): Observable<Card> {
-  //   const url = `${this.apiUrl}/card/${card._id}`;
-  //   return this.http.put<Card>(url, card);
-  // }
 
   updateCategory(card: Card, card_id: string): Observable<Card> {
     const url = `${this.apiUrl}/card/${card_id}`;

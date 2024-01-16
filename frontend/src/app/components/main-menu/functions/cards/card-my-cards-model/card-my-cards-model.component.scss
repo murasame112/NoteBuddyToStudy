@@ -1,7 +1,6 @@
 #container {
   width: 40rem;
   height: 14rem;
-  // border: 2px solid orange;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -26,12 +25,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  // gap: 1rem;
-  // border: 1px solid yellowgreen;
 }
 
 .questionAndAnswerContainer {
-  // border: 1px solid red;
   width: 30rem;
   height: 6rem;
   display: flex;
@@ -41,7 +37,6 @@
 }
 
 .cardSpan {
-  // border: 1px solid rgb(241, 154, 169);
   width: 7rem;
 }
 
@@ -69,7 +64,6 @@
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  // border: 1px solid red;
 }
 
 .cardBtns {

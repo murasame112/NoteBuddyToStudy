@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs';
 import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
@@ -38,7 +32,6 @@ export class ChatComponent extends Unsubscribe implements OnInit {
   messages: Message[] = [];
   newMessage: string = '';
 
-  //!
   usersData: GroupData[] = [];
   @ViewChild('chatInput') chatInput!: ElementRef;
   showChat: boolean = false;
@@ -53,7 +46,6 @@ export class ChatComponent extends Unsubscribe implements OnInit {
     );
 
     this.currentUser = this.authService.currentUserSignal();
-    // console.log(this.groupId);
 
     this.getUsersData();
 
@@ -69,7 +61,6 @@ export class ChatComponent extends Unsubscribe implements OnInit {
       .subscribe(
         (mes: Message[]) => {
           this.messages = mes;
-          // console.log(this.messages);
         },
         (error: any) => {}
       );
@@ -82,7 +73,6 @@ export class ChatComponent extends Unsubscribe implements OnInit {
       .subscribe(
         (message: Message) => {
           this.messages.push(message);
-          console.log(message);
         },
         (error: any) => {}
       );
@@ -106,9 +96,7 @@ export class ChatComponent extends Unsubscribe implements OnInit {
         .addMessageToGroup(this.groupId, sendMessage)
         .pipe(take(1))
         .subscribe(
-          (res) => {
-            // console.log(res);
-          },
+          (res) => {},
           (error) => {}
         );
 
@@ -117,7 +105,6 @@ export class ChatComponent extends Unsubscribe implements OnInit {
 
     this.newMessage = '';
     this.chatInput.nativeElement.focus();
-    console.log(currentTime);
   }
 
   getUsersData() {
@@ -127,7 +114,6 @@ export class ChatComponent extends Unsubscribe implements OnInit {
       .subscribe(
         (res) => {
           this.usersData = res;
-          // console.log(this.usersData);
           this.showChat = true;
           this.isLoading = false;
 

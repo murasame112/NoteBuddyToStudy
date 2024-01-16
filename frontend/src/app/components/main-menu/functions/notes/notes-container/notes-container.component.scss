@@ -26,7 +26,6 @@
   justify-content: space-between;
   align-items: center;
   width: 22rem;
-  // padding: 0.3rem 1rem;
   padding: 0.7rem 1rem 0.3rem;
 }
 
@@ -43,7 +42,6 @@
 }
 
 .icons {
-  // visibility: hidden;
   transition: transform 0.5s ease;
 }
 
@@ -84,12 +82,10 @@
 }
 
 .spans {
-  // background-color: red;
   width: 19rem;
 }
 
 #name {
-  // padding-top: 0.2rem;
   text-align: center;
   font-size: 0.9rem;
   min-height: 3rem;
@@ -106,7 +102,6 @@
 
 ::ng-deep {
   .ql-container.ql-snow.ngx-quill-view-html {
-    // border: 0.1rem solid red;
     padding: 0;
     margin: 0;
     border-radius: 0.5rem;
@@ -166,7 +161,6 @@
 
 #course {
   min-width: 7rem;
-  // max-width: 12rem;
 }
 
 #subcategory {
@@ -179,7 +173,6 @@
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
-  // background-color: rgba(240, 255, 255, 0.616);
   width: 98%;
   padding-bottom: 0.5rem;
 }
@@ -188,7 +181,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  // background-color: lightcoral;
   width: 35%;
   height: 100%;
   gap: 0.2rem;
@@ -259,7 +251,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  // background-color: pink;
   width: 65%;
 }
 
