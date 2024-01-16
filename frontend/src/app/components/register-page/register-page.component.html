@@ -25,7 +25,7 @@
     >
       <div class="registerFormItem">
         <label for="loginInput" class="form-labels">Login</label>
-        <!-- <br> -->
+
         <input
           type="text"
           placeholder="wpisz login"
@@ -33,7 +33,6 @@
           class="form-inputs"
           formControlName="login"
         />
-        <!-- <br><br> -->
 
         <ng-container
           *ngIf="
@@ -96,7 +95,7 @@
 
       <div class="registerFormItem">
         <label for="emailInput" class="form-labels">Adres e-mail</label>
-        <!-- <br> -->
+
         <input
           type="text"
           placeholder="wpisz e-mail"
@@ -104,7 +103,7 @@
           class="form-inputs"
           formControlName="mail"
         />
-        <!-- <br><br> -->
+
         <ng-container
           *ngIf="
             registerForm.get('mail')!.hasError('required') &&
@@ -145,6 +144,18 @@
         <ng-container *ngIf="registerForm.get('mail')!.hasError('emailExist')">
           <div class="validators">
             <span>&#x2022; Taki email już istnieje</span>
+          </div>
+        </ng-container>
+
+        <ng-container
+          *ngIf="
+            registerForm.get('mail')!.hasError('lowercaseInvalid') &&
+            registerForm.get('mail')!.touched &&
+            !registerForm.get('mail')!.hasError('required')
+          "
+        >
+          <div class="validators">
+            <span>&#x2022; email nie może mieć w sobie dużych liter</span>
           </div>
         </ng-container>
       </div>
@@ -222,6 +233,14 @@
       ></span
     >
   </div>
+  <div id="loadingContainer">
+    <i
+      class="fa-solid fa-spinner fa-spin-pulse fa-2xl"
+      style="color: #ffbb00"
+      *ngIf="isLoading"
+      id="spinner"
+    ></i>
+  </div>
 
   <div id="orDiv" *ngIf="!isUserRegistered">
     <div class="orLine-line"></div>
@@ -233,27 +252,7 @@
     class="LoginWithPlatformBtn"
     id="loginByPlatformG"
     *ngIf="!isUserRegistered"
-  >
-    <!-- <img
-      src="../../../assets/login_google_logo.png"
-      alt=""
-      class="img-platform"
-    />
-    <span class="LoginWithPlatformSpan">Zaloguj się przez google</span> -->
-  </div>
-
-  <!-- <div
-    class="LoginWithPlatformBtn"
-    id="loginByPlatformF"
-    *ngIf="!isUserRegistered"
-  >
-    <img
-      src="../../../assets/login_facebook_logo.png"
-      alt=""
-      class="img-platform"
-    />
-    <span class="LoginWithPlatformSpan">Zaloguj się przez facebook</span>
-  </div> -->
+  ></div>
 
   <ng-container *ngIf="isUserRegistered">
     <span id="registerSuccessText"

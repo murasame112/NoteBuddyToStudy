@@ -152,6 +152,14 @@
       >Nie masz konta? zarejestruj się</span
     >
   </div>
+  <div id="loadingContainer">
+    <i
+      class="fa-solid fa-spinner fa-spin-pulse fa-2xl"
+      style="color: #ffbb00"
+      *ngIf="isLoading"
+      id="spinner"
+    ></i>
+  </div>
 
   <div id="orDiv">
     <div class="orLine-line"></div>
@@ -159,21 +167,5 @@
     <div class="orLine-line"></div>
   </div>
 
-  <div class="LoginWithPlatformBtn" id="loginByPlatformG">
-    <!-- <img
-      src="../../../assets/login_google_logo.png"
-      alt=""
-      class="img-platform"
-    />
-    <span class="LoginWithPlatformSpan">Zaloguj się przez google</span> -->
-  </div>
-
-  <!-- <div class="LoginWithPlatformBtn" id="loginByPlatformF">
-    <img
-      src="../../../assets/login_facebook_logo.png"
-      alt=""
-      class="img-platform"
-    />
-    <span class="LoginWithPlatformSpan">Zaloguj się przez facebook</span>
-  </div> -->
+  <div class="LoginWithPlatformBtn" id="loginByPlatformG"></div>
 </main>

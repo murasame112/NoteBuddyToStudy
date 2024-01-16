@@ -18,6 +18,7 @@ declare let google: any;
 export class LoginPageComponent extends Unsubscribe implements OnInit {
   loginForm!: FormGroup;
   observer: any;
+  isLoading: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -25,15 +26,6 @@ export class LoginPageComponent extends Unsubscribe implements OnInit {
     private ngZone: NgZone
   ) {
     super();
-
-    // toObservable(this.authService.currentUserSignal)
-    //   .pipe(
-    //     skipWhile((status) => status === undefined),
-    //     take(10)
-    //   )
-    //   .subscribe((res) => {
-    //     console.log('Sygnał BZZ:', res);
-    //   });
   }
 
   ngOnInit(): void {
@@ -52,8 +44,6 @@ export class LoginPageComponent extends Unsubscribe implements OnInit {
         CustomValidators.passwordValidation(),
       ]),
     });
-
-    //google client_id- 939910674326-4ng45jmorirmuuiu9irh80ofqdokl51l.apps.googleusercontent.com
 
     google.accounts.id.initialize({
       client_id:
@@ -76,39 +66,28 @@ export class LoginPageComponent extends Unsubscribe implements OnInit {
       }
     );
 
-    // console.log(document.getElementsByClassName('loginGoogle'));
-    // console.log(document.querySelector('.loginGoogle'));
-    // console.log(document.getElementById('loginByPlatformG'));
-
     this.sizeObserver();
   }
 
   login(data: Login) {
-    console.log(`login: ${data.login} hasło: ${data.password}`);
-
     let login: Login = {
       login: data.login,
       password: data.password,
     };
 
     if (this.loginForm.valid) {
-      console.log(login);
+      this.isLoading = true;
       this.authService
         .loginUser(login)
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe((result: any) => {
           if (result != 'false') {
-            console.log('login result:', result);
             localStorage.setItem('Token', result);
-            //!
             this.stopSizeObserver();
             this.isUserLogin();
-            //!
           } else {
             this.authService.currentUserSignal.set(null);
 
-            console.log('Błędny login lub hasło');
-            console.log('login fail result:', result);
             this.loginForm
               .get('password')
               ?.setErrors({ wrongLoginOrPassword: true });
@@ -118,22 +97,20 @@ export class LoginPageComponent extends Unsubscribe implements OnInit {
   }
 
   googleLogin(result: any) {
-    // console.log('dane: ', this.authService.googleToken(res.credential));
     let data = this.authService.googleToken(result.credential);
+    this.isLoading = true;
 
-    console.log(data);
     this.authService
       .loginGoogleUser(data)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(
         (token) => {
-          console.log(token);
           localStorage.setItem('Token', token);
+
           this.stopSizeObserver();
           this.isUserLogin();
         },
         (error) => {
-          console.log(error);
           this.authService.currentUserSignal.set(null);
         }
       );
@@ -200,7 +177,7 @@ export class LoginPageComponent extends Unsubscribe implements OnInit {
       .isUserLogin()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((result) => {
-        console.log('Sprawdzanie /extract', result);
+        this.isLoading = false;
         this.authService.currentUserSignal.set(result);
         this.router.navigateByUrl('/notes');
       });

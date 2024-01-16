@@ -9,7 +9,7 @@ main {
     "one login-to-account"
     "one or-btn"
     "one loginByPlatformG"
-    "one loginByPlatformF"
+    "one loading"
     "one empty2";
   gap: 2rem;
   background-color: white;
@@ -178,6 +178,10 @@ input.ng-invalid.ng-touched {
   align-self: start;
 }
 
+#loadingContainer {
+  grid-area: register;
+}
+
 #login-to-account {
   font-family: "poppins", sans-serif;
   font-size: 0.7rem;
@@ -246,15 +250,12 @@ input.ng-invalid.ng-touched {
 
 #loginByPlatformG {
   grid-area: loginByPlatformG;
-  // border: 0.125rem solid #e3e3e3;
 }
 
-#loginByPlatformF {
-  grid-area: loginByPlatformF;
+#loadingContainer {
+  grid-area: loading;
+
   color: white;
-  border: 0.125rem solid #223a90;
-  background-color: #253d94;
-  align-self: start;
 }
 
 #registerSuccessText {
@@ -445,7 +446,7 @@ input.ng-invalid.ng-touched {
       " login-to-account"
       " or-btn"
       " loginByPlatformG"
-      " loginByPlatformF"
+      " loading"
       " empty2";
 
     min-height: 65rem;

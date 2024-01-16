@@ -9,8 +9,8 @@ main {
     "one register"
     "one or-btn"
     "one loginByPlatformG"
-    "one loginByPlatformF"
-    "one empty2";
+    "one empty2"
+    "one empty3";
   gap: 2rem;
   background-color: white;
   width: 100%;
@@ -165,6 +165,10 @@ main {
   cursor: pointer;
 }
 
+#loadingContainer {
+  grid-area: register;
+}
+
 #orDiv {
   grid-area: or-btn;
 
@@ -222,14 +226,6 @@ main {
 #loginByPlatformG {
   grid-area: loginByPlatformG;
   // border: 0.125rem solid #e3e3e3;
-}
-
-#loginByPlatformF {
-  grid-area: loginByPlatformF;
-  color: white;
-  border: 0.125rem solid #223a90;
-  background-color: #253d94;
-  align-self: start;
 }
 
 @media (max-width: 1000px) {
@@ -399,8 +395,8 @@ main {
       " register"
       " or-btn"
       " loginByPlatformG"
-      " loginByPlatformF"
-      " empty2";
+      " empty2"
+      " empty3";
     min-height: 65rem;
   }
 
