@@ -46,14 +46,15 @@ export class CustomValidators {
   }
 
   static lowercaseValidator(): ValidatorFn {
-    const regex = new RegExp(/[a-z]/g);
-
     return (control: AbstractControl): ValidationErrors | null => {
-      const isValid = regex.test(control.value);
+      const value: string = control.value;
 
-      if (!isValid) {
+      const isValidValue: string = value;
+
+      if (isValidValue !== value.toLowerCase()) {
         return { lowercaseInvalid: true };
       }
+
       return null;
     };
   }
