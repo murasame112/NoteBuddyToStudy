@@ -7,7 +7,6 @@
   padding-top: 1rem;
   font-family: "poppins", sans-serif;
   font-weight: 400;
-  // border: 2px solid green;
   gap: 1rem;
   padding-bottom: 1rem;
 }
@@ -18,18 +17,15 @@ h5 {
 }
 
 .adminPanelText {
-  // border: 1px solid red;
   width: 40rem;
 }
 
 #addNewCategorySection {
-  // border: 1px solid purple;
   width: 40rem;
   height: 4rem;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  // gap: 4rem;
 }
 
 #addNewCategoryForm {
@@ -42,13 +38,11 @@ h5 {
   align-items: center;
   gap: 2rem;
 
-  // border: 1px solid blue;
   background-color: #dddddd;
   border-radius: 0.5rem;
 }
 
 #addCategorySpan {
-  // border: 1px solid red;
   width: 15rem;
 }
 
@@ -73,7 +67,6 @@ h5 {
   display: flex;
   justify-content: center;
   align-items: center;
-  // border: 1px solid black;
   height: 3rem;
   width: 6rem;
 }
@@ -142,12 +135,9 @@ select.invalid {
   align-items: center;
 
   margin: 0;
-  // padding: 1rem;
   width: 40rem;
   height: 8rem;
-  // gap: 1rem;
 
-  // border: 1px solid red;
   background-color: #dddddd;
   border-radius: 0.5rem;
 }
@@ -158,19 +148,14 @@ select.invalid {
   justify-content: center;
   align-items: center;
   width: 40rem;
-  //
-  // border: 1px solid blue;
   gap: 2rem;
 }
 
 .editCategoryAddSubcatSpan {
-  // border: 1px solid red;
   width: 15rem;
 }
 
 .editCategoryAddSubcatContent {
-  // border: 2px solid green;
-  // width: 17rem;
   width: 13.5rem;
 
   height: 8rem;
@@ -203,7 +188,6 @@ select.invalid {
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  // border: 1px solid orange;
   width: 6rem;
   height: 8rem;
 }
@@ -254,7 +238,6 @@ select.invalid {
     flex-direction: column;
     width: 20rem;
     height: 16rem;
-    // border: 1px solid red;
     gap: 0rem;
   }
 
@@ -269,7 +252,6 @@ select.invalid {
   .editAndDeleteBtnsSection {
     flex-direction: row;
     gap: 1rem;
-    // border: 1px solid orange;
     width: 13rem;
     height: 3rem;
   }

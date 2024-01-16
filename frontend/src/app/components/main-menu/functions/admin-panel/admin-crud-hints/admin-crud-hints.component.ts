@@ -39,7 +39,6 @@ export class AdminCrudHintsComponent extends Unsubscribe implements OnInit {
       .getHint()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((hints) => {
-        console.log('getHints result:', hints);
         this.hintOrigin = hints;
       });
   }
@@ -47,7 +46,6 @@ export class AdminCrudHintsComponent extends Unsubscribe implements OnInit {
   addHint(hint: Hint) {
     const isInvalid = this.addHintForm.invalid;
     this.isSubmittedAddHintForm = true;
-    console.log(hint);
 
     const newHint: Hint = {
       content: hint.content,
@@ -65,13 +63,11 @@ export class AdminCrudHintsComponent extends Unsubscribe implements OnInit {
           .addHint(newHint)
           .pipe(takeUntil(this.unsubscribe$))
           .subscribe((hintId) => {
-            // console.log('new Category id:', categoryId);
             let addNewHint: Hint = {
               _id: hintId.toString(),
               content: hint.content,
             };
             this.hintOrigin.push(addNewHint);
-            console.log('Actual hintArray', this.hintOrigin);
           });
         this.addHintForm.reset();
         this.addHintForm.markAsPristine();
@@ -89,9 +85,6 @@ export class AdminCrudHintsComponent extends Unsubscribe implements OnInit {
     this.isSubmittedEditHintForm = true;
 
     if (hintId && selectedHintContent) {
-      console.log('selected hint id:', hintId);
-      console.log('hint content', selectedHintContent);
-
       const updateHint: Hint = {
         _id: hintId,
         content: selectedHintContent,
@@ -107,13 +100,11 @@ export class AdminCrudHintsComponent extends Unsubscribe implements OnInit {
             .updateHint(updateHint)
             .pipe(takeUntil(this.unsubscribe$))
             .subscribe((res) => {
-              console.log('update hint', res);
               this.hintOrigin[hintIndex].content = selectedHintContent;
               this.editHintForm.patchValue({
                 content: selectedHintContent,
               });
               this.isSubmittedEditHintForm = false;
-              console.log('updateHintOrigin', this.hintOrigin);
             });
         }
       }
@@ -135,7 +126,6 @@ export class AdminCrudHintsComponent extends Unsubscribe implements OnInit {
             return hint._id != id;
           });
           this.isSubmittedEditHintForm = false;
-          console.log('hints after delete:', this.hintOrigin);
         });
       this.editHintForm.reset();
       this.editHintForm.markAsPristine();

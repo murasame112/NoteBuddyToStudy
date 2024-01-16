@@ -4,9 +4,6 @@ import { takeUntil } from 'rxjs/operators';
 import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
 import { NotesService } from '../../../../../services/notes.service';
 import { FinalNote } from 'src/app/models/finalNote.model';
-import { Note } from 'src/app/models/note.model';
-import { Category } from 'src/app/models/category.model';
-import { Subcategory } from 'src/app/models/subcategory.model';
 import { User } from 'src/app/models/user.model';
 import { UserRateNote } from 'src/app/models/userRateNote.model';
 import { UsersService } from 'src/app/services/users.service';
@@ -30,12 +27,10 @@ export class AdminFindUserNotesComponent extends Unsubscribe implements OnInit {
   currentSearchedUserNotes: FinalNote[] = [];
   usersOrigin: User[] = [];
 
-  //!
   notesDisplayedForUser: FinalNote[] = [];
   itemsPerPage = 3;
   currentPage = 0;
   maxPage!: number;
-  //!
   @Input() currentUserId: string | undefined = undefined;
   @Input() currentUserRole: string | undefined = undefined;
 
@@ -67,10 +62,6 @@ export class AdminFindUserNotesComponent extends Unsubscribe implements OnInit {
       .getAllData()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((data) => {
-        // console.log(data);
-        // this.notesOrigin = data[0];
-        // this.categoryOrigin = data[1];
-        // this.subcategoryOrigin = data[2];
         this.usersOrigin = data[3];
       });
   }
@@ -80,7 +71,6 @@ export class AdminFindUserNotesComponent extends Unsubscribe implements OnInit {
       .getAllNoteData()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((res) => {
-        // console.log('res', res);
         this.usersNotesOrigin = res;
       });
   }
@@ -92,31 +82,24 @@ export class AdminFindUserNotesComponent extends Unsubscribe implements OnInit {
     if (this.usersNotesOrigin.length != 0 && userName != '') {
       this.usersNotesOrigin.forEach((note) => {
         if (note.login.toLocaleLowerCase() === userName.toLocaleLowerCase()) {
-          // console.log(note);
           this.currentSearchedUserNotes.push(note);
         }
       });
     } else {
     }
 
-    // console.log(this.currentSearchedUserNotes);
     this.currentPage = 0;
     this.maxPage =
       Math.ceil(this.currentSearchedUserNotes.length / this.itemsPerPage) - 1;
     this.updateDisplayedNotes();
   }
 
-  //!
   updateDisplayedNotes() {
     const startIndex = this.currentPage * this.itemsPerPage;
     this.notesDisplayedForUser = this.currentSearchedUserNotes.slice(
       startIndex,
       startIndex + this.itemsPerPage
     );
-    // console.log(
-    //   `current page${this.currentPage} of ${this.maxPage}`,
-    //   this.notesDisplayedForUser
-    // );
   }
 
   nextPage() {
@@ -124,7 +107,6 @@ export class AdminFindUserNotesComponent extends Unsubscribe implements OnInit {
       this.currentPage++;
       this.updateDisplayedNotes();
     }
-    // console.log('click next page');
   }
 
   prevPage() {
@@ -132,7 +114,6 @@ export class AdminFindUserNotesComponent extends Unsubscribe implements OnInit {
       this.currentPage--;
       this.updateDisplayedNotes();
     }
-    // console.log('click prev page');
   }
 
   refreshNoteData() {
@@ -167,14 +148,9 @@ export class AdminFindUserNotesComponent extends Unsubscribe implements OnInit {
         .subscribe(
           (userNotesRates) => {
             this.userNotesReviews = userNotesRates;
-            // console.log(userNotesRates);
           },
-          (error) => {
-            console.log(error);
-          }
+          (error) => {}
         );
     }
   }
-
-  //!
 }

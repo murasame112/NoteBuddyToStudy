@@ -19,13 +19,11 @@
   border: 1px solid #cacaca;
   border-radius: 1rem;
   gap: 2rem;
-  // background-color: blue;
 }
 
 .contentSpan {
   width: 6rem;
   min-height: 8rem;
-  // border: 1px solid blue;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -35,7 +33,6 @@
 .contentP {
   width: 30.5rem;
   min-height: 8rem;
-  // border: 1px solid red;
   margin: 0;
   display: flex;
   justify-content: flex-start;
@@ -51,7 +48,6 @@
   }
 
   .content {
-    //szare
     width: 35rem;
     min-height: 8rem;
     gap: 1rem;

@@ -67,7 +67,6 @@ export class AdminCrudCatSubcatComponent extends Unsubscribe implements OnInit {
       .getCategories()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((categories) => {
-        console.log('categoriesResult', categories);
         this.categoriesOrigin = categories;
       });
   }
@@ -92,13 +91,11 @@ export class AdminCrudCatSubcatComponent extends Unsubscribe implements OnInit {
           .addCategory(newCategory)
           .pipe(takeUntil(this.unsubscribe$))
           .subscribe((categoryId) => {
-            // console.log('new Category id:', categoryId);
             let addNewCategory: Category = {
               _id: categoryId.toString(),
               name: categoryName.name,
             };
             this.categoriesOrigin.push(addNewCategory);
-            console.log('Actual categoryArray', this.categoriesOrigin);
           });
         this.addCategoryForm.reset();
         this.addCategoryForm.markAsPristine();
@@ -116,9 +113,6 @@ export class AdminCrudCatSubcatComponent extends Unsubscribe implements OnInit {
     this.isSubmittedEditCategoryForm = true;
 
     if (categoryId && selectedCategorName) {
-      console.log('selected category', categoryId);
-      console.log('input value', selectedCategorName);
-
       const updateCategory: Category = {
         _id: categoryId,
         name: selectedCategorName,
@@ -134,13 +128,11 @@ export class AdminCrudCatSubcatComponent extends Unsubscribe implements OnInit {
             .updateCategory(updateCategory)
             .pipe(takeUntil(this.unsubscribe$))
             .subscribe((res) => {
-              console.log('update', res);
               this.categoriesOrigin[categoryIndex].name = selectedCategorName;
               this.editCategoryForm.patchValue({
                 categoryName: selectedCategorName,
               });
               this.isSubmittedEditCategoryForm = false;
-              console.log('updateCategoryOrigin', this.categoriesOrigin);
             });
         }
       }
@@ -162,7 +154,6 @@ export class AdminCrudCatSubcatComponent extends Unsubscribe implements OnInit {
             return category._id != id;
           });
           this.isSubmittedEditCategoryForm = false;
-          console.log('categories after delete:', this.categoriesOrigin);
         });
       this.editCategoryForm.reset();
       this.editCategoryForm.markAsPristine();
@@ -194,7 +185,6 @@ export class AdminCrudCatSubcatComponent extends Unsubscribe implements OnInit {
       .getSubcategories()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((subcategories) => {
-        console.log('subcategoriesResult', subcategories);
         this.subcategoriesOrigin = subcategories;
       });
   }
@@ -222,14 +212,12 @@ export class AdminCrudCatSubcatComponent extends Unsubscribe implements OnInit {
           .addSubcategory(newSubcategory)
           .pipe(takeUntil(this.unsubscribe$))
           .subscribe((subcategoryId) => {
-            // console.log('new subcategory id:', subcategoryId);
             let addNewSubcategory: Subcategory = {
               _id: subcategoryId.toString(),
               category_id: subcategory.category_id,
               name: subcategory.name,
             };
             this.subcategoriesOrigin.push(addNewSubcategory);
-            console.log('Actual subcategoryArray', this.subcategoriesOrigin);
           });
         this.addSubcategoryForm.reset();
         this.addSubcategoryForm.markAsPristine();
@@ -242,19 +230,12 @@ export class AdminCrudCatSubcatComponent extends Unsubscribe implements OnInit {
   }
 
   updateSubcategory() {
-    //id category
     let categoryId = this.editSubcategoryForm.get('category_id')?.value;
-    //id subcategory
     let subcategoryId = this.editSubcategoryForm.get('_id')?.value;
-    //input value subcategory name
     let subcategoryInputName = this.editSubcategoryForm.get('name')?.value;
     this.isSubmittedEditSubcategoryForm = true;
 
     if (categoryId && subcategoryId && subcategoryInputName) {
-      console.log('selected category id:', categoryId);
-      console.log('selected subcategory id:', subcategoryId);
-      console.log('input value:', subcategoryInputName);
-
       const updateSubcategory: Subcategory = {
         _id: subcategoryId,
         category_id: categoryId,
@@ -277,7 +258,6 @@ export class AdminCrudCatSubcatComponent extends Unsubscribe implements OnInit {
             .updateSubcategory(updateSubcategory)
             .pipe(takeUntil(this.unsubscribe$))
             .subscribe((res) => {
-              console.log('update subcat', res);
               this.subcategoriesOrigin[subcategoryIndex].name =
                 subcategoryInputName;
 
@@ -285,8 +265,6 @@ export class AdminCrudCatSubcatComponent extends Unsubscribe implements OnInit {
                 name: subcategoryInputName,
               });
               this.isSubmittedEditSubcategoryForm = false;
-
-              console.log('updateSubcategoryOrigin', this.subcategoriesOrigin);
             });
         }
       }
@@ -309,8 +287,6 @@ export class AdminCrudCatSubcatComponent extends Unsubscribe implements OnInit {
               return subcategory._id != id;
             }
           );
-
-          console.log('subcategories delete:', this.subcategoriesOrigin);
         });
       this.editSubcategoryForm.reset();
       this.editSubcategoryForm.markAsPristine();
@@ -349,8 +325,6 @@ export class AdminCrudCatSubcatComponent extends Unsubscribe implements OnInit {
     const selectedSubcategory = this.subcategoriesOrigin.find((subcat) => {
       return subcat._id === selectedSubcategoryId;
     });
-
-    console.log(selectedSubcategory);
 
     if (selectedSubcategory) {
       this.editSubcategoryForm.patchValue({

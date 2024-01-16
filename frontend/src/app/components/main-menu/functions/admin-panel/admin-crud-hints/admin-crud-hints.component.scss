@@ -7,7 +7,6 @@
   padding-top: 1rem;
   font-family: "poppins", sans-serif;
   font-weight: 400;
-  // border: 2px solid red;
   gap: 1rem;
   padding-bottom: 1rem;
 }
@@ -18,13 +17,11 @@ h5 {
 }
 
 .adminPanelText {
-  // border: 1px solid red;
   width: 40rem;
 }
 
 .studyTipsContainer {
   width: 40rem;
-  // border: 1px solid blue;
   background-color: #dddddd;
   border-radius: 0.5rem;
 }
@@ -42,7 +39,6 @@ h5 {
   display: flex;
   justify-content: center;
   align-items: center;
-  // border: 1px solid red;
   width: 11rem;
   height: 3rem;
 }
@@ -91,7 +87,6 @@ h5 {
   justify-content: center;
   align-items: center;
 
-  // border: 1px solid red;
   width: 6rem;
   height: 6rem;
   gap: 1rem;
@@ -102,7 +97,6 @@ h5 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  // border: 1px solid red;
   gap: 1rem;
   height: 12rem;
 }
@@ -218,7 +212,6 @@ select.invalid {
 
   .studyTipsForm {
     width: 18rem;
-    // height: 20rem;
   }
 
   #editTipsSelect {
