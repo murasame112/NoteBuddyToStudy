@@ -37,11 +37,9 @@ import { SettingsPageComponent } from './components/main-menu/functions/settings
 import { FavoriteNotesComponent } from './components/main-menu/functions/favorite-notes/favorite-notes.component';
 import { MyNotesComponent } from './components/main-menu/functions/my-notes/my-notes.component';
 import { EditNoteComponent } from './components/main-menu/functions/edit-note/edit-note.component';
-import { ChatApiTestComponent } from './components/main-menu/functions/chat-api-test/chat-api-test.component';
 import { GroupsComponent } from './components/main-menu/functions/chat/groups/groups.component';
 import { ChatComponent } from './components/main-menu/functions/chat/chat/chat.component';
 import { GroupModelComponent } from './components/main-menu/functions/chat/groups/group-model/group-model.component';
-import { ChatTestService } from './services/chatTest.service';
 import { MessageModelComponent } from './components/main-menu/functions/chat/chat/message-model/message-model.component';
 
 @NgModule({
@@ -75,7 +73,6 @@ import { MessageModelComponent } from './components/main-menu/functions/chat/cha
     FavoriteNotesComponent,
     MyNotesComponent,
     EditNoteComponent,
-    ChatApiTestComponent,
     GroupsComponent,
     ChatComponent,
     GroupModelComponent,
@@ -96,7 +93,6 @@ import { MessageModelComponent } from './components/main-menu/functions/chat/cha
       useClass: AuthInterceptor,
       multi: true,
     },
-    ChatTestService,
   ],
   bootstrap: [AppComponent],
 })

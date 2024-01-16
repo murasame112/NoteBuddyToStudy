@@ -20,7 +20,6 @@ import { showreglogGuard } from './guards/showreglog.guard';
 import { FavoriteNotesComponent } from './components/main-menu/functions/favorite-notes/favorite-notes.component';
 import { MyNotesComponent } from './components/main-menu/functions/my-notes/my-notes.component';
 import { EditNoteComponent } from './components/main-menu/functions/edit-note/edit-note.component';
-import { ChatApiTestComponent } from './components/main-menu/functions/chat-api-test/chat-api-test.component';
 import { GroupsComponent } from './components/main-menu/functions/chat/groups/groups.component';
 import { ChatComponent } from './components/main-menu/functions/chat/chat/chat.component';
 import { chatGuard } from './guards/chat.guard';
@@ -110,11 +109,6 @@ const routes: Routes = [
     canActivate: [isAuthenticatedGuard],
   },
 
-  {
-    path: 'chattest',
-    component: ChatApiTestComponent,
-    canActivate: [isAuthenticatedGuard],
-  },
   {
     path: 'chat/:id',
     component: ChatComponent,
