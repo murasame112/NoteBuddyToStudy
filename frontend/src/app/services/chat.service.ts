@@ -1,14 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, filter, forkJoin, take } from 'rxjs';
 import { io } from 'socket.io-client';
 import { Message } from '../models/message.model';
+import { UsersService } from './users.service';
+import { AuthService } from './auth.service';
+import { toObservable } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatService {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private usersService: UsersService,
+    private authService: AuthService
+  ) {}
 
   private socket: any;
   private users: any;
@@ -19,9 +26,9 @@ export class ChatService {
 
     let localStorageToken: string | null = localStorage.getItem('Token');
 
-    this.socket.onAny((event: any, ...args: any) => {
-      console.log(event, args);
-    });
+    // this.socket.onAny((event: any, ...args: any) => {
+    //   console.log(event, args);
+    // });
 
     this.socket.auth = {
       group_id: groupId,
@@ -53,5 +60,15 @@ export class ChatService {
   addMessageToGroup(group_id: string, message: Message): Observable<Message> {
     const url = `${this.apiUrl}/addmessagetogroup/${group_id}`;
     return this.http.patch<Message>(url, message);
+  }
+
+  checkIfUserIsInGroup(groupId: string): Observable<any> {
+    let groups = this.usersService.getUsersFromGroupId(groupId);
+    let loggedUser = toObservable(this.authService.currentUserSignal).pipe(
+      filter((user) => user !== undefined),
+      take(1)
+    );
+
+    return forkJoin([groups, loggedUser]);
   }
 }

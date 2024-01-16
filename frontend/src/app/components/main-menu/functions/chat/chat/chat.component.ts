@@ -53,7 +53,7 @@ export class ChatComponent extends Unsubscribe implements OnInit {
     );
 
     this.currentUser = this.authService.currentUserSignal();
-    console.log(this.groupId);
+    // console.log(this.groupId);
 
     this.getUsersData();
 
@@ -69,7 +69,7 @@ export class ChatComponent extends Unsubscribe implements OnInit {
       .subscribe(
         (mes: Message[]) => {
           this.messages = mes;
-          console.log(this.messages);
+          // console.log(this.messages);
         },
         (error: any) => {}
       );
@@ -107,7 +107,7 @@ export class ChatComponent extends Unsubscribe implements OnInit {
         .pipe(take(1))
         .subscribe(
           (res) => {
-            console.log(res);
+            // console.log(res);
           },
           (error) => {}
         );
@@ -127,7 +127,7 @@ export class ChatComponent extends Unsubscribe implements OnInit {
       .subscribe(
         (res) => {
           this.usersData = res;
-          console.log(this.usersData);
+          // console.log(this.usersData);
           this.showChat = true;
           this.isLoading = false;
 

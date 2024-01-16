@@ -5,53 +5,33 @@ import { AuthService } from '../services/auth.service';
 import { UsersService } from '../services/users.service';
 import { GroupData } from '../models/groupData.model';
 import { Observable, filter, forkJoin, map, of, take, tap } from 'rxjs';
+import { ChatService } from '../services/chat.service';
 
 export const chatGuard: CanActivateFn = (route, state) => {
-  const authService = inject(AuthService);
-  const usersService = inject(UsersService);
+  const chatService = inject(ChatService);
   const router = inject(Router);
 
   const group_id = route.params['id'];
-  // const userLogin = authService.currentUserSignal();
-  let data: any[] | undefined = undefined;
-  let data2: any | undefined = undefined;
 
-  let usersInGroup = usersService.getUsersFromGroupId(group_id).pipe(
-    take(1),
-    map((users) => {
-      console.log(authService.currentUserSignal);
-      console.log('123', users);
-      data = users;
-      // return true;
-    })
-  );
+  return chatService.checkIfUserIsInGroup(group_id).pipe(
+    map((res) => {
+      let usersInGroup: any[] = res[0];
+      let currentUser: any = res[1];
 
-  let loggedUser = toObservable(authService.currentUserSignal).pipe(
-    filter((user) => user !== undefined),
-    map((user) => {
-      if (!user) {
-        console.log('guard false: ', user);
-        router.navigateByUrl('/login');
-        data2 = user;
+      if (typeof currentUser !== undefined || typeof currentUser !== null) {
+        let isUserInGroup = usersInGroup.some(
+          (user) => user.login === currentUser.login
+        );
+
+        if (isUserInGroup) {
+          return isUserInGroup;
+        } else {
+          router.navigateByUrl('/notes');
+          return isUserInGroup;
+        }
       } else {
-        console.log('guard true: ', user);
-        data2 = user;
+        return false;
       }
     })
   );
-
-  // let sourceOne = of(usersInGroup);
-  // let sourceTwo = of(loggedUser);
-  // let sourceOne = of(data);
-  // let sourceTwo = of(data2);
-  let sourceOne = of(usersInGroup);
-  let sourceTwo = of(loggedUser);
-
-  return forkJoin([sourceOne, sourceTwo]).pipe(
-    map((source) => {
-      return true;
-    })
-  );
-
-  // return true;
 };
