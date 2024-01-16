@@ -12,11 +12,9 @@ export const showreglogGuard: CanActivateFn = (route, state) => {
     filter((user) => user !== undefined),
     map((user) => {
       if (!user) {
-        console.log(user);
         return true;
       } else {
         router.navigateByUrl('/notes');
-        console.log(user);
 
         return false;
       }

@@ -10,13 +10,6 @@ export const roleGuard: CanActivateFn = (route, state) => {
 
   const isUserLogin = authService.currentUserSignal();
 
-  // if (isUserLogin?.role === 'admin') {
-  //   return true;
-  // } else {
-  //   router.navigateByUrl('error');
-  //   return false;
-  // }
-
   return toObservable(authService.currentUserSignal).pipe(
     filter((user) => user !== undefined),
     map((user) => {

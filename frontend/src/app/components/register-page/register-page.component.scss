@@ -89,10 +89,8 @@ main {
   width: 25rem;
   height: 3rem;
   border-radius: 1.2rem;
-  // background-color: #cbc5c5;
   background-color: rgba(203, 197, 197, 0.7);
   border: 0.0625rem solid #e3e3e3;
-  // color: #878585;
   font-family: "poppins", sans-serif;
   font-size: 1rem;
   font-weight: 400;
@@ -120,7 +118,6 @@ input.ng-invalid.ng-touched {
   align-items: center;
   gap: 1rem;
   width: 26rem;
-  // border: 2px solid red;
 }
 
 .registerFormItem {
@@ -233,7 +230,6 @@ input.ng-invalid.ng-touched {
   justify-content: flex-start;
   align-items: center;
   border-radius: 1.2rem;
-  // align-self: start;
 }
 
 .LoginWithPlatformBtn:hover {
@@ -475,12 +471,10 @@ input.ng-invalid.ng-touched {
     grid-row: 1;
     width: 9rem;
     height: 5rem;
-    // font-size: 1.5rem;
     color: white;
 
     align-self: start;
     justify-self: start;
-    // margin: 1rem;
   }
 
   .form-inputs {

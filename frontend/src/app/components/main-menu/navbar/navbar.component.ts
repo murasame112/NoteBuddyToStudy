@@ -17,7 +17,6 @@ export class NavbarComponent extends Unsubscribe implements OnInit {
   }
   ngOnInit(): void {
     this.Observers();
-    // this.isUserLogin();
   }
 
   Observers() {
@@ -30,9 +29,7 @@ export class NavbarComponent extends Unsubscribe implements OnInit {
         hamburger_nav_btns.forEach((e: any) => {
           e.style.display = 'none';
         });
-        // console.log('window > 650 ');
       } else {
-        // console.log('window < 650');
         hamburger_nav_btns.forEach((e: any) => {
           e.style.display = 'block';
         });
@@ -94,7 +91,6 @@ export class NavbarComponent extends Unsubscribe implements OnInit {
   }
 
   logout() {
-    console.log('wylogowano');
     this.authService.logout();
   }
 }

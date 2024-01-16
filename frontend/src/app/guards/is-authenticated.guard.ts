@@ -12,11 +12,9 @@ export const isAuthenticatedGuard: CanActivateFn = (route, state) => {
     filter((user) => user !== undefined),
     map((user) => {
       if (!user) {
-        // console.log('guard false: ', user);
         router.navigateByUrl('/login');
         return false;
       } else {
-        // console.log('guard true: ', user);
         return true;
       }
     })

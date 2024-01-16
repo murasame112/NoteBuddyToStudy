@@ -8,7 +8,7 @@ import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
 import { Login } from 'src/app/models/login.model';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
-declare let google: any;
+declare var google: any;
 
 @Component({
   selector: 'app-login-page',

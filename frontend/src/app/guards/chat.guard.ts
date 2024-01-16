@@ -1,10 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { toObservable } from '@angular/core/rxjs-interop';
-import { AuthService } from '../services/auth.service';
-import { UsersService } from '../services/users.service';
-import { GroupData } from '../models/groupData.model';
-import { Observable, filter, forkJoin, map, of, take, tap } from 'rxjs';
+import { map } from 'rxjs';
 import { ChatService } from '../services/chat.service';
 
 export const chatGuard: CanActivateFn = (route, state) => {
