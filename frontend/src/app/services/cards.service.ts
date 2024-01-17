@@ -31,7 +31,8 @@ export class CardsService {
 
   updateCategory(card: Card, card_id: string): Observable<Card> {
     const url = `${this.apiUrl}/card/${card_id}`;
-    return this.http.put<Card>(url, card);
+    // return this.http.put<Card>(url, card);
+    return this.http.patch<Card>(url, card);
   }
 
   //Usuwanie fiszek użytkownika w bazie

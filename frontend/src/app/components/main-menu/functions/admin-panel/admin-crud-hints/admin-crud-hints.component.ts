@@ -42,13 +42,11 @@ export class AdminCrudHintsComponent extends Unsubscribe implements OnInit {
       .subscribe((hints) => {
         this.hintOrigin = hints;
 
-        //!
         this.hintOrigin.forEach((hint) => {
           if (hint._id) {
             this.getCroppedHint(hint._id, hint.content);
           }
         });
-        //!</>
       });
   }
 
@@ -93,11 +91,9 @@ export class AdminCrudHintsComponent extends Unsubscribe implements OnInit {
               content: hint.content,
             };
             this.hintOrigin.push(addNewHint);
-            //!
             if (addNewHint._id) {
               this.getCroppedHint(addNewHint._id, addNewHint.content);
             }
-            //!
           });
         this.addHintForm.reset();
         this.addHintForm.markAsPristine();
@@ -131,9 +127,8 @@ export class AdminCrudHintsComponent extends Unsubscribe implements OnInit {
             .pipe(takeUntil(this.unsubscribe$))
             .subscribe((res) => {
               this.hintOrigin[hintIndex].content = selectedHintContent;
-              //!
               this.updateCroppedHint(hintIndex, selectedHintContent);
-              //!
+
               this.editHintForm.patchValue({
                 content: selectedHintContent,
               });
@@ -158,11 +153,11 @@ export class AdminCrudHintsComponent extends Unsubscribe implements OnInit {
           this.hintOrigin = this.hintOrigin.filter((hint) => {
             return hint._id != id;
           });
-          //!
+
           this.hintCropped = this.hintCropped.filter((hCropped) => {
             return hCropped._id != id;
           });
-          //!
+
           this.isSubmittedEditHintForm = false;
         });
       this.editHintForm.reset();
