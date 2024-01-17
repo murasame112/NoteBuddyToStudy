@@ -24,7 +24,7 @@
       </ng-container>
     </div>
 
-    <div class="chatInputContainer">
+    <div class="chatInputContainer" *ngIf="showChat">
       <input
         #chatInput
         name="chatMessage"

@@ -44,8 +44,10 @@
             (isSubmittedEditHintForm && editHintForm.get('_id')?.untouched)
           "
         >
-          <ng-container *ngFor="let hint of hintOrigin">
-            <option [value]="hint._id">{{ hint.content }}</option>
+          <ng-container *ngFor="let hint of hintCropped">
+            <option [value]="hint._id">
+              {{ hint.content }}
+            </option>
           </ng-container>
 
           <option value="" selected disabled hidden>wybierz poradę</option>

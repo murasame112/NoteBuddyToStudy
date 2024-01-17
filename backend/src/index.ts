@@ -343,19 +343,6 @@ app.patch("/logs", logEndpoints.updateMultipleLogs);
 app.put("/log/:id", logEndpoints.replaceLog);
 
 // ============== KONIEC ENDPOINTÓW ==============
-const { join } = require("node:path");
-const chatfile = fs.readFileSync(
-  path.resolve(
-    __dirname,
-    "../../frontend/src/app/components/main-menu/functions/chat-api-test/chat-api-test.component.html"
-  ),
-  "utf8"
-);
-
-//
-app.get("/", (req, res) => {
-  res.sendFile(chatfile);
-});
 
 const server = createServer(app);
 const io = new Server(server, {
@@ -390,15 +377,14 @@ io.on("connection", async (socket) => {
 
     login = login.login;
 
-      socket.on("message", (message) => {
-        io.to(group_id).emit("message", message);
-      });
+    socket.on("message", (message) => {
+      io.to(group_id).emit("message", message);
+    });
 
-      socket.on("disconnect", () => {
-        socketsConnected.delete(socket.id);
-        io.emit("clients-total", socketsConnected.size);
-      });
-    
+    socket.on("disconnect", () => {
+      socketsConnected.delete(socket.id);
+      io.emit("clients-total", socketsConnected.size);
+    });
   });
   //const getUser = await chatService.computeUserIdFromHeaders(socket.handshake.auth.token);	//const user: User
   //getUser.then((value: any) => {
