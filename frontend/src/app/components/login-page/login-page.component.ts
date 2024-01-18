@@ -87,6 +87,7 @@ export class LoginPageComponent extends Unsubscribe implements OnInit {
             this.isUserLogin();
           } else {
             this.authService.currentUserSignal.set(null);
+            this.isLoading = false;
 
             this.loginForm
               .get('password')

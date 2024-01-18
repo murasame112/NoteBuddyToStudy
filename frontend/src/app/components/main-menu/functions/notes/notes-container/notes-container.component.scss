@@ -55,6 +55,7 @@
 #cardIcon {
   width: 1.2rem;
   height: 1.2rem;
+  outline: none;
 }
 
 #cardIcon:hover path {
@@ -71,14 +72,6 @@
 
 .starColor:hover {
   color: #3b0d72;
-}
-
-#svg-icon {
-  fill: blue;
-}
-
-#svg-icon:hover {
-  fill: red;
 }
 
 .spans {

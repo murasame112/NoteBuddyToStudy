@@ -34,10 +34,17 @@ export class SettingsPageComponent extends Unsubscribe implements OnInit {
 
     this.editUserForm = new FormGroup({
       img: new FormControl(''),
-      email: new FormControl('', Validators.required),
+      email: new FormControl('', [
+        Validators.required,
+        Validators.email,
+        CustomValidators.spaceValidator(),
+        CustomValidators.lowercaseValidator(),
+      ]),
       password: new FormControl('', [
         Validators.required,
+        Validators.maxLength(15),
         CustomValidators.passwordValidation(),
+        CustomValidators.spaceValidator(),
       ]),
     });
 
