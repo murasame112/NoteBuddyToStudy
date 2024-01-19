@@ -276,25 +276,36 @@ export class NotesComponent extends Unsubscribe implements OnInit {
         return dataA - dataB;
       });
     } else if (value === 'bestRate') {
-      this.filteredFinalNotes.sort((a, b) => {
-        const rateA =
-          (a.positive_reviews * 100) /
-          (a.positive_reviews + a.negative_reviews);
-        const rateB =
-          (b.positive_reviews * 100) /
-          (b.positive_reviews + b.negative_reviews);
+      // this.filteredFinalNotes.sort((a, b) => {
+      //   const rateA =
+      //     (a.positive_reviews * 100) /
+      //     (a.positive_reviews + a.negative_reviews);
+      //   const rateB =
+      //     (b.positive_reviews * 100) /
+      //     (b.positive_reviews + b.negative_reviews);
 
-        return rateB - rateA;
+      //   return rateB - rateA;
+      this.filteredFinalNotes = this.filteredFinalNotes.sort((a, b) => {
+        const likesA = a.positive_reviews - a.negative_reviews;
+        const likesB = b.positive_reviews - b.negative_reviews;
+
+        return likesB - likesA;
       });
     } else if (value === 'worstRate') {
-      this.filteredFinalNotes.sort((a, b) => {
-        const rateA =
-          (a.positive_reviews * 100) /
-          (a.positive_reviews + a.negative_reviews);
-        const rateB =
-          (b.positive_reviews * 100) /
-          (b.positive_reviews + b.negative_reviews);
-        return rateA - rateB;
+      // this.filteredFinalNotes.sort((a, b) => {
+      //   const rateA =
+      //     (a.positive_reviews * 100) /
+      //     (a.positive_reviews + a.negative_reviews);
+      //   const rateB =
+      //     (b.positive_reviews * 100) /
+      //     (b.positive_reviews + b.negative_reviews);
+      //   return rateA - rateB;
+
+      this.filteredFinalNotes = this.filteredFinalNotes.sort((a, b) => {
+        const dislikesA = a.negative_reviews - a.positive_reviews;
+        const dislikesB = b.negative_reviews - b.positive_reviews;
+
+        return dislikesB - dislikesA;
       });
     } else {
       return;
