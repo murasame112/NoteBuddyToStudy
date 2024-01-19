@@ -5,6 +5,7 @@ import { SubcategoriesService } from 'src/app/services/subcategories.service';
 import { Group } from 'src/app/models/group.model';
 import { takeUntil } from 'rxjs';
 import { GroupData } from 'src/app/models/groupData.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-group-model',
@@ -14,6 +15,7 @@ import { GroupData } from 'src/app/models/groupData.model';
 export class GroupModelComponent extends Unsubscribe implements OnInit {
   @Input() groupData: Group | null = null;
   @Output() leaveGroup: EventEmitter<string> = new EventEmitter<string>();
+  @Output() waitForChat: EventEmitter<boolean> = new EventEmitter<boolean>();
   subcategoryName: string = '';
   username: string = '';
   username2: string = '';
@@ -29,7 +31,8 @@ export class GroupModelComponent extends Unsubscribe implements OnInit {
   isLoading: boolean = true;
   constructor(
     private usersService: UsersService,
-    private subcategoriesService: SubcategoriesService
+    private subcategoriesService: SubcategoriesService,
+    private router: Router
   ) {
     super();
   }
@@ -102,6 +105,13 @@ export class GroupModelComponent extends Unsubscribe implements OnInit {
     } else if (index === 4) {
       this.username5 = usernameValue;
       this.userAvatar5 = avatarValue;
+    }
+  }
+
+  navigateToChat() {
+    if (this.groupData?._id) {
+      this.waitForChat.emit(true);
+      this.router.navigate(['/chat', this.groupData._id]);
     }
   }
 

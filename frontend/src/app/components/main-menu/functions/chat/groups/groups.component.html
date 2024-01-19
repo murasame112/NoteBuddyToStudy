@@ -7,7 +7,7 @@
     <i
       class="fa-solid fa-spinner fa-spin-pulse fa-2xl"
       style="color: #ffbb00"
-      *ngIf="isLoading"
+      *ngIf="isLoading || isLoadingChat"
       id="spinner"
     ></i>
 
@@ -20,6 +20,7 @@
             <app-group-model
               [groupData]="group"
               (leaveGroup)="leaveGroup($event)"
+              (waitForChat)="waitToLoadChat($event)"
             ></app-group-model>
           </ng-container>
         </ng-container>

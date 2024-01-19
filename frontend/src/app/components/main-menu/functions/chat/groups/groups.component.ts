@@ -21,6 +21,7 @@ export class GroupsComponent extends Unsubscribe implements OnInit {
   isLoading: Boolean = true;
   userId: string | undefined = this.authService.currentUserSignal()?._id;
   groups: Group[] = [];
+  isLoadingChat: Boolean = false;
 
   ngOnInit(): void {
     this.getUserGroups();
@@ -61,5 +62,9 @@ export class GroupsComponent extends Unsubscribe implements OnInit {
       );
 
     this.groups = this.groups.filter((group) => group._id !== groupId);
+  }
+
+  waitToLoadChat(wait: boolean) {
+    this.isLoadingChat = true;
   }
 }

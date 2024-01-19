@@ -64,9 +64,8 @@
     </ng-container>
 
     <div id="chatBtns">
-      <button id="goToChat" routerLink="/chat/{{ groupData?._id }}">
-        napisz wiadomość
-      </button>
+      <!-- <button id="goToChat" routerLink="/chat/{{ groupData?._id }}"> -->
+      <button id="goToChat" (click)="navigateToChat()">napisz wiadomość</button>
       <button id="leaveChat" (click)="removeGroup()">opuść</button>
     </div>
   </div>
