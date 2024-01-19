@@ -18,6 +18,7 @@ export class AdminCrudHintsComponent extends Unsubscribe implements OnInit {
 
   hintOrigin: Hint[] = [];
   hintCropped: Hint[] = [];
+  isDataLoaded: boolean = false;
 
   constructor(private hintService: HintsService) {
     super();
@@ -33,6 +34,8 @@ export class AdminCrudHintsComponent extends Unsubscribe implements OnInit {
       _id: new FormControl('', Validators.required),
       content: new FormControl('', Validators.required),
     });
+
+    this.isDataLoaded ? this.enableForms() : this.disableForms();
   }
 
   getHints() {
@@ -41,6 +44,7 @@ export class AdminCrudHintsComponent extends Unsubscribe implements OnInit {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((hints) => {
         this.hintOrigin = hints;
+        this.enableForms();
 
         this.hintOrigin.forEach((hint) => {
           if (hint._id) {
@@ -183,5 +187,15 @@ export class AdminCrudHintsComponent extends Unsubscribe implements OnInit {
         content: selectedHint.content,
       });
     }
+  }
+
+  enableForms(): void {
+    this.addHintForm.enable();
+    this.editHintForm.enable();
+  }
+
+  disableForms(): void {
+    this.addHintForm.disable();
+    this.editHintForm.disable();
   }
 }

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
-
 import { Unsubscribe } from 'src/app/helpers/unsubscribe.class';
 import { Category } from 'src/app/models/category.model';
 import { Subcategory } from 'src/app/models/subcategory.model';
@@ -28,6 +27,9 @@ export class AdminCrudCatSubcatComponent extends Unsubscribe implements OnInit {
   categoriesOrigin: Category[] = [];
   subcategoriesOrigin: Subcategory[] = [];
   filteredSubcategories: Subcategory[] = [];
+
+  loadingCounter: number = 0;
+  isDataLoaded: boolean = false;
 
   constructor(
     private categoriesService: CategoriesService,
@@ -58,6 +60,8 @@ export class AdminCrudCatSubcatComponent extends Unsubscribe implements OnInit {
       _id: new FormControl({ value: '', disabled: true }, Validators.required),
       name: new FormControl('', Validators.required),
     });
+
+    this.isDataLoaded ? this.enableForms() : this.disableForms();
   }
 
   //Categories
@@ -68,6 +72,9 @@ export class AdminCrudCatSubcatComponent extends Unsubscribe implements OnInit {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((categories) => {
         this.categoriesOrigin = categories;
+
+        this.loadingCounter++;
+        this.checkIfAllDataLoaded();
       });
   }
 
@@ -186,6 +193,9 @@ export class AdminCrudCatSubcatComponent extends Unsubscribe implements OnInit {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((subcategories) => {
         this.subcategoriesOrigin = subcategories;
+
+        this.loadingCounter++;
+        this.checkIfAllDataLoaded();
       });
   }
 
@@ -331,5 +341,26 @@ export class AdminCrudCatSubcatComponent extends Unsubscribe implements OnInit {
         name: selectedSubcategory.name,
       });
     }
+  }
+
+  checkIfAllDataLoaded() {
+    if (this.loadingCounter === 2) {
+      this.isDataLoaded = true;
+      this.enableForms();
+    }
+  }
+
+  enableForms(): void {
+    this.addCategoryForm.enable();
+    this.editCategoryForm.enable();
+    this.addSubcategoryForm.enable();
+    this.editSubcategoryForm.enable();
+  }
+
+  disableForms(): void {
+    this.addCategoryForm.disable();
+    this.editCategoryForm.disable();
+    this.addSubcategoryForm.disable();
+    this.editSubcategoryForm.disable();
   }
 }

@@ -36,6 +36,8 @@ export class AdminFindUserNotesComponent extends Unsubscribe implements OnInit {
 
   userSavedNotesIds: Array<string> = [];
   userNotesReviews: Array<UserRateNote> = [];
+  loadingCounter: number = 0;
+  isDataLoaded: boolean = false;
 
   ngOnInit(): void {
     this.getUserFavNotesIds();
@@ -45,7 +47,7 @@ export class AdminFindUserNotesComponent extends Unsubscribe implements OnInit {
     this.getData();
 
     this.findUserNotesForm = new FormGroup({
-      userName: new FormControl(''),
+      userName: new FormControl({ value: '', disabled: !this.isDataLoaded }),
     });
 
     //!
@@ -63,6 +65,8 @@ export class AdminFindUserNotesComponent extends Unsubscribe implements OnInit {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((data) => {
         this.usersOrigin = data[3];
+        this.loadingCounter++;
+        this.checkIfAllDataLoaded();
       });
   }
 
@@ -72,6 +76,8 @@ export class AdminFindUserNotesComponent extends Unsubscribe implements OnInit {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((res) => {
         this.usersNotesOrigin = res;
+        this.loadingCounter++;
+        this.checkIfAllDataLoaded();
       });
   }
 
@@ -134,6 +140,8 @@ export class AdminFindUserNotesComponent extends Unsubscribe implements OnInit {
         .subscribe(
           (user) => {
             this.userSavedNotesIds = user.saved_notes;
+            this.loadingCounter++;
+            this.checkIfAllDataLoaded();
           },
           (error) => {}
         );
@@ -148,9 +156,18 @@ export class AdminFindUserNotesComponent extends Unsubscribe implements OnInit {
         .subscribe(
           (userNotesRates) => {
             this.userNotesReviews = userNotesRates;
+            this.loadingCounter++;
+            this.checkIfAllDataLoaded();
           },
           (error) => {}
         );
+    }
+  }
+
+  checkIfAllDataLoaded() {
+    if (this.loadingCounter === 4) {
+      this.isDataLoaded = true;
+      this.findUserNotesForm.get('userName')?.enable();
     }
   }
 }
