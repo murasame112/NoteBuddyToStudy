@@ -16,14 +16,14 @@
   <div id="notesSection" *ngIf="currentSearchedUserNotes.length != 0">
     <div id="userNotes">
       <ng-container *ngFor="let note of notesDisplayedForUser">
-        <app-notes-container
+        <app-notes-model
           [finalNote]="note"
           [userId]="currentUserId"
           [userRole]="currentUserRole"
           [userFavNotes]="userSavedNotesIds"
           [userNotesRates]="userNotesReviews"
           (deleteNoteEvent)="refreshNoteData()"
-        ></app-notes-container>
+        ></app-notes-model>
       </ng-container>
     </div>
     <div id="paginationButtons">

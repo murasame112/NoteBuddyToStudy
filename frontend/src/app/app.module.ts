@@ -21,7 +21,7 @@ import { NoteAddComponent } from './components/main-menu/functions/note-add/note
 import { CardAddComponent } from './components/main-menu/functions/cards/card-add/card-add.component';
 import { SearchForBuddyComponent } from './components/main-menu/functions/search-for-buddy/search-for-buddy.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NotesContainerComponent } from './components/main-menu/functions/notes/notes-container/notes-container.component';
+import { NotesModelComponent } from './components/main-menu/functions/notes/notes-model/notes-model.component';
 import { ShowNoteComponent } from './components/main-menu/functions/notes/show-note/show-note.component';
 import { AdminPanelMainComponent } from './components/main-menu/functions/admin-panel/admin-panel-main/admin-panel-main.component';
 import { AdminFindUserNotesComponent } from './components/main-menu/functions/admin-panel/admin-find-user-notes/admin-find-user-notes.component';
@@ -58,7 +58,7 @@ import { MessageModelComponent } from './components/main-menu/functions/chat/cha
     NoteAddComponent,
     CardAddComponent,
     SearchForBuddyComponent,
-    NotesContainerComponent,
+    NotesModelComponent,
     ShowNoteComponent,
     AdminPanelMainComponent,
     AdminFindUserNotesComponent,

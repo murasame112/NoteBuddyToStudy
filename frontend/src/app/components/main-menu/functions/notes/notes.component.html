@@ -107,14 +107,14 @@
 
     <div id="noteContent">
       <ng-container *ngFor="let finalN of finalNotesArray">
-        <app-notes-container
+        <app-notes-model
           [finalNote]="finalN"
           [userRole]="currentUserRole"
           [userId]="currentUserId"
           [userFavNotes]="userSavedNotes"
           [userNotesRates]="userNotesReviews"
           (deleteNoteEvent)="refreshNoteData()"
-        ></app-notes-container>
+        ></app-notes-model>
       </ng-container>
     </div>
   </main>

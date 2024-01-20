@@ -17,12 +17,12 @@
       <div id="myNotesContainer" *ngIf="!isLoading">
         <ng-container *ngIf="myNotes.length != 0">
           <div class="myNote" *ngFor="let myNote of myNotes">
-            <app-notes-container
+            <app-notes-model
               [finalNote]="myNote"
               [userFavNotes]="userSavedNotesIds"
               [userNotesRates]="userNotesReviews"
               [userId]="userId"
-            ></app-notes-container>
+            ></app-notes-model>
 
             <div class="editBtns">
               <button

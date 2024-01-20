@@ -18,11 +18,11 @@ import { UserRateNote } from 'src/app/models/userRateNote.model';
 import { rateNote } from 'src/app/models/rateNote.model';
 
 @Component({
-  selector: 'app-notes-container',
-  templateUrl: './notes-container.component.html',
-  styleUrls: ['./notes-container.component.scss'],
+  selector: 'app-notes-model',
+  templateUrl: './notes-model.component.html',
+  styleUrls: ['./notes-model.component.scss'],
 })
-export class NotesContainerComponent extends Unsubscribe implements OnInit {
+export class NotesModelComponent extends Unsubscribe implements OnInit {
   @Input() finalNote: FinalNote | null = null;
   @Input() userRole: string | undefined = undefined;
   @Input() userId: string | undefined = undefined;

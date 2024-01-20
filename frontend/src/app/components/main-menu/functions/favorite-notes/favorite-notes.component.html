@@ -17,13 +17,13 @@
       <div id="favNotesContainer" *ngIf="!isLoading">
         <ng-container *ngIf="notes.length != 0">
           <ng-container *ngFor="let note of notes">
-            <app-notes-container
+            <app-notes-model
               [finalNote]="note"
               [userFavNotes]="userSavedNotesIds"
               [userNotesRates]="userNotesReviews"
               [userId]="currentUserId"
               (removeFromFavorites)="removeFromFavorites($event)"
-            ></app-notes-container>
+            ></app-notes-model>
           </ng-container>
         </ng-container>
 
