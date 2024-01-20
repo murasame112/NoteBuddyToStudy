@@ -30,9 +30,6 @@ export class FavoriteNotesComponent extends Unsubscribe implements OnInit {
 
   ngOnInit(): void {
     this.getUserFavNotesIds();
-    this.getUserNotesRates();
-
-    this.getNotes();
   }
 
   getUserFavNotesIds() {
@@ -43,6 +40,7 @@ export class FavoriteNotesComponent extends Unsubscribe implements OnInit {
         .subscribe(
           (user) => {
             this.userSavedNotesIds = user.saved_notes;
+            this.getUserNotesRates();
           },
           (error) => {}
         );
@@ -54,7 +52,6 @@ export class FavoriteNotesComponent extends Unsubscribe implements OnInit {
       .getAllNoteData()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((notesRes) => {
-        // this.notes = notesRes;
         this.notes = notesRes.filter((note) =>
           this.userSavedNotesIds.includes(note.note_id)
         );
@@ -77,6 +74,7 @@ export class FavoriteNotesComponent extends Unsubscribe implements OnInit {
         .subscribe(
           (userNotesRates) => {
             this.userNotesReviews = userNotesRates;
+            this.getNotes();
           },
           (error) => {}
         );

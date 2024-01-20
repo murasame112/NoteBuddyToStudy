@@ -85,7 +85,7 @@ footer {
     background-color: white;
     width: 21cm;
     min-height: 27.7cm;
-    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 0.313rem 0 rgba(0, 0, 0, 0.5);
     margin-bottom: 4rem;
     display: flex;
     justify-content: center;
@@ -97,6 +97,8 @@ footer {
     width: 20cm;
     min-height: 27.7cm;
     border: none;
+    background-color: white;
+    overflow: auto;
   }
 
   @media (max-width: 830px) {
