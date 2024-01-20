@@ -68,9 +68,8 @@
     </div>
   </div>
 
-  <span class="spans" id="name">{{ finalNote?.noteName }}</span>
+  <span id="name">{{ finalNote?.noteName }}</span>
   <quill-view-html
-    class="spans"
     id="desc"
     [content]="htmlText"
     theme="snow"
@@ -110,13 +109,18 @@
     </div>
 
     <div id="authorAndDate">
-      <span id="authorName"
-        >autor: <span id="authorColor">{{ finalNote?.login }}</span></span
-      >
-      <span id="lastEditDate"
-        >Ostatnio aktualizowane:
-        {{ finalNote?.last_edit_date | date : "dd-MM-yyyy HH:mm" }}</span
-      >
+      <div id="author">
+        <span id="authorName"
+          >autor: <span id="authorColor">{{ finalNote?.login }}</span></span
+        >
+      </div>
+
+      <div id="date">
+        <span id="lastEditDate"
+          >Ostatnio aktualizowane:
+          {{ finalNote?.last_edit_date | date : "dd.MM.yyyy" }}</span
+        >
+      </div>
     </div>
   </div>
 </div>
