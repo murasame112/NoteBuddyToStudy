@@ -729,7 +729,7 @@ export function addUserToGroup(req: Request, res: Response) {
 			group = new Group(type, [user_id], subcategory_id);
 			addResult = global.insertItem(group, table_name);
 		}else if(value[0].users.some( (element) => element.toString() === user_id.toString() )){
-			res.status(201).send("Error - this user is in this group already, waiting for other participants.");
+			res.status(201).send("Error");
 			return false;
 		}
 		else{
