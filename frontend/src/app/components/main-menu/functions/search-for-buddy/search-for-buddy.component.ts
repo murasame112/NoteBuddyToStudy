@@ -107,6 +107,8 @@ export class SearchForBuddyComponent extends Unsubscribe implements OnInit {
           .pipe(takeUntil(this.unsubscribe$))
           .subscribe(
             (res) => {
+              console.log(res);
+
               alert('Udało się! Grupę znajdziesz w zakładce czat');
 
               const subcategoryControl =
@@ -122,7 +124,26 @@ export class SearchForBuddyComponent extends Unsubscribe implements OnInit {
                 subcategoryId: '',
               });
             },
-            (error) => {}
+            (err) => {
+              console.log(err.error);
+
+              if (err.error === 'Error') {
+                alert('Już jesteś dodany do takiej grupy');
+
+                const subcategoryControl =
+                  this.searchBuddyForm.get('subcategoryId');
+
+                this.searchBuddyForm.reset();
+
+                subcategoryControl?.disable();
+                subcategoryControl?.clearValidators();
+                this.searchBuddyForm.updateValueAndValidity();
+                this.searchBuddyForm.patchValue({
+                  courseId: '',
+                  subcategoryId: '',
+                });
+              }
+            }
           );
       }
     }
