@@ -125,8 +125,6 @@ export class SearchForBuddyComponent extends Unsubscribe implements OnInit {
               });
             },
             (err) => {
-              console.log(err.error);
-
               if (err.error === 'Error') {
                 alert('Już jesteś dodany do takiej grupy');
 

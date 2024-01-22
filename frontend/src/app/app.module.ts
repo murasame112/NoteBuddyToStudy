@@ -13,7 +13,6 @@ import { CoursesComponent } from './components/landing-page/courses/courses.comp
 import { LoginPageComponent } from './components/login-page/login-page.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RegisterPageComponent } from './components/register-page/register-page.component';
-import { MainMenuComponent } from './components/main-menu/main-menu.component';
 import { NavbarComponent } from './components/main-menu/navbar/navbar.component';
 import { FooterComponent } from './components/main-menu/footer/footer.component';
 import { NotesComponent } from './components/main-menu/functions/notes/notes.component';
@@ -51,7 +50,6 @@ import { MessageModelComponent } from './components/main-menu/functions/chat/cha
     CoursesComponent,
     LoginPageComponent,
     RegisterPageComponent,
-    MainMenuComponent,
     NavbarComponent,
     FooterComponent,
     NotesComponent,

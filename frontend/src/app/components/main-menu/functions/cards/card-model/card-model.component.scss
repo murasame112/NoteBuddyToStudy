@@ -9,6 +9,10 @@
   gap: 1rem;
 }
 
+#container:hover {
+  cursor: pointer;
+}
+
 .content {
   width: 40rem;
   min-height: 8rem;

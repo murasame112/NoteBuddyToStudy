@@ -26,17 +26,13 @@ export class AppComponent extends Unsubscribe implements OnInit {
         .subscribe(
           (result) => {
             this.authService.currentUserSignal.set(result);
-            // console.log(this.authService.currentUserSignal());
           },
           (err) => {
-            // console.log(err);
             this.authService.currentUserSignal.set(null);
           }
         );
     } else {
       this.authService.currentUserSignal.set(null);
     }
-
-    //!coś pokombinowac z tym login i register żeby dzialalo
   }
 }

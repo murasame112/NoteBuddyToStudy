@@ -4,7 +4,6 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
 import { PageErrorComponent } from './components/page-error/page-error.component';
 import { LoginPageComponent } from './components/login-page/login-page.component';
 import { RegisterPageComponent } from './components/register-page/register-page.component';
-import { MainMenuComponent } from './components/main-menu/main-menu.component';
 import { NotesComponent } from './components/main-menu/functions/notes/notes.component';
 import { NoteAddComponent } from './components/main-menu/functions/note-add/note-add.component';
 import { CardAddComponent } from './components/main-menu/functions/cards/card-add/card-add.component';
@@ -37,7 +36,6 @@ const routes: Routes = [
     component: RegisterPageComponent,
     canActivate: [showreglogGuard],
   },
-  { path: 'main', component: MainMenuComponent },
   {
     path: 'notes',
     component: NotesComponent,
