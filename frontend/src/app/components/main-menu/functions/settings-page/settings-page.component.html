@@ -60,6 +60,46 @@
             </button>
           </div>
 
+          <!--! -->
+          <ng-container
+            *ngIf="
+              editUserForm.get('email')!.hasError('required') &&
+              editUserForm.get('email')!.touched
+            "
+          >
+            <div class="validators">
+              <span>&#x2022; Pole email nie może być puste</span>
+            </div>
+          </ng-container>
+
+          <ng-container
+            *ngIf="
+              editUserForm.get('email')!.hasError('email') &&
+              editUserForm.get('email')!.touched &&
+              !editUserForm.get('email')!.hasError('required')
+            "
+          >
+            <div class="validators">
+              <span
+                >&#x2022; Niepoprawny format email "example&#64;mail.com"</span
+              >
+            </div>
+          </ng-container>
+
+          <ng-container
+            *ngIf="
+              editUserForm.get('email')!.hasError('spaceValidator') &&
+              editUserForm.get('email')!.touched &&
+              !editUserForm.get('email')!.hasError('required')
+            "
+          >
+            <div class="validators">
+              <span>&#x2022; To pole nie może mieć spacji </span>
+            </div>
+          </ng-container>
+
+          <!--! -->
+
           <div id="passwordContainer">
             <input
               formControlName="password"
@@ -90,6 +130,17 @@
 
           <ng-container
             *ngIf="
+              editUserForm.get('password')!.hasError('maxlength') &&
+              editUserForm.get('password')!.touched
+            "
+          >
+            <div class="validators">
+              <span>&#x2022; Hasło nie może mieć więcej niż 15 znaków</span>
+            </div>
+          </ng-container>
+
+          <ng-container
+            *ngIf="
               editUserForm.get('password')!.hasError('passwordInvalid') &&
               editUserForm.get('password')!.touched &&
               !editUserForm.get('password')!.hasError('required')
@@ -97,7 +148,7 @@
           >
             <div class="validators">
               <span
-                >&#x2022; To pole musi zawierać 7 znaków (duże i małe litery,
+                >&#x2022; To pole musi zawierać 7-15 znaków (duże i małe litery,
                 liczby i znaki specjalne)
               </span>
             </div>

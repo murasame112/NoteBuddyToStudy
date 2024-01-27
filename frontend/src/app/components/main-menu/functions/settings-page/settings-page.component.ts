@@ -84,7 +84,9 @@ export class SettingsPageComponent extends Unsubscribe implements OnInit {
         this.usersService
           .updateUserField(userId, queryAndValue)
           .pipe(takeUntil(this.unsubscribe$))
-          .subscribe((res) => {});
+          .subscribe((res) => {
+            alert('email został zmieniony');
+          });
       }
     }
   }
@@ -102,7 +104,9 @@ export class SettingsPageComponent extends Unsubscribe implements OnInit {
         this.usersService
           .updateUserField(userId, queryAndValue)
           .pipe(takeUntil(this.unsubscribe$))
-          .subscribe((res) => {});
+          .subscribe((res) => {
+            alert('hasło zostało zmienione');
+          });
       }
     }
   }

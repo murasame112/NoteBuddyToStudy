@@ -41,7 +41,7 @@ main {
 #content {
   margin-top: 5rem;
   width: 40rem;
-  height: 20rem;
+  min-height: 20rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -218,7 +218,7 @@ footer {
 @media (max-width: 700px) {
   #content {
     width: 28rem;
-    height: 30rem;
+    min-height: 30rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
