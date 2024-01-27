@@ -33,7 +33,6 @@ export class EditNoteComponent extends Unsubscribe implements OnInit {
   subcategoriesArray: Subcategory[] = [];
   subcategoryFilteredArray: Subcategory[] = [];
 
-  isSubmitted: boolean = false;
   editNoteForm!: FormGroup;
   NoteId: string = '';
 
@@ -67,7 +66,6 @@ export class EditNoteComponent extends Unsubscribe implements OnInit {
       let content: string = data.noteDesc;
       let category_id: string = data.courseName;
       let subcategory_id: string = data.subjectName;
-      this.isSubmitted = true;
 
       if (
         name != '' &&

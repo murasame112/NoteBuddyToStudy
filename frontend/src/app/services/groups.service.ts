@@ -32,24 +32,4 @@ export class GroupsService {
     const url = `${this.apiUrl}/group/${groupId}`;
     return this.http.get<any>(url);
   }
-
-  // getHint(): Observable<Group[]> {
-  //   const url = `${this.apiUrl}/hints`;
-  //   return this.http.get<Group[]>(url);
-  // }
-
-  // getHintById(id: string): Observable<Group> {
-  //   const url = `${this.apiUrl}/hint/${id}`;
-  //   return this.http.get<Group>(url);
-  // }
-
-  // updateHint(hint: Group): Observable<Group> {
-  //   const url = `${this.apiUrl}/hint/${hint._id}`;
-  //   return this.http.put<Group>(url, hint);
-  // }
-
-  // deleteHint(id: string): Observable<{}> {
-  //   const url = `${this.apiUrl}/hint/${id}`;
-  //   return this.http.delete(url);
-  // }
 }

@@ -484,14 +484,14 @@ footer {
     &:hover::after,
     &:active::after,
     &:focus::after {
-      content: "Brak akapitu";
+      content: "Usuń wcięcie";
     }
   }
   .ql-indent[value="+1"] {
     &:hover::after,
     &:active::after,
     &:focus::after {
-      content: "Wstaw akapitu";
+      content: "Wstaw wcięcie";
     }
   }
 

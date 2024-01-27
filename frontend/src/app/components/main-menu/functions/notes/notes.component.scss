@@ -91,6 +91,10 @@ main {
     0rem 0px 0.2rem rgb(97, 6, 116);
 }
 
+.categoryAndsubcatList :hover {
+  cursor: pointer;
+}
+
 .form-select:focus {
   border-color: #861486;
   box-shadow: 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, 0.075) inset,
@@ -154,6 +158,10 @@ main {
 
 #addNoteLabel {
   font-weight: 400;
+}
+
+#sortByDiv :hover {
+  cursor: pointer;
 }
 
 #noteContent {

@@ -42,7 +42,7 @@
             (addNoteForm.get('noteDesc')?.invalid &&
               (addNoteForm.get('noteDesc')?.touched ||
                 addNoteForm.get('noteDesc')?.dirty)) ||
-            (isSubmitted && addNoteForm.get('noteDesc')?.untouched)
+            (isSubmitted && addNoteForm.get('noteDesc')?.invalid)
           "
         >
         </quill-editor>
