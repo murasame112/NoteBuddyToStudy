@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserDocService } from 'src/app/services/user-doc.service';
 
 @Component({
   selector: 'app-landing-page',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./landing-page.component.scss'],
 })
 export class LandingPageComponent implements OnInit {
+  constructor(private userDocService: UserDocService) {}
+
   copyrightYear: number | null = null;
 
   ngOnInit(): void {
@@ -14,5 +17,11 @@ export class LandingPageComponent implements OnInit {
 
   getYear() {
     this.copyrightYear = new Date().getFullYear();
+  }
+
+  openUserDoc() {
+    const pdfPath = this.userDocService.getUserDocPath();
+    const pdfUrl = window.location.origin + pdfPath;
+    window.open(pdfUrl, '_blank');
   }
 }

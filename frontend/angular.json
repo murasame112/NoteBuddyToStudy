@@ -30,7 +30,13 @@
               "./node_modules/quill/dist/quill.bubble.css",
               "./node_modules/quill/dist/quill.snow.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "quill",
+              "moment",
+              "quill-blot-formatter",
+              "quill-image-compress"
+            ]
           },
           "configurations": {
             "production": {

@@ -11,9 +11,7 @@
       *ngIf="isLoading"
     ></i>
     <div id="topSection" *ngIf="!isLoading">
-      <div id="nav">
-        <span id="title">{{ note.name }}</span>
-      </div>
+      <span id="title">{{ note.name }}</span>
       <button id="backBtn" (click)="back()">powrót</button>
     </div>
 

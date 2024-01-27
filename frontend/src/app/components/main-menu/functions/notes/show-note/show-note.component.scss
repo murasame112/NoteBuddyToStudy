@@ -48,8 +48,10 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 5rem;
+  width: 49rem;
+  min-height: 5rem;
+  padding-top: 5rem;
+  padding-bottom: 1rem;
 }
 
 #title {
@@ -57,6 +59,7 @@ main {
   text-align: center;
   font-size: 1.4rem;
   font-weight: 600;
+  text-align: center;
 }
 
 #backBtn {
@@ -150,6 +153,12 @@ footer {
   }
 }
 
+@media (max-width: 830px) {
+  #topSection {
+    width: 35rem;
+  }
+}
+
 @media (max-width: 650px) {
   #backBtn {
     right: 1rem;
@@ -158,10 +167,22 @@ footer {
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
+  #topSection {
+    width: 28rem;
+  }
   #title {
     font-size: 1.2rem;
-    font-weight: 600;
+  }
+}
+
+@media (max-width: 480px) {
+  #topSection {
+    width: 22rem;
+  }
+
+  #title {
+    font-size: 1rem;
   }
 
   #backBtn {
@@ -170,13 +191,11 @@ footer {
   }
 }
 
-@media (max-width: 420px) {
-  #backBtn {
-    position: static;
-    align-self: center;
-    height: 2rem;
-  }
+@media (max-width: 400px) {
   #topSection {
-    flex-direction: column-reverse;
+    width: 18rem;
+  }
+  #title {
+    font-size: 0.8rem;
   }
 }
