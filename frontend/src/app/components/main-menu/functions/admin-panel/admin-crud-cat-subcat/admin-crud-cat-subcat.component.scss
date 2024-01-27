@@ -176,6 +176,10 @@ select.invalid {
   transition: 60ms ease-in;
 }
 
+.categoryAndSubcatSelect:hover {
+  cursor: pointer;
+}
+
 .categoryAndSubcatSelect:focus {
   border: 1px solid #310b61;
   background-color: #cfcece;

@@ -57,6 +57,10 @@ h5 {
   transition: 60ms ease-in;
 }
 
+#editTipsSelect:hover {
+  cursor: pointer;
+}
+
 #editTipsSelect:focus {
   border: 1px solid #310b61;
   background-color: #cfcece;
