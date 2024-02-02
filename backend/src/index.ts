@@ -15,6 +15,9 @@ import fs from "fs";
 import path from "path";
 import * as chatService from "./services/chat_service";
 import { User } from "./models/user_model";
+import { MongoClient } from "mongodb";
+import { uri, db_name } from "./mongodb/connection";
+
 
 import * as noteEndpoints from "./endpoints/note_endpoints";
 import * as userEndpoints from "./endpoints/user_endpoints";
@@ -34,7 +37,7 @@ app.use(express.json({ limit: "100mb" }));
 
 //===============================CORS===============================
 app.use(cors());
-
+export const client = new MongoClient(uri);
 // app.use(
 //   cors({
 //     origin:"http://localhost:4200",
