@@ -10,7 +10,6 @@ import {client} from "./index";
 // params: id of the item, name of the table (collection) we are searching in
 // returns promise of object from database
 export async function getAllItems(table_name: string) {
-  // const client = new MongoClient(uri);
   const database = client.db(db_name);
   try {
     const table: any = database.collection(table_name);
@@ -29,7 +28,6 @@ export async function getAllItems(table_name: string) {
 // params: id of the item, name of the table (collection) we are searching in
 // returns promise of object from database
 export async function getItemById(id: string, table_name: string) {
-  // const client = new MongoClient(uri);
   const database = client.db(db_name);
   try {
     const table: any = database.collection(table_name);
@@ -45,7 +43,6 @@ export async function getItemById(id: string, table_name: string) {
 // params: object {field: "value"}, name of the table
 // returns promise of array of objects
 export async function getItemsByField(query: Object, table_name: string) {
-  //const client = new MongoClient(uri);
   const database = client.db(db_name);
   try {
     const table: any = database.collection(table_name);
@@ -65,7 +62,6 @@ export async function getItemsByField(query: Object, table_name: string) {
 // params: item, name of the table
 // returns promise of result object (acknowledged: true/false and insertedId: id of inserted item)
 export async function insertItem(item: Object, table_name: string) {
- // const client = new MongoClient(uri);
   const database = client.db(db_name);
   try {
     const table: any = database.collection(table_name);
@@ -81,7 +77,6 @@ export async function insertItem(item: Object, table_name: string) {
 // params: id of the item, name of the table
 // returns promise of result object (acknowledged: true/false and deletedCount)
 export async function deleteItemById(id: string, table_name: string) {
- // const client = new MongoClient(uri);
   const database = client.db(db_name);
   try {
     const table: any = database.collection(table_name);
@@ -97,7 +92,6 @@ export async function deleteItemById(id: string, table_name: string) {
 // params: object {field: "value"}, name of the table
 // returns promise of result object (acknowledged: true/false and deletedCount)
 export async function deleteItemsByField(query: Object, table_name: string) {
- // const client = new MongoClient(uri);
   const database = client.db(db_name);
   try {
     const table: any = database.collection(table_name);
@@ -117,7 +111,6 @@ export async function updateItemById(
   table_name: string,
   updateQuery: Object
 ) {
- // const client = new MongoClient(uri);
   const database = client.db(db_name);
   try {
     const table: any = database.collection(table_name);
@@ -141,7 +134,6 @@ export async function updateItemsByField(
   table_name: string,
   updateQuery: Object
 ) {
- // const client = new MongoClient(uri);
   const database = client.db(db_name);
   try {
     const table: any = database.collection(table_name);
@@ -162,7 +154,6 @@ export async function replaceItemById(
   table_name: string,
   newItem: Object
 ) {
- // const client = new MongoClient(uri);
   const database = client.db(db_name);
   try {
     const table: any = database.collection(table_name);
@@ -179,7 +170,6 @@ export async function replaceItemById(
 // params: id of the item, name of the table
 // returns promise of result object (res.value, but it also has few other informations)
 export async function stealItemById(id: string, table_name: string) {
- // const client = new MongoClient(uri);
   const database = client.db(db_name);
   try {
     const table: any = database.collection(table_name);
