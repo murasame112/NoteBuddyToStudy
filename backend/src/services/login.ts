@@ -29,6 +29,9 @@ export function verifyPassword(password: string, hash: string){
 
 export async function login(login: string, password: string) {
 	const result = await global.getAllItems('users');
+	if(typeof result == 'undefined'){
+		return false;
+	}
 	let user: User | undefined;
 	//TODO: ponizszy foreach zmienic na find
 	result.forEach(function (element){
