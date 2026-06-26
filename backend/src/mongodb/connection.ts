@@ -1,5 +1,8 @@
 const { MongoClient } = require("mongodb");
+const dotenv = require("dotenv");
 
-export const uri = "mongodb+srv://murasame_admin:LXhDq7DSvnB3pMFZ@p1-twms.ipvyarg.mongodb.net/?retryWrites=true&w=majority";
+dotenv.config();
+
+export const uri = process.env.MONGO_CONNECTION_STRING!;
 
 export const db_name = 'main_db';
